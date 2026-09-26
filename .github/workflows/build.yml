@@ -49,6 +49,12 @@ jobs:
               run: |
                   rm -rf dist/*-unpacked dist/vendor Nightcord.user.css nightcordDesktopRenderer.css nightcordDesktopRenderer.css.map
 
+            - name: Add installer to the release
+              run: |
+                  for f in installer/NightcordInstaller.bat installer/NightcordInstaller.ps1; do
+                      sed "s/*$//" "$f" > "dist/$(basename "$f")"
+                  done
+
             - name: Upload DevBuild as release
               # The standalone updater reads /releases/latest and takes the commit hash from the release title
               run: |

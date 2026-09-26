@@ -4,7 +4,7 @@ Nightcord is a Discord client mod. It is a fork of [Vencord](https://github.com/
 
 ## Install (Windows)
 
-1. Download [`NightcordInstaller.bat`](installer/NightcordInstaller.bat) and [`NightcordInstaller.ps1`](installer/NightcordInstaller.ps1) into the same folder.
+1. Download `NightcordInstaller.bat` and `NightcordInstaller.ps1` from the [devbuild release](https://github.com/1223321313333/Nightcord/releases/tag/devbuild) into the same folder.
 2. Double-click `NightcordInstaller.bat` and choose **1**.
 
 The installer downloads the latest build from this repository's `devbuild` release and injects it into Discord, Discord PTB and Discord Canary. Choose **2** to remove it and restore the original Discord.
