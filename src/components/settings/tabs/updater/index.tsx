@@ -26,6 +26,7 @@ import { HeadingSecondary } from "@components/Heading";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
@@ -83,15 +84,15 @@ function Updater() {
 
             <div className="vc-settings-switches">
                 <FormSwitch
-                    title="Automatically update"
-                    description="Automatically update Nightcord without confirmation prompt"
+                    title={t("Automatically update")}
+                    description={t("Automatically update Nightcord without confirmation prompt")}
                     value={settings.autoUpdate}
                     onChange={(v: boolean) => settings.autoUpdate = v}
                     hideBorder
                 />
                 <FormSwitch
-                    title="Get notified when an automatic update completes"
-                    description="Show a notification when Nightcord automatically updates"
+                    title={t("Get notified when an automatic update completes")}
+                    description={t("Show a notification when Nightcord automatically updates")}
                     value={settings.autoUpdateNotification}
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
                     disabled={!settings.autoUpdate}
@@ -99,7 +100,7 @@ function Updater() {
                 />
             </div>
 
-            <Forms.FormTitle tag="h5" className={Margins.top20}>Repo</Forms.FormTitle>
+            <Forms.FormTitle tag="h5" className={Margins.top20}>{t("Repo")}</Forms.FormTitle>
 
             <Forms.FormText>
                 {repoPending
@@ -118,7 +119,7 @@ function Updater() {
 
             <Divider className={classes(Margins.top16, Margins.bottom16)} />
 
-            <Forms.FormTitle tag="h5">Updates</Forms.FormTitle>
+            <Forms.FormTitle tag="h5">{t("Updates")}</Forms.FormTitle>
 
             {isNewer
                 ? <Newer {...commonProps} />
@@ -130,4 +131,4 @@ function Updater() {
 
 export default IS_UPDATER_DISABLED
     ? null
-    : wrapTab(Updater, "Updater");
+    : wrapTab(Updater, t("Updater"));

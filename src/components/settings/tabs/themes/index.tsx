@@ -25,6 +25,7 @@ import { Link } from "@components/Link";
 import { Margins } from "@components/margins";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { t } from "@utils/i18n";
 import { getStylusWebStoreUrl } from "@utils/web";
 import { Forms, React, TabBar, useState } from "@webpack/common";
 
@@ -53,13 +54,13 @@ function ThemesTab() {
                     className="vc-settings-tab-bar-item"
                     id={ThemeTab.LOCAL}
                 >
-                    Local Themes
+                    {t("Local Themes")}
                 </TabBar.Item>
                 <TabBar.Item
                     className="vc-settings-tab-bar-item"
                     id={ThemeTab.ONLINE}
                 >
-                    Online Themes
+                    {t("Online Themes")}
                 </TabBar.Item>
             </TabBar>
 
@@ -67,7 +68,7 @@ function ThemesTab() {
                 <CspErrorCard />
 
                 <Card variant="warning">
-                    <BaseText tag="h3" size="md" weight="medium" className={Margins.bottom8}>Theme Performance</BaseText>
+                    <BaseText tag="h3" size="md" weight="medium" className={Margins.bottom8}>{t("Theme Performance")}</BaseText>
                     <Paragraph>
                         Themes and custom CSS have the potential to cause major lag! If you experience performance issues, try
                         disabling your themes and CSS to see if they're the cause. The most common cause of lag is the <code>:has()</code> operator.
@@ -96,5 +97,5 @@ function UserscriptThemesTab() {
 }
 
 export default IS_USERSCRIPT
-    ? wrapTab(UserscriptThemesTab, "Themes")
-    : wrapTab(ThemesTab, "Themes");
+    ? wrapTab(UserscriptThemesTab, t("Themes"))
+    : wrapTab(ThemesTab, t("Themes"));

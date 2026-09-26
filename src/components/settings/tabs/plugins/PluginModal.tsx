@@ -27,6 +27,7 @@ import { RenderModalProps, User } from "@nightcord/discord-types";
 import { debounce } from "@shared/debounce";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
@@ -106,7 +107,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
     function renderSettings() {
         const { settings } = plugin;
         if (!hasSettings || !settings)
-            return <Forms.FormText>There are no settings for this plugin.</Forms.FormText>;
+            return <Forms.FormText>{t("There are no settings for this plugin.")}</Forms.FormText>;
 
         const options = Object.entries(settings.def).map(([key, setting]) => {
             if (setting.type === OptionType.CUSTOM) return null;
@@ -181,11 +182,11 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                 onClick={() => pluginSettings.isFavorite = !pluginSettings.isFavorite}
                             />
                             <WebsiteButton
-                                text="View more info"
+                                text={t("View more info")}
                                 href={`https://vencord.dev/plugins/${plugin.name}`}
                             />
                             <GithubButton
-                                text="View source code"
+                                text={t("View source code")}
                                 href={`https://github.com/${gitRemote}/tree/main/src/plugins/${pluginMeta.folderName}`}
                             />
                         </div>
@@ -203,7 +204,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
         >
             <div className={"vc-settings-modal-content"}>
                 <section>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>{t("Authors")}</Text>
                     <div style={{ width: "fit-content" }}>
                         <ErrorBoundary noop>
                             <UserSummaryItem
@@ -242,7 +243,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 )}
 
                 <section>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top16, Margins.bottom8)}>Settings</Text>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top16, Margins.bottom8)}>{t("Settings")}</Text>
                     {renderSettings()}
                 </section>
             </div>

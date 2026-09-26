@@ -7,6 +7,7 @@
 import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
 import { isPluginEnabled, plugins } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
+import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 
 import style from "./style.css?managed";
@@ -36,7 +37,7 @@ function applyAccent() {
 export default definePlugin({
     name: "Nightcord",
     description: "Nightcord's built-in dark theme, accent colour and /nightcord command",
-    authors: [{ name: "Nightcord", id: 0n }],
+    authors: [Devs.Nightcord],
     enabledByDefault: true,
     settings,
     managedStyle: style,

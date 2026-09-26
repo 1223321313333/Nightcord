@@ -8,6 +8,7 @@ import { Card } from "@components/Card";
 import { ErrorCard } from "@components/ErrorCard";
 import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { relaunch } from "@utils/native";
@@ -60,7 +61,7 @@ export function Newer(props: CommonProps) {
     return (
         <>
             <Forms.FormText className={Margins.bottom8}>
-                Your local copy has more recent commits. Please stash or reset them.
+                {t("Your local copy has more recent commits. Please stash or reset them.")}
             </Forms.FormText>
             <Changes {...props} updates={changes} />
         </>
@@ -78,7 +79,7 @@ export function Updatable(props: CommonProps) {
         <>
             {!updates && updateError ? (
                 <>
-                    <Forms.FormText>Failed to check updates. Check the console for more info</Forms.FormText>
+                    <Forms.FormText>{t("Failed to check updates. Check the console for more info")}</Forms.FormText>
                     <ErrorCard style={{ padding: "1em" }}>
                         <p>{updateError.stderr || updateError.stdout || "An unknown error occurred"}</p>
                     </ErrorCard>
@@ -103,10 +104,10 @@ export function Updatable(props: CommonProps) {
                                     openModal(props => (
                                         <ConfirmModal
                                             {...props}
-                                            title="Update Success!"
-                                            subtitle="Successfully updated. Restart now to apply the changes?"
-                                            confirmText="Restart"
-                                            cancelText="Not now!"
+                                            title={t("Update Success!")}
+                                            subtitle={t("Successfully updated. Restart now to apply the changes?")}
+                                            confirmText={t("Restart")}
+                                            cancelText={t("Not now!")}
                                             variant="primary"
                                             onConfirm={() => {
                                                 relaunch();
@@ -119,7 +120,7 @@ export function Updatable(props: CommonProps) {
                             }
                         })}
                     >
-                        Update Now
+                        {t("Update Now")}
                     </Button>
                 )}
                 <Button
@@ -143,7 +144,7 @@ export function Updatable(props: CommonProps) {
                         }
                     })}
                 >
-                    Check for Updates
+                    {t("Check for Updates")}
                 </Button>
             </Flex>
         </>

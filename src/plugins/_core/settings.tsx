@@ -21,6 +21,7 @@ import { BackupRestoreIcon, CloudIcon, MainSettingsIcon, PaintbrushIcon, PatchHe
 import { BackupAndRestoreTab, CloudTab, NightcordTab,PatchHelperTab, PluginsTab, ThemesTab, UpdaterTab } from "@components/settings/tabs";
 import { Devs } from "@utils/constants";
 import { isTruthy } from "@utils/guards";
+import { t } from "@utils/i18n";
 import definePlugin, { IconProps, OptionType } from "@utils/types";
 import { waitFor } from "@webpack";
 import { React } from "@webpack/common";
@@ -171,45 +172,45 @@ export default definePlugin({
             buildEntry({
                 key: "nightcord_main",
                 title: "Nightcord",
-                panelTitle: "Nightcord Settings",
+                panelTitle: t("Nightcord Settings"),
                 Component: NightcordTab,
                 Icon: MainSettingsIcon
             }),
             buildEntry({
                 key: "nightcord_plugins",
-                title: "Plugins",
+                title: t("Plugins"),
                 Component: PluginsTab,
                 Icon: PluginsIcon
             }),
             buildEntry({
                 key: "nightcord_themes",
-                title: "Themes",
+                title: t("Themes"),
                 Component: ThemesTab,
                 Icon: PaintbrushIcon
             }),
             !IS_UPDATER_DISABLED && UpdaterTab && buildEntry({
                 key: "nightcord_updater",
-                title: "Updater",
-                panelTitle: "Nightcord Updater",
+                title: t("Updater"),
+                panelTitle: t("Nightcord Updater"),
                 Component: UpdaterTab,
                 Icon: UpdaterIcon
             }),
             buildEntry({
                 key: "nightcord_cloud",
-                title: "Cloud",
-                panelTitle: "Nightcord Cloud",
+                title: t("Cloud"),
+                panelTitle: t("Nightcord Cloud"),
                 Component: CloudTab,
                 Icon: CloudIcon
             }),
             buildEntry({
                 key: "nightcord_backup_restore",
-                title: "Backup & Restore",
+                title: t("Backup & Restore"),
                 Component: BackupAndRestoreTab,
                 Icon: BackupRestoreIcon
             }),
             !IS_STANDALONE && PatchHelperTab && buildEntry({
                 key: "nightcord_patch_helper",
-                title: "Patch Helper",
+                title: t("Patch Helper"),
                 Component: PatchHelperTab,
                 Icon: PatchHelperIcon
             }),
@@ -231,7 +232,7 @@ export default definePlugin({
         const nightcordSection: SettingsLayoutNode = {
             key: "nightcord_section",
             type: LayoutTypes.SECTION,
-            useTitle: () => "Nightcord Settings",
+            useTitle: () => t("Nightcord Settings"),
             buildLayout: () => nightcordEntries
         };
 
