@@ -106,8 +106,8 @@ function makeShortcuts() {
         wp: Webpack,
         wpc: { getter: () => Webpack.cache },
         wreq: { getter: () => Webpack.wreq },
-        wpPatcher: { getter: () => Vencord.WebpackPatcher },
-        wpInstances: { getter: () => Vencord.WebpackPatcher.allWebpackInstances },
+        wpPatcher: { getter: () => Nightcord.WebpackPatcher },
+        wpInstances: { getter: () => Nightcord.WebpackPatcher.allWebpackInstances },
         wpsearch: search,
         wpex: extract,
         wpexs: (code: string) => extract(findModuleId(code)!),
@@ -123,11 +123,11 @@ function makeShortcuts() {
         findAllComponentsByCode: (...code: string[]) => findAll(filters.componentByCode(...code)),
         findExportedComponent: (...props: string[]) => findByProps(...props)[props[0]],
         findStore: findStoreWrapper(Webpack.findStore),
-        PluginsApi: { getter: () => Vencord.Plugins },
-        plugins: { getter: () => Vencord.Plugins.plugins },
-        Settings: { getter: () => Vencord.Settings },
-        Api: { getter: () => Vencord.Api },
-        Util: { getter: () => Vencord.Util },
+        PluginsApi: { getter: () => Nightcord.Plugins },
+        plugins: { getter: () => Nightcord.Plugins.plugins },
+        Settings: { getter: () => Nightcord.Settings },
+        Api: { getter: () => Nightcord.Api },
+        Util: { getter: () => Nightcord.Util },
         reload: () => location.reload(),
         restart: IS_WEB ? DESKTOP_ONLY("restart") : relaunch,
         canonicalizeMatch,
@@ -153,7 +153,7 @@ function makeShortcuts() {
 
                     if (s.parentElement?.tagName === "HEAD")
                         doc.head.append(n);
-                    else if (n.id?.startsWith("vencord-") || n.id?.startsWith("vcd-"))
+                    else if (n.id?.startsWith("nightcord-") || n.id?.startsWith("vcd-"))
                         doc.documentElement.append(n);
                     else
                         doc.body.append(n);
@@ -166,7 +166,7 @@ function makeShortcuts() {
             doc.addEventListener("close", () => root.unmount(), { once: true });
         },
 
-        preEnable: (plugin: string) => (Vencord.Settings.plugins[plugin] ??= { enabled: true }).enabled = true,
+        preEnable: (plugin: string) => (Nightcord.Settings.plugins[plugin] ??= { enabled: true }).enabled = true,
 
         channel: { getter: () => getCurrentChannel(), preload: false },
         channelId: { getter: () => Common.SelectedChannelStore.getChannelId(), preload: false },
@@ -203,8 +203,8 @@ function loadAndCacheShortcut(key: string, val: any, forceLoad: boolean) {
     function unwrapProxy(value: any) {
         if (value[SYM_LAZY_GET]) {
             forceLoad ? currentVal[SYM_LAZY_GET]() : currentVal[SYM_LAZY_CACHED];
-        } else if (value.$$vencordGetWrappedComponent) {
-            return forceLoad ? value.$$vencordGetWrappedComponent() : value;
+        } else if (value.$$nightcordGetWrappedComponent) {
+            return forceLoad ? value.$$nightcordGetWrappedComponent() : value;
         }
 
         return value;
@@ -281,7 +281,7 @@ export default definePlugin({
         this.eagerLoad(false);
 
         if (!IS_WEB) {
-            const Native = VencordNative.pluginHelpers.ConsoleShortcuts as PluginNative<typeof import("./native")>;
+            const Native = NightcordNative.pluginHelpers.ConsoleShortcuts as PluginNative<typeof import("./native")>;
             Native.initDevtoolsOpenEagerLoad();
         }
     },

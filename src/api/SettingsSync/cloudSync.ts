@@ -16,8 +16,8 @@ import { exportSettings, importSettings } from "./offline";
 
 const logger = new Logger("SettingsSync:Cloud", "#39b7e0");
 
-const SYNC_DIRECTION_KEY = "Vencord_cloudSyncDirection";
-const SETTINGS_DIRTY_KEY = "Vencord_settingsDirty";
+const SYNC_DIRECTION_KEY = "Nightcord_cloudSyncDirection";
+const SETTINGS_DIRTY_KEY = "Nightcord_settingsDirty";
 export const getCloudSyncDirection = () => localStorage.getItem(SYNC_DIRECTION_KEY) || "both";
 export const setCloudSyncDirection = (direction: "push" | "pull" | "both" | "manual") => localStorage.setItem(SYNC_DIRECTION_KEY, direction);
 export const areLocalSettingsDirty = () => localStorage.getItem(SETTINGS_DIRTY_KEY) === "true";
@@ -57,7 +57,7 @@ export async function putCloudSettings(manual?: boolean) {
 
         const { written } = await res.json();
         PlainSettings.cloud.settingsSyncVersion = written;
-        VencordNative.settings.set(PlainSettings);
+        NightcordNative.settings.set(PlainSettings);
 
         logger.info("Settings uploaded to cloud successfully");
 
@@ -146,7 +146,7 @@ export async function getCloudSettings(shouldNotify = true, force = false) {
 
         // sync with server timestamp instead of local one
         PlainSettings.cloud.settingsSyncVersion = written;
-        VencordNative.settings.set(PlainSettings);
+        NightcordNative.settings.set(PlainSettings);
 
         logger.info("Settings loaded from cloud successfully");
         if (shouldNotify)

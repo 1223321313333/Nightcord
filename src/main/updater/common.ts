@@ -16,11 +16,11 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export const VENCORD_FILES = [
-    IS_DISCORD_DESKTOP ? "patcher.js" : "vencordDesktopMain.js",
-    IS_DISCORD_DESKTOP ? "preload.js" : "vencordDesktopPreload.js",
-    IS_DISCORD_DESKTOP ? "renderer.js" : "vencordDesktopRenderer.js",
-    IS_DISCORD_DESKTOP ? "renderer.css" : "vencordDesktopRenderer.css",
+export const NIGHTCORD_FILES = [
+    IS_DISCORD_DESKTOP ? "patcher.js" : "nightcordDesktopMain.js",
+    IS_DISCORD_DESKTOP ? "preload.js" : "nightcordDesktopPreload.js",
+    IS_DISCORD_DESKTOP ? "renderer.js" : "nightcordDesktopRenderer.js",
+    IS_DISCORD_DESKTOP ? "renderer.css" : "nightcordDesktopRenderer.css",
 ];
 
 export function serializeErrors(func: (...args: any[]) => any) {

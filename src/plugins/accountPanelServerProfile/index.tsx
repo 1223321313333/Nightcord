@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { ContextMenuApi, Menu } from "@webpack/common";
 
@@ -113,7 +113,7 @@ export default definePlugin({
         }
 
         const currentChannel = getCurrentChannel();
-        if (currentChannel?.getGuildId() == null || !UserProfile.$$vencordGetWrappedComponent()) {
+        if (currentChannel?.getGuildId() == null || !UserProfile.$$nightcordGetWrappedComponent()) {
             return originalRenderPopout();
         }
 

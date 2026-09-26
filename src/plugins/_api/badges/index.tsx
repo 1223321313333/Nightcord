@@ -36,8 +36,8 @@ import { ContextMenuApi, Forms, Menu, Modal, openModal, Toasts, UserStore } from
 const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453.png?size=64";
 
 const ContributorBadge: ProfileBadge = {
-    id: "vencord_contributor_badge",
-    description: "Vencord Contributor",
+    id: "nightcord_contributor_badge",
+    description: "Nightcord Contributor",
     iconSrc: CONTRIBUTOR_BADGE,
     position: BadgePosition.START,
     shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
@@ -184,7 +184,7 @@ export default definePlugin({
 
     getDonorBadges(userId: string) {
         return DonorBadges[userId]?.map((badge, idx) => ({
-            id: `vencord_donor_badge_${idx}`,
+            id: `nightcord_donor_badge_${idx}`,
             iconSrc: badge.badge,
             description: badge.tooltip,
             position: BadgePosition.START,
@@ -201,7 +201,7 @@ export default definePlugin({
                 openModal(props => (
                     <ErrorBoundary noop onError={() => {
                         props.onClose();
-                        VencordNative.native.openExternal("https://github.com/sponsors/Vendicated");
+                        NightcordNative.native.openExternal("https://github.com/sponsors/Vendicated");
                     }}>
                         <Modal
                             {...props}
@@ -216,7 +216,7 @@ export default definePlugin({
                                 >
                                     <Flex justifyContent="center" alignItems="center" gap="0.5em">
                                         <Heart />
-                                        Vencord Donor
+                                        Nightcord Donor
                                     </Flex>
                                 </Forms.FormTitle>
                             }
@@ -238,10 +238,10 @@ export default definePlugin({
                                 </Flex>
                                 <div style={{ padding: "1em" }}>
                                     <Forms.FormText>
-                                        This Badge is a special perk for Vencord Donors
+                                        This Badge is a special perk for Nightcord Donors
                                     </Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
-                                        Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
+                                        Please consider supporting the development of Nightcord by becoming a donor. It would mean a lot!!
                                     </Forms.FormText>
                                 </div>
                             </div>

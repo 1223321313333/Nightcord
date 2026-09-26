@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Module, ModuleExports, WebpackRequire } from "@vencord/discord-types/webpack";
+import { Module, ModuleExports, WebpackRequire } from "@nightcord/discord-types/webpack";
 
 import { SYM_ORIGINAL_FACTORY, SYM_ORIGINAL_MODULE_FACTORIES, SYM_PATCHED_BY, SYM_PATCHED_SOURCE } from "./patchWebpack";
 

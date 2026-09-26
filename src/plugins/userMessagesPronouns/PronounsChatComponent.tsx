@@ -18,9 +18,9 @@
 
 import { getUserSettingLazy } from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Message } from "@nightcord/discord-types";
 import { getIntlMessage } from "@utils/discord";
 import { classes } from "@utils/misc";
-import { Message } from "@vencord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { Tooltip, UserStore } from "@webpack/common";
 

@@ -22,9 +22,9 @@ import { addProfileBadge, BadgePosition, BadgeUserArgs, ProfileBadge, removeProf
 import { addMemberListDecorator, removeMemberListDecorator } from "@api/MemberListDecorators";
 import { addMessageDecoration, removeMessageDecoration } from "@api/MessageDecorations";
 import { definePluginSettings } from "@api/Settings";
+import { ClientStatusMap, DiscordPlatform, OnlineStatus, User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { ClientStatusMap, DiscordPlatform, OnlineStatus, User } from "@vencord/discord-types";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
 import { AuthenticationStore, PresenceStore, Tooltip, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -218,6 +218,7 @@ function OtherUserPlatformIndicators({ user, small = false }: { user: User; smal
 }
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "PlatformIndicators",
     description: "Adds platform indicators (Desktop, Mobile, Web...) to users",
     tags: ["Appearance"],

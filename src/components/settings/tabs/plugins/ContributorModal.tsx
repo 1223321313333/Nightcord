@@ -8,11 +8,11 @@ import "./ContributorModal.css";
 
 import { useSettings } from "@api/Settings";
 import { Link } from "@components/Link";
+import { RenderModalProps, User } from "@nightcord/discord-types";
 import { DevsById } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { fetchUserProfile } from "@utils/discord";
 import { classes, pluralise } from "@utils/misc";
-import { RenderModalProps, User } from "@vencord/discord-types";
 import { Forms, Modal, openModal, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
 
 import Plugins from "~plugins";
@@ -89,7 +89,7 @@ function ContributorModal({ user, modalProps }: { user: User; modalProps: Render
                     )
                     : (
                         <Forms.FormText>
-                            This person has not made any plugins. They likely {ContributedHyperLink} to Vencord in other ways!
+                            This person has not made any plugins. They likely {ContributedHyperLink} to Nightcord in other ways!
                         </Forms.FormText>
                     )
             }

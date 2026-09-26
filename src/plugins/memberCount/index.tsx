@@ -20,10 +20,10 @@ import "./style.css";
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { FluxStore } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { FluxStore } from "@vencord/discord-types";
 import { findStoreLazy } from "@webpack";
 
 import { MemberCount } from "./MemberCount";
@@ -60,6 +60,7 @@ export const numberFormat = (value: number) => sharedIntlNumberFormat.format(val
 export const cl = classNameFactory("vc-membercount-");
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "MemberCount",
     description: "Shows the number of online members, total members, and users in voice channels on the server — in the member list and tooltip.",
     tags: ["Servers", "Utility"],

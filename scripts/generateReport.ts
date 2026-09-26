@@ -93,7 +93,7 @@ function toCodeBlock(s: string, indentation = 0, isDiscord = false) {
 async function printReport() {
     console.log();
 
-    console.log("# Vencord Report" + (CANARY ? " (Canary)" : ""));
+    console.log("# Nightcord Report" + (CANARY ? " (Canary)" : ""));
 
     console.log();
 
@@ -194,7 +194,7 @@ async function printReport() {
         }
 
         const body = JSON.stringify({
-            username: "Vencord Reporter" + (CANARY ? " (Canary)" : ""),
+            username: "Nightcord Reporter" + (CANARY ? " (Canary)" : ""),
             embeds
         });
 
@@ -241,7 +241,7 @@ page.on("console", async e => {
 
     const firstArg = await rawArgs[0]?.jsonValue();
 
-    const isVencord = firstArg === "[Vencord]";
+    const isNightcord = firstArg === "[Nightcord]";
     const isDebug = firstArg === "[PUP_DEBUG]";
     const isReporterMeta = firstArg === "[REPORTER_META]";
 
@@ -251,7 +251,7 @@ page.on("console", async e => {
     }
 
     outer:
-    if (isVencord) {
+    if (isNightcord) {
         try {
             var args = await Promise.all(e.args().map(a => a.jsonValue()));
         } catch {

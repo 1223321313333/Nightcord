@@ -17,42 +17,42 @@
 */
 
 export const enum IpcEvents {
-    INIT_FILE_WATCHERS = "VencordInitFileWatchers",
+    INIT_FILE_WATCHERS = "NightcordInitFileWatchers",
 
-    OPEN_QUICKCSS = "VencordOpenQuickCss",
-    GET_QUICK_CSS = "VencordGetQuickCss",
-    SET_QUICK_CSS = "VencordSetQuickCss",
-    QUICK_CSS_UPDATE = "VencordQuickCssUpdate",
+    OPEN_QUICKCSS = "NightcordOpenQuickCss",
+    GET_QUICK_CSS = "NightcordGetQuickCss",
+    SET_QUICK_CSS = "NightcordSetQuickCss",
+    QUICK_CSS_UPDATE = "NightcordQuickCssUpdate",
 
-    GET_SETTINGS = "VencordGetSettings",
-    SET_SETTINGS = "VencordSetSettings",
+    GET_SETTINGS = "NightcordGetSettings",
+    SET_SETTINGS = "NightcordSetSettings",
 
-    GET_THEMES_LIST = "VencordGetThemesList",
-    GET_THEME_DATA = "VencordGetThemeData",
-    GET_THEME_SYSTEM_VALUES = "VencordGetThemeSystemValues",
-    THEME_UPDATE = "VencordThemeUpdate",
+    GET_THEMES_LIST = "NightcordGetThemesList",
+    GET_THEME_DATA = "NightcordGetThemeData",
+    GET_THEME_SYSTEM_VALUES = "NightcordGetThemeSystemValues",
+    THEME_UPDATE = "NightcordThemeUpdate",
 
-    OPEN_EXTERNAL = "VencordOpenExternal",
-    OPEN_THEMES_FOLDER = "VencordOpenThemesFolder",
-    OPEN_SETTINGS_FOLDER = "VencordOpenSettingsFolder",
+    OPEN_EXTERNAL = "NightcordOpenExternal",
+    OPEN_THEMES_FOLDER = "NightcordOpenThemesFolder",
+    OPEN_SETTINGS_FOLDER = "NightcordOpenSettingsFolder",
 
-    GET_UPDATES = "VencordGetUpdates",
-    GET_REPO = "VencordGetRepo",
-    UPDATE = "VencordUpdate",
-    BUILD = "VencordBuild",
+    GET_UPDATES = "NightcordGetUpdates",
+    GET_REPO = "NightcordGetRepo",
+    UPDATE = "NightcordUpdate",
+    BUILD = "NightcordBuild",
 
-    OPEN_MONACO_EDITOR = "VencordOpenMonacoEditor",
-    GET_MONACO_THEME = "VencordGetMonacoTheme",
+    OPEN_MONACO_EDITOR = "NightcordOpenMonacoEditor",
+    GET_MONACO_THEME = "NightcordGetMonacoTheme",
 
-    GET_PLUGIN_IPC_METHOD_MAP = "VencordGetPluginIpcMethodMap",
+    GET_PLUGIN_IPC_METHOD_MAP = "NightcordGetPluginIpcMethodMap",
 
-    CSP_IS_DOMAIN_ALLOWED = "VencordCspIsDomainAllowed",
-    CSP_REMOVE_OVERRIDE = "VencordCspRemoveOverride",
-    CSP_REQUEST_ADD_OVERRIDE = "VencordCspRequestAddOverride",
+    CSP_IS_DOMAIN_ALLOWED = "NightcordCspIsDomainAllowed",
+    CSP_REMOVE_OVERRIDE = "NightcordCspRemoveOverride",
+    CSP_REQUEST_ADD_OVERRIDE = "NightcordCspRequestAddOverride",
 
-    GET_RENDERER_CSS = "VencordGetRendererCss",
-    RENDERER_CSS_UPDATE = "VencordRendererCssUpdate",
-    PRELOAD_GET_RENDERER_JS = "VencordPreloadGetRendererJs",
+    GET_RENDERER_CSS = "NightcordGetRendererCss",
+    RENDERER_CSS_UPDATE = "NightcordRendererCssUpdate",
+    PRELOAD_GET_RENDERER_JS = "NightcordPreloadGetRendererJs",
 
-    SUPPORTS_WINDOWS_MATERIAL = "VencordSupportsWindowsMaterial",
+    SUPPORTS_WINDOWS_MATERIAL = "NightcordSupportsWindowsMaterial",
 }

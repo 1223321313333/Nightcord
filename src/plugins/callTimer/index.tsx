@@ -47,6 +47,7 @@ const settings = definePluginSettings({
 
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "CallTimer",
     description: "Adds a timer to vcs",
     tags: ["Voice", "Utility"],

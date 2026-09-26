@@ -63,7 +63,7 @@ export const settings = definePluginSettings({
                 <Button
                     variant="positive"
                     onClick={() => {
-                        VencordNative.native.openExternal("https://github.com/sponsors/mantikafasi");
+                        NightcordNative.native.openExternal("https://github.com/sponsors/mantikafasi");
                     }}
                 >
                     Support ReviewDB development
@@ -75,7 +75,7 @@ export const settings = definePluginSettings({
                     if (token)
                         url += "/api/redirect?token=" + encodeURIComponent(token);
 
-                    VencordNative.native.openExternal(url);
+                    NightcordNative.native.openExternal(url);
                 }}>
                     ReviewDB website
                 </Button>

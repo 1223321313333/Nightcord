@@ -30,8 +30,8 @@ import { installExt } from "./utils/extensions";
 
 if (IS_VESKTOP || !IS_VANILLA) {
     app.whenReady().then(() => {
-        protocol.handle("vencord", ({ url: unsafeUrl }) => {
-            let url = decodeURI(unsafeUrl).slice("vencord://".length).replace(/\?v=\d+$/, "");
+        protocol.handle("nightcord", ({ url: unsafeUrl }) => {
+            let url = decodeURI(unsafeUrl).slice("nightcord://".length).replace(/\?v=\d+$/, "");
 
             if (url.endsWith("/")) url = url.slice(0, -1);
 
@@ -53,11 +53,11 @@ if (IS_VESKTOP || !IS_VANILLA) {
 
             switch (url) {
                 case "renderer.js.map":
-                case "vencordDesktopRenderer.js.map":
+                case "nightcordDesktopRenderer.js.map":
                 case "preload.js.map":
-                case "vencordDesktopPreload.js.map":
+                case "nightcordDesktopPreload.js.map":
                 case "patcher.js.map":
-                case "vencordDesktopMain.js.map":
+                case "nightcordDesktopMain.js.map":
                     return net.fetch(pathToFileURL(join(__dirname, url)).toString());
                 default:
                     return new Response(null, {
@@ -69,8 +69,8 @@ if (IS_VESKTOP || !IS_VANILLA) {
         try {
             if (RendererSettings.store.enableReactDevtools)
                 installExt("fmkadmapgofadopljbjfkapdkoienihi")
-                    .then(() => console.info("[Vencord] Installed React Developer Tools"))
-                    .catch(err => console.error("[Vencord] Failed to install React Developer Tools", err));
+                    .then(() => console.info("[Nightcord] Installed React Developer Tools"))
+                    .catch(err => console.error("[Nightcord] Failed to install React Developer Tools", err));
         } catch { }
 
 

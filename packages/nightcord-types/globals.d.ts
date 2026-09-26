@@ -1,4 +1,4 @@
-/*!
+/*
  * Vencord, a modification for Discord's desktop app
  * Copyright (c) 2022 Vendicated and contributors
  *
@@ -16,6 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import "./VencordNativeStub";
+declare global {
+    export var NightcordNative: typeof import("./NightcordNative").default;
+    export var Nightcord: typeof import("./Nightcord");
+}
 
-export * from "../src/Vencord";
+export { };

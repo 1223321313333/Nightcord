@@ -6,7 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
-import { buildPluginMenuEntries, buildThemeMenuEntries } from "@plugins/vencordToolbox/menu";
+import { buildPluginMenuEntries, buildThemeMenuEntries } from "@plugins/nightcordToolbox/menu";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getIntlMessage } from "@utils/discord";
@@ -76,6 +76,7 @@ function Layer({ mode, baseLayer = false, ...props }: LayerProps) {
 }
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "BetterSettings",
     description: "Enhances your settings-menu-opening experience",
     authors: [Devs.Kyuuhachi],
@@ -97,7 +98,7 @@ export default definePlugin({
             replacement: [
                 {
                     match: /class (\i)( extends \i\.PureComponent.+?jsx\)\(\1,\{mode:)/,
-                    replace: "var $1=$self.Layer;class VencordPatchedOldFadeLayer$2",
+                    replace: "var $1=$self.Layer;class NightcordPatchedOldFadeLayer$2",
                     predicate: () => settings.store.disableFade
                 },
                 { // Lazy-load contents
@@ -147,7 +148,7 @@ export default definePlugin({
             find: "handleOpenSettingsContextMenu=",
             replacement: {
                 match: /(?=handleOpenSettingsContextMenu=.{0,100}?null!=\i&&.{0,100}?(await [^};]*?\)\)))/,
-                replace: "_vencordBetterSettingsEagerLoad=(async ()=>$1)();"
+                replace: "_nightcordBetterSettingsEagerLoad=(async ()=>$1)();"
             },
             predicate: () => settings.store.eagerLoad
         },
@@ -169,7 +170,7 @@ export default definePlugin({
     // Thus, we sanity check webpack modules
     Layer(props: LayerProps) {
         try {
-            [FocusLock.$$vencordGetWrappedComponent(), ComponentDispatch, Classes.layer].forEach(e => e.test);
+            [FocusLock.$$nightcordGetWrappedComponent(), ComponentDispatch, Classes.layer].forEach(e => e.test);
         } catch {
             new Logger("BetterSettings").error("Failed to find some components");
             return props.children;
@@ -185,8 +186,8 @@ export default definePlugin({
             const { key, props } = item;
             if (!props) continue;
 
-            if (key === "vencord_plugins" || key === "vencord_themes") {
-                const children = key === "vencord_plugins"
+            if (key === "nightcord_plugins" || key === "nightcord_themes") {
+                const children = key === "nightcord_plugins"
                     ? buildPluginMenuEntries()
                     : buildThemeMenuEntries();
 

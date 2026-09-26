@@ -48,6 +48,7 @@ interface RuleSet {
 }
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "ClearURLs",
     description: "Automatically removes tracking elements from URLs you send",
     tags: ["Privacy", "Utility"],

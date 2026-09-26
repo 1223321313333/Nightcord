@@ -17,7 +17,7 @@
 */
 
 import { Heart } from "@components/Heart";
-import { ButtonProps } from "@vencord/discord-types";
+import { ButtonProps } from "@nightcord/discord-types";
 import { Button } from "@webpack/common";
 
 export default function DonateButton({
@@ -30,7 +30,7 @@ export default function DonateButton({
             {...props}
             look={look}
             color={color}
-            onClick={() => VencordNative.native.openExternal("https://github.com/sponsors/Vendicated")}
+            onClick={() => NightcordNative.native.openExternal("https://github.com/sponsors/Vendicated")}
             className="vc-donate-button"
         >
             <Heart />

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Tooltip } from "@vencord/discord-types";
+import { Tooltip } from "@nightcord/discord-types";
 
 const NOOP = () => { };
 

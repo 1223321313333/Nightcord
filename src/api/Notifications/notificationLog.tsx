@@ -18,10 +18,10 @@
 
 import * as DataStore from "@api/DataStore";
 import { Settings } from "@api/Settings";
-import { openNotificationSettingsModal } from "@components/settings/tabs/vencord/NotificationSettings";
+import { openNotificationSettingsModal } from "@components/settings/tabs/nightcord/NotificationSettings";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import { useAwaiter } from "@utils/react";
-import { RenderModalProps } from "@vencord/discord-types";
 import { ConfirmModal, Forms, ListScrollerThin, Modal, openModal, React, Timestamp, useEffect, useReducer, useState } from "@webpack/common";
 import { nanoid } from "nanoid";
 import type { DispatchWithoutAction } from "react";

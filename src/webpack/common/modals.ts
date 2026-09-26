@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import * as t from "@vencord/discord-types";
+import * as t from "@nightcord/discord-types";
 import { filters, findByCodeLazy, mapMangledModuleLazy } from "@webpack";
 
 export const Modal: t.Modal = findByCodeLazy("leadingLayout:", "actions:", ".message");

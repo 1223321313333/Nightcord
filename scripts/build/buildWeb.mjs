@@ -31,9 +31,9 @@ import { BUILD_TIMESTAMP, commonOpts, globPlugins, IS_DEV, IS_REPORTER, IS_ANTI_
  */
 const commonOptions = {
     ...commonOpts,
-    entryPoints: ["browser/Vencord.ts"],
+    entryPoints: ["browser/Nightcord.ts"],
     format: "iife",
-    globalName: "Vencord",
+    globalName: "Nightcord",
     external: ["~plugins", "~git-hash", "/assets/*"],
     target: ["esnext"],
     plugins: [
@@ -84,7 +84,7 @@ const buildConfigs = [
     {
         ...commonOptions,
         outfile: "dist/browser.js",
-        footer: { js: "//# sourceURL=file:///VencordWeb" }
+        footer: { js: "//# sourceURL=file:///NightcordWeb" }
     },
     {
         ...commonOptions,
@@ -93,7 +93,7 @@ const buildConfigs = [
             ...commonOptions.define,
             IS_EXTENSION: "true"
         },
-        footer: { js: "//# sourceURL=file:///VencordWeb" }
+        footer: { js: "//# sourceURL=file:///NightcordWeb" }
     },
     {
         ...commonOptions,
@@ -103,13 +103,13 @@ const buildConfigs = [
             IS_USERSCRIPT: "true",
             window: "unsafeWindow",
         },
-        outfile: "dist/Vencord.user.js",
+        outfile: "dist/Nightcord.user.js",
         banner: {
             js: readFileSync("browser/userscript.meta.js", "utf-8").replace("%version%", `${VERSION}.${new Date().getTime()}`)
         },
         footer: {
-            // UserScripts get wrapped in an iife, so define Vencord prop on window that returns our local
-            js: "Object.defineProperty(unsafeWindow,'Vencord',{get:()=>Vencord});"
+            // UserScripts get wrapped in an iife, so define Nightcord prop on window that returns our local
+            js: "Object.defineProperty(unsafeWindow,'Nightcord',{get:()=>Nightcord});"
         }
     }
 ];
@@ -146,8 +146,8 @@ async function loadDir(dir, basePath = "") {
  */
 async function buildExtension(target, files) {
     const entries = {
-        "dist/Vencord.js": await readFile("dist/extension.js"),
-        "dist/Vencord.css": await readFile("dist/extension.css"),
+        "dist/Nightcord.js": await readFile("dist/extension.js"),
+        "dist/Nightcord.css": await readFile("dist/extension.css"),
         ...await loadDir("dist/vendor/monaco", "dist/"),
         ...Object.fromEntries(await Promise.all(files.map(async f => {
             let content = await readFile(join("browser", f));
@@ -175,10 +175,10 @@ async function buildExtension(target, files) {
     console.info("Unpacked Extension written to dist/" + target);
 }
 
-const appendCssRuntime = readFile("dist/Vencord.user.css", "utf-8").then(content => {
+const appendCssRuntime = readFile("dist/Nightcord.user.css", "utf-8").then(content => {
     const cssRuntime = `unsafeWindow._vcUserScriptRendererCss=\`${content.replaceAll("`", "\\`")}\``;
 
-    return appendFile("dist/Vencord.user.js", cssRuntime);
+    return appendFile("dist/Nightcord.user.js", cssRuntime);
 });
 
 if (!process.argv.includes("--skip-extension")) {

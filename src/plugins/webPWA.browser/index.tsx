@@ -5,10 +5,10 @@
  */
 
 import { addThemeChangeListener, removeThemeChangeListener } from "@api/Themes";
+import { FluxStore } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { sleep } from "@utils/misc";
 import definePlugin from "@utils/types";
-import { FluxStore } from "@vencord/discord-types";
 import { findStoreLazy } from "@webpack";
 import { NotificationSettingsStore, RelationshipStore, ThemeStore } from "@webpack/common";
 
@@ -130,7 +130,7 @@ export default definePlugin({
             this.ctrl.abort();
             this.ctrl = new AbortController();
             window.addEventListener("message", ({ data }) => {
-                if (data?.type === "vencord:keybinds" && _keybinds) {
+                if (data?.type === "nightcord:keybinds" && _keybinds) {
                     const { meta } = data;
                     if (meta in _keybinds) _keybinds[meta].onTrigger();
                 }

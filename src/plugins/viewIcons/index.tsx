@@ -19,10 +19,10 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { ImageIcon } from "@components/Icons";
+import type { Channel, Guild, User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { openImageModal } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Channel, Guild, User } from "@vencord/discord-types";
 import { GuildMemberStore, IconUtils, Menu } from "@webpack/common";
 import type { MouseEvent } from "react";
 
@@ -207,6 +207,7 @@ const GroupDMContext: NavContextMenuPatchCallback = (children, { channel }: Grou
 };
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "ViewIcons",
     authors: [Devs.Ven, Devs.TheKodeToad, Devs.Nuckyz, Devs.nyx],
     description: "Makes avatars and banners in user profiles clickable, adds View Icon/Banner/Avatar Decoration entries in the user, server and group channel context menu.",

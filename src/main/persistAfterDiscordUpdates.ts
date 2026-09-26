@@ -49,20 +49,20 @@ function patchLatest() {
         if (latestVersion === currentVersion) return;
 
         const oldResources = join(discordPath, currentVersion, "resources");
-        const oldVencordAsar = join(oldResources, "app.asar");
+        const oldNightcordAsar = join(oldResources, "app.asar");
 
         const resources = join(discordPath, latestVersion, "resources");
         const newAppAsar = join(resources, "app.asar");
         const newAppAsarBackup = join(resources, "_app.asar");
 
-        if (!existsSync(oldVencordAsar) || !existsSync(newAppAsar) || existsSync(newAppAsarBackup)) return;
+        if (!existsSync(oldNightcordAsar) || !existsSync(newAppAsar) || existsSync(newAppAsarBackup)) return;
 
-        console.info(`[Vencord] Detected Host Update (${currentVersion} -> ${latestVersion}). Repatching...`);
+        console.info(`[Nightcord] Detected Host Update (${currentVersion} -> ${latestVersion}). Repatching...`);
 
         renameSync(newAppAsar, newAppAsarBackup);
-        copyFileSync(oldVencordAsar, newAppAsar);
+        copyFileSync(oldNightcordAsar, newAppAsar);
     } catch (err) {
-        console.error("[Vencord] Failed to repatch latest host update", err);
+        console.error("[Nightcord] Failed to repatch latest host update", err);
     }
 }
 

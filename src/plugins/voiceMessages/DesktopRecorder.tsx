@@ -22,7 +22,7 @@ import { Button, MediaEngineStore, showToast, Toasts, useState } from "@webpack/
 import type { VoiceRecorder } from ".";
 import { settings } from "./settings";
 
-const Native = VencordNative.pluginHelpers.VoiceMessages as PluginNative<typeof import("./native")>;
+const Native = NightcordNative.pluginHelpers.VoiceMessages as PluginNative<typeof import("./native")>;
 
 export const VoiceRecorderDesktop: VoiceRecorder = ({ setAudioBlob, onRecordingChange }) => {
     const [recording, setRecording] = useState(false);

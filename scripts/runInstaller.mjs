@@ -58,7 +58,7 @@ async function ensureBinary() {
 
     const res = await fetch(BASE_URL + filename, {
         headers: {
-            "User-Agent": "Vencord (https://github.com/Vendicated/Vencord)",
+            "User-Agent": "Nightcord (https://github.com/Vendicated/Vencord)",
             "If-None-Match": etag
         }
     });
