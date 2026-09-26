@@ -31,6 +31,21 @@ const BASE_DIR = join(dirname(fileURLToPath(import.meta.url)), "..");
 const FILE_DIR = join(BASE_DIR, "dist", "Installer");
 const ETAG_FILE = join(FILE_DIR, "etag.txt");
 
+// On Windows, use Nightcord's own installer with this checkout's dist folder
+if (process.platform === "win32") {
+    const action = process.argv.includes("--uninstall") ? "uninstall" : "install";
+    try {
+        execFileSync("powershell.exe", [
+            "-NoProfile", "-ExecutionPolicy", "Bypass",
+            "-File", join(BASE_DIR, "installer", "NightcordInstaller.ps1"),
+            "-Action", action, "-DistPath", join(BASE_DIR, "dist"), "-Yes"
+        ], { stdio: "inherit" });
+    } catch {
+        process.exitCode = 1;
+    }
+    process.exit();
+}
+
 function getFilename() {
     switch (process.platform) {
         case "win32":
