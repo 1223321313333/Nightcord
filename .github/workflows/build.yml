@@ -52,7 +52,7 @@ jobs:
             - name: Add installer to the release
               run: |
                   for f in installer/NightcordInstaller.bat installer/NightcordInstaller.ps1; do
-                      sed "s/*$//" "$f" > "dist/$(basename "$f")"
+                      sed 's/*$//' "$f" > "dist/$(basename "$f")"
                   done
 
             - name: Upload DevBuild as release
