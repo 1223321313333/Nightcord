@@ -3,13 +3,13 @@
     "private": "true",
     "version": "1.15.7",
     "description": "Nightcord — a Discord client mod (fork of Vencord)",
-    "homepage": "https://github.com/OWNER/Nightcord#readme",
+    "homepage": "https://github.com/1223321313333/Nightcord#readme",
     "bugs": {
-        "url": "https://github.com/OWNER/Nightcord/issues"
+        "url": "https://github.com/1223321313333/Nightcord/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/OWNER/Nightcord.git"
+        "url": "git+https://github.com/1223321313333/Nightcord.git"
     },
     "license": "GPL-3.0-or-later",
     "author": "Nightcord contributors, based on Vencord by Vendicated",
