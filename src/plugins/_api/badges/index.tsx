@@ -37,7 +37,7 @@ const CONTRIBUTOR_BADGE = "https://cdn.discordapp.com/emojis/1092089799109775453
 
 const ContributorBadge: ProfileBadge = {
     id: "nightcord_contributor_badge",
-    description: "Nightcord Contributor",
+    description: "Vencord Contributor",
     iconSrc: CONTRIBUTOR_BADGE,
     position: BadgePosition.START,
     shouldShow: ({ userId }) => shouldShowContributorBadge(userId),
@@ -216,7 +216,7 @@ export default definePlugin({
                                 >
                                     <Flex justifyContent="center" alignItems="center" gap="0.5em">
                                         <Heart />
-                                        Nightcord Donor
+                                        Vencord Donor
                                     </Flex>
                                 </Forms.FormTitle>
                             }
@@ -238,10 +238,10 @@ export default definePlugin({
                                 </Flex>
                                 <div style={{ padding: "1em" }}>
                                     <Forms.FormText>
-                                        This Badge is a special perk for Nightcord Donors
+                                        This Badge is a special perk for Vencord Donors (Nightcord is based on Vencord)
                                     </Forms.FormText>
                                     <Forms.FormText className={Margins.top20}>
-                                        Please consider supporting the development of Nightcord by becoming a donor. It would mean a lot!!
+                                        Please consider supporting the development of Vencord, which Nightcord is built on, by becoming a donor. It would mean a lot!!
                                     </Forms.FormText>
                                 </div>
                             </div>
