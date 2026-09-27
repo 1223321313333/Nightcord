@@ -19,6 +19,7 @@
 import { traceFunction } from "@debug/Tracer";
 import type { FluxStore } from "@nightcord/discord-types";
 import type { ModuleExports, ModuleFactory, WebpackRequire } from "@nightcord/discord-types/webpack";
+import { reportHealthIssue } from "@utils/health";
 import { makeLazy, proxyLazy } from "@utils/lazy";
 import { LazyComponent } from "@utils/lazyReact";
 import { Logger } from "@utils/Logger";
@@ -216,6 +217,7 @@ if (IS_DEV && IS_DISCORD_DESKTOP) {
 export function handleModuleNotFound(method: string, ...filter: unknown[]) {
     const err = new Error(`webpack.${method} found no module`);
     logger.error(err, "Filter:", filter);
+    reportHealthIssue("module-not-found", null, `${method}(${filter.map(f => typeof f === "function" ? String(f).slice(0, 120) : JSON.stringify(f)).join(", ")})`);
 
     // Strict behaviour in DevBuilds to fail early and make sure the issue is found
     if (IS_DEV && !devToolsOpen)

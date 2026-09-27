@@ -29,6 +29,7 @@ import { Settings, SettingsStore } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
 import { traceFunction } from "@debug/Tracer";
 import { FluxEvents } from "@nightcord/discord-types";
+import { reportHealthIssue } from "@utils/health";
 import { Logger } from "@utils/Logger";
 import { onlyOnce } from "@utils/onlyOnce";
 import { canonicalizeFind, canonicalizeReplacement } from "@utils/patches";
@@ -217,6 +218,7 @@ export const startPlugin = traceFunction("startPlugin", function startPlugin(p: 
             p.start();
         } catch (e) {
             logger.error(`Failed to start ${name}\n`, e);
+            reportHealthIssue("start-failed", name, e);
             return false;
         }
     }
