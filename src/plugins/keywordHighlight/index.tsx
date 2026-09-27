@@ -9,11 +9,12 @@ import { definePluginSettings } from "@api/Settings";
 import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { ChannelStore, GuildStore, NavigationRouter, React, SelectedChannelStore, UserStore } from "@webpack/common";
+import { ChannelStore, GuildStore, NavigationRouter, React, SelectedChannelStore, useLayoutEffect, useRef,UserStore } from "@webpack/common";
 
 import style from "./style.css?managed";
 
 const COLOR_STYLE_ID = "nc-keyword-color";
+const HIT_CLASS = "nc-keyword-msg";
 
 const settings = definePluginSettings({
     keywords: {
@@ -70,6 +71,20 @@ function applyColor() {
     el.textContent = `:root { --nc-keyword-color: ${settings.store.color || "#f5a623"}; }`;
 }
 
+/**
+ * Invisible marker that tags its own message row with a class.
+ * (A CSS :has() rule would do the same but makes every restyle of the chat slower.)
+ */
+function KeywordMarker({ keyword }: { keyword: string; }) {
+    const ref = useRef<HTMLSpanElement>(null);
+    useLayoutEffect(() => {
+        const row = ref.current?.closest("[id^=\"chat-messages-\"]");
+        row?.classList.add(HIT_CLASS);
+        return () => row?.classList.remove(HIT_CLASS);
+    }, []);
+    return <span ref={ref} className="nc-keyword-hit" data-keyword={keyword} />;
+}
+
 function findKeyword(content: string | undefined) {
     if (!matcher || !content) return null;
     return content.match(matcher)?.[1] ?? null;
@@ -84,12 +99,11 @@ export default definePlugin({
     settings,
     managedStyle: style,
 
-    // An invisible marker; the stylesheet highlights any message that contains it
     renderMessageAccessory(props) {
         const message = props.message as Message;
         if (message.author?.id === UserStore.getCurrentUser()?.id) return null;
         const hit = findKeyword(message.content);
-        return hit ? <span className="nc-keyword-hit" data-keyword={hit} /> : null;
+        return hit ? <KeywordMarker keyword={hit} /> : null;
     },
 
     flux: {

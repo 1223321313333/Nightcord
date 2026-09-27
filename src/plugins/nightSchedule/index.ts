@@ -29,11 +29,11 @@ const settings = definePluginSettings({
         stickToMarkers: false,
         onChange: () => update()
     },
-    brightness: {
+    strength: {
         type: OptionType.SLIDER,
-        description: "Brightness at night (1 = unchanged)",
-        markers: [0.5, 0.6, 0.7, 0.8, 0.9, 1],
-        default: 0.8,
+        description: "How much to dim and warm the screen at night (0 = off)",
+        markers: [0, 0.1, 0.2, 0.3, 0.4, 0.5],
+        default: 0.18,
         stickToMarkers: false,
         onChange: () => update()
     }
@@ -50,15 +50,15 @@ export function isNight(hour: number, start: number, end: number) {
 }
 
 function update() {
-    const { startHour, endHour, brightness } = settings.store;
+    const { startHour, endHour, strength } = settings.store;
     const root = document.documentElement;
-    root.style.setProperty("--nc-night-brightness", String(brightness));
+    root.style.setProperty("--nc-night-strength", String(strength));
     root.classList.toggle(CLASS, isNight(new Date().getHours(), startHour, endHour));
 }
 
 export default definePlugin({
     name: "NightSchedule",
-    description: "Dims and warms Discord at night on a schedule (23:00–07:00 by default)",
+    description: "Gently dims and warms Discord at night on a schedule (23:00–07:00 by default)",
     tags: ["Appearance"],
     authors: [Devs.Nightcord],
     enabledByDefault: true,
@@ -73,6 +73,6 @@ export default definePlugin({
     stop() {
         clearInterval(timer);
         document.documentElement.classList.remove(CLASS);
-        document.documentElement.style.removeProperty("--nc-night-brightness");
+        document.documentElement.style.removeProperty("--nc-night-strength");
     }
 });

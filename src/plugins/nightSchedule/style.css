@@ -1,3 +1,9 @@
-html.nc-night #app-mount {
-    filter: brightness(var(--nc-night-brightness, 0.8)) sepia(0.15) saturate(0.85);
+/* A single fixed overlay is far cheaper than a filter on the whole app */
+html.nc-night body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    pointer-events: none;
+    background: rgb(26 14 0 / var(--nc-night-strength, 0.18));
 }

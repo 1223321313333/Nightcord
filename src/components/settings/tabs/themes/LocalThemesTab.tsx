@@ -131,7 +131,7 @@ export function LocalThemesTab() {
                     <span>&ndash; <Link href="https://betterdiscord.app/themes">{t("BetterDiscord theme list")}</Link></span>
                     <span>&ndash; <Link href="https://github.com/search?q=discord+theme">GitHub</Link></span>
                 </Flex>
-                <Forms.FormText>If using the BD site, click on "Download" and place the downloaded .theme.css file into your themes folder.</Forms.FormText>
+                <Forms.FormText>{t("If using the BD site, click on \"Download\" and place the downloaded .theme.css file into your themes folder.")}</Forms.FormText>
             </Card>
 
             <Card>

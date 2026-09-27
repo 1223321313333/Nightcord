@@ -31,7 +31,6 @@ const RU: Record<string, string> = {
     "Open Settings Folder": "Открыть папку настроек",
     "View Source Code": "Исходный код",
     "Settings": "Настройки",
-    "Hint: You can change the position of this settings section in the": "Подсказка: расположение этого раздела можно изменить в",
     "settings of the Settings plugin": "настройках плагина Settings",
     "Enable Custom CSS": "Включить свой CSS",
     "Apply your configured QuickCSS": "Применять ваш QuickCSS",
@@ -126,6 +125,15 @@ const RU: Record<string, string> = {
     "Enter Theme Links...": "Ссылки на темы...",
 
     // Updater
+    "Hint: You can change the position of this settings section in the": "Подсказка: расположение этого раздела можно изменить в",
+    "Themes and custom CSS have the potential to cause major lag! If you experience performance issues, try disabling your themes and CSS to see if they're the cause. The most common cause of lag is the":
+        "Темы и свой CSS могут сильно тормозить Discord! Если заметили лаги, отключите темы и CSS и проверьте, не в них ли дело. Чаще всего тормоза вызывает оператор",
+    "operator.": "",
+    "If using the BD site, click on \"Download\" and place the downloaded .theme.css file into your themes folder.":
+        "На сайте BetterDiscord нажмите «Download» и положите скачанный файл .theme.css в папку тем.",
+    "This section is for advanced users. If you are having difficulties using it, use the Local Themes tab instead.":
+        "Этот раздел для опытных пользователей. Если что-то непонятно, используйте вкладку «Локальные темы».",
+    "Up to Date!": "Установлена последняя версия!",
     "Automatically update": "Обновлять автоматически",
     "Automatically update Nightcord without confirmation prompt": "Обновлять Nightcord без подтверждения",
     "Get notified when an automatic update completes": "Уведомлять после автообновления",
@@ -177,6 +185,14 @@ const RU: Record<string, string> = {
 export function t(text: string): string {
     if (!Settings.plugins?.RussianNightcord?.enabled) return text;
     return RU[text] ?? text;
+}
+
+/** "There are N Updates" with correct Russian plurals */
+export function tUpdates(n: number): string {
+    if (!Settings.plugins?.RussianNightcord?.enabled) return n === 1 ? "There is 1 Update" : `There are ${n} Updates`;
+    const m10 = n % 10, m100 = n % 100;
+    const word = m10 === 1 && m100 !== 11 ? "обновление" : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? "обновления" : "обновлений";
+    return `Доступно ${n} ${word}`;
 }
 
 export const translatedStrings = Object.keys(RU);

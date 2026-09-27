@@ -70,8 +70,8 @@ function ThemesTab() {
                 <Card variant="warning">
                     <BaseText tag="h3" size="md" weight="medium" className={Margins.bottom8}>{t("Theme Performance")}</BaseText>
                     <Paragraph>
-                        Themes and custom CSS have the potential to cause major lag! If you experience performance issues, try
-                        disabling your themes and CSS to see if they're the cause. The most common cause of lag is the <code>:has()</code> operator.
+                        {t("Themes and custom CSS have the potential to cause major lag! If you experience performance issues, try disabling your themes and CSS to see if they're the cause. The most common cause of lag is the")}{" "}
+                        <code>:has()</code> {t("operator.")}
                     </Paragraph>
                 </Card>
 

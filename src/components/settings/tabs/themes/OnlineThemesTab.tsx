@@ -30,8 +30,7 @@ export function OnlineThemesTab() {
         <Flex flexDirection="column" gap="1em">
             <Card variant="warning" defaultPadding>
                 <Forms.FormText size="md">
-                    This section is for advanced users. If you are having difficulties using it, use the
-                    Local Themes tab instead.
+                    {t("This section is for advanced users. If you are having difficulties using it, use the Local Themes tab instead.")}
                 </Forms.FormText>
             </Card>
             <Card>
