@@ -54,6 +54,8 @@ jobs:
                   for f in installer/NightcordInstaller.bat installer/NightcordInstaller.ps1; do
                       sed 's/\r*$/\r/' "$f" > "dist/$(basename "$f")"
                   done
+                  # One download for the website: both installer files together
+                  (cd dist && zip -q NightcordInstaller.zip NightcordInstaller.bat NightcordInstaller.ps1)
 
             - name: Upload DevBuild as release
               # The standalone updater reads /releases/latest and takes the commit hash from the release title
