@@ -31,6 +31,22 @@ import { NewButton, RenameButton } from "./components/RenameButton";
 import { Session, SessionInfo } from "./types";
 import { cl, fetchNamesFromDataStore, getDefaultName, GetOsColor, GetPlatformIcon, savedSessionsCache, saveSessionsToDataStore } from "./utils";
 
+interface RowProps {
+    label?: React.ReactNode;
+    subLabel?: React.ReactNode;
+}
+
+/** The title Discord shows for list rows that are not sessions */
+function DefaultRowName({ label, subLabel }: RowProps) {
+    return (
+        <>
+            {label != null && <Paragraph size="md" weight="semibold" color="text-strong">{label}</Paragraph>}
+            {label != null && subLabel != null && <Paragraph size="md" weight="medium" color="text-subtle" aria-hidden>{"\u2022"}</Paragraph>}
+            {subLabel != null && <Paragraph size="md" weight="medium" color="text-subtle">{subLabel}</Paragraph>}
+        </>
+    );
+}
+
 const TimestampClasses = findCssClassesLazy("timestamp", "blockquoteContainer");
 const BlobMask = findComponentByCodeLazy("!1,lowerBadgeSize:");
 
@@ -80,7 +96,9 @@ export default definePlugin({
         },
     ],
 
-    renderName: ErrorBoundary.wrap(({ session }: SessionInfo) => {
+    renderName: ErrorBoundary.wrap(({ session, label, subLabel }: Partial<SessionInfo> & RowProps) => {
+        if (!session) return <DefaultRowName label={label} subLabel={subLabel} />;
+
         const savedSession = savedSessionsCache.get(session.id_hash);
 
         const state = React.useState(savedSession?.name ? `${savedSession.name}*` : getDefaultName(session.client_info));
@@ -99,7 +117,9 @@ export default definePlugin({
         );
     }, { noop: true }),
 
-    renderDescription: ErrorBoundary.wrap(({ session, description }: { session: Session, description: string; }) => {
+    renderDescription: ErrorBoundary.wrap(({ session, description }: { session?: Session, description: React.ReactNode; }) => {
+        if (!session || typeof description !== "string") return <>{description}</>;
+
         const [label, timeLabel] = description.split(" \xb7 ");
 
         return (
@@ -121,7 +141,9 @@ export default definePlugin({
         );
     }, { noop: true }),
 
-    renderIcon: ErrorBoundary.wrap(({ session, icon: DeviceIcon }: { session: Session; icon: React.ComponentType<any>; }) => {
+    renderIcon: ErrorBoundary.wrap(({ session, icon: DeviceIcon }: { session?: Session; icon: React.ComponentType<any>; }) => {
+        if (!session) return DeviceIcon ? <DeviceIcon size="md" color="currentColor" /> : null;
+
         const PlatformIcon = GetPlatformIcon(session.client_info.platform);
 
         return (
