@@ -1,0 +1,177 @@
+name: Sync with Equicord
+# Pulls new Equicord commits into Nightcord once a week.
+#
+# 1. The new Equicord version is rebranded with scripts/nightcord/rebrand.cjs and committed on top of
+#    the `upstream-nightcord` branch, so that branch only ever differs by real upstream changes.
+# 2. That commit is merged into a sync branch made from main. Known conflicts are resolved by
+#    scripts/nightcord/resolve-sync.cjs; anything else opens an issue for a human.
+# 3. Build, type-check and lint. If everything passes it is pushed to main (when auto-merge is on)
+#    or left on the sync branch with an issue linking to it.
+on:
+    schedule:
+        - cron: "0 6 * * 1" # Mondays 06:00 UTC
+    workflow_dispatch:
+        inputs:
+            auto_merge:
+                description: "Push to main automatically if the build and checks pass"
+                type: boolean
+                default: false
+
+permissions:
+    contents: write
+    issues: write
+    actions: write
+
+concurrency:
+    group: sync-equicord
+
+env:
+    FORCE_COLOR: true
+    AUTO_MERGE: ${{ inputs.auto_merge || vars.NIGHTCORD_AUTO_MERGE == 'true' }}
+
+jobs:
+    sync:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v7
+              with:
+                  fetch-depth: 0
+
+            - uses: pnpm/action-setup@v6
+
+            - uses: actions/setup-node@v6
+              with:
+                  node-version: 24
+                  cache: "pnpm"
+
+            - run: pnpm install --frozen-lockfile
+
+            - name: Look for new Equicord commits
+              id: check
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git remote add equicord https://github.com/Equicord/Equicord.git
+                  git fetch --no-tags equicord main
+                  git fetch --no-tags origin upstream-nightcord
+
+                  last=$(git log -1 --format=%B origin/upstream-nightcord | sed -n 's/^Upstream: //p')
+                  new=$(git rev-parse equicord/main)
+                  echo "last=$last" >> "$GITHUB_OUTPUT"
+                  echo "new=$new" >> "$GITHUB_OUTPUT"
+                  echo "short=${new:0:9}" >> "$GITHUB_OUTPUT"
+                  if [ "$last" = "$new" ]; then
+                      echo "changed=false" >> "$GITHUB_OUTPUT"
+                      echo "Nightcord already has Equicord ${new:0:9}." >> "$GITHUB_STEP_SUMMARY"
+                  else
+                      echo "changed=true" >> "$GITHUB_OUTPUT"
+                      echo "New Equicord commits: $(git rev-list --count "$last..$new")" >> "$GITHUB_STEP_SUMMARY"
+                  fi
+
+            - name: Rebrand the new Equicord version
+              if: steps.check.outputs.changed == 'true'
+              run: |
+                  git worktree add --detach /tmp/upstream equicord/main
+                  node scripts/nightcord/rebrand.cjs /tmp/upstream
+                  # Same import order as Nightcord after the rename, otherwise every import change conflicts
+                  ln -s "$GITHUB_WORKSPACE/node_modules" /tmp/upstream/node_modules
+                  (cd /tmp/upstream && ./node_modules/.bin/eslint --fix src scripts) || true
+                  rm /tmp/upstream/node_modules
+
+                  git -C /tmp/upstream add -A
+                  tree=$(git -C /tmp/upstream write-tree)
+                  commit=$(git commit-tree "$tree" -p origin/upstream-nightcord -p equicord/main \
+                      -m "Equicord ${{ steps.check.outputs.short }} rebranded to Nightcord" \
+                      -m "Upstream: ${{ steps.check.outputs.new }}")
+                  git push origin "$commit:refs/heads/upstream-nightcord"
+                  echo "UPSTREAM_COMMIT=$commit" >> "$GITHUB_ENV"
+
+            - name: Merge into a sync branch
+              id: merge
+              if: steps.check.outputs.changed == 'true'
+              run: |
+                  branch="sync/equicord-${{ steps.check.outputs.short }}"
+                  echo "branch=$branch" >> "$GITHUB_OUTPUT"
+                  git checkout -b "$branch"
+
+                  if git merge --no-edit -m "Sync with Equicord ${{ steps.check.outputs.short }}" "$UPSTREAM_COMMIT"; then
+                      echo "conflicts=false" >> "$GITHUB_OUTPUT"
+                  elif node scripts/nightcord/resolve-sync.cjs > /tmp/resolve.txt; then
+                      cat /tmp/resolve.txt
+                      git commit --no-edit
+                      echo "conflicts=false" >> "$GITHUB_OUTPUT"
+                  else
+                      cat /tmp/resolve.txt
+                      git merge --abort
+                      echo "conflicts=true" >> "$GITHUB_OUTPUT"
+                  fi
+
+            - name: Build and check
+              id: test
+              if: steps.merge.outputs.conflicts == 'false'
+              run: |
+                  pnpm install --no-frozen-lockfile
+                  if ! git diff --quiet -- pnpm-lock.yaml; then
+                      git add pnpm-lock.yaml
+                      git commit -m "Update lockfile after syncing with Equicord"
+                  fi
+
+                  set +e
+                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm lint-styles && pnpm generatePluginJson > /dev/null; } > /tmp/test.txt 2>&1
+                  result=$?
+                  set -e
+                  tail -n 40 /tmp/test.txt
+                  if [ $result -eq 0 ]; then echo "passed=true" >> "$GITHUB_OUTPUT"; else echo "passed=false" >> "$GITHUB_OUTPUT"; fi
+
+            - name: Ship to main
+              if: steps.test.outputs.passed == 'true' && env.AUTO_MERGE == 'true'
+              run: |
+                  git push origin "HEAD:main"
+                  # Pushes made with GITHUB_TOKEN don't trigger other workflows, so start the release build by hand
+                  gh workflow run build.yml --ref main
+                  echo "Merged Equicord ${{ steps.check.outputs.short }} into main and started a DevBuild." >> "$GITHUB_STEP_SUMMARY"
+              env:
+                  GH_TOKEN: ${{ github.token }}
+
+            - name: Leave it for review
+              if: steps.merge.outputs.conflicts == 'true' || steps.test.outputs.passed == 'false' || (steps.test.outputs.passed == 'true' && env.AUTO_MERGE != 'true')
+              run: |
+                  short="${{ steps.check.outputs.short }}"
+                  branch="${{ steps.merge.outputs.branch }}"
+                  repo="${{ github.repository }}"
+
+                  if [ "${{ steps.merge.outputs.conflicts }}" = "true" ]; then
+                      title="Equicord $short: merge conflicts need a human"
+                      body="Nightcord could not merge Equicord \`$short\` automatically.
+
+                  $(sed 's/^/    /' /tmp/resolve.txt)
+
+                  The rebranded upstream is on the \`upstream-nightcord\` branch. To finish by hand:
+
+                      git fetch origin
+                      git merge origin/upstream-nightcord
+                      node scripts/nightcord/resolve-sync.cjs
+
+                  then fix the files listed above, commit and push."
+                  else
+                      git push origin "HEAD:refs/heads/$branch"
+                      if [ "${{ steps.test.outputs.passed }}" = "true" ]; then
+                          title="Equicord $short is ready to merge"
+                          status="The build, type-check and lint all passed."
+                      else
+                          title="Equicord $short: checks failed"
+                          status="The merge worked, but the checks failed:
+
+                  $(tail -n 30 /tmp/test.txt | sed 's/^/    /')"
+                      fi
+                      body="$status
+
+                  Review and merge: https://github.com/$repo/compare/main...$branch?expand=1
+
+                  Or turn on automatic merging: set the repository variable \`NIGHTCORD_AUTO_MERGE\` to \`true\`."
+                  fi
+
+                  gh issue create --title "$title" --body "$body"
+                  echo "$title" >> "$GITHUB_STEP_SUMMARY"
+              env:
+                  GH_TOKEN: ${{ github.token }}
