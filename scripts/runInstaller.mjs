@@ -126,7 +126,7 @@ try {
         env: {
             ...process.env,
             EQUICORD_USER_DATA_DIR: BASE_DIR,
-            NIGHTCORD_DIRECTORY: join(BASE_DIR, "dist/desktop"),
+            EQUICORD_DIRECTORY: join(BASE_DIR, "dist/desktop"),
             EQUICORD_DEV_INSTALL: "1"
         }
     });
