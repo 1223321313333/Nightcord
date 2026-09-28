@@ -84,7 +84,7 @@ export function NewPluginsSection({
             </Heading>
 
             <Paragraph className={Margins.bottom16}>
-                The following plugins have been added in recent updates:
+                {t("The following plugins have been added in recent updates:")}
             </Paragraph>
 
             <div className={cl("new-plugins-grid")}>

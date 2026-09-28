@@ -65,17 +65,17 @@ export function OnlineThemesSection({
         <>
             <Heading className={Margins.top20}>{t("Online Themes")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                Load themes directly from URLs instead of local files. Online themes auto-update when the source changes, so you always have the latest version without manual downloads.
+                {t("Load themes directly from URLs instead of local files. Online themes auto-update when the source changes, so you always have the latest version without manual downloads.")}
             </Paragraph>
             <FormSwitch
-                title="Enable Online Themes"
-                description="Toggle online theme loading. When disabled, all online themes will be turned off and you won't be able to add new ones."
+                title={t("Enable Online Themes")}
+                description={t("Toggle online theme loading. When disabled, all online themes will be turned off and you won't be able to add new ones.")}
                 value={enableOnlineThemes}
                 onChange={setEnableOnlineThemes}
             />
 
             <Notice.Info className={Margins.bottom16} style={{ width: "100%" }}>
-                Looking for themes? Check out <Link href="https://betterdiscord.app/themes">BetterDiscord Themes</Link> or search on <Link href="https://github.com/search?q=discord+theme">GitHub</Link>. When downloading from BetterDiscord, click "Download" and place the .theme.css file into your themes folder.
+                Looking for themes? Check out <Link href="https://betterdiscord.app/themes">{t("BetterDiscord Themes")}</Link> or search on <Link href="https://github.com/search?q=discord+theme">GitHub</Link>. When downloading from BetterDiscord, click "Download" and place the .theme.css file into your themes folder.
             </Notice.Info>
 
             <div className={cl("link-row")}>
@@ -86,7 +86,7 @@ export function OnlineThemesSection({
                     disabled={!enableOnlineThemes}
                 />
                 <Button onClick={() => addThemeLink(currentThemeLink)} disabled={!themeLinkValid || !enableOnlineThemes}>
-                    Add
+                    {t("Add")}
                 </Button>
             </div>
             {currentThemeLink && (

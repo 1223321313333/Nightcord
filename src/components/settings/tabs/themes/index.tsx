@@ -40,8 +40,8 @@ const filterOptions = [
     { label: t("Show All"), value: ThemeFilter.All },
     { label: t("Online Themes"), value: ThemeFilter.Online },
     { label: t("Local Themes"), value: ThemeFilter.Local },
-    { label: "Enabled", value: ThemeFilter.Enabled },
-    { label: "Disabled", value: ThemeFilter.Disabled }
+    { label: t("Enabled"), value: ThemeFilter.Enabled },
+    { label: t("Disabled"), value: ThemeFilter.Disabled }
 ];
 
 function inferThemeActivationMode(css: string) {
@@ -370,14 +370,14 @@ function ThemesTab() {
 
     return (
         <SettingsTab>
-            <Heading className={Margins.top16}>Theme Management</Heading>
+            <Heading className={Margins.top16}>{t("Theme Management")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                Customize Discord's appearance with themes. Add local .css files or load themes directly from URLs. Themes with a cog wheel icon have customizable settings you can modify.
+                {t("Customize Discord's appearance with themes. Add local .css files or load themes directly from URLs. Themes with a cog wheel icon have customizable settings you can modify.")}
             </Paragraph>
 
             <Heading>{t("Quick Actions")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                Shortcuts for managing your themes. Open your themes folder to add new themes, use QuickCSS for quick style tweaks, or reload themes after making changes.
+                {t("Shortcuts for managing your themes. Open your themes folder to add new themes, use QuickCSS for quick style tweaks, or reload themes after making changes.")}
             </Paragraph>
 
             <QuickActionsSection
@@ -405,9 +405,9 @@ function ThemesTab() {
 
             <Divider className={Margins.top20} />
 
-            <Heading className={Margins.top20}>Installed Themes</Heading>
+            <Heading className={Margins.top20}>{t("Installed Themes")}</Heading>
             <Paragraph className={Margins.bottom8}>
-                Manage your themes here. Local themes load from your themes folder, online themes from URLs. Themes with a cog wheel icon have customizable settings.
+                {t("Manage your themes here. Local themes load from your themes folder, online themes from URLs. Themes with a cog wheel icon have customizable settings.")}
             </Paragraph>
             <Paragraph color="text-subtle" className={Margins.bottom16}>
                 {allThemes.length} theme{allThemes.length !== 1 ? "s" : ""} installed ({localCount} local, {onlineCount} online) · {enabledCount} enabled
@@ -415,7 +415,7 @@ function ThemesTab() {
 
             <div className={cl("filter-row")}>
                 <TextInput
-                    placeholder="Search for a theme..."
+                    placeholder={t("Search for a theme...")}
                     value={searchQuery}
                     onChange={setSearchQuery}
                 />
@@ -430,7 +430,7 @@ function ThemesTab() {
             </div>
 
             {userThemes === null ? (
-                <Paragraph color="text-muted" className={Margins.top16}>Loading themes...</Paragraph>
+                <Paragraph color="text-muted" className={Margins.top16}>{t("Loading themes...")}</Paragraph>
             ) : filteredThemes.length === 0 ? (
                 <Paragraph color="text-muted" className={Margins.top16}>
                     {allThemes.length === 0
@@ -509,12 +509,12 @@ function ThemesTab() {
 function UserscriptThemesTab() {
     return (
         <SettingsTab>
-            <Heading className={Margins.top16}>Themes Not Supported</Heading>
+            <Heading className={Margins.top16}>{t("Themes Not Supported")}</Heading>
             <Paragraph className={Margins.bottom8}>
-                Themes are not available on the Userscript version.
+                {t("Themes are not available on the Userscript version.")}
             </Paragraph>
             <Paragraph color="text-subtle">
-                You can install themes using the <Link href={getStylusWebStoreUrl()}>Stylus extension</Link> instead.
+                You can install themes using the <Link href={getStylusWebStoreUrl()}>{t("Stylus extension")}</Link> instead.
             </Paragraph>
         </SettingsTab>
     );

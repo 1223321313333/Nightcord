@@ -8,6 +8,7 @@ import { useSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Heading } from "@components/Heading";
 import { IS_MAC } from "@utils/constants";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
 import { Select } from "@webpack/common";
@@ -19,14 +20,14 @@ export function MacOSVibrancySettings() {
 
     return (
         <ErrorBoundary noop>
-            <Heading tag="h5">MacOS Window vibrancy style (requires restart)</Heading>
+            <Heading tag="h5">{t("MacOS Window vibrancy style (requires restart)")}</Heading>
             <Select
                 className={Margins.bottom20}
-                placeholder="Window vibrancy style"
+                placeholder={t("Window vibrancy style")}
                 options={[
                     // Sorted from most opaque to most transparent
                     {
-                        label: "No vibrancy", value: undefined
+                        label: t("No vibrancy"), value: undefined
                     },
                     {
                         label: "Under Page (window tinting)",

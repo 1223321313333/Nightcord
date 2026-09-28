@@ -12,6 +12,7 @@ import { OnlineThemeCard } from "@components/settings/OnlineThemeCard";
 import { UserThemeHeader } from "@main/themes";
 import { classNameFactory } from "@utils/css";
 import { openInviteModal } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { findComponentByCodeLazy } from "@webpack";
 import { Menu, React, showToast, Tooltip, useState } from "@webpack/common";
 import { ContextMenuApi } from "@webpack/common/menu";
@@ -26,9 +27,9 @@ const DownloadIcon = findComponentByCodeLazy("1.42l3.3 3.3V3a1");
 const cl = classNameFactory("vc-settings-theme-");
 
 const themeActivationModeOptions: { value: ThemeActivationMode; label: string; }[] = [
-    { value: "always", label: "Always on" },
-    { value: "light", label: "Light only" },
-    { value: "dark", label: "Dark only" }
+    { value: "always", label: t("Always on") },
+    { value: "light", label: t("Light only") },
+    { value: "dark", label: t("Dark only") }
 ];
 
 export function getThemeActivationModeLabel(mode: ThemeActivationMode) {
@@ -46,7 +47,7 @@ export function ThemeActivationMenu({ themeId, activationMode, onActivationModeC
     return (
         <Menu.Menu navId={`theme-card-menu-${themeId}`} onClose={ContextMenuApi.closeContextMenu}>
             {onActivationModeChange && (
-                <Menu.MenuItem id={`theme-activation-${themeId}`} label="Theme activation">
+                <Menu.MenuItem id={`theme-activation-${themeId}`} label={t("Theme activation")}>
                     {themeActivationModeOptions.map(option => (
                         <Menu.MenuRadioItem
                             key={option.value}
@@ -124,7 +125,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                 {theme.website && (
                     <Menu.MenuItem
                         id="open-website"
-                        label="Open Website"
+                        label={t("Open Website")}
                         icon={HomeIcon}
                         action={() => window.open(theme.website, "_blank")}
                     />
@@ -132,7 +133,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                 {theme.invite && (
                     <Menu.MenuItem
                         id="join-discord"
-                        label="Join Discord"
+                        label={t("Join Discord")}
                         icon={DiscordIcon}
                         action={() => {
                             openInviteModal(theme.invite!).catch(() =>
@@ -144,7 +145,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                 {onCopyUrl && themeLink && (
                     <Menu.MenuItem
                         id="copy-url"
-                        label="Copy URL"
+                        label={t("Copy URL")}
                         icon={LinkIcon}
                         action={onCopyUrl}
                     />
@@ -152,7 +153,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                 {onDownload && (
                     <Menu.MenuItem
                         id="download-theme"
-                        label="Download"
+                        label={t("Download")}
                         icon={DownloadIcon}
                         action={onDownload}
                     />
@@ -160,7 +161,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                 {onOpenFolder && (
                     <Menu.MenuItem
                         id="open-folder"
-                        label="Open in Folder"
+                        label={t("Open in Folder")}
                         icon={FolderIcon}
                         action={onOpenFolder}
                     />
@@ -168,7 +169,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                 {onRefresh && (
                     <Menu.MenuItem
                         id="refresh-theme"
-                        label="Refresh"
+                        label={t("Refresh")}
                         icon={RefreshIcon}
                         action={onRefresh}
                     />
@@ -178,7 +179,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                         <Menu.MenuSeparator />
                         <Menu.MenuItem
                             id="delete-theme"
-                            label="Delete"
+                            label={t("Delete")}
                             color="danger"
                             icon={DeleteIcon}
                             action={() => onDelete()}
@@ -222,7 +223,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                         )}
                     </Tooltip>
                     {isPinned && (
-                        <Tooltip text="Pinned">
+                        <Tooltip text={t("Pinned")}>
                             {({ onMouseLeave, onMouseEnter }) => (
                                 <div
                                     onMouseEnter={onMouseEnter}
@@ -234,7 +235,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                             )}
                         </Tooltip>
                     )}
-                    {!!theme.website && <Link href={theme.website}>Website</Link>}
+                    {!!theme.website && <Link href={theme.website}>{t("Website")}</Link>}
                     {!!(theme.website && theme.invite) && (
                         <span style={{ color: "var(--text-muted)" }}>•</span>
                     )}
@@ -249,7 +250,7 @@ export function ThemeCard({ theme, enabled, onChange, onDelete, showDeleteButton
                                     );
                             }}
                         >
-                            Discord Server
+                            {t("Discord Server")}
                         </Link>
                     )}
                     {activationMode !== "always" && (

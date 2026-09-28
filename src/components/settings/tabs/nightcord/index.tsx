@@ -50,28 +50,28 @@ function Switches() {
         },
         (!IS_WEB && !IS_DISCORD_DESKTOP || !IS_WINDOWS) && {
             key: "mainWindowFrameless",
-            title: "Disable the Main Window Frame",
-            description: "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.",
+            title: t("Disable the Main Window Frame"),
+            description: t("Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area."),
             restartRequired: true,
         },
         !IS_WEB && (!IS_DISCORD_DESKTOP || !IS_WINDOWS
             ? {
                 key: "frameless",
-                title: "Disable All Window Frames",
-                description: "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.",
+                title: t("Disable All Window Frames"),
+                description: t("Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area."),
                 restartRequired: true,
             }
             : {
                 key: "winNativeTitleBar",
                 title: t("Use Windows' native title bar instead of Discord's custom one"),
-                description: "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.",
+                description: t("Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools."),
                 restartRequired: true,
             }
         ),
         !IS_WEB && {
             key: "transparent",
-            title: "Enable Window Transparency",
-            description: "Make the Discord window transparent. A theme that supports transparency is required or this will do nothing.",
+            title: t("Enable Window Transparency"),
+            description: t("Make the Discord window transparent. A theme that supports transparency is required or this will do nothing."),
             restartRequired: true,
             warning: IS_WINDOWS
                 ? "This will stop the window from being resizable and prevents you from snapping the window to screen edges."
@@ -79,14 +79,14 @@ function Switches() {
         },
         IS_DISCORD_DESKTOP && {
             key: "disableMinSize",
-            title: "Disable Minimum Window Size",
+            title: t("Disable Minimum Window Size"),
             description: t("Allows you to resize the window to any size, even smaller than Discord's minimum size"),
             restartRequired: true
         },
         !IS_WEB && IS_WINDOWS && {
             key: "winCtrlQ",
-            title: "Register Ctrl+Q as shortcut to close Discord",
-            description: "Add Ctrl+Q as a keyboard shortcut to close Discord. This provides an alternative to Alt+F4 for quickly closing the application.",
+            title: t("Register Ctrl+Q as shortcut to close Discord"),
+            description: t("Add Ctrl+Q as a keyboard shortcut to close Discord. This provides an alternative to Alt+F4 for quickly closing the application."),
             restartRequired: true,
         },
         !IS_WEB && {

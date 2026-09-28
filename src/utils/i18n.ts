@@ -69,6 +69,316 @@ const RU: Record<string, string> = {
     "Show Vencord":
         "Плагины Vencord",
 
+    // Equicord settings, part 2
+    "Changelog":
+        "Список изменений",
+    "Clear All Logs":
+        "Очистить все записи",
+    "Clear All":
+        "Очистить всё",
+    "Cancel":
+        "Отмена",
+    "Clear Log":
+        "Очистить запись",
+    "Updated Plugins":
+        "Обновлённые плагины",
+    "New Settings":
+        "Новые настройки",
+    "Fetch Changes":
+        "Проверить изменения",
+    "Check the repository for new commits, plugin updates, and code changes. This will compare your current version with the latest available and show you what's new.":
+        "Проверить репозиторий на новые коммиты и обновления плагинов. Текущая версия сравнится с последней, и вы увидите, что нового.",
+    "Make sure you have an internet connection and try again.":
+        "Проверьте подключение к интернету и попробуйте снова.",
+    "This is the GitHub repository where Nightcord fetches updates from.":
+        "Из этого репозитория на GitHub Nightcord получает обновления.",
+    "Recent Changes":
+        "Последние изменения",
+    "These are the new commits and plugin updates since your last version. You can see what features were added, bugs were fixed, and which plugins received updates.":
+        "Новые коммиты и обновления плагинов с прошлой версии: что добавили, что исправили и какие плагины обновились.",
+    "No commits available ahead of your current version. Click \"Fetch from Repository\" to check for new changes.":
+        "Новых коммитов нет. Нажмите «Проверить изменения», чтобы поискать обновления.",
+    "A history of your previous update sessions with their commit history and plugin changes. Click on a log to expand it and see the details.":
+        "История прошлых обновлений с коммитами и изменениями плагинов. Нажмите на запись, чтобы раскрыть подробности.",
+    "The following plugins have been added in recent updates:":
+        "В последних обновлениях добавлены плагины:",
+    "Disable the Main Window Frame":
+        "Убрать рамку главного окна",
+    "Remove the native window frame for a cleaner look. You can still move the window by dragging the title bar area.":
+        "Убрать системную рамку окна. Перемещать окно можно, потянув за область заголовка.",
+    "Disable All Window Frames":
+        "Убрать рамки всех окон",
+    "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.":
+        "Использовать стандартный заголовок Windows вместо заголовка Discord. Может улучшить совместимость с программами для управления окнами.",
+    "Enable Window Transparency":
+        "Включить прозрачность окна",
+    "Make the Discord window transparent. A theme that supports transparency is required or this will do nothing.":
+        "Сделать окно Discord прозрачным. Нужна тема с поддержкой прозрачности, иначе ничего не изменится.",
+    "Disable Minimum Window Size":
+        "Убрать минимальный размер окна",
+    "Register Ctrl+Q as shortcut to close Discord":
+        "Закрывать Discord по Ctrl+Q",
+    "Add Ctrl+Q as a keyboard shortcut to close Discord. This provides an alternative to Alt+F4 for quickly closing the application.":
+        "Добавить сочетание Ctrl+Q для закрытия Discord, как альтернативу Alt+F4.",
+    "MacOS Window vibrancy style (requires restart)":
+        "Эффект вибрации окна macOS (нужен перезапуск)",
+    "Window vibrancy style":
+        "Эффект вибрации окна",
+    "No vibrancy":
+        "Без эффекта",
+    "Mica (incorporates system theme + desktop wallpaper to paint the background)":
+        "Mica (фон из системной темы и обоев рабочего стола)",
+    "Tabbed (variant of Mica with stronger background tinting)":
+        "Tabbed (Mica с более сильным оттенком фона)",
+    "Acrylic (blurs the window behind Vesktop for a translucent background)":
+        "Acrylic (размывает окно позади, фон полупрозрачный)",
+    "Windows transparent background effects. You need a theme that supports transparency or this will do nothing. A restart is required after changing this setting.":
+        "Эффекты прозрачного фона Windows. Нужна тема с поддержкой прозрачности, иначе ничего не изменится. После изменения нужен перезапуск.",
+    "Some plugins may show you notifications. These come in two styles:":
+        "Некоторые плагины показывают уведомления. Они бывают двух видов:",
+    "Nightcord Notifications":
+        "Уведомления Nightcord",
+    ": These are in-app notifications":
+        ": уведомления внутри приложения",
+    "Desktop Notifications":
+        "Системные уведомления",
+    ": Native Desktop notifications (like when you get a ping)":
+        ": уведомления Windows (как при упоминании)",
+    "Missed Notification Count":
+        "Счётчик пропущенных уведомлений",
+    "When refocusing discord a notification will popup with how you missed":
+        "Когда вы вернётесь в Discord, появится уведомление о том, сколько вы пропустили",
+    "The amount of notifications to save in the log until old ones are removed. Set to":
+        "Сколько уведомлений хранить в журнале, прежде чем удалять старые.",
+    "to disable Notification log and":
+        "— отключить журнал,",
+    "to never automatically remove old Notifications":
+        "— никогда не удалять старые уведомления автоматически",
+    "Restart Now":
+        "Перезапустить сейчас",
+    "Later":
+        "Позже",
+    "Disable All Plugins":
+        "Выключить все плагины",
+    "Some plugins require a restart to fully disable.":
+        "Некоторые плагины полностью выключаются только после перезапуска.",
+    "Would you like to restart now?":
+        "Перезапустить сейчас?",
+    "Nightcord Plugin":
+        "Плагин Nightcord",
+    "Modified Vencord Plugin":
+        "Изменённый плагин Vencord",
+    "Equicord Plugin":
+        "Плагин Equicord",
+    "Vencord Plugin":
+        "Плагин Vencord",
+    "User Plugin":
+        "Пользовательский плагин",
+    "Reset to default settings":
+        "Сбросить настройки",
+    "Website":
+        "Сайт",
+    "Source Code":
+        "Исходный код",
+    "Are you sure you want to reset all settings for":
+        "Сбросить все настройки плагина",
+    "to their default values?":
+        "к значениям по умолчанию?",
+    "This action cannot be undone.":
+        "Это действие нельзя отменить.",
+    "Reset":
+        "Сбросить",
+    "Enabled Plugins":
+        "Включено плагинов",
+    "Total Plugins":
+        "Всего плагинов",
+    "Total Userplugins":
+        "Пользовательских плагинов",
+    "Enabled Userplugins":
+        "Включено пользовательских",
+    "Import and export your Nightcord settings as a JSON file. This allows you to easily transfer your settings to another device, or recover them after reinstalling Nightcord or Discord.":
+        "Сохраните настройки Nightcord в JSON-файл и загрузите обратно: чтобы перенести их на другое устройство или восстановить после переустановки.",
+    "Importing a settings file will overwrite your current settings. Make sure to export a backup first if you want to keep your current configuration.":
+        "Импорт заменит текущие настройки. Если хотите их сохранить, сначала сделайте экспорт.",
+    "What's included in a backup":
+        "Что входит в резервную копию",
+    "• Custom QuickCSS":
+        "• Свой QuickCSS",
+    "• Theme Links":
+        "• Ссылки на темы",
+    "• Plugin Settings":
+        "• Настройки плагинов",
+    "• DataStore Data":
+        "• Данные плагинов (DataStore)",
+    "Select a previously exported settings file to restore your configuration. This will replace all your current settings with the ones from the backup.":
+        "Выберите ранее сохранённый файл настроек. Все текущие настройки заменятся настройками из копии.",
+    "Import All Settings":
+        "Импортировать всё",
+    "Import Plugins":
+        "Импорт плагинов",
+    "Import QuickCSS":
+        "Импорт QuickCSS",
+    "Import DataStore":
+        "Импорт DataStore",
+    "Download your current settings as a backup file. You can export everything at once, or choose to export only specific parts of your configuration.":
+        "Скачайте текущие настройки файлом. Можно сохранить всё сразу или только отдельные части.",
+    "Export All Settings":
+        "Экспортировать всё",
+    "Export Plugins":
+        "Экспорт плагинов",
+    "Export QuickCSS":
+        "Экспорт QuickCSS",
+    "Export DataStore":
+        "Экспорт DataStore",
+    "Cloud Integration":
+        "Облако",
+    "Cloud integration syncs your settings across multiple devices and Discord installations.":
+        "Облако синхронизирует ваши настройки между устройствами и установками Discord.",
+    "Nightcord has no servers of its own. By default it uses Equicord's":
+        "У Nightcord нет своих серверов. По умолчанию используется",
+    "backend, run by the Equicord team. Read their":
+        "— сервер команды Equicord. Прочитайте их",
+    "privacy policy":
+        "политику конфиденциальности",
+    "to see what is stored. Equicloud is BSD 3.0 licensed, so you can self-host it instead.":
+        ", чтобы узнать, что хранится. Equicloud распространяется по лицензии BSD 3.0, его можно поднять у себя.",
+    "Enable Cloud Integration":
+        "Включить облако",
+    "Connect to the cloud backend for settings synchronization. This will request authorization if you haven't set up cloud integration yet.":
+        "Подключиться к облаку для синхронизации настроек. Если облако ещё не настроено, появится запрос авторизации.",
+    "When enabled, your settings can be synced to and from the cloud. Use the actions below to manually sync.":
+        "Когда включено, настройки можно синхронизировать с облаком. Для ручной синхронизации используйте кнопки ниже.",
+    "Delete Cloud Account":
+        "Удалить облачный аккаунт",
+    "Delete Account":
+        "Удалить аккаунт",
+    "Cloud Backend":
+        "Облачный сервер",
+    "Choose which cloud backend to use for storing your settings. You can switch between Equicord's and Vencord's cloud services, or use a self-hosted instance.":
+        "Где хранить настройки: облако Equicord, облако Vencord или ваш собственный сервер.",
+    "Synchronize your Nightcord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.":
+        "Синхронизация настроек Nightcord через облако, чтобы на всех устройствах было одинаково без ручного импорта и экспорта.",
+    "This setting controls how settings move between":
+        "Как настройки перемещаются между",
+    "this device":
+        "этим устройством",
+    "and the cloud. You can let changes flow both ways, or choose one place to be the main source of truth.":
+        "и облаком: в обе стороны или только из одного главного места.",
+    "Sync to Cloud":
+        "Отправить в облако",
+    "Sync from Cloud":
+        "Загрузить из облака",
+    "Enable cloud integration above to use settings sync features.":
+        "Чтобы синхронизировать настройки, включите облако выше.",
+    "Danger Zone":
+        "Опасная зона",
+    "Permanently delete all your data from the cloud. This action cannot be undone and will remove all synced settings and any other data stored on the cloud backend.":
+        "Навсегда удалить все ваши данные из облака. Это нельзя отменить: пропадут все синхронизированные настройки и другие данные на сервере.",
+    "Delete Cloud Settings":
+        "Удалить настройки из облака",
+    "Reauthorize":
+        "Авторизоваться заново",
+    "Search for a theme...":
+        "Поиск темы...",
+    "Enabled":
+        "Включены",
+    "Disabled":
+        "Выключены",
+    "Theme Management":
+        "Управление темами",
+    "Customize Discord's appearance with themes. Add local .css files or load themes directly from URLs. Themes with a cog wheel icon have customizable settings you can modify.":
+        "Меняйте внешний вид Discord темами: локальными .css-файлами или по ссылке. У тем с шестерёнкой есть свои настройки.",
+    "Shortcuts for managing your themes. Open your themes folder to add new themes, use QuickCSS for quick style tweaks, or reload themes after making changes.":
+        "Быстрые действия: открыть папку тем, подправить стили в QuickCSS или перезагрузить темы после изменений.",
+    "Installed Themes":
+        "Установленные темы",
+    "Manage your themes here. Local themes load from your themes folder, online themes from URLs. Themes with a cog wheel icon have customizable settings.":
+        "Локальные темы грузятся из папки тем, онлайн-темы — по ссылкам. У тем с шестерёнкой есть свои настройки.",
+    "Loading themes...":
+        "Загружаю темы...",
+    "Themes Not Supported":
+        "Темы не поддерживаются",
+    "Themes are not available on the Userscript version.":
+        "В версии-юзерскрипте темы недоступны.",
+    "You can install themes using the":
+        "Темы можно поставить через",
+    "Stylus extension":
+        "расширение Stylus",
+    "Enable Online Themes":
+        "Включить онлайн-темы",
+    "Toggle online theme loading. When disabled, all online themes will be turned off and you won't be able to add new ones.":
+        "Загружать темы по ссылкам. Если выключить, все онлайн-темы отключатся и добавить новые будет нельзя.",
+    "Load themes directly from URLs instead of local files. Online themes auto-update when the source changes, so you always have the latest version without manual downloads.":
+        "Темы по ссылке вместо локальных файлов. Они обновляются сами, когда автор меняет файл.",
+    "Looking for themes? Check out":
+        "Ищете темы? Загляните в",
+    "BetterDiscord Themes":
+        "каталог тем BetterDiscord",
+    "or search on":
+        "или поищите на",
+    ". When downloading from BetterDiscord, click \"Download\" and place the .theme.css file into your themes folder.":
+        ". На сайте BetterDiscord нажмите «Download» и положите файл .theme.css в папку тем.",
+    "Theme activation":
+        "Включение темы",
+    "Open Website":
+        "Открыть сайт",
+    "Join Discord":
+        "Сервер в Discord",
+    "Copy URL":
+        "Скопировать ссылку",
+    "Download":
+        "Скачать",
+    "Open in Folder":
+        "Показать в папке",
+    "Refresh":
+        "Обновить",
+    "Delete":
+        "Удалить",
+    "Pinned":
+        "Закреплена",
+    "Always on":
+        "Всегда",
+    "Light only":
+        "Только светлая",
+    "Dark only":
+        "Только тёмная",
+    "Discord Server":
+        "Сервер в Discord",
+    "Your local copy has more recent commits than the remote repository. This usually happens when you've made local changes. Please stash or reset them before updating.":
+        "В локальной копии есть коммиты новее, чем в репозитории. Обычно так бывает после локальных правок. Спрячьте (stash) или сбросьте их перед обновлением.",
+    "Error checking for updates":
+        "Ошибка при проверке обновлений",
+    "You're running the latest version of Nightcord.":
+        "У вас последняя версия Nightcord.",
+    "When enabled, Nightcord will automatically download and install updates in the background without asking for confirmation. You'll need to restart Discord to apply the changes.":
+        "Nightcord будет сам скачивать и ставить обновления в фоне, не спрашивая. Чтобы применить их, перезапустите Discord.",
+    "Receive a notification when Nightcord finishes downloading an update in the background, so you know when to restart Discord.":
+        "Уведомлять, когда Nightcord скачал обновление, чтобы вы знали, когда перезапустить Discord.",
+    "Update Preferences":
+        "Настройки обновлений",
+    "Control how Nightcord keeps itself up to date. You can choose to update automatically in the background or be notified when new updates are available.":
+        "Как Nightcord обновляется: автоматически в фоне или с уведомлением о новой версии.",
+    "Oops!":
+        "Ой!",
+    "Where to put the Nightcord settings section":
+        "Где показывать раздел настроек Nightcord",
+    "At the very top":
+        "В самом верху",
+    "Above Billing section":
+        "Над разделом оплаты",
+    "Below Billing section":
+        "Под разделом оплаты",
+    "Above Games & Apps Settings":
+        "Над настройками игр и приложений",
+    "Below Games & Apps Settings":
+        "Под настройками игр и приложений",
+    "At the very bottom":
+        "В самом низу",
+
+    "Equicord Cloud": "Облако Equicord",
+    "Vencord Cloud": "Облако Vencord",
+    "Add": "Добавить",
+
     // Notifications
     "Notifications": "Уведомления",
     "Settings for Notifications sent by Nightcord.": "Настройки уведомлений от Nightcord.",

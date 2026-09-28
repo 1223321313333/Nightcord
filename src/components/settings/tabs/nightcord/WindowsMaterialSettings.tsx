@@ -22,7 +22,7 @@ export function WindowsMaterialSettings() {
         <ErrorBoundary noop>
             <Heading tag="h5">{t("Background Material")}</Heading>
             <Paragraph className={Margins.bottom8}>
-                Windows transparent background effects. You need a theme that supports transparency or this will do nothing. A restart is required after changing this setting.
+                {t("Windows transparent background effects. You need a theme that supports transparency or this will do nothing. A restart is required after changing this setting.")}
             </Paragraph>
 
             <Select
@@ -34,15 +34,15 @@ export function WindowsMaterialSettings() {
                         default: true
                     },
                     {
-                        label: "Mica (incorporates system theme + desktop wallpaper to paint the background)",
+                        label: t("Mica (incorporates system theme + desktop wallpaper to paint the background)"),
                         value: "mica"
                     },
                     {
-                        label: "Tabbed (variant of Mica with stronger background tinting)",
+                        label: t("Tabbed (variant of Mica with stronger background tinting)"),
                         value: "tabbed"
                     },
                     {
-                        label: "Acrylic (blurs the window behind Vesktop for a translucent background)",
+                        label: t("Acrylic (blurs the window behind Vesktop for a translucent background)"),
                         value: "acrylic"
                     }
                 ]}

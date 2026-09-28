@@ -64,7 +64,7 @@ export function Newer(props: CommonProps) {
     return (
         <>
             <Paragraph>
-                Your local copy has more recent commits than the remote repository. This usually happens when you've made local changes. Please stash or reset them before updating.
+                {t("Your local copy has more recent commits than the remote repository. This usually happens when you've made local changes. Please stash or reset them before updating.")}
             </Paragraph>
             <Changes {...props} updates={changes} />
         </>
@@ -139,7 +139,7 @@ export function Updatable(props: CommonProps) {
             </Flex>
             {!updates && updateError ? (
                 <>
-                    <Span size="md" weight="medium" color="text-strong">Error checking for updates</Span>
+                    <Span size="md" weight="medium" color="text-strong">{t("Error checking for updates")}</Span>
                     <ErrorCard className={Margins.top8} style={{ padding: "1em" }}>
                         <p>{updateError.stderr || updateError.stdout || "An unknown error occurred"}</p>
                     </ErrorCard>
@@ -153,7 +153,7 @@ export function Updatable(props: CommonProps) {
                 </>
             ) : (
                 <Paragraph>
-                    You're running the latest version of Nightcord.
+                    {t("You're running the latest version of Nightcord.")}
                 </Paragraph>
             )}
         </>

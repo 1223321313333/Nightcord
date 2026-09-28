@@ -99,14 +99,14 @@ interface SettingsLayoutBuilder {
 const settings = definePluginSettings({
     settingsLocation: {
         type: OptionType.SELECT,
-        description: "Where to put the Nightcord settings section",
+        description: t("Where to put the Nightcord settings section"),
         options: [
-            { label: "At the very top", value: "top" },
-            { label: "Above Billing section", value: "aboveNitro", default: true },
-            { label: "Below Billing section", value: "belowNitro" },
-            { label: "Above Games & Apps Settings", value: "aboveActivity" },
-            { label: "Below Games & Apps Settings", value: "belowActivity" },
-            { label: "At the very bottom", value: "bottom" },
+            { label: t("At the very top"), value: "top" },
+            { label: t("Above Billing section"), value: "aboveNitro", default: true },
+            { label: t("Below Billing section"), value: "belowNitro" },
+            { label: t("Above Games & Apps Settings"), value: "aboveActivity" },
+            { label: t("Below Games & Apps Settings"), value: "belowActivity" },
+            { label: t("At the very bottom"), value: "bottom" },
         ] as { label: string; value: SettingsLocation; default?: boolean; }[]
     },
     includeNightcordInfoWhenCopying: {
@@ -219,14 +219,14 @@ export default definePlugin({
             }),
             buildEntry({
                 key: "nightcord_changelog",
-                title: "Changelog",
+                title: t("Changelog"),
                 Component: ChangelogTab,
                 Icon: LogIcon,
             }),
             buildEntry({
                 key: "nightcord_cloud",
                 title: t("Cloud"),
-                panelTitle: t("Nightcord Cloud"),
+                panelTitle: t("Cloud"),
                 Component: CloudTab,
                 Icon: CloudIcon
             }),

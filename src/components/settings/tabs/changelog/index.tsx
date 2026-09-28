@@ -16,6 +16,7 @@ import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { HashLink } from "@components/settings/tabs/updater/Components";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { useAwaiter } from "@utils/react";
 import { getRepo, UpdateLogger } from "@utils/updater";
@@ -171,7 +172,7 @@ function UpdateLogCard({
                     {log.updatedPlugins.length > 0 && (
                         <div className="vc-changelog-log-plugins">
                             <Heading className={Margins.bottom8}>
-                                Updated Plugins
+                                {t("Updated Plugins")}
                             </Heading>
                             <NewPluginsCompact
                                 newPlugins={log.updatedPlugins}
@@ -184,7 +185,7 @@ function UpdateLogCard({
                         getNewSettingsSize(log.newSettings) > 0 && (
                             <div className="vc-changelog-log-plugins">
                                 <Heading className={Margins.bottom8}>
-                                    New Settings
+                                    {t("New Settings")}
                                 </Heading>
                                 <div className="vc-changelog-new-plugins-list">
                                     {getNewSettingsEntries(log.newSettings).map(
@@ -477,9 +478,9 @@ function ChangelogContent() {
 
     return (
         <>
-            <Heading className={Margins.top16}>Fetch Changes</Heading>
+            <Heading className={Margins.top16}>{t("Fetch Changes")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                Check the repository for new commits, plugin updates, and code changes. This will compare your current version with the latest available and show you what's new.
+                {t("Check the repository for new commits, plugin updates, and code changes. This will compare your current version with the latest available and show you what's new.")}
             </Paragraph>
 
             <div className="vc-changelog-controls">
@@ -511,11 +512,11 @@ function ChangelogContent() {
                             variant="dangerPrimary"
                             onClick={() => {
                                 Alerts.show({
-                                    title: "Clear All Logs",
+                                    title: t("Clear All Logs"),
                                     body: "Are you sure you would like to clear all logs? This can't be undone.",
-                                    confirmText: "Clear All",
+                                    confirmText: t("Clear All"),
                                     confirmColor: "danger",
-                                    cancelText: "Cancel",
+                                    cancelText: t("Cancel"),
                                     onConfirm: async () => {
                                         await clearChangelogHistory();
                                         await loadChangelogHistory();
@@ -533,7 +534,7 @@ function ChangelogContent() {
                             }}
                             style={{ marginLeft: "8px" }}
                         >
-                            Clear All Logs
+                            {t("Clear All Logs")}
                         </Button>
                     </>
                 )}
@@ -543,7 +544,7 @@ function ChangelogContent() {
                 <ErrorCard style={{ padding: "1em", marginTop: "1em" }}>
                     <Paragraph>{error}</Paragraph>
                     <Paragraph color="text-subtle" style={{ marginTop: "0.5em" }}>
-                        Make sure you have an internet connection and try again.
+                        {t("Make sure you have an internet connection and try again.")}
                     </Paragraph>
                 </ErrorCard>
             )}
@@ -552,7 +553,7 @@ function ChangelogContent() {
 
             <Heading className={Margins.top20}>Repository</Heading>
             <Paragraph className={Margins.bottom8}>
-                This is the GitHub repository where Nightcord fetches updates from.
+                {t("This is the GitHub repository where Nightcord fetches updates from.")}
             </Paragraph>
             <Paragraph color="text-subtle">
                 {repoPending ? (
@@ -571,9 +572,9 @@ function ChangelogContent() {
                 <>
                     <Divider className={Margins.top20} />
 
-                    <Heading className={Margins.top20}>Recent Changes</Heading>
+                    <Heading className={Margins.top20}>{t("Recent Changes")}</Heading>
                     <Paragraph className={Margins.bottom16}>
-                        These are the new commits and plugin updates since your last version. You can see what features were added, bugs were fixed, and which plugins received updates.
+                        {t("These are the new commits and plugin updates since your last version. You can see what features were added, bugs were fixed, and which plugins received updates.")}
                     </Paragraph>
 
                     {newPlugins.length > 0 && (
@@ -617,9 +618,9 @@ function ChangelogContent() {
             {!hasCurrentChanges && !isLoading && !error && (
                 <>
                     <Divider className={Margins.top20} />
-                    <Heading className={Margins.top20}>Recent Changes</Heading>
+                    <Heading className={Margins.top20}>{t("Recent Changes")}</Heading>
                     <Paragraph color="text-subtle">
-                        No commits available ahead of your current version. Click "Fetch from Repository" to check for new changes.
+                        {t("No commits available ahead of your current version. Click \"Fetch from Repository\" to check for new changes.")}
                     </Paragraph>
                 </>
             )}
@@ -632,7 +633,7 @@ function ChangelogContent() {
                         Update Logs ({changelogHistory.length} {changelogHistory.length === 1 ? "log" : "logs"})
                     </Heading>
                     <Paragraph className={Margins.bottom16}>
-                        A history of your previous update sessions with their commit history and plugin changes. Click on a log to expand it and see the details.
+                        {t("A history of your previous update sessions with their commit history and plugin changes. Click on a log to expand it and see the details.")}
                     </Paragraph>
 
                     <div className="vc-changelog-history-list">
@@ -646,11 +647,11 @@ function ChangelogContent() {
                                 onToggleExpand={() => toggleLogExpanded(log.id)}
                                 onClearLog={logId => {
                                     Alerts.show({
-                                        title: "Clear Log",
+                                        title: t("Clear Log"),
                                         body: "Are you sure you would like to clear this log? This can't be undone.",
-                                        confirmText: "Clear Log",
+                                        confirmText: t("Clear Log"),
                                         confirmColor: "danger",
-                                        cancelText: "Cancel",
+                                        cancelText: t("Cancel"),
                                         onConfirm: async () => {
                                             await clearIndividualLog(logId);
                                             await loadChangelogHistory();
@@ -687,4 +688,4 @@ function ChangelogTab() {
     );
 }
 
-export default wrapTab(ChangelogTab, "Changelog");
+export default wrapTab(ChangelogTab, t("Changelog"));

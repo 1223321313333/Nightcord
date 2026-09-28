@@ -10,6 +10,7 @@ import { Settings } from "@api/Settings";
 import { CogWheel, InfoIcon } from "@components/Icons";
 import { AddonCard } from "@components/settings/AddonCard";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Plugin } from "@utils/types";
 import { React, showToast, Toasts } from "@webpack/common";
@@ -95,31 +96,31 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             condition: isNightcordPlugin,
             src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238b5cf6' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/%3E%3C/svg%3E",
             alt: "Nightcord",
-            title: "Nightcord Plugin"
+            title: t("Nightcord Plugin")
         },
         {
             condition: isModifiedPlugin,
             src: "https://equicord.org/assets/icons/equicord/modified.png",
             alt: "Modified",
-            title: "Modified Vencord Plugin"
+            title: t("Modified Vencord Plugin")
         },
         {
             condition: isEquicordPlugin,
             src: "https://equicord.org/assets/favicon.png",
             alt: "Equicord",
-            title: "Equicord Plugin"
+            title: t("Equicord Plugin")
         },
         {
             condition: isVencordPlugin,
             src: "https://equicord.org/assets/icons/vencord/icon-light.png",
             alt: "Vencord",
-            title: "Vencord Plugin"
+            title: t("Vencord Plugin")
         },
         {
             condition: isUserPlugin,
             src: "https://equicord.org/assets/icons/misc/userplugin.png",
             alt: "User",
-            title: "User Plugin"
+            title: t("User Plugin")
         }
     ];
 

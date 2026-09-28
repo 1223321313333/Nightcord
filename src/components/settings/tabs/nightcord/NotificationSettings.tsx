@@ -62,10 +62,10 @@ function NotificationSettings() {
                 </ErrorCard>
             )}
             <Paragraph className={Margins.bottom8}>
-                Some plugins may show you notifications. These come in two styles:
+                {t("Some plugins may show you notifications. These come in two styles:")}
                 <ul>
-                    <li><strong>Nightcord Notifications</strong>: These are in-app notifications</li>
-                    <li><strong>Desktop Notifications</strong>: Native Desktop notifications (like when you get a ping)</li>
+                    <li><strong>{t("Nightcord Notifications")}</strong>{t(": These are in-app notifications")}</li>
+                    <li><strong>{t("Desktop Notifications")}</strong>{t(": Native Desktop notifications (like when you get a ping)")}</li>
                 </ul>
             </Paragraph>
             <Select
@@ -94,9 +94,9 @@ function NotificationSettings() {
                 serialize={identity}
             />
 
-            <Heading className={Margins.top16 + " " + Margins.bottom8}>Missed Notification Count</Heading>
+            <Heading className={Margins.top16 + " " + Margins.bottom8}>{t("Missed Notification Count")}</Heading>
             <FormSwitch
-                title="When refocusing discord a notification will popup with how you missed"
+                title={t("When refocusing discord a notification will popup with how you missed")}
                 value={settings.missed}
                 onChange={(v: boolean) => settings.missed = v}
             />

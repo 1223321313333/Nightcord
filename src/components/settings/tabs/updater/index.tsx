@@ -87,22 +87,22 @@ function Updater() {
     return (
         <SettingsTab>
             <EquibopSection />
-            <Heading className={Margins.top16}>Update Preferences</Heading>
+            <Heading className={Margins.top16}>{t("Update Preferences")}</Heading>
             <Paragraph className={Margins.bottom20}>
-                Control how Nightcord keeps itself up to date. You can choose to update automatically in the background or be notified when new updates are available.
+                {t("Control how Nightcord keeps itself up to date. You can choose to update automatically in the background or be notified when new updates are available.")}
             </Paragraph>
 
             <div className="vc-settings-switches">
                 <FormSwitch
                     title={t("Automatically update")}
-                    description="When enabled, Nightcord will automatically download and install updates in the background without asking for confirmation. You'll need to restart Discord to apply the changes."
+                    description={t("When enabled, Nightcord will automatically download and install updates in the background without asking for confirmation. You'll need to restart Discord to apply the changes.")}
                     value={settings.autoUpdate}
                     onChange={(v: boolean) => settings.autoUpdate = v}
                     hideBorder
                 />
                 <FormSwitch
                     title={t("Get notified when an automatic update completes")}
-                    description="Receive a notification when Nightcord finishes downloading an update in the background, so you know when to restart Discord."
+                    description={t("Receive a notification when Nightcord finishes downloading an update in the background, so you know when to restart Discord.")}
                     value={settings.autoUpdateNotification}
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
                     disabled={!settings.autoUpdate}
@@ -114,7 +114,7 @@ function Updater() {
 
             <Heading className={Margins.top20}>Repository</Heading>
             <Paragraph className={Margins.bottom8}>
-                This is the GitHub repository where Nightcord fetches updates from.
+                {t("This is the GitHub repository where Nightcord fetches updates from.")}
             </Paragraph>
             <Paragraph color="text-subtle">
                 {repoPending

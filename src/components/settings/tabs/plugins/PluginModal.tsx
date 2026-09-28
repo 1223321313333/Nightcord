@@ -243,7 +243,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 <Flex flexDirection="column" style={{ width: "100%" }}>
                     <Flex style={{ justifyContent: "space-between", alignItems: "center" }}>
                         {hasSettings ? (
-                            <Tooltip text="Reset to default settings" shouldShow={!isObjectEmpty(pluginSettings)}>
+                            <Tooltip text={t("Reset to default settings")} shouldShow={!isObjectEmpty(pluginSettings)}>
                                 {({ onMouseEnter, onMouseLeave }) => (
                                     <Button
                                         className={cl("disable-warning")}
@@ -253,7 +253,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                         onMouseEnter={onMouseEnter}
                                         onMouseLeave={onMouseLeave}
                                     >
-                                        Reset
+                                        {t("Reset")}
                                     </Button>
                                 )}
                             </Tooltip>
@@ -265,11 +265,11 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                     onClick={() => pluginSettings.isFavorite = !pluginSettings.isFavorite}
                                 />
                                 <WebsiteButton
-                                    text="Website"
+                                    text={t("Website")}
                                     href={isNightcordPlugin ? "https://1223321313333.github.io/Nightcord/#features" : isEquicordPlugin ? `https://equicord.org/plugins/${plugin.name}` : `https://vencord.dev/plugins/${plugin.name}`}
                                 />
                                 <GithubButton
-                                    text="Source Code"
+                                    text={t("Source Code")}
                                     href={`https://github.com/${gitRemote}/tree/main/${pluginMeta.folderName}`}
                                 />
                             </div>
@@ -343,7 +343,7 @@ export function openWarningModal(plugin?: Plugin | null, onRestartNeeded?: (plug
             className={cl("confirm")}
             header={isPlugin ? "Reset Settings" : "Disable Plugins"}
             confirmText={isPlugin ? "Reset" : "Disable All"}
-            cancelText="Cancel"
+            cancelText={t("Cancel")}
             onConfirm={() => {
                 if (isPlugin && plugin) {
                     resetSettings(plugin, onRestartNeeded);
@@ -361,7 +361,7 @@ export function openWarningModal(plugin?: Plugin | null, onRestartNeeded?: (plug
             </Paragraph>
             <div className={classes(Margins.top16, cl("warning"))}>
                 <WarningIcon color="var(--text-feedback-critical)" />
-                <span>This action cannot be undone.</span>
+                <span>{t("This action cannot be undone.")}</span>
             </div>
         </ConfirmModal>
     ));
