@@ -12,6 +12,7 @@ import { reportHealthIssue } from "@utils/health";
 import { makeLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { interpolateIfDefined } from "@utils/misc";
+import { escapeRegExp } from "@utils/text";
 import { Patch, PatchReplacement } from "@utils/types";
 
 import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory } from "./types";
@@ -496,6 +497,36 @@ function runFactoryWithWrap(patchedFactory: PatchedModuleFactory, thisArg: unkno
     return factoryReturn;
 }
 
+let stringFindsFilter: RegExp | null = null;
+let stringFindsInFilter = new Set<string>();
+
+/**
+ * One regex that matches if any string patch find occurs in a module.
+ * Discord has ~15k modules and only a few hundred are patched, so ruling out the rest with a
+ * single scan is several times faster than calling includes() once per patch per module.
+ * Rebuilt whenever a patch with a new string find appears; removed patches can stay in it.
+ */
+function getStringFindsFilter() {
+    let stale = stringFindsFilter == null;
+    if (!stale) {
+        for (const patch of patches) {
+            if (typeof patch.find === "string" && !stringFindsInFilter.has(patch.find)) {
+                stale = true;
+                break;
+            }
+        }
+    }
+
+    if (stale) {
+        stringFindsInFilter = new Set(patches.flatMap(p => typeof p.find === "string" ? [p.find] : []));
+        stringFindsFilter = stringFindsInFilter.size
+            ? new RegExp(Array.from(stringFindsInFilter, escapeRegExp).join("|"))
+            : null;
+    }
+
+    return stringFindsFilter;
+}
+
 /**
  * Patches a module factory.
  *
@@ -506,6 +537,8 @@ function runFactoryWithWrap(patchedFactory: PatchedModuleFactory, thisArg: unkno
 function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory): PatchedModuleFactory {
     const originalFactoryCode = String(originalFactory);
     const isArrowFunction = originalFactoryCode.startsWith("(");
+    // false means no string find occurs anywhere in this module, so every string patch can be skipped
+    const mayMatchStringFind = getStringFindsFilter()?.test(originalFactoryCode) ?? false;
 
     // 0, prefix to turn it into an expression: 0,function(){} would be invalid syntax without the 0,
     let patchedCode = "0," + (!isArrowFunction ? "function" : "") + originalFactoryCode.slice(originalFactoryCode.indexOf("("));
@@ -529,7 +562,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
         }
 
         const moduleMatches = typeof patch.find === "string"
-            ? originalFactoryCode.includes(patch.find)
+            ? mayMatchStringFind && originalFactoryCode.includes(patch.find)
             : (patch.find.global && (patch.find.lastIndex = 0), patch.find.test(originalFactoryCode));
 
         if (!moduleMatches) {
