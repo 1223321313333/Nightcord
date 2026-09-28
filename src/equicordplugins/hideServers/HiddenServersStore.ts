@@ -5,7 +5,7 @@
  */
 
 import * as DataStore from "@api/DataStore";
-import { Guild } from "@vencord/discord-types";
+import { Guild } from "@nightcord/discord-types";
 import { proxyLazyWebpack } from "@webpack";
 import { Flux, FluxDispatcher, GuildStore, SortedGuildStore } from "@webpack/common";
 

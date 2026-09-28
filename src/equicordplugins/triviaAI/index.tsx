@@ -6,9 +6,9 @@
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { RobotIcon } from "@components/Icons";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { ChannelStore, Menu } from "@webpack/common";
 
 import { settings } from "./settings";
@@ -42,7 +42,7 @@ export default definePlugin({
     description: "A plugin that helps you answer trivia questions using AI.",
     dependencies: ["MessagePopoverAPI"],
     tags: ["Appearance", "Customisation", "Fun"],
-    authors: [EquicordDevs.yash],
+    authors: [NightcordDevs.yash],
     settings,
     contextMenus: {
         "message": messageCtxPatch

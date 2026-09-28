@@ -34,7 +34,7 @@ export const serviceMap: Record<string, string> = {
     equicord: "Equicord"
 };
 
-const blockedMods = ["vencord", "equicord"];
+const blockedMods = ["vencord", "equicord", "nightcord"];
 
 export async function loadBadges() {
     const url = settings.store.apiUrl.endsWith("/") ? settings.store.apiUrl + "users" : settings.store.apiUrl + "/users";

@@ -8,7 +8,7 @@ import { playAudio } from "@api/AudioPlayer";
 import { showNotification } from "@api/Notifications";
 import { sleep } from "@utils/misc";
 import type { PluginNative } from "@utils/types";
-import type { Quest } from "@vencord/discord-types";
+import type { Quest } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { QuestStore, RestAPI } from "@webpack/common";
 import { NavigationRouter } from "@webpack/common/utils";
@@ -19,7 +19,7 @@ import { getNewQuests, normalizeQuestName, type QuestIncludedTypes, questMatches
 import { QL } from "./logging";
 import { QUEST_PAGE } from "./ui";
 
-const QuestifyNative = VencordNative?.pluginHelpers?.Questify as PluginNative<typeof import("../native")> | undefined;
+const QuestifyNative = NightcordNative?.pluginHelpers?.Questify as PluginNative<typeof import("../native")> | undefined;
 
 export function snakeToCamel(obj: any): any {
     if (Array.isArray(obj)) {

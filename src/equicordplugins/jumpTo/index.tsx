@@ -7,7 +7,7 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel, Message, User } from "@vencord/discord-types";
+import { Channel, Message, User } from "@nightcord/discord-types";
 import { ChannelStore, Constants, Menu, NavigationRouter, RestAPI, SelectedChannelStore, SelectedGuildStore, Toasts } from "@webpack/common";
 
 function jumpToFirstMessage(channelId: string, guildId?: string | null) {

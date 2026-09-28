@@ -27,7 +27,7 @@ import { classNameFactory } from "@utils/css";
 import { getTheme, insertTextIntoChatInputBox, Theme } from "@utils/discord";
 import { Margins } from "@utils/margins";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, openModal, Parser, Select, useMemo, useState } from "@webpack/common";
 
 const settings = definePluginSettings({

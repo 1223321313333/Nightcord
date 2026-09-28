@@ -10,7 +10,7 @@ import { proxyLazy } from "@utils/lazy";
 import { Queue } from "@utils/Queue";
 import { useForceUpdater } from "@utils/react";
 import { PluginNative } from "@utils/types";
-import { Channel, MessageAttachment } from "@vencord/discord-types";
+import { Channel, MessageAttachment } from "@nightcord/discord-types";
 import { findByCodeLazy, findByPropsLazy } from "@webpack";
 import { Constants, createRoot, DraftType, FluxDispatcher, Humanize, MessageActions, PendingReplyStore, PermissionStore, ReactDOM, RestAPI, Toasts, UploadAttachmentStore, UploadHandler, UploadManager, useCallback, useEffect, useRef, UserSettingsActionCreators, UserSettingsProtoStore, useStateFromStores } from "@webpack/common";
 import { deflateSync, inflateSync } from "fflate";
@@ -21,7 +21,7 @@ import { settings } from ".";
 import { StaticFilePickerItem } from "./components";
 import { AttachmentTransformer, CustomItemDef, CustomItemFormat, FavouriteItem, FavouriteItemFormat, ImageUtils as ImageUtils_, ItemsDef, ResizeObserverHook, UnfurledEmbedsResponse } from "./types";
 
-const Native = VencordNative.pluginHelpers.FavouriteAnything as PluginNative<typeof import("./native")>;
+const Native = NightcordNative.pluginHelpers.FavouriteAnything as PluginNative<typeof import("./native")>;
 
 export const cl = classNameFactory("vc-favouriteAnything-");
 

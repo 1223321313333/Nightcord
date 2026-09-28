@@ -22,18 +22,18 @@ import UserpluginInstallButton from "./components/UserpluginInstallButton";
 import { VariableWithCallbacks } from "./VariableWithCallbacks";
 
 // @ts-ignore
-export const Native = VencordNative.pluginHelpers.UserpluginInstaller as PluginNative<typeof import("./native")>;
+export const Native = NightcordNative.pluginHelpers.UserpluginInstaller as PluginNative<typeof import("./native")>;
 export const OpenSettingsModule = findByPropsLazy("openUserSettings");
 const AppsIcon = findComponentByCodeLazy("2.95H20a2 2 0");
 
 export const settings = definePluginSettings({
     allowlistedChannels: {
         type: OptionType.STRING,
-        description: "Comma separated list of channels where the Install Plugin button should be displayed. It is always displayed in the Vencord Userplugin channels"
+        description: "Comma separated list of channels where the Install Plugin button should be displayed. It is always displayed in the Nightcord Userplugin channels"
     },
     notifyIfUpdate: {
         type: OptionType.BOOLEAN,
-        description: "Show a Vencord notification if UserPlugins need to be updated",
+        description: "Show a Nightcord notification if UserPlugins need to be updated",
         default: true
     },
     neverNotifyForPlugins: {
@@ -57,7 +57,7 @@ export default definePlugin({
     tags: ["Developers"],
     settingsAboutComponent: () => (
         <Notice.Warning>
-            Equicord does not moderate userplugins and takes no responsibility for anything that may result from installing them.
+            Nightcord does not moderate userplugins and takes no responsibility for anything that may result from installing them.
             Only install userplugins from developers you trust. Doing so is entirely at your own risk.
         </Notice.Warning>
     ),
@@ -79,14 +79,14 @@ export default definePlugin({
         });
     },
     section: {
-        key: "vencord_userplugins",
+        key: "nightcord_userplugins",
         title: "UserPlugins",
         panelTitle: "UserPlugins",
         Component: SettingsTab,
         Icon: AppsIcon
     },
     async start() {
-        if (!VencordNative.pluginHelpers.UserpluginInstaller) return void Alerts.show({
+        if (!NightcordNative.pluginHelpers.UserpluginInstaller) return void Alerts.show({
             title: "UserpluginInstaller not fully loaded",
             body: "You need to restart to allow the native to be loaded :)",
             confirmText: "Restart now",
@@ -112,7 +112,7 @@ export default definePlugin({
                     noPersist: true,
                     permanent: true,
                     onClick() {
-                        OpenSettingsModule.openUserSettings("vencord_userplugins_panel");
+                        OpenSettingsModule.openUserSettings("nightcord_userplugins_panel");
                     },
                 });
         });

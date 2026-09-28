@@ -6,7 +6,7 @@
 
 import { Logger } from "@utils/Logger";
 import { canonicalizeMatch } from "@utils/patches";
-import { ModuleFactory } from "@vencord/discord-types/webpack";
+import { ModuleFactory } from "@nightcord/discord-types/webpack";
 import * as Webpack from "@webpack";
 import { wreq } from "@webpack";
 import { AnyModuleFactory } from "@webpack/types";

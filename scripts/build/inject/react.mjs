@@ -16,6 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-export const VencordFragment = /* #__PURE__*/ Symbol.for("react.fragment");
-export let VencordCreateElement =
-    (...args) => (VencordCreateElement = Vencord.Webpack.Common.React.createElement)(...args);
+export const NightcordFragment = /* #__PURE__*/ Symbol.for("react.fragment");
+export let NightcordCreateElement =
+    (...args) => (NightcordCreateElement = Nightcord.Webpack.Common.React.createElement)(...args);

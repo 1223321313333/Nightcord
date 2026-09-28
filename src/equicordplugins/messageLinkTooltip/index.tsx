@@ -11,7 +11,7 @@ import { getUserSettingLazy } from "@api/UserSettings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { ChannelStore, Constants, MessageStore, RestAPI, Tooltip, useEffect, useState, useStateFromStores } from "@webpack/common";
 import type { ComponentType } from "react";

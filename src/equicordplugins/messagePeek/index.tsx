@@ -12,12 +12,12 @@ import { definePluginSettings } from "@api/Settings";
 import { AttachmentIcon, GifIcon, ImageIcon, Microphone, StickerIcon, VideoIcon } from "@components/Icons";
 import betterActivities from "@equicordplugins/betterActivities";
 import showMeYourName from "@plugins/showMeYourName";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { classes, pluralize } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Activity, ApplicationStream, Channel, Message, OnlineStatus, User } from "@vencord/discord-types";
-import { MessageFlags } from "@vencord/discord-types/enums";
+import { Activity, ApplicationStream, Channel, Message, OnlineStatus, User } from "@nightcord/discord-types";
+import { MessageFlags } from "@nightcord/discord-types/enums";
 import { findByCodeLazy, findByPropsLazy, findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { ChannelStore, ExperimentStore, MessageStore, Parser, RelationshipStore, SnowflakeUtils, UserGuildSettingsStore, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -240,7 +240,7 @@ export default definePlugin({
     description: "Shows the last message preview and timestamp in the Direct Messages list.",
     dependencies: ["MemberListDecoratorsAPI"],
     tags: ["Appearance", "Chat"],
-    authors: [Devs.prism, EquicordDevs.justjxke],
+    authors: [Devs.prism, NightcordDevs.justjxke],
     settings,
     patches: [
         {

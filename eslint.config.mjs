@@ -13,7 +13,7 @@ import unusedImports from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-    { ignores: ["dist", "browser", "packages/vencord-types", "misc/bundle", "misc/scripts"] },
+    { ignores: ["dist", "browser", "packages/nightcord-types", "misc/bundle", "misc/scripts"] },
     {
         files: ["src/**/*.{tsx,ts,mts,mjs,js,jsx}", "eslint.config.mjs"],
         settings: {
@@ -59,7 +59,7 @@ export default defineConfig(
         },
         rules: {
             /*
-             * Since it's only been a month and Vencord has already been stolen
+             * Since it's only been a month and Nightcord has already been stolen
              * by random skids who rebranded it to "AlphaCord" and erased all license
              * information
              */

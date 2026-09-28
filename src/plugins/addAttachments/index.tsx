@@ -9,8 +9,8 @@ import { UploadIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import { pluralize } from "@utils/misc";
 import definePlugin from "@utils/types";
-import { Message } from "@vencord/discord-types";
-import { MessageFlags, MessageType } from "@vencord/discord-types/enums";
+import { Message } from "@nightcord/discord-types";
+import { MessageFlags, MessageType } from "@nightcord/discord-types/enums";
 import { findByPropsLazy } from "@webpack";
 import { AuthenticationStore, ChannelStore, EditMessageStore, MessageStore, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, Toasts } from "@webpack/common";
 

@@ -9,12 +9,12 @@ import "./styles.css";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { EyeIcon } from "@components/Icons";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentGuild } from "@utils/discord";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { ChannelStore, ContextMenuApi, GuildMemberStore, GuildRoleStore, Menu, Tooltip, useStateFromStores } from "@webpack/common";
 import type React from "react";
 
@@ -137,7 +137,7 @@ export default definePlugin({
     name: "ShowRolesInChat",
     description: "Shows a user's highest role next to their name in chat messages. Hide/show specific roles in their context menu (right-click).",
     tags: ["Appearance", "Chat", "Roles", "Servers"],
-    authors: [EquicordDevs.lucabeyer],
+    authors: [NightcordDevs.lucabeyer],
     settings,
     contextMenus: {
         "dev-context"(children, { id }: { id: string; }) {

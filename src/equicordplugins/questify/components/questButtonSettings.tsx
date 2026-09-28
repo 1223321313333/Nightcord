@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { QuestRewardType, QuestTaskType } from "@vencord/discord-types/enums";
+import { QuestRewardType, QuestTaskType } from "@nightcord/discord-types/enums";
 import type { JSX } from "react";
 
 import { enabledOnStartup } from "..";

@@ -8,7 +8,7 @@ import { LazyComponent } from "@utils/lazyReact";
 import { Slider } from "@webpack/common";
 
 export const SeekBar = LazyComponent(() => {
-    const SliderClass = Slider.$$vencordGetWrappedComponent();
+    const SliderClass = Slider.$$nightcordGetWrappedComponent();
 
     // Discord's Slider does not update `state.value` when `props.initialValue` changes if state.value is not nullish.
     // We extend their class and override their `getDerivedStateFromProps` to update the value

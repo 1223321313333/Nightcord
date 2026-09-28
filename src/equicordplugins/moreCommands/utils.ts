@@ -6,7 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { OptionType } from "@utils/types";
-import { CommandArgument, CommandContext } from "@vencord/discord-types";
+import { CommandArgument, CommandContext } from "@nightcord/discord-types";
 import { DraftType, UploadAttachmentStore, UploadManager, UserSettingsActionCreators } from "@webpack/common";
 
 export const settings = definePluginSettings({

@@ -5,7 +5,7 @@
  */
 
 import { copyToClipboard } from "@utils/clipboard";
-import type { Quest } from "@vencord/discord-types";
+import type { Quest } from "@nightcord/discord-types";
 import { Menu } from "@webpack/common";
 import type { ReactNode } from "react";
 

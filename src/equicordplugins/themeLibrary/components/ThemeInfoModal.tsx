@@ -19,7 +19,7 @@ import { Button, Modal, openModal, Parser, React, showToast, Toasts } from "@web
 
 import { logger } from "./ThemeTab";
 
-const Native = VencordNative.pluginHelpers.ThemeLibrary as PluginNative<typeof import("../native")>;
+const Native = NightcordNative.pluginHelpers.ThemeLibrary as PluginNative<typeof import("../native")>;
 const UserSummaryItem = findComponentByCodeLazy("defaultRenderUser", "showDefaultAvatarsForNullUsers");
 
 async function downloadTheme(theme: Theme) {
@@ -143,7 +143,7 @@ export const ThemeInfoModal: React.FC<ThemeInfoModalProps> = ({ author, theme, .
                                 You can support the author by donating below!
                             </Paragraph>
                             <Paragraph style={{ marginTop: "10px" }}>
-                                <Button onClick={() => VencordNative.native.openExternal(donate)}>
+                                <Button onClick={() => NightcordNative.native.openExternal(donate)}>
                                     <Heart />
                                     Donate
                                 </Button>

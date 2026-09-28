@@ -8,7 +8,7 @@ import { set } from "@api/DataStore";
 import { HeadingSecondary } from "@components/Heading";
 import { classNameFactory } from "@utils/css";
 import { Margins } from "@utils/margins";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { ColorPicker, Modal, React, useState } from "@webpack/common";
 
 import { colors, DATASTORE_KEY } from "./index";

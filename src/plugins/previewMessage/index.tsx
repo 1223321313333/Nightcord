@@ -21,7 +21,7 @@ import { generateId, sendBotMessage } from "@api/Commands";
 import { EyeIcon } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import definePlugin, { IconComponent, StartAt } from "@utils/types";
-import { CloudUpload, MessageAttachment } from "@vencord/discord-types";
+import { CloudUpload, MessageAttachment } from "@nightcord/discord-types";
 import { DraftStore, DraftType, UploadAttachmentStore, UserStore, useStateFromStores } from "@webpack/common";
 
 const objectURLMap = new Map<string, string[]>();

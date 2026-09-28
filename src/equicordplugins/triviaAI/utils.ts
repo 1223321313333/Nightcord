@@ -7,7 +7,7 @@
 import { sendBotMessage } from "@api/Commands";
 import { insertTextIntoChatInputBox, sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { MessageStore, showToast, Toasts, UserStore } from "@webpack/common";
 
 import { settings } from "./settings";

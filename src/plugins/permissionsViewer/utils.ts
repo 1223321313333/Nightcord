@@ -17,8 +17,8 @@
 */
 
 import { classNameFactory } from "@utils/css";
-import { Guild, GuildMember, Role } from "@vencord/discord-types";
-import { PermissionOverwriteType } from "@vencord/discord-types/enums";
+import { Guild, GuildMember, Role } from "@nightcord/discord-types";
+import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { extractAndLoadChunksLazy, findByPropsLazy } from "@webpack";
 import { GuildRoleStore } from "@webpack/common";
 

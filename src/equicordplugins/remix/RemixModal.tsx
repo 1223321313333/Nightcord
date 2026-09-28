@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, React } from "@webpack/common";
 
 import { sendRemix } from ".";

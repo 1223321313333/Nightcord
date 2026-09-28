@@ -11,10 +11,10 @@ import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings, migratePluginToSettings, Settings } from "@api/Settings";
 import { ShieldIcon, WarningIcon } from "@components/Icons";
 import customRPC from "@plugins/customRPC";
-import { Devs, EquicordDevs, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
+import { Devs, NightcordDevs, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
 import { isAnyPluginDev } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { StandingState } from "@vencord/discord-types/enums";
+import { StandingState } from "@nightcord/discord-types/enums";
 import { findByCodeLazy } from "@webpack";
 import { Alerts, ApplicationCommandIndexStore, NavigationRouter, React, SafetyHubStore, SettingsRouter, UserGuildSettingsStore, UserStore, useStateFromStores, VoiceStateStore } from "@webpack/common";
 import { ComponentType } from "react";
@@ -22,9 +22,9 @@ import { ComponentType } from "react";
 import { PluginButtons } from "./pluginButtons";
 import { PluginCards } from "./pluginCards";
 
-migratePluginToSettings(true, "EquicordHelper", "NoBulletPoints", "noBulletPoints");
-migratePluginToSettings(true, "EquicordHelper", "NoModalAnimation", "noModalAnimation");
-migratePluginToSettings(true, "EquicordHelper", "GuildTagSettings", "disableAdoptTagPrompt");
+migratePluginToSettings(true, "NightcordHelper", "NoBulletPoints", "noBulletPoints");
+migratePluginToSettings(true, "NightcordHelper", "NoModalAnimation", "noModalAnimation");
+migratePluginToSettings(true, "NightcordHelper", "GuildTagSettings", "disableAdoptTagPrompt");
 
 let clicked = false;
 
@@ -147,22 +147,22 @@ const settings = definePluginSettings({
 });
 
 export default definePlugin({
-    name: "EquicordHelper",
+    name: "NightcordHelper",
     description: "Used to provide support, fix discord caused crashes, and other misc features.",
     tags: ["Appearance", "Commands", "Utility"],
     dependencies: ["CommandsAPI", "HeaderBarAPI", "MessageAccessoriesAPI"],
     authors: [
         Devs.thororen,
-        EquicordDevs.nyx,
-        EquicordDevs.Naibuu,
-        EquicordDevs.keircn,
-        EquicordDevs.SerStars,
-        EquicordDevs.mart,
-        EquicordDevs.omaw,
+        NightcordDevs.nyx,
+        NightcordDevs.Naibuu,
+        NightcordDevs.keircn,
+        NightcordDevs.SerStars,
+        NightcordDevs.mart,
+        NightcordDevs.omaw,
         Devs.Samwich,
         Devs.AutumnVN,
-        EquicordDevs.auggeeo,
-        EquicordDevs.secp192k1
+        NightcordDevs.auggeeo,
+        NightcordDevs.secp192k1
     ],
     required: true,
     settings,
@@ -401,7 +401,7 @@ export default definePlugin({
             if (VC_SUPPORT_CHANNEL_IDS.includes(channelId) && !clicked) {
                 return Alerts.show({
                     title: "Vencord Support Channel Warning",
-                    body: "Before asking for help. Check updates and if this issue is actually caused by Equicord!",
+                    body: "Before asking for help. Check updates and if this issue is actually caused by Nightcord!",
                     confirmText: "Equicord Support",
                     onConfirm() {
                         NavigationRouter.transitionTo(`/channels/${GUILD_ID}/${SUPPORT_CHANNEL_ID}`);

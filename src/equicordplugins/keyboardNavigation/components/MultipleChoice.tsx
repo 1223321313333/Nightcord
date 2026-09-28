@@ -8,7 +8,7 @@ import "./style.css";
 
 import { ButtonAction } from "@equicordplugins/keyboardNavigation/commands";
 import { classNameFactory } from "@utils/css";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { closeAllModals, Modal,openModal, React, TextInput, useEffect, useState } from "@webpack/common";
 
 import { settings } from "..";

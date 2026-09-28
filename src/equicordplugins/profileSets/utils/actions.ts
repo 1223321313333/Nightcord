@@ -5,7 +5,7 @@
  */
 
 import { isNonNullish } from "@utils/guards";
-import { ProfilePreset } from "@vencord/discord-types";
+import { ProfilePreset } from "@nightcord/discord-types";
 import { showToast, Toasts, UserProfileSettingsStore } from "@webpack/common";
 
 import { getCurrentProfile } from "./profile";

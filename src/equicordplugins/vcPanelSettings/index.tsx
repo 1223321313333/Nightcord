@@ -13,7 +13,7 @@ import { Link } from "@components/Link";
 import { Devs } from "@utils/constants";
 import { identity } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { VideoDevice } from "@vencord/discord-types";
+import { VideoDevice } from "@nightcord/discord-types";
 import { FluxDispatcher, MediaEngineStore, Select, Slider, useEffect, useState } from "@webpack/common";
 
 const settings = definePluginSettings({

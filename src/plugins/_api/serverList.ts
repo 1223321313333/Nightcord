@@ -28,7 +28,7 @@ export default definePlugin({
             find: "#{intl::DISCODO_DISABLED}",
             replacement: {
                 match: /(?<=#{intl::DISCODO_DISABLED}.+?return)(\(.{0,150}?tutorialId:"friends-list".+?}\))(?=}function)/,
-                replace: "[$1].concat(Vencord.Api.ServerList.renderAll(Vencord.Api.ServerList.ServerListRenderPosition.Above))"
+                replace: "[$1].concat(Nightcord.Api.ServerList.renderAll(Nightcord.Api.ServerList.ServerListRenderPosition.Above))"
             }
         },
         {
@@ -36,11 +36,11 @@ export default definePlugin({
             replacement: [
                 {
                     match: /(?<=#{intl::SERVERS}\),gap:"xs",children:)\i\.map\(.{0,50}\.length\)/,
-                    replace: "Vencord.Api.ServerList.renderAll(Vencord.Api.ServerList.ServerListRenderPosition.In).concat($&)"
+                    replace: "Nightcord.Api.ServerList.renderAll(Nightcord.Api.ServerList.ServerListRenderPosition.In).concat($&)"
                 },
                 {
                     match: /lastTargetNode.{0,25}\?null:\i,/,
-                    replace: "$&...Vencord.Api.ServerList.renderAll(Vencord.Api.ServerList.ServerListRenderPosition.Below),"
+                    replace: "$&...Nightcord.Api.ServerList.renderAll(Nightcord.Api.ServerList.ServerListRenderPosition.Below),"
                 }
             ]
         }

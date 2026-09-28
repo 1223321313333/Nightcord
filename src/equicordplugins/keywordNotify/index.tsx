@@ -11,11 +11,11 @@ import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { DoubleCheckmarkIcon } from "@components/Icons";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, ScrollerBaseRef } from "@vencord/discord-types";
+import { Message, ScrollerBaseRef } from "@nightcord/discord-types";
 import { findByCodeLazy, findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import {
     ChannelStore,
@@ -154,7 +154,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "KeywordNotify",
-    authors: [EquicordDevs.camila314, EquicordDevs.x3rt, EquicordDevs.benjas333],
+    authors: [NightcordDevs.camila314, NightcordDevs.x3rt, NightcordDevs.benjas333],
     description: "Sends a notification if a given message matches certain keywords or regexes",
     settings,
     keywordTabId: KEYWORD_TAB_ID,

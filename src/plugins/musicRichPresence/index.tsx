@@ -24,8 +24,8 @@ import { Margins } from "@components/margins";
 import { Paragraph } from "@components/Paragraph";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Activity, ActivityAssets, ActivityButton } from "@vencord/discord-types";
-import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "@vencord/discord-types/enums";
+import { Activity, ActivityAssets, ActivityButton } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "@nightcord/discord-types/enums";
 import { ApplicationAssetUtils, AuthenticationStore, FluxDispatcher, PresenceStore } from "@webpack/common";
 
 import { LastFMScrobbler } from "./lastfm";

@@ -5,7 +5,7 @@
  */
 
 import { IpcEvents } from "@shared/IpcEvents";
-import { gitHashShort } from "@shared/vencordUserAgent";
+import { gitHashShort } from "@shared/nightcordUserAgent";
 import { BrowserWindow, ipcMain, Menu, MenuItemConstructorOptions, shell } from "electron";
 import aboutHtml from "file://about.html?minify";
 
@@ -91,21 +91,21 @@ function openAboutWindow() {
     });
 }
 
-function createEquicordMenuItems(): MenuItemConstructorOptions[] {
+function createNightcordMenuItems(): MenuItemConstructorOptions[] {
     return [
         {
-            label: "Equicord",
+            label: "Nightcord",
             submenu: [
                 {
-                    label: "About Equicord",
+                    label: "About Nightcord",
                     click: () => openAboutWindow()
                 },
                 {
-                    label: cachedUpdateAvailable ? "Update Equicord" : "Check for Updates",
+                    label: cachedUpdateAvailable ? "Update Nightcord" : "Check for Updates",
                     click: () => sendToRenderer(IpcEvents.TRAY_CHECK_UPDATES)
                 },
                 {
-                    label: "Repair Equicord",
+                    label: "Repair Nightcord",
                     click: () => sendToRenderer(IpcEvents.TRAY_REPAIR)
                 },
                 { type: "separator" },
@@ -127,11 +127,11 @@ export function patchTrayMenu(): void {
     const originalBuildFromTemplate = Menu.buildFromTemplate;
 
     Menu.buildFromTemplate = function (template: MenuItemConstructorOptions[]) {
-        const alreadyPatched = template.some(item => item.label === "Equicord");
+        const alreadyPatched = template.some(item => item.label === "Nightcord");
         if (isTrayMenu(template) && !alreadyPatched) {
             const insertIndex = findInsertIndex(template);
-            const equicordItems = createEquicordMenuItems();
-            template.splice(insertIndex, 0, ...equicordItems);
+            const nightcordItems = createNightcordMenuItems();
+            template.splice(insertIndex, 0, ...nightcordItems);
         }
 
         return originalBuildFromTemplate.call(this, template);

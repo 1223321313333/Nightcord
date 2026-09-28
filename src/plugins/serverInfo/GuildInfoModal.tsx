@@ -11,7 +11,7 @@ import { classNameFactory } from "@utils/css";
 import { getGuildAcronym, openImageModal, openUserProfile } from "@utils/discord";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
-import { Guild, RenderModalProps, User } from "@vencord/discord-types";
+import { Guild, RenderModalProps, User } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { FluxDispatcher, Forms, GuildChannelStore, GuildMemberStore, GuildRoleStore, GuildStore, IconUtils, Modal, openModal, Parser, PresenceStore, RelationshipStore, ScrollerThin, SnowflakeUtils, TabBar, Timestamp, useEffect, UserStore, UserUtils, useState, useStateFromStores } from "@webpack/common";
 

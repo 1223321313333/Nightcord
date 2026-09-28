@@ -5,7 +5,7 @@
  */
 
 import { Logger } from "@utils/Logger";
-import { Activity } from "@vencord/discord-types";
+import { Activity } from "@nightcord/discord-types";
 import { ApplicationAssetUtils, FluxDispatcher, showToast } from "@webpack/common";
 
 import { settings } from "../settings";

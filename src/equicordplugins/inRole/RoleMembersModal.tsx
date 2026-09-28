@@ -7,7 +7,7 @@
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Paragraph } from "@components/Paragraph";
 import { classNameFactory } from "@utils/css";
-import { GuildMember, RenderModalProps } from "@vencord/discord-types";
+import { GuildMember, RenderModalProps } from "@nightcord/discord-types";
 import { Modal,openModal, Parser, React } from "@webpack/common";
 
 const cl = classNameFactory("vc-inrole-");

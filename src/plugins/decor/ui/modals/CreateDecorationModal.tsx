@@ -15,7 +15,7 @@ import { cl, DecorationModalClasses, requireAvatarDecorationModal, requireCreate
 import { AvatarDecorationModalPreview } from "@plugins/decor/ui/components";
 import { openInviteModal } from "@utils/discord";
 import { Margins } from "@utils/margins";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { filters, findComponentByCodeLazy, mapMangledModuleLazy } from "@webpack";
 import { closeAllModals, FluxDispatcher, GuildStore, Modal, NavigationRouter, openModal, TextInput, useEffect, useMemo, UserStore, useState } from "@webpack/common";
 

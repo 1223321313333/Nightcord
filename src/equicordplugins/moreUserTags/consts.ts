@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Channel, Guild, Message, RC, User } from "@vencord/discord-types";
+import { Channel, Guild, Message, RC, User } from "@nightcord/discord-types";
 import { findByCodeLazy, findLazy } from "@webpack";
 import { GuildStore } from "@webpack/common";
 

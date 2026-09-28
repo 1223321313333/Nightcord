@@ -13,7 +13,7 @@ import { Devs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import { canonicalizeMatch } from "@utils/patches";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { findComponentLazy } from "@webpack";
 import { ChannelStore, GuildMemberStore, Tooltip } from "@webpack/common";
 import { ReactNode } from "react";

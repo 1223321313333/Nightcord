@@ -17,7 +17,7 @@
 */
 
 import { classNameFactory } from "@utils/css";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { useState } from "@webpack/common";
 
 export const conversions = new Map<string, (conv: string) => void>();

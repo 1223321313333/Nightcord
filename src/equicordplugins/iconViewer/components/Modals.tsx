@@ -13,7 +13,7 @@ import { TooltipContainer } from "@components/TooltipContainer";
 import { copyWithToast, getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { saveFile } from "@utils/web";
-import { Icon, RenderModalProps } from "@vencord/discord-types";
+import { Icon, RenderModalProps } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import {
     Clickable,

@@ -150,7 +150,7 @@ const DefaultSettings: Settings = {
     ignoreResetWarning: false,
 };
 
-const settings = !IS_REPORTER ? VencordNative.settings.get() : {} as Settings;
+const settings = !IS_REPORTER ? NightcordNative.settings.get() : {} as Settings;
 mergeDefaults(settings, DefaultSettings);
 
 export const SettingsStore = new SettingsStoreClass(settings, {
@@ -195,7 +195,7 @@ export const SettingsStore = new SettingsStoreClass(settings, {
 if (!IS_REPORTER) {
     SettingsStore.addGlobalChangeListener((_, path) => {
         SettingsStore.plain.cloud.settingsSyncVersion = Date.now();
-        VencordNative.settings.set(SettingsStore.plain, path);
+        NightcordNative.settings.set(SettingsStore.plain, path);
     });
 }
 

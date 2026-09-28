@@ -10,9 +10,9 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import * as DataStore from "@api/DataStore";
 import { definePluginSettings, migratePluginSetting } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, User } from "@vencord/discord-types";
+import { Message, User } from "@nightcord/discord-types";
 import { findByPropsLazy, findCssClassesLazy } from "@webpack";
 import { Button, ChannelStore, Menu, openModal, showToast, Toasts, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
 
@@ -20,7 +20,7 @@ import { deleteTimezone, getTimezone, loadDatabaseTimezones, setUserDatabaseTime
 import { SetTimezoneModal } from "./TimezoneModal";
 
 export let timezones: Record<string, string | null> = {};
-export const DATASTORE_KEY = "vencord-timezones";
+export const DATASTORE_KEY = "nightcord-timezones";
 
 export function resolveUserTimezone(userId: string): string | null {
     const localTimezone = timezones[userId];
@@ -270,7 +270,7 @@ migratePluginSetting("Timezones", "showOwnTimezone", "Show Own Timezone");
 migratePluginSetting("Timezones", "twentyFourHourFormat", "24h Time");
 export default definePlugin({
     name: "Timezones",
-    authors: [Devs.Aria, EquicordDevs.creations],
+    authors: [Devs.Aria, NightcordDevs.creations],
     description: "Shows the local time of users in profiles and message headers",
     tags: ["Appearance", "Chat", "Utility"],
     contextMenus: {

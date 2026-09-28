@@ -5,7 +5,7 @@
  */
 
 import { classes } from "@utils/misc";
-import { Channel, RenderModalProps } from "@vencord/discord-types";
+import { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { AccessibilityStore, Modal, openModal, React, ScrollerThin } from "@webpack/common";
 
 import { clearLogs, getVcLogs, vcLogSubscribe } from "../logs";

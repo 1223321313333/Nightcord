@@ -17,10 +17,10 @@
 */
 
 import { loadLazyChunks } from "@debug/loadLazyChunks";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { ChannelStore, GuildMemberStore, IconUtils } from "@webpack/common";
 
-import { EQUICORD_HELPERS, EquicordDevsById, GUILD_ID, KNOWN_ISSUES_CHANNEL_ID, KNOWN_ISSUES_CHANNEL_IDS, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VencordDevsById } from "./constants";
+import { NIGHTCORD_HELPERS, EquicordDevsById, GUILD_ID, KNOWN_ISSUES_CHANNEL_ID, KNOWN_ISSUES_CHANNEL_IDS, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VencordDevsById } from "./constants";
 
 /**
  * Calls .join(" ") on the arguments
@@ -82,8 +82,8 @@ export function identity<T>(value: T): T {
 export const isPluginDev = (id: string) => Object.hasOwn(VencordDevsById, id);
 export const shouldShowContributorBadge = (id: string) => isPluginDev(id) && VencordDevsById[id].badge !== false;
 
-export const isEquicordPluginDev = (id: string) => Object.hasOwn(EquicordDevsById, id);
-export const shouldShowEquicordContributorBadge = (id: string) => isEquicordPluginDev(id) && EquicordDevsById[id].badge !== false;
+export const isNightcordPluginDev = (id: string) => Object.hasOwn(EquicordDevsById, id);
+export const shouldShowNightcordContributorBadge = (id: string) => isNightcordPluginDev(id) && EquicordDevsById[id].badge !== false;
 
 export const isAnyPluginDev = (id: string) => Object.hasOwn(VencordDevsById, id) || Object.hasOwn(EquicordDevsById, id);
 
@@ -107,7 +107,7 @@ export function tryOrElse<T>(func: () => T, fallback: T): T {
     }
 }
 
-export function isEquicordGuild(id: string | null | undefined, isGuildId: boolean = false): boolean {
+export function isNightcordGuild(id: string | null | undefined, isGuildId: boolean = false): boolean {
     if (!id) return false;
     if (isGuildId) return id === GUILD_ID;
     const channel = ChannelStore.getChannel(id);
@@ -115,24 +115,24 @@ export function isEquicordGuild(id: string | null | undefined, isGuildId: boolea
     return channel.guild_id === GUILD_ID;
 }
 
-export function isSupportChannel(channelId: string | null | undefined, includeVencord: boolean = false): boolean {
+export function isSupportChannel(channelId: string | null | undefined, includeNightcord: boolean = false): boolean {
     if (!channelId) return false;
-    if (includeVencord) return SUPPORT_CHANNEL_IDS.includes(channelId);
+    if (includeNightcord) return SUPPORT_CHANNEL_IDS.includes(channelId);
     return channelId === SUPPORT_CHANNEL_ID;
 }
 
-export function isKnownIssuesCategory(channelId: string | null | undefined, includeVencord: boolean = false): boolean {
+export function isKnownIssuesCategory(channelId: string | null | undefined, includeNightcord: boolean = false): boolean {
     if (!channelId) return false;
-    if (includeVencord) return KNOWN_ISSUES_CHANNEL_IDS.includes(channelId);
+    if (includeNightcord) return KNOWN_ISSUES_CHANNEL_IDS.includes(channelId);
     return channelId === KNOWN_ISSUES_CHANNEL_ID;
 }
 
-export function isEquicordSupport(userId: string | null | undefined): boolean {
+export function isNightcordSupport(userId: string | null | undefined): boolean {
     if (!userId) return false;
 
     const member = GuildMemberStore.getMember(GUILD_ID, userId);
     if (!member) return false;
-    return member.roles.includes(EQUICORD_HELPERS) || false;
+    return member.roles.includes(NIGHTCORD_HELPERS) || false;
 }
 
 export function removeFromArray<T>(arr: T[], predicate: (e: T) => boolean) {

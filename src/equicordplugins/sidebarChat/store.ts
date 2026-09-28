@@ -7,7 +7,7 @@
 import { definePluginSettings } from "@api/Settings";
 import { proxyLazy } from "@utils/lazy";
 import { OptionType } from "@utils/types";
-import { Flux as TFlux } from "@vencord/discord-types";
+import { Flux as TFlux } from "@nightcord/discord-types";
 import { ChannelActionCreators, Flux as FluxWP, FluxDispatcher, PopoutActions, PopoutWindowStore } from "@webpack/common";
 
 interface IFlux extends TFlux {

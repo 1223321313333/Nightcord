@@ -59,8 +59,8 @@ function validateUrl(url: string) {
 }
 
 const cloudBackendOptions = [
-    { label: "Equicord Cloud", value: "https://cloud.equicord.org/" },
-    { label: "Vencord Cloud", value: "https://api.vencord.dev/" }
+    { label: "Nightcord Cloud", value: "https://cloud.equicord.org/" },
+    { label: "Nightcord Cloud", value: "https://api.vencord.dev/" }
 ];
 
 const syncDirectionOptions = [
@@ -93,7 +93,7 @@ function CloudTab() {
         <SettingsTab>
             <Heading className={Margins.top16}>Cloud Integration</Heading>
             <Paragraph className={Margins.bottom16}>
-                Equicord's cloud integration allows you to sync your settings across multiple devices and Discord installations. Your data is securely stored and can be easily restored at any time.
+                Nightcord's cloud integration allows you to sync your settings across multiple devices and Discord installations. Your data is securely stored and can be easily restored at any time.
             </Paragraph>
 
             <Notice.Info className={Margins.bottom16}>
@@ -119,7 +119,7 @@ function CloudTab() {
 
             <Heading className={Margins.top20}>Cloud Backend</Heading>
             <Paragraph className={Margins.bottom16}>
-                Choose which cloud backend to use for storing your settings. You can switch between Equicord's and Vencord's cloud services, or use a self-hosted instance.
+                Choose which cloud backend to use for storing your settings. You can switch between Nightcord's and Nightcord's cloud services, or use a self-hosted instance.
             </Paragraph>
 
             <div className={Margins.bottom8}>
@@ -164,7 +164,7 @@ function CloudTab() {
 
             <Heading className={Margins.top20}>Settings Sync</Heading>
             <Paragraph className={Margins.bottom16}>
-                Synchronize your Equicord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.
+                Synchronize your Nightcord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.
             </Paragraph>
 
             <FormSwitch
@@ -185,9 +185,9 @@ function CloudTab() {
 
             <Select
                 options={syncDirectionOptions}
-                isSelected={v => v === (localStorage.Vencord_cloudSyncDirection ?? "both")}
+                isSelected={v => v === (localStorage.Nightcord_cloudSyncDirection ?? "both")}
                 select={v => {
-                    localStorage.Vencord_cloudSyncDirection = v;
+                    localStorage.Nightcord_cloudSyncDirection = v;
                     forceUpdate();
                 }}
                 serialize={v => v}

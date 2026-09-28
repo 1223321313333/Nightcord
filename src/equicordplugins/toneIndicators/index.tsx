@@ -5,7 +5,7 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { React } from "@webpack/common";
 import { type ReactNode } from "react";
@@ -164,7 +164,7 @@ export default definePlugin({
     name: "ToneIndicators",
     description: "Show tooltips for tone indicators like /srs, /gen, etc. in sent messages.",
     tags: ["Chat", "Utility"],
-    authors: [EquicordDevs.justjxke],
+    authors: [NightcordDevs.justjxke],
     settings,
 
     patches: [

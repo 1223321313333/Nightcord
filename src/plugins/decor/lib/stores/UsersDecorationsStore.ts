@@ -9,7 +9,7 @@ import { getUsersDecorations } from "@plugins/decor/lib/api";
 import { DECORATION_FETCH_COOLDOWN, SKU_ID } from "@plugins/decor/lib/constants";
 import { debounce } from "@shared/debounce";
 import { proxyLazy } from "@utils/lazy";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { useEffect, useState, zustandCreate } from "@webpack/common";
 
 interface UserDecorationData {

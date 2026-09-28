@@ -9,10 +9,10 @@ import "./styles.css";
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { OpenExternalIcon } from "@components/Icons";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin from "@utils/types";
-import { CloudUpload } from "@vencord/discord-types";
+import { CloudUpload } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { DraftType, FluxDispatcher, Menu, PermissionsBits, PermissionStore, React, showToast, Toasts, UploadAttachmentStore, useEffect, UserStore, useState } from "@webpack/common";
 
@@ -311,7 +311,7 @@ export default definePlugin({
     name: "FileUpload",
     description: "Upload files to hosting services like Zipline, Nest, S3, and WebDAV",
     tags: ["Media"],
-    authors: [EquicordDevs.creations, EquicordDevs.keircn, Devs.ScattrdBlade],
+    authors: [NightcordDevs.creations, NightcordDevs.keircn, Devs.ScattrdBlade],
     settings,
     patches: [
         {

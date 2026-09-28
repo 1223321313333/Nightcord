@@ -6,10 +6,10 @@
 
 import * as DataStore from "@api/DataStore";
 import { definePluginSettings } from "@api/Settings";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import { VoiceState } from "@vencord/discord-types";
+import { VoiceState } from "@nightcord/discord-types";
 import { ChannelStore, FluxDispatcher, UserStore, VoiceStateStore } from "@webpack/common";
 
 const DATASTORE_KEY = "VCLastVoiceChannel";
@@ -52,7 +52,7 @@ export default definePlugin({
     name: "VoiceRejoin",
     description: "Rejoins DM/Server call automatically when restarting Discord.",
     tags: ["Servers", "Utility", "Voice"],
-    authors: [EquicordDevs.omaw, EquicordDevs.keircn],
+    authors: [NightcordDevs.omaw, NightcordDevs.keircn],
     settings,
 
     flux: {

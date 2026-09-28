@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Activity } from "@vencord/discord-types";
-import { ActivityType } from "@vencord/discord-types/enums";
+import { Activity } from "@nightcord/discord-types";
+import { ActivityType } from "@nightcord/discord-types/enums";
 import { ApplicationAssetUtils, FluxDispatcher } from "@webpack/common";
 
 import { BanchoStatusEnum, GameState, Modes, TosuApi } from "../types/tosu";

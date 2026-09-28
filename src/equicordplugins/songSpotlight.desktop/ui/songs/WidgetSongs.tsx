@@ -15,7 +15,7 @@ import { Spinner, WidgetClasses } from "@equicordplugins/songSpotlight.desktop/u
 import { openSettingsModal } from "@equicordplugins/songSpotlight.desktop/ui/settings";
 import { sid } from "@song-spotlight/api/util";
 import { classes } from "@utils/misc";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { React, ScrollerThin, useEffect, UserStore, useState } from "@webpack/common";
 import { JSX } from "react";
 

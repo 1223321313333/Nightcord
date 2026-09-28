@@ -30,7 +30,7 @@ import type { NicknameIconFactory } from "@api/NicknameIcons";
 import { ProfileCollectionData } from "@api/ProfileCollections";
 import { ProfileSectionData } from "@api/ProfileSections";
 import type { UserAreaButtonData } from "@api/UserArea";
-import type { Command, FluxEvents } from "@vencord/discord-types";
+import type { Command, FluxEvents } from "@nightcord/discord-types";
 import type { ReactNode } from "react";
 import type { LiteralUnion } from "type-fest";
 
@@ -194,7 +194,7 @@ export interface PluginDef {
      */
     contextMenus?: Record<string, NavContextMenuPatchCallback>;
     /**
-     * Allows you to add custom actions to the Vencord Toolbox.
+     * Allows you to add custom actions to the Nightcord Toolbox.
      *
      * Can either be an object mapping labels to action functions or a Function returning Menu components.
      * Please note that you can only use Menu components.
@@ -227,7 +227,7 @@ export interface PluginDef {
     renderMemberListDecorator?: MemberListDecoratorFactory;
 
     /*
-    * Custom apis added by Equicord and were placed here for quicker identification rather then mixing them in
+    * Custom apis added by Nightcord and were placed here for quicker identification rather then mixing them in
     */
     renderNicknameIcon?: NicknameIconFactory;
     headerBarButton?: HeaderBarButtonData;
@@ -238,13 +238,13 @@ export interface PluginDef {
     renderProfileSection?: ProfileSectionData;
 
     /**
-     * A Vencord plugin that is modified for extra features in Equicord
+     * A Nightcord plugin that is modified for extra features in Nightcord
      */
     isModified?: boolean;
 }
 
 export const enum StartAt {
-    /** Right away, as soon as Vencord initialised */
+    /** Right away, as soon as Nightcord initialised */
     Init = "Init",
     /** On the DOMContentLoaded event, so once the document is ready */
     DOMContentLoaded = "DOMContentLoaded",

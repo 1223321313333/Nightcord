@@ -12,7 +12,7 @@ import { bookmarkFolderColors, bookmarkPlaceholderName, closeOtherTabs, closeTab
 import { Bookmark, BookmarkFolder, Bookmarks, ChannelTabsProps, UseBookmarkMethods } from "@equicordplugins/channelTabs/util/types";
 import { getIntlMessage } from "@utils/discord";
 import { Margins } from "@utils/margins";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Button, ChannelStore, closeModal, ColorPicker, FluxDispatcher, Menu, Modal, openModal, ReadStateStore, ReadStateUtils, Select, TextInput, useMemo, useState } from "@webpack/common";
 
 const legacyFolderColors: Record<string, string> = {

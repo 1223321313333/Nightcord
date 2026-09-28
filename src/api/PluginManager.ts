@@ -33,7 +33,7 @@ import { Logger } from "@utils/Logger";
 import { onlyOnce } from "@utils/onlyOnce";
 import { canonicalizeFind, canonicalizeReplacement } from "@utils/patches";
 import { DefinedSettings, Patch, Plugin, PluginDef, PluginSettingDef, ReporterTestable, StartAt } from "@utils/types";
-import { FluxEvents } from "@vencord/discord-types";
+import { FluxEvents } from "@nightcord/discord-types";
 import { FluxDispatcher } from "@webpack/common";
 import { patches } from "@webpack/patcher";
 
@@ -87,7 +87,7 @@ export function hasAnyVisibleSettings({ settings }: Plugin) {
     return !!settings && Object.values(settings.def).some(s => !isSettingHidden(settings, s));
 }
 
-export function addPatch(newPatch: Omit<Patch, "plugin">, pluginName: string, pluginPath = `Vencord.Plugins.plugins[${JSON.stringify(pluginName)}]`) {
+export function addPatch(newPatch: Omit<Patch, "plugin">, pluginName: string, pluginPath = `Nightcord.Plugins.plugins[${JSON.stringify(pluginName)}]`) {
     // TODO: this causes crashes
     if (pluginName === "Vesktop" && newPatch.find === ".STREAMING_AUTO_STREAMER_MODE,") return;
     if (pluginName === "Equibop" && newPatch.find === ".STREAMING_AUTO_STREAMER_MODE,") return;

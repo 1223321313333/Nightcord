@@ -10,7 +10,7 @@ import { HiddenServersStore } from "@equicordplugins/hideServers/HiddenServersSt
 import { classNameFactory } from "@utils/css";
 import { getGuildAcronym } from "@utils/discord";
 import { classes } from "@utils/misc";
-import { Guild, RenderModalProps } from "@vencord/discord-types";
+import { Guild, RenderModalProps } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { Button, closeModal, IconUtils, Modal, openModal, SortedGuildStore, useStateFromStores } from "@webpack/common";
 

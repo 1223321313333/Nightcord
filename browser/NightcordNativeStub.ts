@@ -20,7 +20,7 @@
 /// <reference path="../src/globals.d.ts" />
 
 // Be very careful with imports in this file to avoid circular dependency issues.
-// Only import pure modules that don't import other parts of Vencord.
+// Only import pure modules that don't import other parts of Nightcord.
 import monacoHtmlLocal from "file://monacoWin.html?minify";
 import * as DataStore from "@api/DataStore";
 import type { Settings } from "@api/Settings";
@@ -35,12 +35,12 @@ const cssListeners = new Set<(css: string) => void>();
 const NOOP = () => { };
 const NOOP_ASYNC = async () => { };
 
-const setCssDebounced = debounce((css: string) => VencordNative.quickCss.set(css));
+const setCssDebounced = debounce((css: string) => NightcordNative.quickCss.set(css));
 
-const themeStore = DataStore.createStore("VencordThemes", "VencordThemeData");
+const themeStore = DataStore.createStore("NightcordThemes", "NightcordThemeData");
 
 // probably should make this less cursed at some point
-window.VencordNative = {
+window.NightcordNative = {
     themes: {
         uploadTheme: (fileName: string, fileData: string) => DataStore.set(fileName, fileData, themeStore),
         deleteTheme: (fileName: string) => DataStore.del(fileName, themeStore),
@@ -78,9 +78,9 @@ window.VencordNative = {
     },
 
     quickCss: {
-        get: () => DataStore.get("VencordQuickCss").then(s => s ?? ""),
+        get: () => DataStore.get("NightcordQuickCss").then(s => s ?? ""),
         set: async (css: string) => {
-            await DataStore.set("VencordQuickCss", css);
+            await DataStore.set("NightcordQuickCss", css);
             cssListeners.forEach(l => l(css));
         },
         addChangeListener(cb) {
@@ -98,7 +98,7 @@ window.VencordNative = {
             }
 
             const features = `popup,width=${Math.min(window.innerWidth, 1000)},height=${Math.min(window.innerHeight, 1000)}`;
-            const win = open("about:blank", "VencordQuickCss", features);
+            const win = open("about:blank", "NightcordQuickCss", features);
             if (!win) {
                 alert("Failed to open QuickCSS popup. Make sure to allow popups!");
                 return;
@@ -106,7 +106,7 @@ window.VencordNative = {
 
             win.baseUrl = EXTENSION_BASE_URL;
             win.setCss = setCssDebounced;
-            win.getCurrentCss = () => VencordNative.quickCss.get();
+            win.getCurrentCss = () => NightcordNative.quickCss.get();
             win.getTheme = this.getEditorTheme;
 
             win.document.write(monacoHtmlLocal);
@@ -123,13 +123,13 @@ window.VencordNative = {
     settings: {
         get: () => {
             try {
-                return JSON.parse(localStorage.getItem("EquicordSettings") || "{}");
+                return JSON.parse(localStorage.getItem("NightcordSettings") || "{}");
             } catch (e) {
                 console.error("Failed to parse settings from localStorage: ", e);
                 return {};
             }
         },
-        set: async (s: Settings) => localStorage.setItem("EquicordSettings", JSON.stringify(s)),
+        set: async (s: Settings) => localStorage.setItem("NightcordSettings", JSON.stringify(s)),
         getSettingsDir: async () => "LocalStorage",
         openFolder: async () => Promise.reject("settings:openFolder is not supported on web"),
     },

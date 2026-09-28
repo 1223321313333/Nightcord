@@ -5,8 +5,8 @@
  */
 
 import { Logger } from "@utils/Logger";
-import { Activity, ActivityButton } from "@vencord/discord-types";
-import { ActivityFlags, ActivityType } from "@vencord/discord-types/enums";
+import { Activity, ActivityButton } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityType } from "@nightcord/discord-types/enums";
 import { ApplicationAssetUtils, FluxDispatcher, SelfPresenceStore } from "@webpack/common";
 
 import { settings } from "../settings";

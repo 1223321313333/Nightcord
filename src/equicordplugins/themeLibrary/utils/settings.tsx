@@ -72,7 +72,7 @@ export const settings = definePluginSettings({
                     <HeadingSecondary style={{ marginTop: 8, marginBottom: 8 }}>Theme Removal</HeadingSecondary>
                     <Paragraph style={{ marginTop: 0, marginBottom: 8 }}> All Theme Authors are given credit in the theme info, no source has been modified, if you wish your theme to be removed anyway, open an Issue by clicking below.</Paragraph>
                     <div className={cl("button-grid")}>
-                        <Button onClick={() => VencordNative.native.openExternal("https://github.com/Faf4a/plugins/issues/new?labels=removal&projects=&template=request_removal.yml&title=Theme+Removal")}>
+                        <Button onClick={() => NightcordNative.native.openExternal("https://github.com/Faf4a/plugins/issues/new?labels=removal&projects=&template=request_removal.yml&title=Theme+Removal")}>
                             Request Theme Removal <OpenExternalIcon height={16} width={16} />
                         </Button>
                     </div>

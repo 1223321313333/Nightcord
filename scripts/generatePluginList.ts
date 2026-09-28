@@ -17,16 +17,16 @@
 */
 
 import { readdirSync, writeFileSync } from "fs";
-import { getEntryPoint, isPluginFile, parseDevs, parseEquicordDevs, parseFile, PluginData } from "./utils";
+import { getEntryPoint, isPluginFile, parseDevs, parseNightcordDevs, parseFile, PluginData } from "./utils";
 
 (async () => {
     parseDevs();
-    parseEquicordDevs();
+    parseNightcordDevs();
 
     const args = process.argv.slice(2);
 
-    const equicordFlag = args.includes("--equicord");
-    const vencordFlag = args.includes("--vencord");
+    const equicordFlag = args.includes("--nightcord");
+    const vencordFlag = args.includes("--nightcord");
 
     let dirs: string[];
 

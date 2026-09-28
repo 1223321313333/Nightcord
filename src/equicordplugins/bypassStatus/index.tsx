@@ -12,7 +12,7 @@ import { Devs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Message } from "@vencord/discord-types";
+import type { Message } from "@nightcord/discord-types";
 import { ChannelActionCreators, ChannelStore, Menu, MessageStore, NavigationRouter, PresenceStore, UserStore, WindowStore } from "@webpack/common";
 import { JSX } from "react";
 

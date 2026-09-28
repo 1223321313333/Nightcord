@@ -6,7 +6,7 @@
 
 import { showNotification } from "@api/Notifications";
 import { Settings } from "@api/Settings";
-import { gitHashShort } from "@shared/vencordUserAgent";
+import { gitHashShort } from "@shared/nightcordUserAgent";
 import { copyToClipboard } from "@utils/clipboard";
 import { relaunch, showItemInFolder } from "@utils/native";
 import { checkForUpdates, getRepo } from "@utils/updater";
@@ -26,16 +26,16 @@ export interface ButtonAction {
 }
 
 export const actions: ButtonAction[] = [
-    { id: "openEquicordSettings", label: "Open Equicord tab", callback: async () => await SettingsRouter.openUserSettings("equicord_main_panel"), registrar: "Equicord" },
-    { id: "openPluginSettings", label: "Open Plugin tab", callback: () => SettingsRouter.openUserSettings("equicord_plugins_panel"), registrar: "Equicord" },
-    { id: "openThemesSettings", label: "Open Themes tab", callback: () => SettingsRouter.openUserSettings("equicord_themes_panel"), registrar: "Equicord" },
-    { id: "openUpdaterSettings", label: "Open Updater tab", callback: () => SettingsRouter.openUserSettings("equicord_updater_panel"), registrar: "Equicord" },
-    { id: "openEquicordCloudSettings", label: "Open Cloud tab", callback: () => SettingsRouter.openUserSettings("equicord_cloud_panel"), registrar: "Equicord" },
-    { id: "openBackupSettings", label: "Open Backup & Restore tab", callback: () => SettingsRouter.openUserSettings("equicord_backup_restore_panel"), registrar: "Equicord" },
-    { id: "restartClient", label: "Restart Client", callback: () => relaunch(), registrar: "Equicord" },
-    { id: "openQuickCSSFile", label: "Open Quick CSS File", callback: () => VencordNative.quickCss.openEditor(), registrar: "Equicord" },
-    { id: "openSettingsFolder", label: "Open Settings Folder", callback: async () => showItemInFolder(await VencordNative.settings.getSettingsDir()), registrar: "Equicord" },
-    { id: "openInGithub", label: "Open in Github", callback: async () => VencordNative.native.openExternal(await getRepo()), registrar: "Equicord" },
+    { id: "openNightcordSettings", label: "Open Nightcord tab", callback: async () => await SettingsRouter.openUserSettings("nightcord_main_panel"), registrar: "Nightcord" },
+    { id: "openPluginSettings", label: "Open Plugin tab", callback: () => SettingsRouter.openUserSettings("nightcord_plugins_panel"), registrar: "Nightcord" },
+    { id: "openThemesSettings", label: "Open Themes tab", callback: () => SettingsRouter.openUserSettings("nightcord_themes_panel"), registrar: "Nightcord" },
+    { id: "openUpdaterSettings", label: "Open Updater tab", callback: () => SettingsRouter.openUserSettings("nightcord_updater_panel"), registrar: "Nightcord" },
+    { id: "openNightcordCloudSettings", label: "Open Cloud tab", callback: () => SettingsRouter.openUserSettings("nightcord_cloud_panel"), registrar: "Nightcord" },
+    { id: "openBackupSettings", label: "Open Backup & Restore tab", callback: () => SettingsRouter.openUserSettings("nightcord_backup_restore_panel"), registrar: "Nightcord" },
+    { id: "restartClient", label: "Restart Client", callback: () => relaunch(), registrar: "Nightcord" },
+    { id: "openQuickCSSFile", label: "Open Quick CSS File", callback: () => NightcordNative.quickCss.openEditor(), registrar: "Nightcord" },
+    { id: "openSettingsFolder", label: "Open Settings Folder", callback: async () => showItemInFolder(await NightcordNative.settings.getSettingsDir()), registrar: "Nightcord" },
+    { id: "openInGithub", label: "Open in Github", callback: async () => NightcordNative.native.openExternal(await getRepo()), registrar: "Nightcord" },
 
     {
         id: "openInBrowser", label: "Open in Browser", callback: async () => {
@@ -44,7 +44,7 @@ export const actions: ButtonAction[] = [
 
             try {
                 new URL(newUrl); // Throws if invalid
-                VencordNative.native.openExternal(newUrl);
+                NightcordNative.native.openExternal(newUrl);
             } catch {
                 Toasts.show({
                     message: "Invalid URL",
@@ -55,7 +55,7 @@ export const actions: ButtonAction[] = [
                     }
                 });
             }
-        }, registrar: "Equicord"
+        }, registrar: "Nightcord"
     },
 
     {
@@ -80,7 +80,7 @@ export const actions: ButtonAction[] = [
             if (choice && enabled) {
                 return togglePlugin(choice, enabled.id === "enable");
             }
-        }, registrar: "Equicord"
+        }, registrar: "Nightcord"
     },
 
     {
@@ -111,7 +111,7 @@ export const actions: ButtonAction[] = [
                     }
                 });
             }
-        }, registrar: "Equicord"
+        }, registrar: "Nightcord"
     },
 
     {
@@ -126,7 +126,7 @@ export const actions: ButtonAction[] = [
                     position: Toasts.Position.BOTTOM
                 }
             });
-        }, registrar: "Equicord"
+        }, registrar: "Nightcord"
     },
 
     {
@@ -135,12 +135,12 @@ export const actions: ButtonAction[] = [
 
             if (isOutdated) {
                 setTimeout(() => showNotification({
-                    title: "A Equicord update is available!",
+                    title: "A Nightcord update is available!",
                     body: "Click here to view the update",
                     permanent: true,
                     noPersist: true,
                     onClick() {
-                        SettingsRouter.openUserSettings("equicord_updater_panel");
+                        SettingsRouter.openUserSettings("nightcord_updater_panel");
                     }
                 }), 10_000);
             } else {
@@ -153,7 +153,7 @@ export const actions: ButtonAction[] = [
                     }
                 });
             }
-        }, registrar: "Equicord"
+        }, registrar: "Nightcord"
     },
 
     {
@@ -173,7 +173,7 @@ export const actions: ButtonAction[] = [
             if (choice) {
                 NavigationRouter.transitionToGuild(choice.id);
             }
-        }, registrar: "Equicord"
+        }, registrar: "Nightcord"
     }
 ];
 

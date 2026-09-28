@@ -27,21 +27,21 @@ import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { openSettingsTabModal, UpdaterTab } from "@components/settings";
-import { platformName } from "@equicordplugins/equicordHelper/utils";
+import { platformName } from "@equicordplugins/nightcordHelper/utils";
 import customIdle from "@plugins/customIdle";
-import { gitHash, gitHashShort } from "@shared/vencordUserAgent";
-import { CONTRIB_ROLE_ID, Devs, DONOR_ROLE_ID, EQUICORD_TEAM, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_CONTRIB_ROLE_ID, VC_DONOR_ROLE_ID, VC_GUILD_ID, VC_REGULAR_ROLE_ID, VENCORD_CONTRIB_ROLE_ID } from "@utils/constants";
+import { gitHash, gitHashShort } from "@shared/nightcordUserAgent";
+import { CONTRIB_ROLE_ID, Devs, DONOR_ROLE_ID, NIGHTCORD_TEAM, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_CONTRIB_ROLE_ID, VC_DONOR_ROLE_ID, VC_GUILD_ID, VC_REGULAR_ROLE_ID, NIGHTCORD_CONTRIB_ROLE_ID } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
-import { isAnyPluginDev, isEquicordGuild, isEquicordSupport, isKnownIssuesCategory, isSupportChannel, tryOrElse } from "@utils/misc";
+import { isAnyPluginDev, isNightcordGuild, isNightcordSupport, isKnownIssuesCategory, isSupportChannel, tryOrElse } from "@utils/misc";
 import { relaunch } from "@utils/native";
 import { onlyOnce } from "@utils/onlyOnce";
 import { makeCodeblock } from "@utils/text";
 import definePlugin from "@utils/types";
 import { checkForUpdates, isOutdated, update } from "@utils/updater";
-import { RenderModalProps } from "@vencord/discord-types";
-import { CloudUploadPlatform } from "@vencord/discord-types/enums";
+import { RenderModalProps } from "@nightcord/discord-types";
+import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { Alerts, ChannelStore, CloudUploader, ConfirmModal, Constants, GuildMemberStore, openModal, Parser, PermissionsBits, PermissionStore, RelationshipStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Text, Toasts, UserStore } from "@webpack/common";
 import { JSX } from "react";
 
@@ -53,12 +53,12 @@ const CodeBlockRe = /```snippet\n(.+?)```/s;
 
 const TrustedRolesIds = [
     VC_CONTRIB_ROLE_ID, // Vencord Contributor
-    VC_REGULAR_ROLE_ID, // Vencord Regular
+    VC_REGULAR_ROLE_ID, // Nightcord Regular
     VC_DONOR_ROLE_ID, // Vencord Donor
-    EQUICORD_TEAM, // Equicord Team
+    NIGHTCORD_TEAM, // Nightcord Team
     DONOR_ROLE_ID, // Equicord Donor
     CONTRIB_ROLE_ID, // Equicord Contributor
-    VENCORD_CONTRIB_ROLE_ID, // Vencord Contributor
+    NIGHTCORD_CONTRIB_ROLE_ID, // Vencord Contributor
 ];
 
 const AsyncFunction = async function () { }.constructor;
@@ -145,7 +145,7 @@ async function generateDebugInfoMessage() {
         : platformName();
 
     const info = {
-        Equicord:
+        Nightcord:
             `v${VERSION} • [${gitHashShort}](<https://github.com/Equicord/Equicord/commit/${gitHash}>)` +
             `${IS_EQUIBOP ? "" : SettingsPlugin.getVersionInfo()} - ${Intl.DateTimeFormat("en-US", { dateStyle: "medium" }).format(BUILD_TIMESTAMP)}`,
         Client: `${RELEASE_CHANNEL} ~ ${clientString}`,
@@ -171,7 +171,7 @@ async function generateDebugInfoMessage() {
     const commonIssues = {
         "Activity Sharing Disabled": tryOrElse(() => !ShowCurrentGame.getSetting(), false),
         "Link Embeds Disabled": tryOrElse(() => !ShowEmbeds.getSetting(), false),
-        "Equicord DevBuild": !IS_STANDALONE,
+        "Nightcord DevBuild": !IS_STANDALONE,
         "Equibop DevBuild": IS_EQUIBOP && tryOrElse(() => VesktopNative.app.isDevBuild?.(), false),
         "Platform Spoofed": spoofInfo?.spoofed ?? false,
         "Has UserPlugins": Object.values(PluginMeta).some(m => m.userPlugin),
@@ -300,7 +300,7 @@ function DevBuildConfirmModal(props: RenderModalProps) {
             }}
         >
             <div>
-                <Paragraph>You are using a custom build of Equicord, which we do not provide support for!</Paragraph>
+                <Paragraph>You are using a custom build of Nightcord, which we do not provide support for!</Paragraph>
 
                 <Paragraph className={Margins.top8}>
                     We only provide support for <Link href="https://equicord.org/download">official builds</Link>.
@@ -333,17 +333,17 @@ export default definePlugin({
 
     commands: [
         {
-            name: "equicord-debug",
-            description: "Send Equicord debug info",
+            name: "nightcord-debug",
+            description: "Send Nightcord debug info",
             // @ts-ignore
-            predicate: ctx => isAnyPluginDev(UserStore.getCurrentUser()?.id) || isEquicordGuild(ctx?.guild?.id, true),
+            predicate: ctx => isAnyPluginDev(UserStore.getCurrentUser()?.id) || isNightcordGuild(ctx?.guild?.id, true),
             execute: async () => ({ content: await generateDebugInfoMessage() })
         },
         {
-            name: "equicord-plugins",
-            description: "Send Equicord plugin list",
+            name: "nightcord-plugins",
+            description: "Send Nightcord plugin list",
             // @ts-ignore
-            predicate: ctx => isAnyPluginDev(UserStore.getCurrentUser()?.id) || isEquicordGuild(ctx?.guild?.id, true),
+            predicate: ctx => isAnyPluginDev(UserStore.getCurrentUser()?.id) || isNightcordGuild(ctx?.guild?.id, true),
             execute: async () => {
                 const channelId = SelectedChannelStore.getChannelId();
                 const pluginList = generatePluginList();
@@ -387,7 +387,7 @@ export default definePlugin({
                             onCancel={() => openSettingsTabModal(UpdaterTab!)}
                         >
                             <div>
-                                <Paragraph>You are using an outdated version of Equicord! Chances are, your issue is already fixed.</Paragraph>
+                                <Paragraph>You are using an outdated version of Nightcord! Chances are, your issue is already fixed.</Paragraph>
                                 <Paragraph className={Margins.top8}>
                                     Please first update before asking for support!
                                 </Paragraph>
@@ -413,9 +413,9 @@ export default definePlugin({
                         variant="primary"
                     >
                         <div>
-                            <Paragraph>You are using an externally updated Equicord version, which we do not provide support for!</Paragraph>
+                            <Paragraph>You are using an externally updated Nightcord version, which we do not provide support for!</Paragraph>
                             <Paragraph className={Margins.top8}>
-                                Please either switch to an <Link href="https://equicord.org/download">officially supported version of Equicord</Link>, or
+                                Please either switch to an <Link href="https://equicord.org/download">officially supported version of Nightcord</Link>, or
                                 contact your package maintainer for support instead.
                             </Paragraph>
                         </div>
@@ -432,15 +432,15 @@ export default definePlugin({
     },
 
     renderMessageAccessory(props) {
-        if (props.message.vencordEmbeddedBy) return null;
+        if (props.message.nightcordEmbeddedBy) return null;
 
         const buttons = [] as JSX.Element[];
 
-        const equicordSupport = isEquicordGuild(props.message.channel_id) && isEquicordSupport(props.message.author.id);
+        const nightcordSupport = isNightcordGuild(props.message.channel_id) && isNightcordSupport(props.message.author.id);
 
         const shouldAddUpdateButton =
             !IS_UPDATER_DISABLED
-            && ((isSupportChannel(props.channel.id) && equicordSupport))
+            && ((isSupportChannel(props.channel.id) && nightcordSupport))
             && props.message.content?.toLowerCase().includes("update");
 
         if (shouldAddUpdateButton) {
@@ -465,15 +465,15 @@ export default definePlugin({
             );
         }
 
-        if (equicordSupport && isSupportChannel(props.channel.id) && PermissionStore.can(PermissionsBits.SEND_MESSAGES, props.channel)) {
-            if (props.message.content.includes("/equicord-debug") || props.message.content.includes("/equicord-plugins")) {
+        if (nightcordSupport && isSupportChannel(props.channel.id) && PermissionStore.can(PermissionsBits.SEND_MESSAGES, props.channel)) {
+            if (props.message.content.includes("/nightcord-debug") || props.message.content.includes("/nightcord-plugins")) {
                 buttons.push(
                     <Button
                         key="vc-dbg"
                         variant="secondary"
                         onClick={async () => sendMessage(props.channel.id, { content: await generateDebugInfoMessage() })}
                     >
-                        Run /equicord-debug
+                        Run /nightcord-debug
                     </Button>,
                     <Button
                         key="vc-plg-list"
@@ -493,12 +493,12 @@ export default definePlugin({
                             }
                         }}
                     >
-                        Run /equicord-plugins
+                        Run /nightcord-plugins
                     </Button>
                 );
             }
         }
-        if (equicordSupport || isSupportChannel(props?.channel?.id, true) || isKnownIssuesCategory(props?.channel?.parent_id, true)) {
+        if (nightcordSupport || isSupportChannel(props?.channel?.id, true) || isKnownIssuesCategory(props?.channel?.parent_id, true)) {
             const match = CodeBlockRe.exec(props.message.content || props.message.embeds[0]?.rawDescription || "");
             if (match) {
                 buttons.push(
@@ -539,7 +539,7 @@ export default definePlugin({
 
         return (
             <Card variant="warning" className={Margins.top8} defaultPadding>
-                Please do not private message Equicord & Vencord plugin developers for support!
+                Please do not private message Nightcord & Nightcord plugin developers for support!
                 <br />
                 Instead, use the support channel: {Parser.parse("https://discord.com/channels/1173279886065029291/1297590739911573585")}
                 {!ChannelStore.getChannel(SUPPORT_CHANNEL_ID) && " (Click the link to join)"}

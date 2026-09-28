@@ -9,8 +9,8 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
-import { Activity } from "@vencord/discord-types";
-import { ActivityType } from "@vencord/discord-types/enums";
+import { Activity } from "@nightcord/discord-types";
+import { ActivityType } from "@nightcord/discord-types/enums";
 import { React } from "@webpack/common";
 
 import { ReplaceSettings, ReplaceTutorial } from "./ReplaceSettings";

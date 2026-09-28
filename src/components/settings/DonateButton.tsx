@@ -20,22 +20,22 @@ import { Button } from "@components/Button";
 import { Heart } from "@components/Heart";
 import { OpenExternalIcon } from "@components/Icons";
 import { openInviteModal } from "@utils/discord";
-import { ButtonProps } from "@vencord/discord-types";
+import { ButtonProps } from "@nightcord/discord-types";
 import { showToast } from "@webpack/common";
 
 export function DonateButton({
-    equicord = false,
+    nightcord = false,
     className,
     ...props
-}: Partial<ButtonProps> & { equicord?: boolean; }) {
-    const link = equicord ? "https://github.com/sponsors/thororen1234" : "https://github.com/sponsors/Vendicated";
+}: Partial<ButtonProps> & { nightcord?: boolean; }) {
+    const link = nightcord ? "https://github.com/sponsors/thororen1234" : "https://github.com/sponsors/Vendicated";
     return (
         <Button
             {...props}
             variant="none"
             size="medium"
             type="button"
-            onClick={() => VencordNative.native.openExternal(link)}
+            onClick={() => NightcordNative.native.openExternal(link)}
             className={className || "vc-donate-button"}
         >
             <Heart />
@@ -79,7 +79,7 @@ export function TranslateButton({
             variant="none"
             size="medium"
             type="button"
-            onClick={() => VencordNative.native.openExternal(link)}
+            onClick={() => NightcordNative.native.openExternal(link)}
             className={className || "vc-translate-button"}
         >
             Translate Here

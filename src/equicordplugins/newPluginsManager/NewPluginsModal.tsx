@@ -16,7 +16,7 @@ import { PluginCard } from "@components/settings/tabs/plugins/PluginCard";
 import { ChangeList } from "@utils/ChangeList";
 import { classNameFactory } from "@utils/css";
 import { useForceUpdater } from "@utils/react";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { closeModal, Modal, openModal, Tooltip, useMemo } from "@webpack/common";
 import { ReactNode } from "react";
 
@@ -76,7 +76,7 @@ function NewPluginsModal({ modalProps, newPlugins, newSettings }: ModalComponent
 
         if (isRequired) {
             const tooltipText = p.required
-                ? "This plugin is required for Equicord to function."
+                ? "This plugin is required for Nightcord to function."
                 : <PluginDependencyList deps={depMap[p.name]?.filter(d => settings.plugins[d].enabled)} />;
 
             requiredPluginCards.push(
@@ -135,7 +135,7 @@ function NewPluginsModal({ modalProps, newPlugins, newSettings }: ModalComponent
                     </BaseText>
                     <br />
                     <Notice.Info className={cl("notice")}>
-                        Equicord is Open Source Software. If you enjoy using it, consider supporting us <Link href="https://github.com/sponsors/thororen1234" target="_blank" rel="noopener noreferrer">here</Link>.
+                        Nightcord is Open Source Software. If you enjoy using it, consider supporting us <Link href="https://github.com/sponsors/thororen1234" target="_blank" rel="noopener noreferrer">here</Link>.
                     </Notice.Info>
                 </>
             }

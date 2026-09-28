@@ -12,10 +12,10 @@ import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Switch } from "@components/Switch";
 import { debounce } from "@shared/debounce";
-import { Devs, EquicordDevs, IS_MAC } from "@utils/constants";
+import { Devs, NightcordDevs, IS_MAC } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import type { Channel, VoiceState } from "@vencord/discord-types";
+import type { Channel, VoiceState } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { ChannelActions, ChannelRouter, ChannelStore, ContextMenuApi, FluxDispatcher, GuildStore, MediaEngineStore, Menu, PermissionsBits, PermissionStore, React, RelationshipStore, SelectedChannelStore, Toasts, useEffect, UserStore, useState, VoiceActions, VoiceStateStore } from "@webpack/common";
 
@@ -853,7 +853,7 @@ export default definePlugin({
     description: "Adds a button near mute to join a random voice channel.",
     dependencies: ["UserAreaAPI"],
     tags: ["Fun", "Voice"],
-    authors: [EquicordDevs.xijexo, EquicordDevs.omaw, Devs.thororen],
+    authors: [NightcordDevs.xijexo, NightcordDevs.omaw, Devs.thororen],
     settings,
 
     userAreaButton: {

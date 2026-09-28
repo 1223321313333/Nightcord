@@ -19,10 +19,10 @@
 import { Settings, SettingsStore, type ThemeActivationMode } from "@api/Settings";
 import { createAndAppendStyle } from "@utils/css";
 import { isNonNullish } from "@utils/guards";
-import { ThemeStore } from "@vencord/discord-types";
+import { ThemeStore } from "@nightcord/discord-types";
 import { PopoutWindowStore } from "@webpack/common";
 
-import { coreStyleRootNode, managedStyleRootNode, userStyleRootNode, vencordRootNode } from "./Styles";
+import { coreStyleRootNode, managedStyleRootNode, userStyleRootNode, nightcordRootNode } from "./Styles";
 
 let style: HTMLStyleElement;
 let themesStyle: HTMLStyleElement;
@@ -42,14 +42,14 @@ function shouldApplyTheme(mode: ThemeActivationMode, activeTheme?: "light" | "da
 async function toggle(isEnabled: boolean) {
     if (!style) {
         if (isEnabled) {
-            style = createAndAppendStyle("vencord-custom-css", userStyleRootNode);
-            VencordNative.quickCss.addChangeListener(css => {
+            style = createAndAppendStyle("nightcord-custom-css", userStyleRootNode);
+            NightcordNative.quickCss.addChangeListener(css => {
                 style.textContent = css;
                 // At the time of writing this, changing textContent resets the disabled state
                 style.disabled = !Settings.useQuickCss;
                 updatePopoutWindows();
             });
-            style.textContent = await VencordNative.quickCss.get();
+            style.textContent = await NightcordNative.quickCss.get();
         }
     } else
         style.disabled = !isEnabled;
@@ -59,7 +59,7 @@ async function toggle(isEnabled: boolean) {
 let previousThemeBlobObjectURLs = [] as string[];
 
 async function initThemes() {
-    themesStyle ??= createAndAppendStyle("vencord-themes", userStyleRootNode);
+    themesStyle ??= createAndAppendStyle("nightcord-themes", userStyleRootNode);
 
     const { enabledThemeLinks, enabledThemes } = Settings;
 
@@ -91,7 +91,7 @@ async function initThemes() {
         );
 
         const objectUrls = await Promise.all(themesToApply.map(async theme => {
-            const themeData = await VencordNative.themes.getThemeData(theme);
+            const themeData = await NightcordNative.themes.getThemeData(theme);
             if (!themeData) return null;
 
             const blob = new Blob([themeData], { type: "text/css" });
@@ -105,7 +105,7 @@ async function initThemes() {
         for (const theme of enabledThemes) {
             const mode = getThemeActivationMode(theme);
             if (!shouldApplyTheme(mode, activeTheme)) continue;
-            links.add(`vencord:///themes/${theme}?v=${version}`);
+            links.add(`nightcord:///themes/${theme}?v=${version}`);
         }
     }
 
@@ -119,9 +119,9 @@ function applyToPopout(popoutWindow: Window | undefined, key: string) {
 
     const doc = popoutWindow.document;
 
-    doc.querySelector("vencord-root")?.remove();
+    doc.querySelector("nightcord-root")?.remove();
 
-    const clonedRoot = vencordRootNode.cloneNode(false) as HTMLElement;
+    const clonedRoot = nightcordRootNode.cloneNode(false) as HTMLElement;
 
     clonedRoot.append(
         coreStyleRootNode.cloneNode(true),
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (!IS_WEB) {
-        VencordNative.quickCss.addThemeChangeListener(initThemes);
+        NightcordNative.quickCss.addThemeChangeListener(initThemes);
     }
 }, { once: true });
 

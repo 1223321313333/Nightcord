@@ -14,9 +14,9 @@ import {
     PluginsTab,
     ThemesTab,
     UpdaterTab,
-    VencordTab,
+    NightcordTab,
 } from "@components/settings";
-import { gitHashShort } from "@shared/vencordUserAgent";
+import { gitHashShort } from "@shared/nightcordUserAgent";
 import { Devs } from "@utils/constants";
 import { isTruthy } from "@utils/guards";
 import definePlugin, { IconProps, OptionType } from "@utils/types";
@@ -98,7 +98,7 @@ interface SettingsLayoutBuilder {
 const settings = definePluginSettings({
     settingsLocation: {
         type: OptionType.SELECT,
-        description: "Where to put the Equicord settings section",
+        description: "Where to put the Nightcord settings section",
         options: [
             { label: "At the very top", value: "top" },
             { label: "Above Billing section", value: "aboveNitro", default: true },
@@ -108,9 +108,9 @@ const settings = definePluginSettings({
             { label: "At the very bottom", value: "bottom" },
         ] as { label: string; value: SettingsLocation; default?: boolean; }[]
     },
-    includeVencordInfoWhenCopying: {
+    includeNightcordInfoWhenCopying: {
         type: OptionType.BOOLEAN,
-        description: "Also copy Equicord info (Equicord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page",
+        description: "Also copy Nightcord info (Nightcord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page",
         default: true
     }
 });
@@ -185,58 +185,58 @@ export default definePlugin({
         const layout = originalLayoutBuilder.buildLayout();
         if (originalLayoutBuilder.key !== "$Root") return layout;
         if (!Array.isArray(layout)) return layout;
-        if (layout.some(s => s?.key === "equicord_section")) return layout;
+        if (layout.some(s => s?.key === "nightcord_section")) return layout;
 
         const { buildEntry } = this;
 
-        const equicordEntries: SettingsLayoutNode[] = [
+        const nightcordEntries: SettingsLayoutNode[] = [
             buildEntry({
-                key: "equicord_main",
-                title: "Equicord",
-                panelTitle: "Equicord Settings",
-                Component: VencordTab,
+                key: "nightcord_main",
+                title: "Nightcord",
+                panelTitle: "Nightcord Settings",
+                Component: NightcordTab,
                 Icon: MainSettingsIcon
             }),
             buildEntry({
-                key: "equicord_plugins",
+                key: "nightcord_plugins",
                 title: "Plugins",
                 Component: PluginsTab,
                 Icon: PluginsIcon
             }),
             buildEntry({
-                key: "equicord_themes",
+                key: "nightcord_themes",
                 title: "Themes",
                 Component: ThemesTab,
                 Icon: PaintbrushIcon
             }),
             !IS_UPDATER_DISABLED && UpdaterTab && buildEntry({
-                key: "equicord_updater",
+                key: "nightcord_updater",
                 title: "Updater",
-                panelTitle: "Equicord Updater",
+                panelTitle: "Nightcord Updater",
                 Component: UpdaterTab,
                 Icon: UpdaterIcon
             }),
             buildEntry({
-                key: "equicord_changelog",
+                key: "nightcord_changelog",
                 title: "Changelog",
                 Component: ChangelogTab,
                 Icon: LogIcon,
             }),
             buildEntry({
-                key: "equicord_cloud",
+                key: "nightcord_cloud",
                 title: "Cloud",
-                panelTitle: "Equicord Cloud",
+                panelTitle: "Nightcord Cloud",
                 Component: CloudTab,
                 Icon: CloudIcon
             }),
             buildEntry({
-                key: "equicord_backup_restore",
+                key: "nightcord_backup_restore",
                 title: "Backup & Restore",
                 Component: BackupAndRestoreTab,
                 Icon: BackupRestoreIcon
             }),
             !IS_STANDALONE && PatchHelperTab && buildEntry({
-                key: "equicord_patch_helper",
+                key: "nightcord_patch_helper",
                 title: "Patch Helper",
                 Component: PatchHelperTab,
                 Icon: PatchHelperIcon
@@ -244,11 +244,11 @@ export default definePlugin({
             ...this.customEntries.map(buildEntry)
         ].filter(isTruthy);
 
-        const equicordSection: SettingsLayoutNode = {
-            key: "equicord_section",
+        const nightcordSection: SettingsLayoutNode = {
+            key: "nightcord_section",
             type: LayoutTypes.SECTION,
-            useTitle: () => "Equicord Settings",
-            buildLayout: () => equicordEntries
+            useTitle: () => "Nightcord Settings",
+            buildLayout: () => nightcordEntries
         };
 
         const { settingsLocation } = settings.store;
@@ -271,7 +271,7 @@ export default definePlugin({
             idx += 1;
         }
 
-        layout.splice(idx, 0, equicordSection);
+        layout.splice(idx, 0, nightcordSection);
 
         return layout;
     },
@@ -280,13 +280,13 @@ export default definePlugin({
     customEntries: [] as EntryOptions[],
 
     get electronVersion() {
-        return VencordNative.native.getVersions().electron ?? window.legcord?.electron ?? null;
+        return NightcordNative.native.getVersions().electron ?? window.legcord?.electron ?? null;
     },
 
     get chromiumVersion() {
         try {
             return (
-                VencordNative.native.getVersions().chrome ??
+                NightcordNative.native.getVersions().chrome ??
                 // @ts-expect-error userAgentData types
                 navigator.userAgentData?.brands?.find(
                     (b: { brand: string; }) => b.brand === "Chromium" || b.brand === "Google Chrome",
@@ -313,7 +313,7 @@ export default definePlugin({
     getInfoRows() {
         const { electronVersion, chromiumVersion, getVersionInfo } = this;
 
-        const rows = [`Equicord ${gitHashShort}${getVersionInfo()}`];
+        const rows = [`Nightcord ${gitHashShort}${getVersionInfo()}`];
 
         if (electronVersion) rows.push(`Electron ${electronVersion}`);
         if (chromiumVersion) rows.push(`Chromium ${chromiumVersion}`);
@@ -322,7 +322,7 @@ export default definePlugin({
     },
 
     getInfoString() {
-        if (!settings.store.includeVencordInfoWhenCopying) return "";
+        if (!settings.store.includeNightcordInfoWhenCopying) return "";
         return "\n" + this.getInfoRows().join("\n");
     },
 

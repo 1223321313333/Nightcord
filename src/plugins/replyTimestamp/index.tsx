@@ -9,7 +9,7 @@ import "./style.css";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type { Message } from "@vencord/discord-types";
+import type { Message } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { DateUtils, Timestamp } from "@webpack/common";
 import type { HTMLAttributes } from "react";

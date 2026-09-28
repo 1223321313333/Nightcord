@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Channel, User } from "@vencord/discord-types";
+import type { Channel, User } from "@nightcord/discord-types";
 
 import { extractChannelFromUrl, extractChannelPath, extractSnowflakeFromString, extractUserFromAvatar, extractUserFromProfile } from "./utils";
 

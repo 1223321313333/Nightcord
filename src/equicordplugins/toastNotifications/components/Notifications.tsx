@@ -5,7 +5,7 @@
  */
 
 import { settings as PluginSettings } from "@equicordplugins/toastNotifications/index";
-import { Channel, Message } from "@vencord/discord-types";
+import { Channel, Message } from "@nightcord/discord-types";
 import { createRoot } from "@webpack/common";
 import type { JSX } from "react";
 import type { Root } from "react-dom/client";

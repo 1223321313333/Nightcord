@@ -5,7 +5,7 @@
  */
 
 import { classNameFactory } from "@utils/css";
-import { Channel, RenderModalProps } from "@vencord/discord-types";
+import { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Avatar, Button, ChannelStore, MessageStore, Modal,React, Text, UserStore } from "@webpack/common";
 

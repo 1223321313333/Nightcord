@@ -12,7 +12,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import showMeYourName from "@plugins/showMeYourName";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { GuildRoleStore, SelectedGuildStore, useState } from "@webpack/common";
 import { JSX } from "react";
 

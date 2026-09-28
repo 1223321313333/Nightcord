@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Channel, Guild, User } from "@vencord/discord-types";
+import type { Channel, Guild, User } from "@nightcord/discord-types";
 
 const userMentionRegex = /<@!?(\d{17,20})>/;
 const userProfileUrlRegex = /discord(?:(?:app)?\.com|:\/\/-?)\/users\/(\d{17,20})/;

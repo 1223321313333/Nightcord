@@ -5,7 +5,7 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Activity } from "@vencord/discord-types";
+import { Activity } from "@nightcord/discord-types";
 import { PresenceStore, React, useEffect, useMemo, UserStore, useState, useStateFromStores } from "@webpack/common";
 import { JSX } from "react";
 

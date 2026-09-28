@@ -32,7 +32,7 @@ import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
-import { User, UserProfile } from "@vencord/discord-types";
+import { User, UserProfile } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { Button, ColorPicker, Forms, React, UserProfileStore, UserStore, useState } from "@webpack/common";
 import virtualMerge from "virtual-merge";

@@ -13,7 +13,7 @@ import { getCurrentChannel, getCurrentGuild, getIntlMessage, openImageModal } fr
 import { isTruthy } from "@utils/guards";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Guild, Role } from "@vencord/discord-types";
+import { Guild, Role } from "@nightcord/discord-types";
 import { findByCodeLazy, findByPropsLazy, findCssClassesLazy } from "@webpack";
 import { ContextMenuApi, GuildRoleStore, Menu, PermissionStore, Popout, RoleMemberPopout, useRef } from "@webpack/common";
 

@@ -71,7 +71,7 @@ async function ensureBinary() {
 
     const res = await fetch(BASE_URL + filename, {
         headers: {
-            "User-Agent": "Equicord (https://github.com/Equicord/Equicord)",
+            "User-Agent": "Nightcord (https://github.com/Equicord/Equicord)",
             "If-None-Match": etag
         }
     });
@@ -111,7 +111,7 @@ try {
         env: {
             ...process.env,
             EQUICORD_USER_DATA_DIR: BASE_DIR,
-            EQUICORD_DIRECTORY: join(BASE_DIR, "dist/desktop"),
+            NIGHTCORD_DIRECTORY: join(BASE_DIR, "dist/desktop"),
             EQUICORD_DEV_INSTALL: "1"
         }
     });

@@ -116,8 +116,8 @@ export const ExcludedReasons: Record<PluginTarget, string> = {
     vesktop: "Vesktop/Equibop apps",
     equibop: "Vesktop/Equibop apps",
     web: "Vesktop/Equibop apps & Discord web",
-    dev: "Developer version of Equicord",
-    browser: "Web Browser version of Equicord"
+    dev: "Developer version of Nightcord",
+    browser: "Web Browser version of Nightcord"
 };
 
 function ExcludedPluginsList({ search }: { search: string; }) {
@@ -255,7 +255,7 @@ export default function PluginSettings() {
         );
     }, [searchValue, search]);
 
-    const [newPluginsSet] = useAwaiter(() => DataStore.get("Vencord_existingPlugins").then((cachedPlugins: Record<string, number> | undefined) => {
+    const [newPluginsSet] = useAwaiter(() => DataStore.get("Nightcord_existingPlugins").then((cachedPlugins: Record<string, number> | undefined) => {
         const now = Date.now() / 1000;
         const existingTimestamps: Record<string, number> = {};
         const sortedPluginNames = Object.values(sortedPlugins).map(plugin => plugin.name);
@@ -267,7 +267,7 @@ export default function PluginSettings() {
                 newPlugins.push(p);
             }
         }
-        DataStore.set("Vencord_existingPlugins", existingTimestamps);
+        DataStore.set("Nightcord_existingPlugins", existingTimestamps);
 
         return lodash.isEqual(newPlugins, sortedPluginNames) ? null : new Set(newPlugins);
     }));
@@ -289,7 +289,7 @@ export default function PluginSettings() {
 
             if (isRequired) {
                 const tooltipText = p.required || !depMap[p.name]
-                    ? "This plugin is required for Equicord to function."
+                    ? "This plugin is required for Nightcord to function."
                     : <PluginDependencyList deps={depMap[p.name]?.filter(d => settings.plugins[d].enabled)} />;
 
                 requiredPlugins.push(

@@ -42,7 +42,7 @@ const KIND_ICONS: Record<CustomCommandKind, PaletteCommand["icon"]> = {
 function runCustomCommand(data: CustomCommandData) {
     switch (data.kind) {
         case "url":
-            VencordNative.native.openExternal(data.value);
+            NightcordNative.native.openExternal(data.value);
             break;
         case "settings":
             void openSettingsPage(data.value);

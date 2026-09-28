@@ -7,15 +7,15 @@
 import "./styles.css";
 
 import badges from "@plugins/_api/badges";
-import { Devs, EquicordDevs } from "@utils/constants";
-import { isEquicordPluginDev, isPluginDev } from "@utils/misc";
+import { Devs, NightcordDevs } from "@utils/constants";
+import { isNightcordPluginDev, isPluginDev } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 
 const { roleIcon } = findCssClassesLazy("roleIcon", "separator");
 const RoleIconComponent = findComponentByCodeLazy("#{intl::ROLE_ICON_ALT_TEXT}");
 
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { JSX } from "react";
 
 import settings from "./settings";
@@ -40,7 +40,7 @@ function CheckBadge({ badge, author }: { badge: string; author: User; }): JSX.El
         case "EquicordDonor":
             return (
                 <span style={{ order: settings.store.EquicordDonorPosition }}>
-                    {badges.getEquicordDonorBadges(author.id)?.map(badge => (
+                    {badges.getNightcordDonorBadges(author.id)?.map(badge => (
                         <RoleIconComponent
                             key={author.id}
                             className={roleIcon}
@@ -52,7 +52,7 @@ function CheckBadge({ badge, author }: { badge: string; author: User; }): JSX.El
                 </span>
             );
         case "EquicordContributer":
-            return isEquicordPluginDev(author.id) ? (
+            return isNightcordPluginDev(author.id) ? (
                 <span style={{ order: settings.store.EquicordContributorPosition }}>
                     <RoleIconComponent
                         className={roleIcon}
@@ -140,7 +140,7 @@ function ChatBadges({ author }: { author: User; }) {
 
 export default definePlugin({
     name: "ShowBadgesInChat",
-    authors: [Devs.Inbestigator, EquicordDevs.KrystalSkull],
+    authors: [Devs.Inbestigator, NightcordDevs.KrystalSkull],
     description: "Shows the message author's badges beside their name in chat.",
     dependencies: ["MessageDecorationsAPI"],
     tags: ["Appearance", "Chat"],

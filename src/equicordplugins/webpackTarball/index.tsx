@@ -12,7 +12,7 @@ import { Heading } from "@components/Heading";
 import { Devs } from "@utils/constants";
 import { makeLazy } from "@utils/lazy";
 import definePlugin, { OptionType } from "@utils/types";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { findByProps, wreq } from "@webpack";
 import { Button, Modal,openModal, Timestamp, useState } from "@webpack/common";
 
@@ -62,7 +62,7 @@ async function saveTar(patched: boolean) {
     const { buildNumber, builtAt } = getBuildNumber();
     const mtime = (builtAt.getTime() / 1000) | 0;
 
-    const root = patched ? `equicord-${buildNumber}` : `discord-${buildNumber}`;
+    const root = patched ? `nightcord-${buildNumber}` : `discord-${buildNumber}`;
 
     for (const [id, module] of Object.entries(wreq.m)) {
         const patchedSrc = Function.toString.call(module);

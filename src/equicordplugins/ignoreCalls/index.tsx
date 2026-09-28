@@ -10,10 +10,10 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel } from "@vencord/discord-types";
+import { Channel } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { FluxDispatcher, Menu, React, Tooltip, UserStore } from "@webpack/common";
 
@@ -93,7 +93,7 @@ export default definePlugin({
     name: "IgnoreCalls",
     description: "Allows you to ignore calls from specific users or dm groups.",
     tags: ["Voice"],
-    authors: [EquicordDevs.TheArmagan, Devs.thororen],
+    authors: [NightcordDevs.TheArmagan, Devs.thororen],
     settings,
     patches: [
         {

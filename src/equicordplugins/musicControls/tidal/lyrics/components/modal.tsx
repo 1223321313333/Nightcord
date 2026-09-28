@@ -6,7 +6,7 @@
 
 import { BaseText } from "@components/BaseText";
 import { TidalStore, Track } from "@equicordplugins/musicControls/tidal/TidalStore";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal,React } from "@webpack/common";
 
 import { cl, NoteSvg, scrollClasses, useLyrics } from "./util";

@@ -8,7 +8,7 @@ import { Button } from "@components/Button";
 import { Flex } from "@components/Flex";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
-import type { RenderModalProps } from "@vencord/discord-types";
+import type { RenderModalProps } from "@nightcord/discord-types";
 import { Checkbox, FluxDispatcher, MessageActions, Modal, openModal, PendingReplyStore, showToast, Toasts, useEffect, useState } from "@webpack/common";
 
 import { ApplicationField, BooleanField, DateTimeField, getDateTimeLocalValue, ParticipantField, TextField } from "./fields";

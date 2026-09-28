@@ -8,7 +8,7 @@ import { isPluginEnabled } from "@api/PluginManager";
 import anonymiseFileNames, { tarExtMatcher } from "@plugins/anonymiseFileNames";
 import { Devs } from "@utils/constants";
 import definePlugin, { ReporterTestable } from "@utils/types";
-import { CloudUpload } from "@vencord/discord-types";
+import { CloudUpload } from "@nightcord/discord-types";
 
 const extensionMap = {
     "ogg": [".ogv", ".oga", ".ogx", ".ogm", ".spx", ".aac", ".wma"],

@@ -30,7 +30,7 @@ export const enum BadgePosition {
 
 export interface ProfileBadge {
     /**
-     * Badge id, unused by vencord, required by discord
+     * Badge id, unused by nightcord, required by discord
      */
     id: string,
     /** The tooltip to show on hover. Required for image badges */
@@ -106,7 +106,7 @@ export function _getBadges(args: BadgeUserArgs) {
     }
 
     const donorBadges = BadgeAPIPlugin.getDonorBadges(args.userId);
-    const equicordDonorBadges = BadgeAPIPlugin.getEquicordDonorBadges(args.userId);
+    const nightcordDonorBadges = BadgeAPIPlugin.getNightcordDonorBadges(args.userId);
     const GlobalBadges = isPluginEnabled(globalBadges.name) ? globalBadges.getGlobalBadges(args.userId) : false;
 
     // do globalbadges first so it shows before the contrib badges but after donor badges
@@ -128,9 +128,9 @@ export function _getBadges(args: BadgeUserArgs) {
         );
     }
 
-    if (equicordDonorBadges) {
+    if (nightcordDonorBadges) {
         badges.unshift(
-            ...equicordDonorBadges.map(badge => ({
+            ...nightcordDonorBadges.map(badge => ({
                 ...args,
                 ...badge,
             }))

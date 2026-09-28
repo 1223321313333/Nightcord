@@ -17,7 +17,7 @@
 */
 
 import { getUniqueUsername, openUserProfile } from "@utils/discord";
-import { ChannelType, RelationshipType } from "@vencord/discord-types/enums";
+import { ChannelType, RelationshipType } from "@nightcord/discord-types/enums";
 import { GuildAvailabilityStore, UserUtils } from "@webpack/common";
 
 import settings from "./settings";

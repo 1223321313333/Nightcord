@@ -25,7 +25,7 @@ import { sleep } from "@utils/misc";
 import { Queue } from "@utils/Queue";
 import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
-import { CustomEmoji, Message, ReactionEmoji, User } from "@vencord/discord-types";
+import { CustomEmoji, Message, ReactionEmoji, User } from "@nightcord/discord-types";
 import { ChannelStore, Constants, FluxDispatcher, React, RestAPI, useEffect, useLayoutEffect, UserStore, UserSummaryItem } from "@webpack/common";
 
 interface ReactionCacheEntry {

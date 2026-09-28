@@ -8,7 +8,7 @@ import { PluginNative } from "@utils/types";
 import { saveFile } from "@utils/web";
 import { unzipSync } from "fflate";
 
-const Native = VencordNative?.pluginHelpers?.ZipPreview as PluginNative<typeof import("./native")> | undefined;
+const Native = NightcordNative?.pluginHelpers?.ZipPreview as PluginNative<typeof import("./native")> | undefined;
 
 export const MAX_ZIP_BYTES = 50 * 1024 * 1024;
 export const MAX_ENTRIES = 1000;

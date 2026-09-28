@@ -6,13 +6,13 @@
 
 import { Logger } from "@utils/Logger";
 import { PluginNative } from "@utils/types";
-import { Activity } from "@vencord/discord-types";
-import { ActivityFlags, ActivityType } from "@vencord/discord-types/enums";
+import { Activity } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityType } from "@nightcord/discord-types/enums";
 import { ApplicationAssetUtils, FluxDispatcher } from "@webpack/common";
 
 import { settings } from "../settings";
 
-const Native = VencordNative.pluginHelpers.RichPresence as PluginNative<typeof import("../native")>;
+const Native = NightcordNative.pluginHelpers.RichPresence as PluginNative<typeof import("../native")>;
 const logger = new Logger("RichPresence:GensokyoRadio");
 
 const APPLICATION_ID = "1253772057926303804";

@@ -6,8 +6,8 @@
 
 import * as DataStore from "@api/DataStore";
 import { Logger } from "@utils/Logger";
-import { Message } from "@vencord/discord-types";
-import { CloudUploadPlatform } from "@vencord/discord-types/enums";
+import { Message } from "@nightcord/discord-types";
+import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { ChannelStore, CloudUploader, Constants, FluxDispatcher, GuildStore, IconUtils, MessageActions, MessageStore, RestAPI, showToast, SnowflakeUtils, Toasts, UserStore } from "@webpack/common";
 
 import { settings } from ".";

@@ -61,7 +61,7 @@ export const useAuthorizationStore = proxyLazy(() => zustandCreate(
                         callback={async (response: any) => {
                             try {
                                 const url = new URL(response.location);
-                                url.searchParams.append("client", "vencord");
+                                url.searchParams.append("client", "nightcord");
 
                                 const req = await fetch(url);
 

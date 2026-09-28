@@ -5,8 +5,8 @@
  */
 
 import type { PluginNative } from "@utils/types";
-import type { Quest, User } from "@vencord/discord-types";
-import { QuestTargetedContent, QuestTaskType } from "@vencord/discord-types/enums";
+import type { Quest, User } from "@nightcord/discord-types";
+import { QuestTargetedContent, QuestTaskType } from "@nightcord/discord-types/enums";
 import { findByCodeLazy, findLazy } from "@webpack";
 import { AuthorizedAppsStore, FluxDispatcher, QuestStore, RestAPI, showToast, Toasts, UserStore } from "@webpack/common";
 
@@ -139,7 +139,7 @@ export function makeEnrollmentData(args: QuestButtonAnalyticsArgs): QuestEnrollm
     };
 }
 
-const QuestifyNative = VencordNative?.pluginHelpers?.Questify as PluginNative<typeof import("../native")> | undefined;
+const QuestifyNative = NightcordNative?.pluginHelpers?.Questify as PluginNative<typeof import("../native")> | undefined;
 
 const videoQuestLeeway = 24;
 const resumeExpiryMs = 60 * 60 * 1000;

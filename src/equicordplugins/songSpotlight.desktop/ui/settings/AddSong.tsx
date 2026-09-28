@@ -12,7 +12,7 @@ import { cl, logger } from "@equicordplugins/songSpotlight.desktop/lib/utils";
 import { Native } from "@equicordplugins/songSpotlight.desktop/service";
 import { parsers } from "@song-spotlight/api/handlers";
 import { Song } from "@song-spotlight/api/structs";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Clickable, closeModal, Modal, openModal, TextInput, useState } from "@webpack/common";
 
 interface AddSongModalProps {

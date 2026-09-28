@@ -25,4 +25,4 @@ export function useRender(song: Song) {
     return { failed, render };
 }
 
-export const Native = VencordNative.pluginHelpers.SongSpotlight as PluginNative<typeof import("./native")>;
+export const Native = NightcordNative.pluginHelpers.SongSpotlight as PluginNative<typeof import("./native")>;

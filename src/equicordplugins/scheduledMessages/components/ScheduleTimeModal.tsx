@@ -8,7 +8,7 @@ import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Heading } from "@components/Heading";
 import { classNameFactory } from "@utils/css";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, closeModal, DraftType, Modal, openModal, showToast, TextInput, Toasts, UploadManager, useState } from "@webpack/common";
 

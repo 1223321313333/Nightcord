@@ -6,7 +6,7 @@
 
 import { isNonNullish } from "@utils/guards";
 import { classes } from "@utils/misc";
-import { ProfilePreset } from "@vencord/discord-types";
+import { ProfilePreset } from "@nightcord/discord-types";
 import { ContextMenuApi, Menu, React, TextInput } from "@webpack/common";
 
 import { cl } from "..";

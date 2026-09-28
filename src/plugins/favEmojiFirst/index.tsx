@@ -13,11 +13,11 @@ import { BaseText } from "@components/BaseText";
 import { Button } from "@components/Button";
 import { PencilIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Emoji, Message } from "@vencord/discord-types";
+import { Emoji, Message } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { EmojiStore, Menu, openModal,TextInput, Toasts, useEffect, useState } from "@webpack/common";
 
@@ -1099,7 +1099,7 @@ const messageSendListener = (_channelId: string, messageObj: { content: string; 
 
 export default definePlugin({
     name: "FavoriteEmojiFirst",
-    authors: [Devs.Aria, Devs.Ven, EquicordDevs.justjxke],
+    authors: [Devs.Aria, Devs.Ven, NightcordDevs.justjxke],
     tags: ["Emotes", "Customisation"],
     description: "Puts your favorite emoji first in the emoji autocomplete and also has emoji alias.",
     dependencies: ["MessagePopoverAPI"],

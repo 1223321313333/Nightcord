@@ -10,11 +10,11 @@ import { showNotification } from "@api/Notifications";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { copyToClipboard } from "@utils/clipboard";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import { showItemInFolder } from "@utils/native";
 import definePlugin, { OptionType } from "@utils/types";
 import { saveFile } from "@utils/web";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { Menu, Toasts } from "@webpack/common";
 
 import { ContactsList } from "./types";
@@ -135,7 +135,7 @@ export default definePlugin({
     name: "ExportMessages",
     description: "Allows you to export any message to a file",
     tags: ["Chat", "Utility"],
-    authors: [EquicordDevs.veygax, EquicordDevs.dat_insanity],
+    authors: [NightcordDevs.veygax, NightcordDevs.dat_insanity],
     settings,
     contextMenus: {
         "message": messageContextMenuPatch

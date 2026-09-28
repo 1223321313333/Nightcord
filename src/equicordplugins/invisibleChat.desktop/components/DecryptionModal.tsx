@@ -17,7 +17,7 @@
 */
 
 import { Heading } from "@components/Heading";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, openModal, React, TextInput } from "@webpack/common";
 
 import { buildEmbed, decrypt } from "../index";

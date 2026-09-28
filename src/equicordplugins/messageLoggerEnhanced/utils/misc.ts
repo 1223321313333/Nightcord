@@ -170,7 +170,7 @@ export function getNative(): PluginNative<typeof import("../native")> {
 
     }
 
-    return Object.values(VencordNative.pluginHelpers)
+    return Object.values(NightcordNative.pluginHelpers)
         .find(m => m.messageLoggerEnhancedUniqueIdThingyIdkMan) as PluginNative<typeof import("../native")>;
 
 }

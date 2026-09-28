@@ -7,7 +7,7 @@
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { RelationshipStore, SelectedChannelStore } from "@webpack/common";
 
 interface IMessageCreate {
@@ -43,7 +43,7 @@ export default definePlugin({
             if (channelId !== SelectedChannelStore.getChannelId()) return;
             if (!message.content?.match(new RegExp(settings.store.regex, "i"))) return;
 
-            VencordNative.native.openExternal(settings.store.url);
+            NightcordNative.native.openExternal(settings.store.url);
         }
     }
 });

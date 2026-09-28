@@ -19,13 +19,13 @@ import { ManifestEntry, SyncRequest, SyncResponse } from "./types";
 
 const logger = new Logger("SettingsSync:Cloud", "#39b7e0");
 
-const MANIFEST_STORE_KEY = "Vencord_cloudManifest";
-const API_VERSION_STORE_KEY = "Vencord_cloudApiVersions";
+const MANIFEST_STORE_KEY = "Nightcord_cloudManifest";
+const API_VERSION_STORE_KEY = "Nightcord_cloudApiVersions";
 
 type ApiVersion = "v2" | "v1";
 
-const SYNC_DIRECTION_KEY = "Vencord_cloudSyncDirection";
-const SETTINGS_DIRTY_KEY = "Vencord_settingsDirty";
+const SYNC_DIRECTION_KEY = "Nightcord_cloudSyncDirection";
+const SETTINGS_DIRTY_KEY = "Nightcord_settingsDirty";
 export const getCloudSyncDirection = () => localStorage.getItem(SYNC_DIRECTION_KEY) || "both";
 export const setCloudSyncDirection = (direction: "push" | "pull" | "both" | "manual") => localStorage.setItem(SYNC_DIRECTION_KEY, direction);
 export const areLocalSettingsDirty = () => localStorage.getItem(SETTINGS_DIRTY_KEY) === "true";
@@ -82,9 +82,9 @@ async function buildLocalData(): Promise<Map<string, Uint8Array>> {
     const encoder = new TextEncoder();
     const data = new Map<string, Uint8Array>();
 
-    data.set("settings", encoder.encode(JSON.stringify(VencordNative.settings.get())));
+    data.set("settings", encoder.encode(JSON.stringify(NightcordNative.settings.get())));
 
-    const quickCss = await VencordNative.quickCss.get();
+    const quickCss = await NightcordNative.quickCss.get();
     if (quickCss) data.set("quickCss", encoder.encode(quickCss));
 
     const dataStoreEntries = await DataStore.entries();
@@ -110,7 +110,7 @@ async function applyDownloads(downloads: SyncResponse["downloads"]) {
                 logger.error("Failed to apply settings download", e);
             }
         } else if (dl.key === "quickCss") {
-            await VencordNative.quickCss.set(text);
+            await NightcordNative.quickCss.set(text);
             settingsChanged = true;
         } else if (dl.key === "dataStore") {
             try {
@@ -139,7 +139,7 @@ function handleAuthFailure() {
         title: "Cloud Settings",
         body: "Cloud sync was disabled because this account isn't connected. Reconnect in Cloud Settings.",
         color: "var(--yellow-360)",
-        onClick: () => SettingsRouter.openUserSettings("equicord_cloud_panel"),
+        onClick: () => SettingsRouter.openUserSettings("nightcord_cloud_panel"),
     });
     Settings.cloud.authenticated = false;
 }
@@ -201,7 +201,7 @@ async function putV2(manual?: boolean) {
 
     if (uploads.length === 0 && !manual) {
         logger.info("No changes to push");
-        delete localStorage.Vencord_settingsDirty;
+        delete localStorage.Nightcord_settingsDirty;
         return;
     }
 
@@ -215,7 +215,7 @@ async function putV2(manual?: boolean) {
     await saveLocalManifest(response.server_manifest);
 
     PlainSettings.cloud.settingsSyncVersion = Date.now();
-    await VencordNative.settings.set(PlainSettings);
+    await NightcordNative.settings.set(PlainSettings);
 
     logger.info(`Sync complete: ${response.uploaded.length} uploaded, ${response.downloads.length} downloaded`);
 
@@ -231,7 +231,7 @@ async function putV2(manual?: boolean) {
         });
     }
 
-    delete localStorage.Vencord_settingsDirty;
+    delete localStorage.Nightcord_settingsDirty;
 }
 
 async function getV2(shouldNotify: boolean, force: boolean) {
@@ -258,7 +258,7 @@ async function getV2(shouldNotify: boolean, force: boolean) {
     await saveLocalManifest(response.server_manifest);
 
     PlainSettings.cloud.settingsSyncVersion = Date.now();
-    await VencordNative.settings.set(PlainSettings);
+    await NightcordNative.settings.set(PlainSettings);
 
     logger.info(`Pulled ${response.downloads.length} keys from cloud`);
 
@@ -273,7 +273,7 @@ async function getV2(shouldNotify: boolean, force: boolean) {
             noPersist: true,
         });
 
-    delete localStorage.Vencord_settingsDirty;
+    delete localStorage.Nightcord_settingsDirty;
     return true;
 }
 
@@ -307,7 +307,7 @@ async function deleteV2() {
     await saveLocalManifest([]);
 
     PlainSettings.cloud.settingsSyncVersion = 0;
-    await VencordNative.settings.set(PlainSettings);
+    await NightcordNative.settings.set(PlainSettings);
 
     logger.info("Settings deleted from cloud successfully");
     showNotification({
@@ -341,7 +341,7 @@ async function putV1(manual?: boolean) {
 
     const { written } = await res.json();
     PlainSettings.cloud.settingsSyncVersion = written;
-    VencordNative.settings.set(PlainSettings);
+    NightcordNative.settings.set(PlainSettings);
 
     logger.info("Settings uploaded to cloud successfully");
 
@@ -353,7 +353,7 @@ async function putV1(manual?: boolean) {
         });
     }
 
-    delete localStorage.Vencord_settingsDirty;
+    delete localStorage.Nightcord_settingsDirty;
 }
 
 async function getV1(shouldNotify: boolean, force: boolean) {
@@ -421,7 +421,7 @@ async function getV1(shouldNotify: boolean, force: boolean) {
     await importSettings(settings, "all", true);
 
     PlainSettings.cloud.settingsSyncVersion = written;
-    VencordNative.settings.set(PlainSettings);
+    NightcordNative.settings.set(PlainSettings);
 
     logger.info("Settings loaded from cloud successfully");
     if (shouldNotify)
@@ -433,7 +433,7 @@ async function getV1(shouldNotify: boolean, force: boolean) {
             noPersist: true,
         });
 
-    delete localStorage.Vencord_settingsDirty;
+    delete localStorage.Nightcord_settingsDirty;
     return true;
 }
 
@@ -462,7 +462,7 @@ async function deleteV1() {
 }
 
 export function shouldCloudSync(direction: "push" | "pull") {
-    const localDirection = localStorage.Vencord_cloudSyncDirection;
+    const localDirection = localStorage.Nightcord_cloudSyncDirection;
     return localDirection === direction || localDirection === "both";
 }
 

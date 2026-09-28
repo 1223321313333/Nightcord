@@ -25,7 +25,7 @@ import { ImageInvisible, ImageVisible } from "@components/Icons";
 import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin from "@utils/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { ChannelStore } from "@webpack/common";
 
 const KEY = "HideMedia_HiddenIds";

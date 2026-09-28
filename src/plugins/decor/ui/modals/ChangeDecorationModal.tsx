@@ -23,7 +23,7 @@ import SectionedGridList from "@plugins/decor/ui/components/SectionedGridList";
 import { copyWithToast, openInviteModal } from "@utils/discord";
 import { Margins } from "@utils/margins";
 import { Queue } from "@utils/Queue";
-import { RenderModalProps, User } from "@vencord/discord-types";
+import { RenderModalProps, User } from "@nightcord/discord-types";
 import { closeAllModals, ConfirmModal, FluxDispatcher, Forms, GuildStore, Modal, NavigationRouter, openModal, Parser, Tooltip, useEffect, UserStore, UserSummaryItem, UserUtils, useState } from "@webpack/common";
 
 import { openCreateDecorationModal } from "./CreateDecorationModal";

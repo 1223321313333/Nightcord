@@ -8,7 +8,7 @@ import { BaseText } from "@components/BaseText";
 import { Button, TextButton } from "@components/Button";
 import { images } from "@equicordplugins/loginWithQR/images";
 import { getIntlMessage } from "@utils/discord";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import {
     Modal,

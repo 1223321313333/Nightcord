@@ -27,7 +27,7 @@ import OpenInAppPlugin from "@plugins/openInApp";
 import { Devs } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { ConnectedAccount, User } from "@vencord/discord-types";
+import { ConnectedAccount, User } from "@nightcord/discord-types";
 import { findByCodeLazy, findByPropsLazy } from "@webpack";
 import { Tooltip, useEffect, UserProfileStore, useState } from "@webpack/common";
 
@@ -207,7 +207,7 @@ function CompactConnectionComponent({ connection, theme }: { connection: Connect
                             className="vc-user-connection"
                             onClick={() => {
                                 if (connection.type === "xbox") {
-                                    VencordNative.native.openExternal(`https://www.xbox.com/en-US/play/user/${encodeURIComponent(connection.name)}`);
+                                    NightcordNative.native.openExternal(`https://www.xbox.com/en-US/play/user/${encodeURIComponent(connection.name)}`);
                                 } else {
                                     copyWithToast(connection.name);
                                 }

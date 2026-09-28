@@ -28,7 +28,7 @@ import { Devs } from "@utils/constants";
 import { copyWithToast, getCurrentGuild, getIntlMessage } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { ChannelStore, GuildRoleStore, Menu, Modal, openModal, UserProfileStore } from "@webpack/common";
 import { MouseEventHandler } from "react";
 

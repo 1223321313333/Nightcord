@@ -5,9 +5,9 @@
  */
 
 import { Flex } from "@components/Flex";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { React } from "@webpack/common";
 
 import { settings } from "./settings";
@@ -17,7 +17,7 @@ export default definePlugin({
     name: "VoiceButtons",
     description: "Quickly DM, mute, or deafen any user right from the voice-call panel.",
     tags: ["Servers", "Utility", "Voice"],
-    authors: [EquicordDevs.nicola02nb, EquicordDevs.omaw],
+    authors: [NightcordDevs.nicola02nb, NightcordDevs.omaw],
     settings,
     patches: [
         {

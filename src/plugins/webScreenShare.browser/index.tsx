@@ -24,7 +24,7 @@ class NotAllowedError extends Error {
     name = "NotAllowedError";
 }
 
-const logger = new Logger("VencordScreenShare");
+const logger = new Logger("NightcordScreenShare");
 
 const getDisplayMedia = navigator.mediaDevices.getDisplayMedia.bind(navigator.mediaDevices);
 

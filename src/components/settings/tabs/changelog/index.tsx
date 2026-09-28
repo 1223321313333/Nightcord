@@ -310,7 +310,7 @@ function ChangelogContent() {
         const checkRecentStatus = async () => {
             try {
                 const lastRepoCheck = await getLastRepositoryCheckHash();
-                const updates = await VencordNative.updater.getUpdates();
+                const updates = await NightcordNative.updater.getUpdates();
 
                 if (updates.ok) {
                     const currentRepoHash =
@@ -338,7 +338,7 @@ function ChangelogContent() {
 
         try {
             // check if the repository was recently refreshed and that nothing has changed
-            const updates = await VencordNative.updater.getUpdates();
+            const updates = await NightcordNative.updater.getUpdates();
             const lastRepoCheck = await getLastRepositoryCheckHash();
             const currentRepoHash =
                 updates.ok && updates.value.length > 0
@@ -552,7 +552,7 @@ function ChangelogContent() {
 
             <Heading className={Margins.top20}>Repository</Heading>
             <Paragraph className={Margins.bottom8}>
-                This is the GitHub repository where Equicord fetches updates from.
+                This is the GitHub repository where Nightcord fetches updates from.
             </Paragraph>
             <Paragraph color="text-subtle">
                 {repoPending ? (

@@ -6,7 +6,7 @@
 
 import { DataStore } from "@api/index";
 import { Logger } from "@utils/Logger";
-import { ProfilePreset } from "@vencord/discord-types";
+import { ProfilePreset } from "@nightcord/discord-types";
 import { UserStore } from "@webpack/common";
 
 const logger = new Logger("ProfilePresets");

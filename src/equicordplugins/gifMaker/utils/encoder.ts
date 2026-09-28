@@ -33,7 +33,7 @@ const ALLOWED_MEDIA_HOSTS = new Set([
     "media4.giphy.com",
 ]);
 
-const MediaNative = VencordNative?.pluginHelpers?.gifMaker as PluginNative<typeof import("../native")> | undefined;
+const MediaNative = NightcordNative?.pluginHelpers?.gifMaker as PluginNative<typeof import("../native")> | undefined;
 
 const blobUrlMap = new WeakMap<HTMLElement, string>();
 

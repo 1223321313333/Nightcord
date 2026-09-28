@@ -53,7 +53,7 @@ if (IS_REPORTER) {
 }
 
 async function syncSettings() {
-    const hasCloudAuth = await dsGet("Vencord_cloudSecret");
+    const hasCloudAuth = await dsGet("Nightcord_cloudSecret");
     if (!hasCloudAuth) {
         if (Settings.cloud.authenticated) {
             // User switched to an account that isn't connected to cloud
@@ -61,7 +61,7 @@ async function syncSettings() {
                 title: "Cloud Settings",
                 body: "Cloud sync was disabled because this account isn't connected to the cloud App. You can enable it again by connecting this account in Cloud Settings. (note: it will store your preferences separately)",
                 color: "var(--yellow-360)",
-                onClick: () => SettingsRouter.openUserSettings("equicord_cloud_panel")
+                onClick: () => SettingsRouter.openUserSettings("nightcord_cloud_panel")
             });
             // Disable cloud sync globally
             Settings.cloud.authenticated = false;
@@ -80,7 +80,7 @@ async function syncSettings() {
             body: "We've noticed you have cloud integrations enabled in another client! Due to limitations, you will " +
                 "need to re-authenticate to continue using them. Click here to go to the settings page to do so!",
             color: "var(--yellow-360)",
-            onClick: () => SettingsRouter.openUserSettings("equicord_cloud_panel"),
+            onClick: () => SettingsRouter.openUserSettings("nightcord_cloud_panel"),
             noPersist: true
         });
         return;
@@ -137,7 +137,7 @@ async function runUpdateCheck() {
 
     try {
         const isOutdated = await checkForUpdates();
-        if (IS_DISCORD_DESKTOP) VencordNative.tray.setUpdateState(isOutdated);
+        if (IS_DISCORD_DESKTOP) NightcordNative.tray.setUpdateState(isOutdated);
         if (!isOutdated) return;
 
         if (Settings.autoUpdate) {
@@ -147,7 +147,7 @@ async function runUpdateCheck() {
                 notifiedForUpdatesThisSession = true;
 
                 showNotice(
-                    "Equicord has been updated!",
+                    "Nightcord has been updated!",
                     "Restart",
                     relaunch
                 );
@@ -159,7 +159,7 @@ async function runUpdateCheck() {
         notifiedForUpdatesThisSession = true;
 
         showNotice(
-            "A new version of Equicord is available!",
+            "A new version of Nightcord is available!",
             "View Update",
             () => openSettingsTabModal(UpdaterTab!)
         );
@@ -171,13 +171,13 @@ async function runUpdateCheck() {
 function initTrayIpc() {
     if (IS_WEB || IS_UPDATER_DISABLED) return;
 
-    VencordNative.tray.onCheckUpdates(async () => {
+    NightcordNative.tray.onCheckUpdates(async () => {
         try {
             const isOutdated = await checkForUpdates();
-            VencordNative.tray.setUpdateState(isOutdated);
+            NightcordNative.tray.setUpdateState(isOutdated);
 
             if (isOutdated) {
-                showNotice("An Equicord update is available!", "View Update", () => openSettingsTabModal(UpdaterTab!));
+                showNotice("An Nightcord update is available!", "View Update", () => openSettingsTabModal(UpdaterTab!));
             } else {
                 showNotice("No updates available, you're on the latest version!", "OK", popNotice);
             }
@@ -187,16 +187,16 @@ function initTrayIpc() {
         }
     });
 
-    VencordNative.tray.onRepair(async () => {
+    NightcordNative.tray.onRepair(async () => {
         try {
             await update();
             relaunch();
         } catch (err) {
-            UpdateLogger.error("Failed to repair Equicord", err);
+            UpdateLogger.error("Failed to repair Nightcord", err);
         }
     });
 
-    VencordNative.tray.setUpdateState(getIsOutdated);
+    NightcordNative.tray.setUpdateState(getIsOutdated);
 }
 
 async function init() {
@@ -222,7 +222,7 @@ async function init() {
                 "Webpack has finished initialising, but some patches haven't been applied yet.",
                 "This might be expected since some Modules are lazy loaded, but please verify",
                 "that all plugins are working as intended.",
-                "You are seeing this warning because this is a Development build of Equicord.",
+                "You are seeing this warning because this is a Development build of Nightcord.",
                 "\nThe following patches have not been applied:",
                 "\n\n" + pendingPatches.map(p => `${p.plugin}: ${p.find}`).join("\n")
             );
@@ -239,6 +239,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // FIXME
     if (IS_DISCORD_DESKTOP && Settings.winNativeTitleBar && IS_WINDOWS) {
-        createAndAppendStyle("vencord-native-titlebar-style", coreStyleRootNode).textContent = "[class*=titleBar]{display: none!important}";
+        createAndAppendStyle("nightcord-native-titlebar-style", coreStyleRootNode).textContent = "[class*=titleBar]{display: none!important}";
     }
 }, { once: true });

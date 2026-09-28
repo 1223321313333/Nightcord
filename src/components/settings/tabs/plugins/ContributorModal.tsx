@@ -14,7 +14,7 @@ import { EquicordDevsById, VencordDevsById } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { fetchUserProfile } from "@utils/discord";
 import { pluralize } from "@utils/misc";
-import { RenderModalProps, User } from "@vencord/discord-types";
+import { RenderModalProps, User } from "@nightcord/discord-types";
 import { Modal, openModal, showToast, useEffect, useMemo, UserProfileStore, useStateFromStores } from "@webpack/common";
 
 import Plugins, { PluginMeta } from "~plugins";

@@ -5,7 +5,7 @@
  */
 
 import { classNameFactory } from "@utils/css";
-import { Activity, Application } from "@vencord/discord-types";
+import { Activity, Application } from "@nightcord/discord-types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { ApplicationStore } from "@webpack/common";
 

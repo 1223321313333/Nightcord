@@ -7,9 +7,9 @@
 import { getUserSettingLazy } from "@api/UserSettings";
 import { HeadingSecondary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { VoiceState } from "@vencord/discord-types";
+import { VoiceState } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { ApplicationStreamingSettingsStore, ChannelStore, MediaEngineStore, PermissionsBits, PermissionStore, SelectedChannelStore, showToast, Toasts, UserStore, VoiceActions, WindowStore } from "@webpack/common";
 
@@ -62,7 +62,7 @@ export default definePlugin({
     name: "InstantScreenshare",
     description: "Instantly screenshare when joining a voice channel with support for desktop sources, windows, and video input devices (cameras, capture cards)",
     tags: ["Media", "Voice"],
-    authors: [Devs.HAHALOSAH, Devs.thororen, EquicordDevs.mart],
+    authors: [Devs.HAHALOSAH, Devs.thororen, NightcordDevs.mart],
     dependencies: ["EquicordToolbox"],
     searchTerms: ["ScreenshareKeybind"],
     autoStartStream,

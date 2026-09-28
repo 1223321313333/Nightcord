@@ -18,7 +18,7 @@ import { classNameFactory } from "@utils/css";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { IconComponent } from "@utils/types";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Clickable, Modal, openModal } from "@webpack/common";
 
 const cl = classNameFactory("vc-plugin-ui-elements-");

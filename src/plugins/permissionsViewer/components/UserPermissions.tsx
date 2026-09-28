@@ -22,8 +22,8 @@ import { HeadingTertiary } from "@components/Heading";
 import { cl, getGuildPermissionSpecMap, getSortedRolesForMember, sortUserRoles } from "@plugins/permissionsViewer/utils";
 import { getIntlMessage } from "@utils/discord";
 import { classes } from "@utils/misc";
-import type { Guild, GuildMember, RoleOrUserPermission } from "@vencord/discord-types";
-import { PermissionOverwriteType } from "@vencord/discord-types/enums";
+import type { Guild, GuildMember, RoleOrUserPermission } from "@nightcord/discord-types";
+import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { findCssClassesLazy } from "@webpack";
 import { PermissionsBits, Tooltip, useMemo, UserStore } from "@webpack/common";
 

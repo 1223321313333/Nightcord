@@ -24,7 +24,7 @@ import { BaseText } from "@components/BaseText";
 import { Devs } from "@utils/constants.js";
 import { Queue } from "@utils/Queue";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@vencord/discord-types";
+import { Channel, Message } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, findComponentLazy, findCssClassesLazy } from "@webpack";
 import {
     Button,
@@ -220,7 +220,7 @@ function computeWidthAndHeight(width: number, height: number) {
 function withEmbeddedBy(message: Message, embeddedBy: string[]) {
     return new Proxy(message, {
         get(_, prop) {
-            if (prop === "vencordEmbeddedBy") return embeddedBy;
+            if (prop === "nightcordEmbeddedBy") return embeddedBy;
             // @ts-expect-error ts so bad
             return Reflect.get(...arguments);
         }
@@ -229,7 +229,7 @@ function withEmbeddedBy(message: Message, embeddedBy: string[]) {
 
 function MessageEmbedAccessory({ message }: { message: Message; }) {
     // @ts-expect-error
-    const embeddedBy: string[] = message.vencordEmbeddedBy ?? [];
+    const embeddedBy: string[] = message.nightcordEmbeddedBy ?? [];
 
     const accessories = [] as (JSX.Element | null)[];
 

@@ -8,10 +8,10 @@ import "./styles.css";
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { EquicordDevs } from "@utils/constants";
+import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { React, UserProfileStore } from "@webpack/common";
 
@@ -40,7 +40,7 @@ export default definePlugin({
     description: "Displays a user's public GitHub repositories in their profile",
     dependencies: ["ProfileCollectionsAPI"],
     tags: ["Appearance"],
-    authors: [EquicordDevs.talhakf, EquicordDevs.Panniku, EquicordDevs.benjii],
+    authors: [NightcordDevs.talhakf, NightcordDevs.Panniku, NightcordDevs.benjii],
     settings,
 
     patches: [

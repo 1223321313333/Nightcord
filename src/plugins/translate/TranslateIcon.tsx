@@ -20,7 +20,7 @@ import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { TooltipContainer } from "@components/TooltipContainer";
 import { classes } from "@utils/misc";
 import { IconComponent } from "@utils/types";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { ConfirmModal, openModal, useEffect, useState } from "@webpack/common";
 
 import { settings } from "./settings";
@@ -48,7 +48,7 @@ function AutoTranslateConfirmModal(props: RenderModalProps) {
     return (
         <ConfirmModal
             {...props}
-            title="Vencord Auto-Translate Enabled"
+            title="Nightcord Auto-Translate Enabled"
             subtitle="You just enabled Auto Translate! Any message will automatically be translated before being sent."
             confirmText="Disable Auto-Translate"
             onConfirm={() => settings.store.autoTranslate = false}

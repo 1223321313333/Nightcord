@@ -17,7 +17,7 @@ export default definePlugin({
             find: ".SIDEBAR,disableToolbar:",
             replacement: {
                 match: /(#{intl::USER_PROFILE_MEMBER_SINCE}\),.{0,100}userId:(\i\.id)\}\)\}\))(?=.{0,100}unownedWishlistItems:\i,wishlistId:\i)/,
-                replace: "$1,Vencord.Api.ProfileSections.renderProfileSections({userId:$2,isSideBar:true})",
+                replace: "$1,Nightcord.Api.ProfileSections.renderProfileSections({userId:$2,isSideBar:true})",
             }
         },
         // user profile modal
@@ -25,7 +25,7 @@ export default definePlugin({
             find: ",applicationRoleConnection:",
             replacement: {
                 match: /(#{intl::USER_PROFILE_MEMBER_SINCE}\),.{0,100}userId:(\i\.id),.{0,100}}\)}\)),/,
-                replace: "$1,Vencord.Api.ProfileSections.renderProfileSections({userId:$2,isSideBar:false}),",
+                replace: "$1,Nightcord.Api.ProfileSections.renderProfileSections({userId:$2,isSideBar:false}),",
             }
         },
         // user profile modal v2
@@ -33,7 +33,7 @@ export default definePlugin({
             find: ".MODAL_V2,onClose:",
             replacement: {
                 match: /(#{intl::USER_PROFILE_MEMBER_SINCE}\),.{0,100}userId:(\i\.id),.{0,100}}\)}\)),/,
-                replace: "$1,Vencord.Api.ProfileSections.renderProfileSections({userId:$2,isSideBar:false}),",
+                replace: "$1,Nightcord.Api.ProfileSections.renderProfileSections({userId:$2,isSideBar:false}),",
             }
         }
     ]

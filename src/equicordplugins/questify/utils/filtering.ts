@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Quest } from "@vencord/discord-types";
-import { QuestRewardType, QuestTaskType } from "@vencord/discord-types/enums";
+import type { Quest } from "@nightcord/discord-types";
+import { QuestRewardType, QuestTaskType } from "@nightcord/discord-types/enums";
 
 export type QuestIncludedTypes = Record<QuestTaskType | QuestRewardType, boolean>;
 
