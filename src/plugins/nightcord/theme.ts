@@ -55,15 +55,23 @@ export const FONTS = {
 
 export type FontId = keyof typeof FONTS;
 
+let colorCtx: CanvasRenderingContext2D | null = null;
+
+/** Any CSS colour → [r, g, b]. Uses a detached canvas, so it never forces a restyle of the page. */
+function toRgb(color: string): [number, number, number] {
+    colorCtx ??= document.createElement("canvas").getContext("2d");
+    if (!colorCtx) return [139, 92, 246];
+    colorCtx.fillStyle = "#8b5cf6";
+    colorCtx.fillStyle = color; // invalid colours are ignored and keep the fallback
+    const v = String(colorCtx.fillStyle);
+    if (v.startsWith("#")) return [1, 3, 5].map(i => parseInt(v.slice(i, i + 2), 16)) as [number, number, number];
+    const m = v.match(/\d+(\.\d+)?/g)?.map(Number) ?? [139, 92, 246];
+    return [m[0], m[1], m[2]];
+}
+
 /** Any CSS colour → [h, s, l] */
 export function toHsl(color: string): [number, number, number] {
-    const probe = document.createElement("div");
-    probe.style.color = color;
-    document.body.appendChild(probe);
-    const rgb = getComputedStyle(probe).color.match(/\d+(\.\d+)?/g)?.map(Number) ?? [139, 92, 246];
-    probe.remove();
-
-    const [r, g, b] = rgb.map(v => v / 255);
+    const [r, g, b] = toRgb(color).map(v => v / 255);
     const max = Math.max(r, g, b), min = Math.min(r, g, b);
     const l = (max + min) / 2;
     let h = 0, s = 0;

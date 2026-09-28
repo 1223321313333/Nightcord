@@ -235,6 +235,7 @@ export function parseEditContent(content: string, message: Message) {
 }
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "MessageLogger",
     description: "Temporarily logs deleted and edited messages.",
     tags: ["Chat", "Utility"],
