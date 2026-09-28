@@ -37,28 +37,37 @@ const settings = definePluginSettings({
     },
     notify: {
         type: OptionType.BOOLEAN,
-        description: "Show a notification when a new message contains a keyword",
+        description: "Show a notification when a new message contains one of your keywords (your own name is only highlighted, Discord already notifies about mentions)",
         default: true
     }
 });
 
+/** Highlights: your keywords plus, optionally, your own name */
 let matcher: RegExp | null = null;
+/** Notifications: only the keywords you typed in */
+let notifyMatcher: RegExp | null = null;
 
 const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
+// Unicode-aware "whole word" check so Russian words match too
+function buildMatcher(words: string[]) {
+    const unique = [...new Set(words.filter(w => w && w.length >= 2))];
+    return unique.length
+        ? new RegExp(`(?<![\\p{L}\\p{N}])(${unique.map(escape).join("|")})(?![\\p{L}\\p{N}])`, "iu")
+        : null;
+}
+
 function rebuild() {
-    const words = settings.store.keywords.split(",").map(w => w.trim()).filter(Boolean);
+    const keywords = settings.store.keywords.split(",").map(w => w.trim()).filter(Boolean);
+    const names: string[] = [];
 
     if (settings.store.includeMyName) {
         const me = UserStore.getCurrentUser();
-        if (me) words.push(me.username, (me as any).globalName);
+        if (me) names.push(me.username, (me as any).globalName);
     }
 
-    const unique = [...new Set(words.filter(w => w && w.length >= 2))];
-    // Unicode-aware "whole word" check so Russian words match too
-    matcher = unique.length
-        ? new RegExp(`(?<![\\p{L}\\p{N}])(${unique.map(escape).join("|")})(?![\\p{L}\\p{N}])`, "iu")
-        : null;
+    matcher = buildMatcher([...keywords, ...names]);
+    notifyMatcher = buildMatcher(keywords);
 }
 
 function applyColor() {
@@ -85,9 +94,9 @@ function KeywordMarker({ keyword }: { keyword: string; }) {
     return <span ref={ref} className="nc-keyword-hit" data-keyword={keyword} />;
 }
 
-function findKeyword(content: string | undefined) {
-    if (!matcher || !content) return null;
-    return content.match(matcher)?.[1] ?? null;
+function findKeyword(content: string | undefined, re = matcher) {
+    if (!re || !content) return null;
+    return content.match(re)?.[1] ?? null;
 }
 
 export default definePlugin({
@@ -113,7 +122,7 @@ export default definePlugin({
             // You are already looking at this chat
             if (message.channel_id === SelectedChannelStore.getChannelId() && document.hasFocus()) return;
 
-            const hit = findKeyword(message.content);
+            const hit = findKeyword(message.content, notifyMatcher);
             if (!hit) return;
 
             const channel = ChannelStore.getChannel(message.channel_id);
