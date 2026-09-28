@@ -5,8 +5,8 @@
  */
 
 import { showNotification } from "@api/Notifications";
+import type { Quest } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
-import type { Quest } from "@vencord/discord-types";
 import { NavigationRouter } from "@webpack/common/utils";
 
 import { normalizeQuestName } from "./filtering";

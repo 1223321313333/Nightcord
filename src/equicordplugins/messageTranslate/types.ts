@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Message } from "@vencord/discord-types";
+import type { Message } from "@nightcord/discord-types";
 
 export interface TranslateResponse {
     src: string;

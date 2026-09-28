@@ -30,8 +30,8 @@ export const serviceMap: Record<string, string> = {
     vendroidenhanced: "VendroidEnhanced",
     revenge: "Revenge",
     record: "ReCord",
-    vencord: "Vencord",
-    equicord: "Equicord"
+    vencord: "Nightcord",
+    equicord: "Nightcord"
 };
 
 const blockedMods = ["vencord", "equicord"];

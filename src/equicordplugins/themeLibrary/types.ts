@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { RenderModalProps, User } from "@vencord/discord-types";
+import { RenderModalProps, User } from "@nightcord/discord-types";
 
 type Author = {
     github_name?: string;

@@ -164,7 +164,7 @@ function CloudTab() {
 
             <Heading className={Margins.top20}>Settings Sync</Heading>
             <Paragraph className={Margins.bottom16}>
-                Synchronize your Equicord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.
+                Synchronize your Nightcord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.
             </Paragraph>
 
             <FormSwitch
@@ -185,9 +185,9 @@ function CloudTab() {
 
             <Select
                 options={syncDirectionOptions}
-                isSelected={v => v === (localStorage.Vencord_cloudSyncDirection ?? "both")}
+                isSelected={v => v === (localStorage.Nightcord_cloudSyncDirection ?? "both")}
                 select={v => {
-                    localStorage.Vencord_cloudSyncDirection = v;
+                    localStorage.Nightcord_cloudSyncDirection = v;
                     forceUpdate();
                 }}
                 serialize={v => v}

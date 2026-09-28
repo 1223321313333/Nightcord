@@ -6,7 +6,7 @@
 
 import { RepoGroup, RepoSortMode } from "@equicordplugins/githubRepos/types";
 import { PERSONAL_GROUP_KEY, sortGroups } from "@equicordplugins/githubRepos/utils";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, React, useState } from "@webpack/common";
 
 import { cl, settings } from "..";

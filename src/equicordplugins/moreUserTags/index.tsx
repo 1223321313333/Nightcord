@@ -7,11 +7,11 @@
 import "./styles.css";
 
 import { migratePluginToSettings } from "@api/Settings";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Channel, Message, User } from "@nightcord/discord-types";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel, getIntlMessage } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { Channel, Message, User } from "@vencord/discord-types";
 import { ChannelStore, GuildStore, PermissionsBits, SelectedChannelStore, UserStore } from "@webpack/common";
 
 import { computePermissions, Tag, tags } from "./consts";
@@ -39,7 +39,7 @@ export default definePlugin({
     description: "Adds tags for webhooks and moderative roles (owner, admin, etc.)",
     dependencies: ["MemberListDecoratorsAPI", "MessageDecorationsAPI", "NicknameIconsAPI"],
     tags: ["Appearance", "Chat"],
-    authors: [Devs.Cyn, Devs.TheSun, Devs.RyanCaoDev, Devs.LordElias, Devs.AutumnVN, EquicordDevs.Hen, EquicordDevs.meowabyte],
+    authors: [Devs.Cyn, Devs.TheSun, Devs.RyanCaoDev, Devs.LordElias, Devs.AutumnVN, NightcordDevs.Hen, NightcordDevs.meowabyte],
     settings,
     patches: [
         // Make discord actually use our tags

@@ -22,10 +22,10 @@ import {
 } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { CogWheel } from "@components/Icons";
+import { Guild } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { sleep } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Guild } from "@vencord/discord-types";
 import { findByCodeLazy, findByPropsLazy, mapMangledModuleLazy } from "@webpack";
 import { ChannelStore, CollapsedVoiceChannelStore, Menu, SortedGuildStore, UserStore } from "@webpack/common";
 

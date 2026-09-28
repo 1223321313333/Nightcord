@@ -6,13 +6,13 @@
 
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
+import type { Channel, Message } from "@nightcord/discord-types";
+import { ApplicationIntegrationType, MessageFlags } from "@nightcord/discord-types/enums";
 import NoReplyMentionPlugin from "@plugins/noReplyMention";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { copyWithToast, insertTextIntoChatInputBox } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import type { Channel, Message } from "@vencord/discord-types";
-import { ApplicationIntegrationType, MessageFlags } from "@vencord/discord-types/enums";
 import { AuthenticationStore, Constants, EditMessageStore, FluxDispatcher, MessageActions, MessageTypeSets, PermissionsBits, PermissionStore, PinActions, RestAPI, Toasts, WindowStore } from "@webpack/common";
 
 import { AdditionalReactEmojisSetting, MAX_ADDITIONAL_REACT_EMOJIS, ReactEmojiSetting } from "./ReactEmojiSetting";
@@ -438,7 +438,7 @@ function quoteMessage(channel: Channel, msg: Message) {
 }
 
 function openInNewTab(msg: Message, channel: Channel) {
-    VencordNative.native.openExternal(getMessageLink(msg, channel));
+    NightcordNative.native.openExternal(getMessageLink(msg, channel));
 }
 
 function openInThread(msg: Message, channel: Channel) {
@@ -579,7 +579,7 @@ export default definePlugin({
     name: "MessageClickActions",
     description: "Customize click actions on messages.",
     tags: ["Chat", "Shortcuts"],
-    authors: [Devs.Ven, EquicordDevs.keircn, EquicordDevs.ZcraftElite, EquicordDevs.omaw],
+    authors: [Devs.Ven, NightcordDevs.keircn, NightcordDevs.ZcraftElite, NightcordDevs.omaw],
     isModified: true,
 
     settings,

@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { User } from "@nightcord/discord-types";
 import { copyToClipboard } from "@utils/clipboard";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { User } from "@vencord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { Toasts } from "@webpack/common";
 

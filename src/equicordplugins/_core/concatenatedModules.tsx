@@ -27,7 +27,7 @@ export default definePlugin({
         iconsModule = value;
 
         // incase you dont want to use iconviewer you can do
-        // Vencord.Plugins.plugins.ConcatenatedModules.iconsModule instead for icons and viewing paths
+        // Nightcord.Plugins.plugins.ConcatenatedModules.iconsModule instead for icons and viewing paths
         this.iconsModule = value;
     },
 });

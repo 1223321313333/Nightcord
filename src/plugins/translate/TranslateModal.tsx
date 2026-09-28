@@ -19,8 +19,8 @@
 import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { HeadingSecondary } from "@components/Heading";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Margins } from "@utils/margins";
-import { RenderModalProps } from "@vencord/discord-types";
 import { Modal, openModal, SearchableSelect, useMemo } from "@webpack/common";
 
 import { settings } from "./settings";

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { Quest } from "@vencord/discord-types";
+import type { Quest } from "@nightcord/discord-types";
 import { QuestStore } from "@webpack/common";
 
 import type { QuestIncludedTypes } from "../utils/filtering";

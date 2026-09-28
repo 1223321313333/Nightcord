@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ApplicationIntegrationType } from "@vencord/discord-types/enums";
+import { ApplicationIntegrationType } from "@nightcord/discord-types/enums";
 import { OAuth2AuthorizeModal, openModal,showToast, Toasts } from "@webpack/common";
 
 import { apiConstants, authFetch, getData } from "./api";

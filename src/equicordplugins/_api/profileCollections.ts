@@ -17,7 +17,7 @@ export default definePlugin({
             find: '"UserProfilePopout");',
             replacement: {
                 match: /user:\i,widgets:.{0,100}?\}\),/,
-                replace: "$&Vencord.Api.ProfileCollections.renderProfileCollections(arguments[0]),",
+                replace: "$&Nightcord.Api.ProfileCollections.renderProfileCollections(arguments[0]),",
             }
         },
         // user panel popout
@@ -25,7 +25,7 @@ export default definePlugin({
             find: '"UserProfileAccountPopout"',
             replacement: {
                 match: /user:\i,widgets:.{0,100}}\),/,
-                replace: "$&Vencord.Api.ProfileCollections.renderProfileCollections(arguments[0]),",
+                replace: "$&Nightcord.Api.ProfileCollections.renderProfileCollections(arguments[0]),",
             },
         },
         // dm sidebar
@@ -34,11 +34,11 @@ export default definePlugin({
             replacement: [
                 {
                     match: /user:\i,widgets:.{0,100}?\}\),(?=.{0,100}user:\i,currentUser:\i)/,
-                    replace: "$&arguments[0]?.isRedesignEnabled&&Vencord.Api.ProfileCollections.renderProfileCollections({...arguments[0],isSideBar:true}),"
+                    replace: "$&arguments[0]?.isRedesignEnabled&&Nightcord.Api.ProfileCollections.renderProfileCollections({...arguments[0],isSideBar:true}),"
                 },
                 {
                     match: /user:\i,widgets:.{0,100}?\}\),(?=.{0,100}unownedWishlistItems:\i,wishlistId:\i)/,
-                    replace: "$&!arguments[0]?.isRedesignEnabled&&Vencord.Api.ProfileCollections.renderProfileCollections({...arguments[0],isSideBar:true}),"
+                    replace: "$&!arguments[0]?.isRedesignEnabled&&Nightcord.Api.ProfileCollections.renderProfileCollections({...arguments[0],isSideBar:true}),"
                 }
             ]
         }

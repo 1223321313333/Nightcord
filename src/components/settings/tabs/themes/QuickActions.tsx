@@ -50,7 +50,7 @@ export function QuickActionsSection({ fileInputRef, onFileUpload, refreshLocalTh
             ) : (
                 <QuickAction
                     text="Open Themes Folder"
-                    action={() => VencordNative.themes.openFolder()}
+                    action={() => NightcordNative.themes.openFolder()}
                     Icon={FolderIcon}
                 />
             )}
@@ -61,7 +61,7 @@ export function QuickActionsSection({ fileInputRef, onFileUpload, refreshLocalTh
             />
             <QuickAction
                 text="Edit QuickCSS"
-                action={() => VencordNative.quickCss.openEditor()}
+                action={() => NightcordNative.quickCss.openEditor()}
                 Icon={PaintbrushIcon}
             />
             {Settings.plugins.ClientTheme.enabled && (

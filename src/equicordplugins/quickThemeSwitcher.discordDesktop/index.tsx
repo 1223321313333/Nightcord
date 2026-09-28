@@ -12,7 +12,7 @@ import { Devs, IS_MAC } from "@utils/constants";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
 import { showToast, Toasts } from "@webpack/common";
 
-const { VencordNative } = window;
+const { NightcordNative } = window;
 
 interface ThemeItem {
     name: string;
@@ -96,7 +96,7 @@ async function getAllThemes(): Promise<ThemeItem[]> {
     const themes: ThemeItem[] = [];
 
     if (settings.store.includeLocal) {
-        const localThemes: ThemeFile[] = await VencordNative.themes.getThemesList();
+        const localThemes: ThemeFile[] = await NightcordNative.themes.getThemesList();
         localThemes.forEach(({ fileName }) => {
             if (!fileName.endsWith(".css") || fileName === "source.theme.css") return;
             themes.push({
@@ -192,7 +192,7 @@ async function reloadThemes() {
 async function watchForLocalThemeChanges() {
     if (!settings.store.autoRefresh || !settings.store.includeLocal) return;
 
-    const currentThemes = await VencordNative.themes.getThemesList();
+    const currentThemes = await NightcordNative.themes.getThemesList();
     const currentCount = currentThemes.filter(
         (t: ThemeFile) => t.fileName.endsWith(".css") && t.fileName !== "source.theme.css",
     ).length;

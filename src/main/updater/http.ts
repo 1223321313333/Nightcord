@@ -18,7 +18,7 @@
 
 import { fetchBuffer, fetchJson } from "@main/utils/http";
 import { IpcEvents } from "@shared/IpcEvents";
-import { VENCORD_USER_AGENT } from "@shared/vencordUserAgent";
+import { NIGHTCORD_USER_AGENT } from "@shared/nightcordUserAgent";
 import { ipcMain } from "electron";
 import { writeFileSync } from "original-fs";
 
@@ -36,7 +36,7 @@ async function githubGet<T = any>(endpoint: string) {
             Accept: "application/vnd.github+json",
             // "All API requests MUST include a valid User-Agent header.
             // Requests with no User-Agent header will be rejected."
-            "User-Agent": VENCORD_USER_AGENT
+            "User-Agent": NIGHTCORD_USER_AGENT
         }
     });
 }

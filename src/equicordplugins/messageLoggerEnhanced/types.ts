@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Message, MessageAttachment, MessageJSON } from "@vencord/discord-types";
+import { Message, MessageAttachment, MessageJSON } from "@nightcord/discord-types";
 
 export interface LoggedAttachment extends MessageAttachment {
     fileExtension?: string | null;

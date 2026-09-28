@@ -11,9 +11,9 @@ import { Card } from "@components/Card";
 import { HeadingPrimary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import type { Theme, ThemeLikeProps } from "@equicordplugins/themeLibrary/types";
+import { User } from "@nightcord/discord-types";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
-import { User } from "@vencord/discord-types";
 import { FluxDispatcher, Modal, openModal, Parser, React, UserStore, UserUtils } from "@webpack/common";
 import { Constructor } from "type-fest";
 
@@ -102,9 +102,9 @@ export const ThemeCard: React.FC<ThemeCardProps> = ({ theme, themeLinks, likedTh
         const source = metadata.match(/@source\s+(.+)/)?.[1] || "";
 
         if (source) {
-            VencordNative.native.openExternal(source);
+            NightcordNative.native.openExternal(source);
         } else {
-            VencordNative.native.openExternal(`${apiUrl}/${theme.id}`);
+            NightcordNative.native.openExternal(`${apiUrl}/${theme.id}`);
         }
     };
 

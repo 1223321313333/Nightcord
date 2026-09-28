@@ -35,7 +35,7 @@ export default definePlugin({
     ],
 
     renderButtons(props: { nameplate?: any; }) {
-        return Vencord.Api.UserArea._renderButtons({
+        return Nightcord.Api.UserArea._renderButtons({
             nameplate: !this.shouldHideNameplate() ? props.nameplate : null,
             iconForeground: accountClasses.iconForeground,
             hideTooltips: this.shouldHideTooltips()

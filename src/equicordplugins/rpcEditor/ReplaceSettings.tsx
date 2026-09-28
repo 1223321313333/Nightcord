@@ -9,10 +9,10 @@ import { CheckedTextInput } from "@components/CheckedTextInput";
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading, HeadingSecondary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
+import { Activity } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityType } from "@nightcord/discord-types/enums";
 import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
-import { Activity } from "@vencord/discord-types";
-import { ActivityFlags, ActivityType } from "@vencord/discord-types/enums";
 import { PresenceStore, React, Select, SnowflakeUtils, TextInput, UserStore } from "@webpack/common";
 
 import { AppIdSetting, makeEmptyAppId } from ".";

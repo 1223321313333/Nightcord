@@ -20,7 +20,7 @@ import { isS3Configured, uploadToS3 } from "./s3";
 import { parseShareXConfig, resolveShareXTemplate } from "./sharex";
 
 const Native = IS_DISCORD_DESKTOP
-    ? VencordNative.pluginHelpers.FileUpload as PluginNative<typeof import("../native")>
+    ? NightcordNative.pluginHelpers.FileUpload as PluginNative<typeof import("../native")>
     : null;
 
 export const logger = new Logger("FileUpload", "#7cb7ff");

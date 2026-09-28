@@ -242,7 +242,7 @@ importers:
       '@types/yazl':
         specifier: ^3.3.1
         version: 3.3.1
-      '@vencord/discord-types':
+      '@nightcord/discord-types':
         specifier: link:packages/discord-types
         version: link:packages/discord-types
       diff:
@@ -336,7 +336,7 @@ importers:
         specifier: ^5.7.0
         version: 5.7.0
 
-  packages/vencord-types:
+  packages/nightcord-types:
     dependencies:
       '@types/lodash':
         specifier: 4.17.19
@@ -350,7 +350,7 @@ importers:
       '@types/react-dom':
         specifier: 19.0.4
         version: 19.0.4(@types/react@19.0.12)
-      '@vencord/discord-types':
+      '@nightcord/discord-types':
         specifier: ^1.0.2
         version: 1.0.2(@types/react@19.0.12)
       highlight.js:
@@ -868,7 +868,7 @@ packages:
   '@vap/shiki@0.10.5':
     resolution: {integrity: sha512-5BHVGvQT8qonbLSASon5aQFQ18OZU4FxSl9tLSj6oJ0sap3KdMbYcfGq25M9zFZR1g1dJN7fgjmZXBIS5omIdw==}
 
-  '@vencord/discord-types@1.0.2':
+  '@nightcord/discord-types@1.0.2':
     resolution: {integrity: sha512-nq3YZebbv085/FsFcKhoVBCs9U9QuAEPy1noL9x9Bb5B29TdhQqr/hJCcApSWjY8J299+tLi30LEe0YGo3yn0Q==}
     peerDependencies:
       '@types/react': 19.1.0
@@ -3023,7 +3023,7 @@ snapshots:
       vscode-oniguruma: 1.7.0
       vscode-textmate: 5.2.0
 
-  '@vencord/discord-types@1.0.2(@types/react@19.0.12)':
+  '@nightcord/discord-types@1.0.2(@types/react@19.0.12)':
     dependencies:
       '@types/react': 19.0.12
       moment: 2.22.2

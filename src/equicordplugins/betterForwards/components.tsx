@@ -8,9 +8,9 @@ import { BaseText } from "@components/BaseText";
 import { Flex } from "@components/Flex";
 import { AtIcon, DiscordIconSizes, RightArrow, TextIcon } from "@components/Icons";
 import { iconsModule } from "@equicordplugins/_core/concatenatedModules";
+import { BasicGuild, Channel, Guild, GuildProfile, Message, MessageAttachment } from "@nightcord/discord-types";
 import { getGuildAcronym, getIntlMessage } from "@utils/discord";
 import { getUserAvatarUrl, identity } from "@utils/misc";
-import { BasicGuild, Channel, Guild, GuildProfile, Message, MessageAttachment } from "@vencord/discord-types";
 import { findByCodeLazy, findComponentByCodeLazy } from "@webpack";
 import { BasicGuildStore, ChannelActionCreators, ChannelStore, DateUtils, GuildProfileStore, GuildStore, IconUtils, InviteActions, Popout, React, RelationshipStore, RestAPI, SnowflakeUtils, useCallback, useEffect, useMemo, useRef, UserStore, useState, useStateFromStores } from "@webpack/common";
 

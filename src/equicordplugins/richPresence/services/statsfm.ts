@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Activity, ActivityButton } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityType } from "@nightcord/discord-types/enums";
 import { Logger } from "@utils/Logger";
-import { Activity, ActivityButton } from "@vencord/discord-types";
-import { ActivityFlags, ActivityType } from "@vencord/discord-types/enums";
 import { ApplicationAssetUtils, FluxDispatcher, SelfPresenceStore } from "@webpack/common";
 
 import { settings } from "../settings";

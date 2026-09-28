@@ -5,10 +5,10 @@
  */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import type { Channel, User } from "@nightcord/discord-types";
 import { copyToClipboard } from "@utils/clipboard";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type { Channel, User } from "@vencord/discord-types";
 import { Menu } from "@webpack/common";
 
 const MentionIcon = () => (
@@ -47,7 +47,7 @@ const UserContextMenuPatch: NavContextMenuPatchCallback = (children, { user }: U
 
 export default definePlugin({
     name: "CopyUserMention",
-    authors: [EquicordDevs.Cortex, Devs.castdrian],
+    authors: [NightcordDevs.Cortex, Devs.castdrian],
     description: "Adds a button to copy user's mention on the user context menu, works best with ValidUser.",
     tags: ["Chat", "Utility"],
     contextMenus: {

@@ -101,7 +101,7 @@ function ThemesTab() {
     }
 
     async function refreshLocalThemes() {
-        const themes = await VencordNative.themes.getThemesList();
+        const themes = await NightcordNative.themes.getThemesList();
         setUserThemes(themes);
     }
 
@@ -122,7 +122,7 @@ function ThemesTab() {
             return new Promise<void>((resolve, reject) => {
                 const reader = new FileReader();
                 reader.onload = () => {
-                    VencordNative.themes.uploadTheme(name, reader.result as string)
+                    NightcordNative.themes.uploadTheme(name, reader.result as string)
                         .then(resolve)
                         .catch(reject);
                 };
@@ -485,7 +485,7 @@ function ThemesTab() {
                                 onDelete={async () => {
                                     onLocalThemeChange(localTheme.fileName, false);
                                     clearThemeState(localTheme.fileName);
-                                    await VencordNative.themes.deleteTheme(localTheme.fileName);
+                                    await NightcordNative.themes.deleteTheme(localTheme.fileName);
                                     refreshLocalThemes();
                                 }}
                                 showDeleteButton

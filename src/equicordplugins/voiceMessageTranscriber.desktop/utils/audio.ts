@@ -6,7 +6,7 @@
 
 import { PluginNative } from "@utils/types";
 
-const Native = VencordNative.pluginHelpers.VoiceMessageTranscriber as PluginNative<typeof import("../native")>;
+const Native = NightcordNative.pluginHelpers.VoiceMessageTranscriber as PluginNative<typeof import("../native")>;
 
 export async function fetchVoiceMessage(src: string): Promise<Blob> {
     if (IS_DISCORD_DESKTOP || IS_EQUIBOP) {

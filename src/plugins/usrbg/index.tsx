@@ -91,7 +91,7 @@ export default definePlugin({
         <Button
             variant="link"
             className={cl("settings-button")}
-            onClick={() => VencordNative.native.openExternal("https://github.com/AutumnVN/usrbg#how-to-request-your-own-usrbg-banner")}
+            onClick={() => NightcordNative.native.openExternal("https://github.com/AutumnVN/usrbg#how-to-request-your-own-usrbg-banner")}
         >
             Get your own USRBG banner
         </Button>

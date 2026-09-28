@@ -77,9 +77,9 @@ export async function importSettings(data: string, type: BackupType = "all", clo
 
             if (parsed.settings) {
                 deepMerge(PlainSettings, parsed.settings);
-                await VencordNative.settings.set(PlainSettings);
+                await NightcordNative.settings.set(PlainSettings);
             }
-            if (parsed.quickCss) await VencordNative.quickCss.set(parsed.quickCss);
+            if (parsed.quickCss) await NightcordNative.quickCss.set(parsed.quickCss);
             if (parsed.dataStore) await DataStore.setMany(parsed.dataStore);
             break;
         }
@@ -87,13 +87,13 @@ export async function importSettings(data: string, type: BackupType = "all", clo
             if (!parsed.settings) throw new Error("Plugin settings missing");
 
             deepMerge(PlainSettings, parsed.settings);
-            await VencordNative.settings.set(PlainSettings);
+            await NightcordNative.settings.set(PlainSettings);
             break;
         }
         case "css": {
             if (!parsed.quickCss) throw new Error("CSS missing");
 
-            await VencordNative.quickCss.set(parsed.quickCss);
+            await NightcordNative.quickCss.set(parsed.quickCss);
             break;
         }
         case "datastore": {
@@ -106,8 +106,8 @@ export async function importSettings(data: string, type: BackupType = "all", clo
 }
 
 export async function exportSettings({ syncDataStore = true, type = "all", minify }: { syncDataStore?: boolean; type?: BackupType; minify?: boolean; }) {
-    const settings = VencordNative.settings.get();
-    const quickCss = await VencordNative.quickCss.get();
+    const settings = NightcordNative.settings.get();
+    const quickCss = await NightcordNative.quickCss.get();
     let dataStore: any;
 
     if (syncDataStore) {
@@ -146,7 +146,7 @@ export async function downloadSettingsBackup(type: BackupType = "all", { minify 
     try {
         const syncDataStore = type === "all" || type === "datastore";
         const backup = await exportSettings({ minify, type, syncDataStore });
-        const filename = `equicord-${type}-backup-${moment().format("YYYY-MM-DD")}.json`;
+        const filename = `nightcord-${type}-backup-${moment().format("YYYY-MM-DD")}.json`;
         const data = new TextEncoder().encode(backup);
 
         if (IS_DISCORD_DESKTOP) {
@@ -165,7 +165,7 @@ export async function uploadSettingsBackup(type: BackupType = "all", showToast =
     if (IS_DISCORD_DESKTOP) {
         const [file] = await DiscordNative.fileManager.openFiles({
             filters: [
-                { name: "Equicord Settings Backup", extensions: ["json"] },
+                { name: "Nightcord Settings Backup", extensions: ["json"] },
                 { name: "all", extensions: ["*"] }
             ]
         });

@@ -5,7 +5,7 @@
  */
 
 import { getUserSettingLazy } from "@api/UserSettings";
-import type { Theme } from "@vencord/discord-types";
+import type { Theme } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { showToast, ThemeStore, Toasts, VoiceActions } from "@webpack/common";
 

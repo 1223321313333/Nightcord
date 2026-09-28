@@ -6,7 +6,7 @@
 
 import { BaseText } from "@components/BaseText";
 import { Flex } from "@components/Flex";
-import { RenderModalProps } from "@vencord/discord-types";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, openModal, SearchableSelect, useState } from "@webpack/common";
 
 import { LANGUAGES } from "../utils/languages";

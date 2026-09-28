@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { User } from "@vencord/discord-types";
+import { User } from "@nightcord/discord-types";
 import { MessageStore } from "@webpack/common";
 
 import { LoggedMessageJSON, RefrencedMessage } from "../types";

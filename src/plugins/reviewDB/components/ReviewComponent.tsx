@@ -24,7 +24,7 @@ import { canBlockReviewAuthor, canDeleteReview, canReportReview, cl, showToast }
 import { openUserProfile } from "@utils/discord";
 import { classes } from "@utils/misc";
 import { findCssClassesLazy } from "@webpack";
-import { ConfirmModal, IconUtils, openModal as openVencordModal, Parser, Timestamp, useEffect, useState } from "@webpack/common";
+import { ConfirmModal, IconUtils, openModal as openNightcordModal, Parser, Timestamp, useEffect, useState } from "@webpack/common";
 
 import { openBlockModal } from "./BlockedUserModal";
 import { BlockButton, DeleteButton, ReportButton } from "./MessageButton";
@@ -54,7 +54,7 @@ export default function ReviewComponent({ review, refetch, profileId }: { review
     }
 
     function delReview() {
-        openVencordModal(props => (
+        openNightcordModal(props => (
             <ConfirmModal
                 {...props}
                 title="Are you sure?"
@@ -73,7 +73,7 @@ export default function ReviewComponent({ review, refetch, profileId }: { review
     }
 
     function reportRev() {
-        openVencordModal(props => (
+        openNightcordModal(props => (
             <ConfirmModal
                 {...props}
                 title="Are you sure?"
@@ -96,7 +96,7 @@ export default function ReviewComponent({ review, refetch, profileId }: { review
         if (isAuthorBlocked)
             return unblockUser(review.sender.discordID);
 
-        openVencordModal(props => (
+        openNightcordModal(props => (
             <ConfirmModal
                 {...props}
                 title="Are you sure?"

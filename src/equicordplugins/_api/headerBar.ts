@@ -17,14 +17,14 @@ export default definePlugin({
             find: '?"BACK_FORWARD_NAVIGATION":',
             replacement: {
                 match: /(?<="HELP"===.{0,75}\{\}\))(?=\])/,
-                replace: ",...Vencord.Api.HeaderBar._addHeaderBarButtons()"
+                replace: ",...Nightcord.Api.HeaderBar._addHeaderBarButtons()"
             }
         },
         {
             find: "Missing channel in Channel.renderHeaderToolbar",
             replacement: {
                 match: /(?<=renderHeaderToolbar"\);let (\i)=\[\];)/,
-                replace: "Vencord.Api.HeaderBar._addChannelToolbarButtons($1);"
+                replace: "Nightcord.Api.HeaderBar._addChannelToolbarButtons($1);"
             }
         }
     ]

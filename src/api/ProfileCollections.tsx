@@ -5,8 +5,8 @@
  */
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { User } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
-import { User } from "@vencord/discord-types";
 import { useEffect, useState } from "@webpack/common";
 import type { ReactNode } from "react";
 

@@ -191,7 +191,7 @@ export const TidalStore = proxyLazyWebpack(() => {
         });
 
         public openExternal(path: string) {
-            VencordNative.native.openExternal(path.replace("http://www.tidal.com", "tidal://"));
+            NightcordNative.native.openExternal(path.replace("http://www.tidal.com", "tidal://"));
 
         }
 

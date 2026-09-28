@@ -79,7 +79,7 @@ function UserPluginsTab() {
     return (
         <STab
             // @ts-ignore
-            title={`UserPlugins${pluginsLoaded ? ` (${plugins.length}, ${plugins.filter(p => Vencord.Settings.plugins[p.name].enabled).length} enabled)` : ""}`}
+            title={`UserPlugins${pluginsLoaded ? ` (${plugins.length}, ${plugins.filter(p => Nightcord.Settings.plugins[p.name].enabled).length} enabled)` : ""}`}
         >
             <div className={cl("update-check-container")}>
                 {isObjectEmpty(pluginsWithUpdates) ? (
@@ -200,7 +200,7 @@ function UserPluginsTab() {
                             })
                             .map(plugin => {
 
-                                const pl = Vencord.Plugins.plugins[
+                                const pl = Nightcord.Plugins.plugins[
                                     plugin.name
                                 ];
                                 return <AddonCard
@@ -234,7 +234,7 @@ function UserPluginsTab() {
                                         <DeleteIcon />
                                     </button>}
                                     setEnabled={t => {
-                                        Vencord.Settings.plugins[pl.name].enabled = t;
+                                        Nightcord.Settings.plugins[pl.name].enabled = t;
                                         if (pluginRequiresRestart(pl)) {
                                             Toasts.show({
                                                 id: Toasts.genId(),
@@ -310,7 +310,7 @@ function UserPluginsTab() {
                                                 size="small"
                                                 disabled={plugin.remote === ""}
                                                 onClick={() =>
-                                                    VencordNative.native.openExternal(
+                                                    NightcordNative.native.openExternal(
                                                         plugin.remote,
                                                     )
                                                 }

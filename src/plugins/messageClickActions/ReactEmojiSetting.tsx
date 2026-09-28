@@ -7,9 +7,9 @@
 import "./styles.css";
 
 import { Heading } from "@components/Heading";
+import type { Channel } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import type { PluginSettingComponentProps } from "@utils/types";
-import type { Channel } from "@vencord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { ChannelStore, IconUtils, Popout, SelectedChannelStore, TextInput, useRef, useState, useStateFromStores } from "@webpack/common";
 

@@ -6,16 +6,16 @@ document.addEventListener(
     "DOMContentLoaded",
     () => {
         window.postMessage({
-            type: "vencord:meta",
+            type: "nightcord:meta",
             meta: {
                 EXTENSION_VERSION: browser.runtime.getManifest().version,
                 EXTENSION_BASE_URL: browser.runtime.getURL(""),
-                RENDERER_CSS_URL: browser.runtime.getURL("dist/Equicord.css"),
+                RENDERER_CSS_URL: browser.runtime.getURL("dist/Nightcord.css"),
             }
         });
 
         chrome.runtime.onMessage.addListener(request => {
-            window.postMessage({ type: "vencord:keybinds", meta: request.command });  
+            window.postMessage({ type: "nightcord:keybinds", meta: request.command });  
         })
 
         window.addEventListener('message', function(event) {

@@ -5,7 +5,7 @@
  */
 
 import { iconsModule } from "@equicordplugins/_core/concatenatedModules";
-import { Icon } from "@vencord/discord-types";
+import { Icon } from "@nightcord/discord-types";
 
 let iconNames: string[] | undefined;
 

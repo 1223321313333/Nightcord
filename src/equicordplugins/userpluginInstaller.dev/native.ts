@@ -23,12 +23,12 @@ const PLUGIN_META_REGEX = /export default definePlugin\((?:\s|\/(?:\/|\*).*)*{\s
 // if edited, also edit in misc/constants.ts!!!
 const CLONE_LINK_REGEX = /https:\/\/(?:((?:git(?:hub|lab)\.com|git\.(?:[a-zA-Z0-9]|\.)+|codeberg\.org))\/(?!user-attachments)((?:[a-zA-Z0-9]|-)+)\/((?:[a-zA-Z0-9]|-|\.)+)(?:\.git)?|(plugins\.(nin0)\.dev)\/((?:[a-zA-Z0-9]|-|\.)+))(?:\/)?/;
 
-const vencordPath = ["desktop", "equibop"].includes(basename(__dirname)) ? join(__dirname, "../") : __dirname;
+const nightcordPath = ["desktop", "equibop"].includes(basename(__dirname)) ? join(__dirname, "../") : __dirname;
 
 export async function ensurePluginsDirectory(_: any) {
     if (!IS_DEV) return;
     try {
-        await mkdir(join(vencordPath, "../src/userplugins"), { recursive: true });
+        await mkdir(join(nightcordPath, "../src/userplugins"), { recursive: true });
     } catch(e) { }
 }
 
@@ -48,7 +48,7 @@ export async function rmPlugin(_, name: string): Promise<string> {
         });
 
         if (deleteReqDialog.response !== 1) return reject("User rejected");
-        await rm(join(vencordPath, "../src/userplugins", name), { recursive: true });
+        await rm(join(nightcordPath, "../src/userplugins", name), { recursive: true });
 
         await build();
         resolve("Done");
@@ -57,7 +57,7 @@ export async function rmPlugin(_, name: string): Promise<string> {
 
 export async function isUpdateAvailableForPlugin(_, name: string): Promise<boolean> {
     return new Promise(resolve => {
-        const pluginDir = join(vencordPath, "../src/userplugins", name);
+        const pluginDir = join(nightcordPath, "../src/userplugins", name);
         const otherProc = exec("git fetch", {
             cwd: pluginDir
         });
@@ -110,7 +110,7 @@ export function initPluginInstall(_, link: string, source: string, owner: string
         }
 
         // Get plugin meta
-        const meta = await getPluginMeta(join(vencordPath, "..", "src", "userplugins", repo));
+        const meta = await getPluginMeta(join(nightcordPath, "..", "src", "userplugins", repo));
 
         // Review plugin
         const win = new BrowserWindow({
@@ -140,7 +140,7 @@ export function initPluginInstall(_, link: string, source: string, owner: string
             switch (win.webContents.getTitle() as "abortInstall" | "reviewCode" | "install") {
                 case "abortInstall": {
                     win.close();
-                    await rm(join(vencordPath, "..", "src", "userplugins", repo), {
+                    await rm(join(nightcordPath, "..", "src", "userplugins", repo), {
                         recursive: true
                     });
                     return reject("Rejected by user");
@@ -168,12 +168,12 @@ export function initPluginInstall(_, link: string, source: string, owner: string
 async function build(): Promise<any> {
     return new Promise((resolve, reject) => {
         const proc = exec("pnpm build --dev", {
-            cwd: join(vencordPath, ".."),
+            cwd: join(nightcordPath, ".."),
             shell: process.env.SHELL || process.env.ComSpec || "/bin/sh"
         });
         proc.once("close", () => {
             if (proc.exitCode !== 0) {
-                reject("Failed to build Vencord, try building from console");
+                reject("Failed to build Nightcord, try building from console");
             }
             resolve("Success");
         });
@@ -238,21 +238,21 @@ async function getPluginMeta(path: string, extra: object = {}): Promise<{
 async function cloneRepo(link: string, repo: string): Promise<void> {
     return new Promise((resolve, reject) => {
         const proc = spawn("git", ["clone", link], {
-            cwd: join(vencordPath, "..", "src", "userplugins")
+            cwd: join(nightcordPath, "..", "src", "userplugins")
         });
         proc.once("close", async () => {
             if (proc.exitCode !== 0) {
-                if (!existsSync(join(vencordPath, "..", "src", "userplugins", repo)))
+                if (!existsSync(join(nightcordPath, "..", "src", "userplugins", repo)))
                     return reject("Failed to clone");
                 const deleteReqDialog = await dialog.showMessageBox({
                     title: "Error",
                     message: "Plugin already exists",
                     type: "error",
-                    detail: `The plugin that you tried to clone already exists at ${join(vencordPath, "..", "src", "userplugins")}.\nWould you like to reclone it? Only do this if you want to reinstall or update the plugin.`,
+                    detail: `The plugin that you tried to clone already exists at ${join(nightcordPath, "..", "src", "userplugins")}.\nWould you like to reclone it? Only do this if you want to reinstall or update the plugin.`,
                     buttons: ["No", "Yes"]
                 });
                 if (deleteReqDialog.response !== 1) return reject("User rejected");
-                await rm(join(vencordPath, "..", "src", "userplugins", repo), {
+                await rm(join(nightcordPath, "..", "src", "userplugins", repo), {
                     recursive: true
                 });
                 await cloneRepo(link, repo);
@@ -285,7 +285,7 @@ function generateUpdatePluginContent(meta: {
 }
 
 export async function getUserplugins() {
-    const folderContents = await readdir(join(vencordPath, "..", "src", "userplugins"), {
+    const folderContents = await readdir(join(nightcordPath, "..", "src", "userplugins"), {
         withFileTypes: true
     });
     const plugins = await Promise.allSettled(
@@ -305,7 +305,7 @@ export async function getUserplugins() {
 
 export async function updatePlugin(_, directory: string) {
     return new Promise((resolve, reject) => {
-        const pluginDir = join(vencordPath, "../src/userplugins", directory);
+        const pluginDir = join(nightcordPath, "../src/userplugins", directory);
 
         async function doStuff() {
             const pluginMeta = await getPluginMeta(pluginDir);

@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { ChannelType, RelationshipType } from "@nightcord/discord-types/enums";
 import { getUniqueUsername, openUserProfile } from "@utils/discord";
-import { ChannelType, RelationshipType } from "@vencord/discord-types/enums";
 import { GuildAvailabilityStore, UserUtils } from "@webpack/common";
 
 import settings from "./settings";

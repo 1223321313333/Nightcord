@@ -6,7 +6,7 @@
 
 import "./styles.css";
 
-import { Icon, User } from "@vencord/discord-types";
+import { Icon, User } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { Button, ChannelActionCreators, ChannelStore, GuildActions, MediaEngineStore, NavigationRouter, PermissionsBits, PermissionStore, SoundboardStore, Tooltip, UserStore, VoiceActions, VoiceStateStore } from "@webpack/common";
 import { JSX } from "react";

@@ -8,10 +8,10 @@ import { playAudio } from "@api/AudioPlayer";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { popNotice, showNotice } from "@api/Notices";
 import { definePluginSettings } from "@api/Settings";
-import { Devs, EquicordDevs } from "@utils/constants";
+import type { Channel } from "@nightcord/discord-types";
+import { ChannelType } from "@nightcord/discord-types/enums";
+import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Channel } from "@vencord/discord-types";
-import { ChannelType } from "@vencord/discord-types/enums";
 import { ChannelActions, ChannelStore, Menu, PermissionsBits, PermissionStore, VoiceStateStore } from "@webpack/common";
 
 let waitingChannelId: string | null = null;
@@ -65,7 +65,7 @@ export default definePlugin({
     name: "WaitForSlot",
     description: "Automatically join a full voice channel when a slot opens.",
     tags: ["Servers", "Utility", "Voice"],
-    authors: [EquicordDevs.omaw, Devs.prism],
+    authors: [NightcordDevs.omaw, Devs.prism],
     settings,
     patches: [
         {

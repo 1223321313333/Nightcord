@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Icon } from "@vencord/discord-types";
+import { Icon } from "@nightcord/discord-types";
 
 export type IconsDef = Record<string, Icon>;
 

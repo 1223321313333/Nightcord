@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Activity, Application, User } from "@vencord/discord-types";
+import { Activity, Application, User } from "@nightcord/discord-types";
 import { CSSProperties, ImgHTMLAttributes, JSX } from "react";
 
-export type { Application, User } from "@vencord/discord-types";
+export type { Application, User } from "@nightcord/discord-types";
 
 export interface Developer {
     id: string;

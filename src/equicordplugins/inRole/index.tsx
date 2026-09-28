@@ -10,10 +10,10 @@ import { ApplicationCommandInputType, ApplicationCommandOptionType, sendBotMessa
 import { getUserSettingLazy } from "@api/UserSettings";
 import { InfoIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
+import { GuildMember } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { getCurrentChannel, getCurrentGuild } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { GuildMember } from "@vencord/discord-types";
 import { GuildMemberStore, GuildRoleStore, Menu, Parser } from "@webpack/common";
 
 import { showInRoleModal } from "./RoleMembersModal";

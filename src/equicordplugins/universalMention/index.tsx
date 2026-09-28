@@ -6,9 +6,9 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Notice } from "@components/Notice";
-import { EquicordDevs } from "@utils/constants";
+import { User } from "@nightcord/discord-types";
+import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@vencord/discord-types";
 import { ChannelStore, UserStore } from "@webpack/common";
 
 const settings = definePluginSettings({
@@ -37,7 +37,7 @@ function getCachedUsers(): User[] {
 
 export default definePlugin({
     name: "UniversalMention",
-    authors: [EquicordDevs.justjxke],
+    authors: [NightcordDevs.justjxke],
     description: "Mention any user, regardless of channel access.",
     tags: ["Chat", "Servers", "Utility"],
     settings,

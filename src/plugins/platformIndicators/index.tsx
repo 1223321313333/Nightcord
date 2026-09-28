@@ -19,10 +19,10 @@
 import "./style.css";
 
 import { definePluginSettings, migratePluginSetting } from "@api/Settings";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { DiscordPlatform, User } from "@nightcord/discord-types";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { DiscordPlatform, User } from "@vencord/discord-types";
 import { filters, mapMangledModuleLazy } from "@webpack";
 import { AuthenticationStore, PresenceStore, SessionsStore, Tooltip, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -76,7 +76,7 @@ const PlatformIcon = ({ platform, status, small }) => {
                 Icon = Icons.suncord;
                 break;
             case "vencord":
-                Icon = Icons.vencord;
+                Icon = Icons.nightcord;
                 break;
             default:
                 Icon = Icons.embedded;
@@ -181,7 +181,7 @@ const settings = definePluginSettings({
         restartNeeded: true,
         options: [
             {
-                label: "Equicord",
+                label: "Nightcord",
                 value: "equicord",
                 default: true
             },
@@ -190,7 +190,7 @@ const settings = definePluginSettings({
                 value: "suncord",
             },
             {
-                label: "Vencord",
+                label: "Nightcord",
                 value: "vencord",
             },
         ],
@@ -202,7 +202,7 @@ export default definePlugin({
     description: "Adds platform indicators (Desktop, Mobile, Web...) to users",
     dependencies: ["MemberListDecoratorsAPI", "MessageDecorationsAPI", "NicknameIconsAPI"],
     tags: ["Appearance"],
-    authors: [Devs.kemo, Devs.TheSun, Devs.Nuckyz, Devs.Ven, EquicordDevs.neoarz],
+    authors: [Devs.kemo, Devs.TheSun, Devs.Nuckyz, Devs.Ven, NightcordDevs.neoarz],
     isModified: true,
     settings,
     renderNicknameIcon(props) {

@@ -10,11 +10,11 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { InfoIcon } from "@components/Icons";
 import { Margins } from "@components/margins";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Message } from "@nightcord/discord-types";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { sendMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@vencord/discord-types";
 import { proxyLazyWebpack } from "@webpack";
 import { ChannelActionCreators, ChannelStore, Checkbox, React, Tooltip, useMemo, useState } from "@webpack/common";
 import { Dispatch, MouseEvent, ReactNode, SetStateAction } from "react";
@@ -93,7 +93,7 @@ export default definePlugin({
     description: "Message forward utilities including NSFW bypass and UI improvements.",
     tags: ["Chat", "Utility"],
     searchTerms: ["selfForward", "betterForwardMeta"],
-    authors: [Devs.thororen, Devs.sadan, Devs.nin0dev, EquicordDevs.VillainsRule, Devs.Davri],
+    authors: [Devs.thororen, Devs.sadan, Devs.nin0dev, NightcordDevs.VillainsRule, Devs.Davri],
     settings,
     managedStyle,
     patches: [
@@ -136,7 +136,7 @@ export default definePlugin({
                     // we need to anchor to the one that is used as an onClick handler
                     match: /((\i)=\i\.useCallback\(\()(\)=>\{)(null!=\i&&\i\.\i\.clearDraft)(?=.{1500,2000}onClick:\2)/,
                     replace: (_, beforeParen, _1, beforeBody, body) =>
-                        `${beforeParen}vencordArg1${beforeBody}$self.setShift(vencordArg1);${body}`,
+                        `${beforeParen}nightcordArg1${beforeBody}$self.setShift(nightcordArg1);${body}`,
                     predicate: () => settings.store.dontFollowForwards
                 }
             ]

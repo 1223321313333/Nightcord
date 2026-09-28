@@ -6,7 +6,7 @@
 
 import { languages } from "@equicordplugins/translatePlus/misc/languages";
 import { cl, Translation } from "@equicordplugins/translatePlus/misc/types";
-import { Message } from "@vencord/discord-types";
+import { Message } from "@nightcord/discord-types";
 import { Parser, useEffect, useState } from "@webpack/common";
 
 import { Icon } from "./icon";
@@ -18,7 +18,7 @@ export function Accessory({ message }: { message: Message; }) {
     const [translation, setTranslation] = useState<Translation | undefined>(undefined);
 
     useEffect(() => {
-        if ((message as any).vencordEmbeddedBy) return;
+        if ((message as any).nightcordEmbeddedBy) return;
 
         setters.set(message.id, setTranslation);
 

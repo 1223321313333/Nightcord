@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import type { User } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { isObject } from "@utils/misc";
 import type { PluginNative } from "@utils/types";
-import type { User } from "@vencord/discord-types";
 import { Constants, MediaEngineStore, RestAPI, showToast, SnowflakeUtils, Toasts } from "@webpack/common";
 
 import { convertClipToMp4 } from "./ffmpeg";
 const logger = new Logger("ClipUpload");
 
-const Native = VencordNative.pluginHelpers.ClipUpload as PluginNative<typeof import("./native")>;
+const Native = NightcordNative.pluginHelpers.ClipUpload as PluginNative<typeof import("./native")>;
 
 const defaultFileName = "clip.mp4";
 const compatibleExtensions = [".mp4", ".m4v"];

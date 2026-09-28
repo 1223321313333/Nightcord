@@ -5,7 +5,7 @@
  */
 
 import { DataStore } from "@api/index";
-import { Guild, User } from "@vencord/discord-types";
+import { Guild, User } from "@nightcord/discord-types";
 import { ChannelStore, GuildMemberStore, GuildStore, MessageStore, UserStore, } from "@webpack/common";
 
 export interface IUserExtra {

@@ -26,13 +26,13 @@ async function runReporter() {
             find: '"Could not find app-mount"',
             replacement: {
                 match: /"Could not find app-mount"/,
-                replace: "(Vencord.Webpack._initReporter(),$&)"
+                replace: "(Nightcord.Webpack._initReporter(),$&)"
             }
-        }, "Equicord Reporter");
+        }, "Nightcord Reporter");
 
         // initReporter is called in the patched entry point of Discord
         // @ts-expect-error
-        Vencord.Webpack._initReporter = function () {
+        Nightcord.Webpack._initReporter = function () {
             loadLazyChunks().then(loadLazyChunksDoneResolve);
         };
 
@@ -96,12 +96,12 @@ async function runReporter() {
                     result = Webpack[method](...args);
                 }
 
-                if (result == null || (result.$$vencordGetWrappedComponent != null && result.$$vencordGetWrappedComponent() == null)) throw new Error("Webpack Find Fail");
+                if (result == null || (result.$$nightcordGetWrappedComponent != null && result.$$nightcordGetWrappedComponent() == null)) throw new Error("Webpack Find Fail");
             } catch (e) {
                 let logMessage = searchType;
                 if (method === "find" || method === "proxyLazyWebpack" || method === "LazyComponentWebpack") {
-                    if (args[0].$$vencordProps != null) {
-                        logMessage += `(${args[0].$$vencordProps.map(arg => `"${arg}"`).join(", ")})`;
+                    if (args[0].$$nightcordProps != null) {
+                        logMessage += `(${args[0].$$nightcordProps.map(arg => `"${arg}"`).join(", ")})`;
                     } else {
                         logMessage += `(${args[0].toString().slice(0, 147)}...)`;
                     }
@@ -130,7 +130,7 @@ async function runReporter() {
 }
 
 // Imported in webpack for reporterData, wrap to avoid running reporter
-// Run after the Equicord object has been created.
-// We need to add extra properties to it, and it is only created after all of Equicord code has ran
+// Run after the Nightcord object has been created.
+// We need to add extra properties to it, and it is only created after all of Nightcord code has ran
 if (IS_REPORTER)
     setTimeout(runReporter, 0);

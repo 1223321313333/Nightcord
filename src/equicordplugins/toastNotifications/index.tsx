@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
-import { EquicordDevs } from "@utils/constants";
+import { Channel, Message } from "@nightcord/discord-types";
+import { UserNotificationSetting } from "@nightcord/discord-types/enums";
+import { NightcordDevs } from "@utils/constants";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import { Channel, Message } from "@vencord/discord-types";
-import { UserNotificationSetting } from "@vencord/discord-types/enums";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, IconUtils, MessageStore, NavigationRouter, PresenceStore, RelationshipStore, SelectedChannelStore, StreamerModeStore, UserGuildSettingsStore, UserStore } from "@webpack/common";
 
@@ -116,7 +116,7 @@ export default definePlugin({
     name: "ToastNotifications",
     description: "Show a pop-up toast notification, configurable for DMs, group, friends, or guild channels.",
     tags: ["Appearance", "Customisation", "Notifications"],
-    authors: [EquicordDevs.Skully, EquicordDevs.Ethan, EquicordDevs.Buzzy],
+    authors: [NightcordDevs.Skully, NightcordDevs.Ethan, NightcordDevs.Buzzy],
     settings,
     flux: {
         MESSAGE_CREATE({ message }: { message: Message; }) {

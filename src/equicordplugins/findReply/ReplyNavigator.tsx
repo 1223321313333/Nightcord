@@ -7,8 +7,8 @@
 import "./styles.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Message } from "@nightcord/discord-types";
 import { Paginator, requirePaginator } from "@plugins/reviewDB/components/ReviewModal";
-import { Message } from "@vencord/discord-types";
 import { findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { React, useRef, useState } from "@webpack/common";
 

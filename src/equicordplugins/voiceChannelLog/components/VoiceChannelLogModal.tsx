@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { classes } from "@utils/misc";
-import { Channel, RenderModalProps } from "@vencord/discord-types";
 import { AccessibilityStore, Modal, openModal, React, ScrollerThin } from "@webpack/common";
 
 import { clearLogs, getVcLogs, vcLogSubscribe } from "../logs";

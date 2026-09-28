@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { ModalOptions, ModalProps, RenderModalProps } from "@vencord/discord-types";
+import type { ModalOptions, ModalProps, RenderModalProps } from "@nightcord/discord-types";
 import { Modal, openModal, useEffect, useState } from "@webpack/common";
 import type { ComponentType, JSX } from "react";
 

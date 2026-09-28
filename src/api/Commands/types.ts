@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Command } from "@vencord/discord-types";
-export { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType } from "@vencord/discord-types/enums";
+import { Command } from "@nightcord/discord-types";
+export { ApplicationCommandInputType, ApplicationCommandOptionType, ApplicationCommandType } from "@nightcord/discord-types/enums";
 
-export interface VencordCommand extends Command {
-    isVencordCommand?: boolean;
-    rootCommand?: VencordCommand;
+export interface NightcordCommand extends Command {
+    isNightcordCommand?: boolean;
+    rootCommand?: NightcordCommand;
 }

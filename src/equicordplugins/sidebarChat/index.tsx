@@ -7,12 +7,12 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { HeaderBarButton } from "@api/HeaderBar";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Devs, EquicordDevs } from "@utils/constants";
+import { Channel, Guild, User } from "@nightcord/discord-types";
+import { ChannelType } from "@nightcord/discord-types/enums";
+import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { Channel, Guild, User } from "@vencord/discord-types";
-import { ChannelType } from "@vencord/discord-types/enums";
 import {
     extractAndLoadChunksLazy,
     findByPropsLazy,
@@ -312,7 +312,7 @@ const ChannelContextPatch: NavContextMenuPatchCallback = (children, args: { chan
 
 export default definePlugin({
     name: "SidebarChat",
-    authors: [Devs.Joona, EquicordDevs.justjxke],
+    authors: [Devs.Joona, NightcordDevs.justjxke],
     description: "Open a channel or DM as a sidebar or a popout.",
     tags: ["Appearance", "Chat", "Servers"],
     dependencies: ["HeaderBarAPI"],
@@ -555,7 +555,7 @@ const RenderPopout = ErrorBoundary.wrap(({ channel, name, windowKey }: { channel
         <PopoutWindow
             withTitleBar
             windowKey={windowKey}
-            title={name || "Equicord"}
+            title={name || "Nightcord"}
             channelId={channel.id}
         >
             <div className={cl("window")}>

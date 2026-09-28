@@ -7,13 +7,13 @@
 import "./style.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import type { Role } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { openUserProfile } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
-import type { Role } from "@vencord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { Constants, GuildRoleStore, IconUtils, Popout, RestAPI, ScrollerThin, useEffect, useRef, UserStore, useState, useStateFromStores } from "@webpack/common";
 

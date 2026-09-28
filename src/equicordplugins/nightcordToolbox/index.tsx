@@ -44,7 +44,7 @@ function Icon(props: React.SVGProps<SVGSVGElement>) {
     );
 }
 
-function VencordPopoutButton() {
+function NightcordPopoutButton() {
     const buttonRef = useRef(null);
     const [show, setShow] = useState(false);
 
@@ -64,7 +64,7 @@ function VencordPopoutButton() {
                     ref={buttonRef}
                     className="vc-toolbox-btn"
                     onClick={() => setShow(v => !v)}
-                    tooltip={isShown ? null : "Equicord Toolbox"}
+                    tooltip={isShown ? null : "Nightcord Toolbox"}
                     icon={Icon}
                     selected={isShown}
                 />
@@ -76,14 +76,14 @@ function VencordPopoutButton() {
 migratePluginSettings("EquicordToolbox", "VencordToolbox");
 export default definePlugin({
     name: "EquicordToolbox",
-    description: "Adds a button next to the inbox button in the channel header that houses Equicord quick actions",
+    description: "Adds a button next to the inbox button in the channel header that houses Nightcord quick actions",
     tags: ["Voice", "Accessibility"],
     authors: [Devs.Ven, Devs.AutumnVN],
     dependencies: ["HeaderBarAPI"],
     settings,
     headerBarButton: {
         icon: Icon,
-        render: VencordPopoutButton,
+        render: NightcordPopoutButton,
         priority: 1337
     }
 });

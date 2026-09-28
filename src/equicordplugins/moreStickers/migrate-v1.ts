@@ -12,17 +12,17 @@ import { deleteStickerPack, getStickerPack, getStickerPackMetas, saveStickerPack
 import { Sticker, StickerPack } from "./types";
 
 const PACKS_KEY = "MoreStickers:Packs";
-const PACKS_KEY_OLD = "Vencord-MoreStickers-Packs";
+const PACKS_KEY_OLD = "Nightcord-MoreStickers-Packs";
 
 const RECENT_STICKERS_KEY = "MoreStickers:RecentStickers";
-const RECENT_STICKERS_KEY_OLD = "Vencord-MoreStickers-RecentStickers";
+const RECENT_STICKERS_KEY_OLD = "Nightcord-MoreStickers-RecentStickers";
 
 function migrateStickerPackId(oldStickerPackId: string): string {
-    if (oldStickerPackId.startsWith("Vencord-MoreStickers-Line-Pack")) {
-        const id = oldStickerPackId.replace("Vencord-MoreStickers-Line-Pack-", "");
+    if (oldStickerPackId.startsWith("Nightcord-MoreStickers-Line-Pack")) {
+        const id = oldStickerPackId.replace("Nightcord-MoreStickers-Line-Pack-", "");
         return "MoreStickers:Line:Pack:" + id;
-    } else if (oldStickerPackId.startsWith("Vencord-MoreStickers-Line-Emoji-Pack")) {
-        const id = oldStickerPackId.replace("Vencord-MoreStickers-Line-Emoji-Pack-", "");
+    } else if (oldStickerPackId.startsWith("Nightcord-MoreStickers-Line-Emoji-Pack")) {
+        const id = oldStickerPackId.replace("Nightcord-MoreStickers-Line-Emoji-Pack-", "");
         return "MoreStickers:Line:Emoji:Pack:" + id;
     } else {
         return oldStickerPackId;
@@ -30,11 +30,11 @@ function migrateStickerPackId(oldStickerPackId: string): string {
 }
 
 function migrateStickerId(oldStickerId: string): string {
-    if (oldStickerId.startsWith("Vencord-MoreStickers-Line-Sticker")) {
-        const [stickerPackId, stickerId] = oldStickerId.replace("Vencord-MoreStickers-Line-Sticker", "").split("-", 2);
+    if (oldStickerId.startsWith("Nightcord-MoreStickers-Line-Sticker")) {
+        const [stickerPackId, stickerId] = oldStickerId.replace("Nightcord-MoreStickers-Line-Sticker", "").split("-", 2);
         return "MoreStickers:Line:Sticker:" + stickerPackId + ":" + stickerId;
-    } else if (oldStickerId.startsWith("Vencord-MoreStickers-Line-Emoji")) {
-        const [stickerPackId, stickerId] = oldStickerId.replace("Vencord-MoreStickers-Line-Emoji", "").split("-", 2);
+    } else if (oldStickerId.startsWith("Nightcord-MoreStickers-Line-Emoji")) {
+        const [stickerPackId, stickerId] = oldStickerId.replace("Nightcord-MoreStickers-Line-Emoji", "").split("-", 2);
         return "MoreStickers:Line:Emoji:" + stickerPackId + ":" + stickerId;
     } else {
         return oldStickerId;

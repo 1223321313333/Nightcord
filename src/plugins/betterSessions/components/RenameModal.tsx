@@ -18,9 +18,9 @@
 
 import { TextButton } from "@components/Button";
 import { Heading } from "@components/Heading";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { SessionInfo } from "@plugins/betterSessions/types";
 import { getDefaultName, savedSessionsCache, saveSessionsToDataStore } from "@plugins/betterSessions/utils";
-import { RenderModalProps } from "@vencord/discord-types";
 import { Modal, React, TextInput } from "@webpack/common";
 import { KeyboardEvent } from "react";
 

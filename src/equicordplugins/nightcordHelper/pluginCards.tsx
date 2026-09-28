@@ -14,9 +14,9 @@ import { AddonCard } from "@components/settings";
 import { ExcludedReasons, PluginDependencyList } from "@components/settings/tabs/plugins";
 import { PluginCard } from "@components/settings/tabs/plugins/PluginCard";
 import { TooltipContainer } from "@components/TooltipContainer";
+import { Message } from "@nightcord/discord-types";
 import { EQUIBOT_USER_ID } from "@utils/constants";
-import { isEquicordGuild, isEquicordSupport } from "@utils/misc";
-import { Message } from "@vencord/discord-types";
+import { isNightcordGuild, isNightcordSupport } from "@utils/misc";
 import { showToast, Tooltip, useMemo } from "@webpack/common";
 import { JSX } from "react";
 
@@ -41,7 +41,7 @@ export function ChatPluginCard({ url, description }: { url: string, description:
     if (excludedPlugin || !p) {
         const toolTipText = excludedPlugin
             ? `${pluginName} is only available on the ${ExcludedReasons[ExcludedPlugins[pluginName]]}`
-            : "This plugin is not on this version of Equicord. Try updating!";
+            : "This plugin is not on this version of Nightcord. Try updating!";
 
         const card = (
             <AddonCard
@@ -80,7 +80,7 @@ export function ChatPluginCard({ url, description }: { url: string, description:
 
     if (required) {
         const tooltipText = p.required || !dependents.length
-            ? "This plugin is required for Equicord to function."
+            ? "This plugin is required for Nightcord to function."
             : <PluginDependencyList deps={dependents} />;
 
         return (
@@ -116,8 +116,8 @@ export const PluginCards = ErrorBoundary.wrap(function PluginCards({ message }: 
     message.embeds?.forEach(embed => {
         if (!embed.url?.startsWith("https://equicord.org/plugins/") && !embed.url?.startsWith("https://vencord.dev/plugins/")) return;
 
-        const isEquicord = isEquicordGuild(message.channel_id) && isEquicordSupport(message.author.id);
-        if (!isEquicord) return;
+        const isNightcord = isNightcordGuild(message.channel_id) && isNightcordSupport(message.author.id);
+        if (!isNightcord) return;
 
         const pluginNameFromUrl = new URL(embed.url).pathname.split("/")[2];
         const actualPluginName = Object.keys(plugins).find(name =>
