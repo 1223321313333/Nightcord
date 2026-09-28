@@ -6,6 +6,8 @@
 
 import { Settings } from "@api/Settings";
 
+import { PLUGIN_DESCRIPTIONS_RU } from "./pluginDescriptionsRu";
+
 /** Russian strings for Nightcord's own UI, keyed by the English original. */
 const RU: Record<string, string> = {
     // Settings sidebar
@@ -379,6 +381,46 @@ const RU: Record<string, string> = {
     "Vencord Cloud": "Облако Vencord",
     "Add": "Добавить",
 
+    // Plugin presets
+    "Plugin presets":
+        "Наборы плагинов",
+    "Set up many plugins in one click. You will see exactly what changes before anything happens.":
+        "Настройка многих плагинов в один клик. Перед применением вы увидите, что именно изменится.",
+    "Like my friends":
+        "Как у друзей",
+    "The popular set: emoji and stickers without Nitro, deleted messages, hidden channels, silent typing and handy tweaks.":
+        "Популярный набор: эмодзи и стикеры без Nitro, удалённые сообщения, скрытые каналы, скрытое «печатает…» и полезные мелочи.",
+    "Privacy":
+        "Приватность",
+    "Hide that you are typing, strip trackers from links, anonymise uploaded file names, no reply pings and streamer mode while streaming.":
+        "Скрыть «печатает…», вырезать трекеры из ссылок, анонимные имена файлов, ответы без пинга и режим стримера во время стрима.",
+    "Maximum speed":
+        "Максимальная скорость",
+    "Turns off plugins that add work to every message or member, and swaps heavy themes for the lightweight Nightcord theme.":
+        "Выключает плагины, которые нагружают каждое сообщение и участника, и меняет тяжёлые темы на лёгкую тему Nightcord.",
+    "Nightcord defaults":
+        "Стандарт Nightcord",
+    "Back to how Nightcord is set up after installing: the default plugins on, everything else off.":
+        "Вернуть как после установки: стандартные плагины включены, остальные выключены.",
+    "Apply":
+        "Применить",
+    "Everything from this preset is already set up.":
+        "Всё из этого набора уже настроено.",
+    "Could not change":
+        "Не удалось изменить",
+    "Preset applied!":
+        "Набор применён!",
+    "Will turn on":
+        "Включится",
+    "Will turn off":
+        "Выключится",
+    "Will turn off themes":
+        "Выключатся темы",
+    "You can change any of this later in the Plugins tab.":
+        "Всё это потом можно поменять во вкладке «Плагины».",
+    "Some of these plugins change Discord's code and start after a restart.":
+        "Часть этих плагинов меняет код Discord и заработает после перезапуска.",
+
     // Notifications
     "Notifications": "Уведомления",
     "Settings for Notifications sent by Nightcord.": "Настройки уведомлений от Nightcord.",
@@ -510,6 +552,27 @@ const RU: Record<string, string> = {
     "Nevermind": "Отмена",
     "Delete your Cloud Account": "Удалить облачный аккаунт",
 };
+
+/** FNV-1a, must match scripts/nightcord/genDescriptions.cjs */
+function hashDescription(str: string) {
+    let h = 0x811c9dc5;
+    for (let i = 0; i < str.length; i++) {
+        h ^= str.charCodeAt(i);
+        h = Math.imul(h, 0x01000193);
+    }
+    return (h >>> 0).toString(36);
+}
+
+/**
+ * Russian plugin description, if there is one for exactly this English text.
+ * When Equicord rewrites a description the hash stops matching and the new English text is shown
+ * instead of an outdated translation.
+ */
+export function tPluginDescription(plugin: { name: string; description: string; }): string {
+    if (!Settings.plugins?.RussianNightcord?.enabled) return plugin.description;
+    const entry = PLUGIN_DESCRIPTIONS_RU[plugin.name];
+    return entry && entry[0] === hashDescription(plugin.description) ? entry[1] : plugin.description;
+}
 
 /** Translate a Nightcord UI string when the RussianNightcord plugin is enabled. */
 export function t(text: string): string {

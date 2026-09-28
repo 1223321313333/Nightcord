@@ -30,7 +30,7 @@ import { RenderModalProps, User } from "@nightcord/discord-types";
 import { debounce } from "@shared/debounce";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { classNameFactory } from "@utils/css";
-import { t } from "@utils/i18n";
+import { t, tPluginDescription } from "@utils/i18n";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
 import { classes, isObjectEmpty } from "@utils/misc";
@@ -190,7 +190,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
             subtitle={
                 <div className={cl("info")}>
                     <div>
-                        <Paragraph size="md">{plugin.description}</Paragraph>
+                        <Paragraph size="md">{tPluginDescription(plugin)}</Paragraph>
                         {!!plugin.tags?.length && <PluginTags tags={plugin.tags} />}
                     </div>
                 </div>

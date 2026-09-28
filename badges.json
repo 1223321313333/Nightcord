@@ -1,0 +1,4 @@
+{
+    "_readme": "Nightcord badge holders. Only add people who asked for a badge: this file is public. Entry: \"<discord user id>\" or { \"id\": \"...\", \"tooltip\": \"custom text\" }.",
+    "users": []
+}

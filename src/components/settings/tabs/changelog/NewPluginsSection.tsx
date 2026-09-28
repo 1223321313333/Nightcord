@@ -12,7 +12,7 @@ import { Paragraph } from "@components/Paragraph";
 import { PluginCard } from "@components/settings/tabs/plugins/PluginCard";
 import { ChangeList } from "@utils/ChangeList";
 import { classNameFactory } from "@utils/css";
-import { t } from "@utils/i18n";
+import { t, tPluginDescription } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { useForceUpdater } from "@utils/react";
 import { React, Tooltip } from "@webpack/common";
@@ -223,7 +223,7 @@ function CompactPluginCard({
                 </span>
             </div>
             <div className="vc-changelog-entry-message">
-                {plugin.description || "No description available"}
+                {(plugin.description && tPluginDescription(plugin)) || "No description available"}
             </div>
             {tooltipText && (
                 <div className="vc-changelog-dep-text">{tooltipText}</div>

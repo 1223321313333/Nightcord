@@ -10,7 +10,7 @@ import definePlugin from "@utils/types";
 // The strings live in @utils/i18n; this plugin is just the on/off switch.
 export default definePlugin({
     name: "RussianNightcord",
-    description: "Translates Nightcord's settings (sections, tabs, buttons, hints) into Russian. Plugin names stay in English.",
+    description: "Translates Nightcord's settings and plugin descriptions into Russian. Plugin names stay in English.",
     tags: ["Customisation"],
     authors: [Devs.Nightcord],
     enabledByDefault: true,

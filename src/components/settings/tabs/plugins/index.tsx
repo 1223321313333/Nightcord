@@ -32,7 +32,7 @@ import { debounce } from "@shared/debounce";
 import { ChangeList } from "@utils/ChangeList";
 import { classNameFactory } from "@utils/css";
 import { isTruthy } from "@utils/guards";
-import { t } from "@utils/i18n";
+import { t, tPluginDescription } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
@@ -256,6 +256,7 @@ export default function PluginSettings() {
             plugin.name.toLowerCase().includes(search.replace(/\s+/g, "")) ||
             plugin.name.match(/[A-Z]/g)?.join("").toLowerCase().includes(search) || // acronyms like BF for BetterFolders
             plugin.description.toLowerCase().includes(search) ||
+            tPluginDescription(plugin).toLowerCase().includes(search) ||
             plugin.searchTerms?.some(t => t.toLowerCase().includes(search))
         );
     }, [searchValue, search]);

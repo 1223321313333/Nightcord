@@ -10,7 +10,7 @@ import { Settings } from "@api/Settings";
 import { CogWheel, InfoIcon } from "@components/Icons";
 import { AddonCard } from "@components/settings/AddonCard";
 import { classNameFactory } from "@utils/css";
-import { t } from "@utils/i18n";
+import { t, tPluginDescription } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Plugin } from "@utils/types";
 import { React, showToast, Toasts } from "@webpack/common";
@@ -141,7 +141,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
             name={plugin.name}
             sourceBadge={sourceBadge}
             tooltip={tooltip}
-            description={plugin.description}
+            description={tPluginDescription(plugin)}
             isNew={isNew}
             enabled={isEnabled()}
             setEnabled={toggleEnabled}
