@@ -22,6 +22,10 @@ interface Preset {
     disable: () => string[];
     /** Also turn off other themes so the lightweight Nightcord theme applies */
     disableThemes?: boolean;
+    /** Plugin settings to set, as { PluginName: { settingKey: value } } */
+    settings?: Record<string, Record<string, unknown>>;
+    /** Shown in the confirmation, for presets whose effect is not obvious from plugin names */
+    note?: string;
 }
 
 const HEAVY_PLUGINS = [
@@ -65,6 +69,24 @@ const PRESETS: Preset[] = [
         disableThemes: true
     },
     {
+        id: "bigfiles",
+        emoji: "📦",
+        title: "Big files without Nitro",
+        description: "Files over Discord's upload limit are uploaded to Litterbox (up to 1 GB, kept for 72 hours) and the link is put in your message. Smaller files still go to Discord.",
+        enable: () => ["FileUpload"],
+        disable: () => [],
+        settings: {
+            FileUpload: {
+                serviceType: "litterbox",
+                litterboxExpiry: "72h",
+                bypassDiscordUpload: true,
+                bypassDiscordUploadOnlyOverLimit: true,
+                autoSend: true
+            }
+        },
+        note: "Only files over the limit leave Discord. They go to litterbox.catbox.moe, a free public file host: anyone with the link can open the file until it expires after 72 hours. Do not send private files this way."
+    },
+    {
         id: "defaults",
         emoji: "↩️",
         title: "Nightcord defaults",
@@ -81,12 +103,22 @@ function planFor(preset: Preset) {
     const toEnable = preset.enable().filter(n => exists(n) && !isPluginEnabled(n));
     const toDisable = preset.disable().filter(n => exists(n) && isPluginEnabled(n) && !toEnable.includes(n));
     const themes = preset.disableThemes ? [...Settings.enabledThemes, ...Settings.themeLinks.filter(Boolean)] : [];
-    return { toEnable, toDisable, themes };
+    const settingChanges = Object.entries(preset.settings ?? {})
+        .filter(([plugin]) => plugin in plugins)
+        .flatMap(([plugin, values]) => Object.entries(values)
+            .filter(([key, value]) => Settings.plugins[plugin]?.[key] !== value)
+            .map(([key, value]) => ({ plugin, key, value })));
+    return { toEnable, toDisable, themes, settingChanges, note: preset.note };
 }
 
-function applyPlan({ toEnable, toDisable, themes }: ReturnType<typeof planFor>) {
+function applyPlan({ toEnable, toDisable, themes, settingChanges }: ReturnType<typeof planFor>) {
     let restartNeeded = false;
     const failed: string[] = [];
+
+    // Settings first, so plugins that start below already see them
+    for (const { plugin, key, value } of settingChanges) {
+        Settings.plugins[plugin][key] = value;
+    }
 
     for (const name of toDisable) {
         const plugin = plugins[name];
@@ -117,7 +149,7 @@ function applyPlan({ toEnable, toDisable, themes }: ReturnType<typeof planFor>) 
 
 function confirmPreset(preset: Preset) {
     const plan = planFor(preset);
-    const nothing = !plan.toEnable.length && !plan.toDisable.length && !plan.themes.length;
+    const nothing = !plan.toEnable.length && !plan.toDisable.length && !plan.themes.length && !plan.settingChanges.length;
     if (nothing) {
         showToast(t("Everything from this preset is already set up."), Toasts.Type.MESSAGE);
         return;
@@ -151,6 +183,14 @@ function confirmPreset(preset: Preset) {
                 <Paragraph className={Margins.bottom8}>
                     <b>{t("Will turn off themes")}:</b> {plan.themes.join(", ")}
                 </Paragraph>
+            )}
+            {!!plan.settingChanges.length && (
+                <Paragraph className={Margins.bottom8}>
+                    <b>{t("Will change settings")}:</b> {plan.settingChanges.map(c => `${c.plugin} → ${c.key} = ${String(c.value)}`).join(", ")}
+                </Paragraph>
+            )}
+            {plan.note && (
+                <Paragraph className={Margins.bottom8}>⚠️ {t(plan.note)}</Paragraph>
             )}
             <Paragraph>{t("You can change any of this later in the Plugins tab.")}</Paragraph>
         </ConfirmModal>

@@ -382,6 +382,14 @@ const RU: Record<string, string> = {
     "Add": "Добавить",
 
     // Plugin presets
+    "Big files without Nitro":
+        "Большие файлы без Nitro",
+    "Files over Discord's upload limit are uploaded to Litterbox (up to 1 GB, kept for 72 hours) and the link is put in your message. Smaller files still go to Discord.":
+        "Файлы больше лимита Discord загружаются на Litterbox (до 1 ГБ, хранятся 72 часа), а ссылка вставляется в сообщение. Файлы поменьше по-прежнему идут в Discord.",
+    "Only files over the limit leave Discord. They go to litterbox.catbox.moe, a free public file host: anyone with the link can open the file until it expires after 72 hours. Do not send private files this way.":
+        "Из Discord уходят только файлы больше лимита. Они загружаются на litterbox.catbox.moe — бесплатный публичный файлообменник: любой, у кого есть ссылка, может открыть файл, пока он не удалится через 72 часа. Не отправляйте так личные файлы.",
+    "Will change settings":
+        "Изменятся настройки",
     "Plugin presets":
         "Наборы плагинов",
     "Set up many plugins in one click. You will see exactly what changes before anything happens.":
