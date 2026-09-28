@@ -18,6 +18,12 @@
 
 export class Logger {
     /**
+     * Whether info and debug lines are printed. Off by default so the console only shows warnings and errors;
+     * NightcordCheck has a setting to turn it on.
+     */
+    static verbose = IS_DEV || IS_REPORTER;
+
+    /**
      * Returns the console format args for a title with the specified background colour and black text
      * @param color Background colour
      * @param title Text
@@ -51,6 +57,7 @@ export class Logger {
     }
 
     public info(...args: any[]) {
+        if (!Logger.verbose) return;
         this._log("info", "#a6d189", args);
     }
 
@@ -67,6 +74,7 @@ export class Logger {
     }
 
     public debug(...args: any[]) {
+        if (!Logger.verbose) return;
         this._log("debug", "#eebebe", args);
     }
 }

@@ -20,42 +20,115 @@
             padding: 0;
             overflow: hidden;
         }
+
+        body.fallback {
+            display: flex;
+            flex-direction: column;
+            font-family: system-ui, sans-serif;
+        }
+
+        #notice {
+            padding: 8px 12px;
+            font-size: 13px;
+            background: #3b2f10;
+            color: #f5d58a;
+        }
+
+        #plain {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            padding: 12px;
+            font: 14px/1.5 Consolas, "Cascadia Code", monospace;
+            tab-size: 4;
+        }
     </style>
 </head>
 
 <body>
     <div id="container"></div>
-    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs/loader.js"
-        integrity="sha256-KcU48TGr84r7unF7J5IgBo95aeVrEbrGe04S7TcFUjs=" crossorigin="anonymous"
-        referrerpolicy="no-referrer"></script>
 
     <script>
-        require.config({
-            paths: {
-                vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs",
-            },
-        });
+        // Monaco comes from a CDN. Where that CDN is blocked or slow the window used to stay blank and nothing
+        // was saved, so fall back to a plain textarea that saves the same way.
+        let started = false;
 
-        require(["vs/editor/editor.main"], () => {
-            getCurrentCss().then((css) => {
-                var editor = monaco.editor.create(
-                    document.getElementById("container"),
-                    {
-                        value: css,
-                        language: "css",
-                        theme: getTheme(),
-                    }
-                );
-                editor.onDidChangeModelContent(() =>
-                    setCss(editor.getValue())
-                );
-                window.addEventListener("resize", () => {
-                    // make monaco re-layout
-                    editor.layout();
-                });
+        function startFallback(reason) {
+            if (started) return;
+            started = true;
+
+            const dark = getTheme() !== "vs-light";
+            document.body.classList.add("fallback");
+            document.getElementById("container").remove();
+
+            const notice = document.createElement("div");
+            notice.id = "notice";
+            notice.textContent = "Простой редактор: полный редактор (Monaco) не загрузился — " + reason + ". CSS всё равно сохраняется и применяется, пока вы печатаете.";
+
+            const area = document.createElement("textarea");
+            area.id = "plain";
+            area.spellcheck = false;
+            area.style.background = dark ? "#1e1e1e" : "#ffffff";
+            area.style.color = dark ? "#d4d4d4" : "#1e1e1e";
+
+            area.addEventListener("keydown", e => {
+                if (e.key !== "Tab") return;
+                e.preventDefault();
+                area.setRangeText("    ", area.selectionStart, area.selectionEnd, "end");
+                setCss(area.value);
             });
-        });
+            area.addEventListener("input", () => setCss(area.value));
+
+            document.body.append(notice, area);
+            getCurrentCss().then(css => {
+                area.value = css;
+                area.focus();
+            });
+        }
+
+        const fallbackTimer = setTimeout(() => startFallback("CDN не ответил за 10 секунд"), 10000);
+
+        function startMonaco() {
+            if (typeof require !== "function") {
+                startFallback("CDN недоступен");
+                return;
+            }
+
+            require.config({
+                paths: {
+                    vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs",
+                },
+            });
+
+            require(["vs/editor/editor.main"], () => {
+                if (started) return;
+                started = true;
+                clearTimeout(fallbackTimer);
+
+                getCurrentCss().then((css) => {
+                    var editor = monaco.editor.create(
+                        document.getElementById("container"),
+                        {
+                            value: css,
+                            language: "css",
+                            theme: getTheme(),
+                        }
+                    );
+                    editor.onDidChangeModelContent(() =>
+                        setCss(editor.getValue())
+                    );
+                    window.addEventListener("resize", () => {
+                        // make monaco re-layout
+                        editor.layout();
+                    });
+                });
+            }, () => startFallback("CDN недоступен"));
+        }
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.50.0/min/vs/loader.js"
+        integrity="sha256-KcU48TGr84r7unF7J5IgBo95aeVrEbrGe04S7TcFUjs=" crossorigin="anonymous"
+        referrerpolicy="no-referrer" onload="startMonaco()" onerror="startFallback('CDN недоступен')"></script>
 </body>
 
 </html>

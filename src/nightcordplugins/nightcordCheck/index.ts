@@ -11,6 +11,7 @@ import { isPluginEnabled, plugins } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { healthIssues } from "@utils/health";
+import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { getBuildNumber, patches } from "@webpack/patcher";
 
@@ -22,6 +23,12 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         description: "Show a notification when plugins break after a Discord update",
         default: true
+    },
+    verboseLogs: {
+        type: OptionType.BOOLEAN,
+        description: "Detailed Nightcord logs in the console (DevTools). Off: only warnings and errors are printed",
+        default: false,
+        onChange: (v: boolean) => { Logger.verbose = v || IS_DEV || IS_REPORTER; }
     }
 });
 
@@ -120,6 +127,7 @@ export default definePlugin({
     }],
 
     start() {
+        Logger.verbose = settings.store.verboseLogs || IS_DEV || IS_REPORTER;
         // Give Discord time to load its main parts before judging
         timer = setTimeout(notifyIfBroken, CHECK_DELAY);
     },
