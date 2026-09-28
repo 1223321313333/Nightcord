@@ -8,6 +8,7 @@ on:
             - src/**
             - browser/**
             - scripts/build/**
+            - installer/**
             - package.json
             - pnpm-lock.yaml
     workflow_dispatch:
@@ -36,34 +37,32 @@ jobs:
             - name: Install dependencies
               run: pnpm install --frozen-lockfile
 
-            - name: Build web
-              run: pnpm buildWebStandalone
-
             - name: Build
-              run: pnpm build --standalone
+              run: pnpm buildStandalone
 
             - name: Generate plugin list
-              run: pnpm generatePluginJson dist/plugins.json dist/plugin-readmes.json
+              run: pnpm generatePluginJson dist/plugins.json
 
-            - name: Clean up obsolete files
+            - name: Collect files to be released
               run: |
-                  rm -rf dist/*-unpacked dist/vendor Nightcord.user.css nightcordDesktopRenderer.css nightcordDesktopRenderer.css.map
+                  mkdir -p dist/release
+                  # desktop.asar is what the built-in updater downloads
+                  cp dist/desktop.asar dist/plugins.json dist/release/
+                  # loose files keep older Nightcord installs (and the installer's local mode) working
+                  cp dist/desktop/patcher.js dist/desktop/preload.js dist/desktop/renderer.js dist/desktop/renderer.css dist/release/
 
-            - name: Add installer to the release
-              run: |
                   for f in installer/NightcordInstaller.bat installer/NightcordInstaller.ps1; do
-                      sed 's/\r*$/\r/' "$f" > "dist/$(basename "$f")"
+                      sed 's/\r*$/\r/' "$f" > "dist/release/$(basename "$f")"
                   done
-                  # One download for the website: both installer files together
-                  (cd dist && zip -q NightcordInstaller.zip NightcordInstaller.bat NightcordInstaller.ps1)
+                  (cd dist/release && zip -q NightcordInstaller.zip NightcordInstaller.bat NightcordInstaller.ps1)
 
             - name: Upload DevBuild as release
               # The standalone updater reads /releases/latest and takes the commit hash from the release title
               run: |
-                  RELEASE_TAG=$(git rev-parse --short HEAD)
+                  RELEASE_TAG=$(git rev-parse HEAD)
                   gh release view devbuild >/dev/null 2>&1 || \
                       gh release create devbuild --title "DevBuild $RELEASE_TAG" --notes "Automatic Nightcord build from the latest commit on main." --latest
-                  gh release upload devbuild --clobber dist/*
+                  gh release upload devbuild --clobber dist/release/*
                   gh release edit devbuild --title "DevBuild $RELEASE_TAG" --latest
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

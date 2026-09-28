@@ -18,8 +18,8 @@ $ErrorActionPreference = "Stop"
 
 $Repo = "1223321313333/Nightcord"
 $ReleaseUrl = "https://github.com/$Repo/releases/download/devbuild"
-$BuildFiles = @("patcher.js", "preload.js", "renderer.js", "renderer.css")
-$DefaultDist = Join-Path $env:APPDATA "Nightcord\dist"
+$AsarName = "desktop.asar"
+$DataDir = Join-Path $env:APPDATA "Nightcord"
 $Flavours = @(
     @{ Name = "Discord"; Dir = "Discord"; Exe = "Discord.exe" },
     @{ Name = "Discord PTB"; Dir = "DiscordPTB"; Exe = "DiscordPTB.exe" },
@@ -102,29 +102,39 @@ function Start-Discord($installs) {
     }
 }
 
+# Returns the path Discord should require: a local patcher.js, or the downloaded desktop.asar
 function Get-Build {
     if ($DistPath) {
         $dist = (Resolve-Path $DistPath).Path
-        if (-not (Test-Path (Join-Path $dist "patcher.js"))) { throw "В $dist нет patcher.js. Сначала соберите проект: pnpm build" }
-        Write-Ok "Использую локальную сборку: $dist"
-        return $dist
+        foreach ($candidate in @((Join-Path $dist "desktop\patcher.js"), (Join-Path $dist "patcher.js"))) {
+            if (Test-Path $candidate) {
+                Write-Ok "Использую локальную сборку: $candidate"
+                return $candidate
+            }
+        }
+        throw "В $dist нет сборки Nightcord. Сначала соберите проект: pnpm build"
     }
 
-    New-Item -ItemType Directory -Force $DefaultDist | Out-Null
-    Write-Step "Скачиваю свежую сборку Nightcord с GitHub ($Repo)"
-    foreach ($file in $BuildFiles) {
-        Invoke-WebRequest -UseBasicParsing -Uri "$ReleaseUrl/$file" -OutFile (Join-Path $DefaultDist $file)
+    New-Item -ItemType Directory -Force $DataDir | Out-Null
+    $target = Join-Path $DataDir $AsarName
+    Write-Step "Скачиваю свежую сборку Nightcord с GitHub ($Repo), это около 16 МБ"
+    $oldProgress = $ProgressPreference
+    $ProgressPreference = "SilentlyContinue" # the progress bar makes Invoke-WebRequest many times slower
+    try {
+        Invoke-WebRequest -UseBasicParsing -Uri "$ReleaseUrl/$AsarName" -OutFile "$target.download"
+    } finally {
+        $ProgressPreference = $oldProgress
     }
-    Write-Ok "Сборка сохранена в $DefaultDist"
-    return $DefaultDist
+    Move-Item -Force "$target.download" $target
+    Write-Ok "Сборка сохранена: $target"
+    return $target
 }
 
 function Install-Nightcord {
     $installs = @(Get-Installs)
     if (-not $installs) { throw "Discord не найден. Установите Discord с discord.com и запустите установщик снова." }
 
-    $dist = Get-Build
-    $patcher = Join-Path $dist "patcher.js"
+    $patcher = Get-Build
     $stopped = Stop-Discord $installs
 
     foreach ($i in $installs) {
