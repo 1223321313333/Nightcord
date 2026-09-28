@@ -1,5 +1,5 @@
 name: Sync with Equicord
-# Pulls new Equicord commits into Nightcord once a week.
+# Pulls new Equicord commits (their dev branch, where fixes for Discord updates land first) into Nightcord once a week.
 #
 # 1. The new Equicord version is rebranded with scripts/nightcord/rebrand.cjs and committed on top of
 #    the `upstream-nightcord` branch, so that branch only ever differs by real upstream changes.
@@ -52,11 +52,11 @@ jobs:
                   git config user.name "github-actions[bot]"
                   git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
                   git remote add equicord https://github.com/Equicord/Equicord.git
-                  git fetch --no-tags equicord main
+                  git fetch --no-tags equicord dev
                   git fetch --no-tags origin upstream-nightcord
 
                   last=$(git log -1 --format=%B origin/upstream-nightcord | sed -n 's/^Upstream: //p')
-                  new=$(git rev-parse equicord/main)
+                  new=$(git rev-parse equicord/dev)
                   echo "last=$last" >> "$GITHUB_OUTPUT"
                   echo "new=$new" >> "$GITHUB_OUTPUT"
                   echo "short=${new:0:9}" >> "$GITHUB_OUTPUT"
@@ -71,7 +71,7 @@ jobs:
             - name: Rebrand the new Equicord version
               if: steps.check.outputs.changed == 'true'
               run: |
-                  git worktree add --detach /tmp/upstream equicord/main
+                  git worktree add --detach /tmp/upstream equicord/dev
                   node scripts/nightcord/rebrand.cjs /tmp/upstream
                   # Same import order as Nightcord after the rename, otherwise every import change conflicts
                   ln -s "$GITHUB_WORKSPACE/node_modules" /tmp/upstream/node_modules
@@ -80,7 +80,7 @@ jobs:
 
                   git -C /tmp/upstream add -A
                   tree=$(git -C /tmp/upstream write-tree)
-                  commit=$(git commit-tree "$tree" -p origin/upstream-nightcord -p equicord/main \
+                  commit=$(git commit-tree "$tree" -p origin/upstream-nightcord -p equicord/dev \
                       -m "Equicord ${{ steps.check.outputs.short }} rebranded to Nightcord" \
                       -m "Upstream: ${{ steps.check.outputs.new }}")
                   git push origin "$commit:refs/heads/upstream-nightcord"

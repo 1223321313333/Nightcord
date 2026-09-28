@@ -94,11 +94,18 @@ async function loadBadges(url: string, noCache = false) {
 }
 
 async function loadAllBadges(noCache = false) {
-    const vencordBadges = await loadBadges("https://badges.vencord.dev/badges.json", noCache);
-    const equicordBadges = await loadBadges("https://badge.equicord.org/badges.json", noCache);
+    // Load both lists independently: where one host is blocked or down, the other should still work,
+    // and a failed fetch should not end up as an uncaught error in the console.
+    const [vencordBadges, equicordBadges] = await Promise.allSettled([
+        loadBadges("https://badges.vencord.dev/badges.json", noCache),
+        loadBadges("https://badge.equicord.org/badges.json", noCache)
+    ]);
 
-    DonorBadges = vencordBadges;
-    NightcordDonorBadges = equicordBadges;
+    if (vencordBadges.status === "fulfilled") DonorBadges = vencordBadges.value;
+    if (equicordBadges.status === "fulfilled") NightcordDonorBadges = equicordBadges.value;
+
+    const failed = [vencordBadges.status === "rejected" && "Vencord", equicordBadges.status === "rejected" && "Equicord"].filter(Boolean);
+    if (failed.length) new Logger("BadgeAPI").warn(`Could not load ${failed.join(" and ")} donor badges (network or host unavailable)`);
 }
 
 let intervalId: any;

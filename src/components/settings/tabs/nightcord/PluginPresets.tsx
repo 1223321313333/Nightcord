@@ -42,7 +42,7 @@ const PRESETS: Preset[] = [
             "FakeNitro", "MessageLogger", "ShowHiddenChannels", "SilentTyping", "PlatformIndicators", "ViewIcons",
             "CallTimer", "MemberCount", "ClearURLs", "ReverseImageSearch", "Translate", "ImageZoom", "TypingIndicator",
             "WhoReacted", "FavoriteEmojiFirst", "VolumeBooster", "GameActivityToggle", "RevealAllSpoilers",
-            "PermissionsViewer", "ServerInfo", "ValidUser", "ValidReply", "MessageLinkEmbeds", "BetterSessions",
+            "PermissionsViewer", "ServerInfo", "ValidUser", "ValidReply", "MessageLinkEmbeds",
             "CopyUserURLs", "NoOnboardingDelay"
         ],
         disable: () => []

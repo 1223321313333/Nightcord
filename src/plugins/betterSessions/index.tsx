@@ -154,10 +154,16 @@ export default definePlugin({
             url: Constants.Endpoints.AUTH_SESSIONS
         });
 
+        // On the very first run every existing session would look new and each one got a permanent
+        // notification. Remember them silently instead and only notify about sessions that appear later.
+        const firstRun = savedSessionsCache.size === 0;
+
         for (const session of data.body.user_sessions) {
             if (savedSessionsCache.has(session.id_hash)) continue;
 
-            savedSessionsCache.set(session.id_hash, { name: "", isNew: true });
+            savedSessionsCache.set(session.id_hash, { name: "", isNew: !firstRun });
+            if (firstRun) continue;
+
             showNotification({
                 title: "BetterSessions",
                 body: `New session:\n${session.client_info.os} · ${session.client_info.platform} · ${session.client_info.location}`,
