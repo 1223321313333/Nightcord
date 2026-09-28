@@ -14,9 +14,9 @@ import { AddonCard } from "@components/settings";
 import { ExcludedReasons, PluginDependencyList } from "@components/settings/tabs/plugins";
 import { PluginCard } from "@components/settings/tabs/plugins/PluginCard";
 import { TooltipContainer } from "@components/TooltipContainer";
+import { Message } from "@nightcord/discord-types";
 import { EQUIBOT_USER_ID } from "@utils/constants";
 import { isNightcordGuild, isNightcordSupport } from "@utils/misc";
-import { Message } from "@nightcord/discord-types";
 import { showToast, Tooltip, useMemo } from "@webpack/common";
 import { JSX } from "react";
 

@@ -13,11 +13,11 @@ import { BaseText } from "@components/BaseText";
 import { Button } from "@components/Button";
 import { PencilIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
+import { Emoji, Message } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Emoji, Message } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { EmojiStore, Menu, openModal,TextInput, Toasts, useEffect, useState } from "@webpack/common";
 

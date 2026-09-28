@@ -238,7 +238,7 @@ export interface PluginDef {
     renderProfileSection?: ProfileSectionData;
 
     /**
-     * A Nightcord plugin that is modified for extra features in Nightcord
+     * A Vencord plugin that is modified for extra features in Equicord
      */
     isModified?: boolean;
 }

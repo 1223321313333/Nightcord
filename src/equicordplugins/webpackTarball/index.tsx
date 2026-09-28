@@ -9,10 +9,10 @@ import { BaseText } from "@components/BaseText";
 import { Flex } from "@components/Flex";
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { makeLazy } from "@utils/lazy";
 import definePlugin, { OptionType } from "@utils/types";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { findByProps, wreq } from "@webpack";
 import { Button, Modal,openModal, Timestamp, useState } from "@webpack/common";
 

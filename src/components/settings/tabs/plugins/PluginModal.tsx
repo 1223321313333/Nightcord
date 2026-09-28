@@ -26,14 +26,15 @@ import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Paragraph } from "@components/Paragraph";
+import { RenderModalProps, User } from "@nightcord/discord-types";
 import { debounce } from "@shared/debounce";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
 import { classes, isObjectEmpty } from "@utils/misc";
 import { OptionType, Plugin, PluginTag } from "@utils/types";
-import { RenderModalProps, User } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { Clickable, FluxDispatcher, Modal, openModal, React, Text, Toasts, Tooltip, useEffect, useMemo, UserStore, UserSummaryItem, UserUtils, useState } from "@webpack/common";
 import { Constructor } from "type-fest";
@@ -116,7 +117,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
     function renderSettings() {
         const { settings } = plugin;
         if (!hasSettings || !settings)
-            return <Paragraph>There are no settings for this plugin.</Paragraph>;
+            return <Paragraph>{t("There are no settings for this plugin.")}</Paragraph>;
 
         const options = Object.entries(settings.def).map(([key, setting]) => {
             if (setting.type === OptionType.CUSTOM) return null;
@@ -174,6 +175,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
 
     const pluginMeta = PluginMeta[plugin.name];
     const isEquicordPlugin = pluginMeta.folderName.startsWith("src/equicordplugins/") ?? false;
+    const isNightcordPlugin = pluginMeta.folderName.startsWith("src/nightcordplugins/") ?? false;
 
     return (
         <Modal
@@ -205,7 +207,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
             )}
             <div className={"vc-settings-modal-content"}>
                 <section>
-                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>Authors</Text>
+                    <Text variant="heading-lg/semibold" className={classes(Margins.top8, Margins.bottom8)}>{t("Authors")}</Text>
                     <div style={{ width: "fit-content" }}>
                         <ErrorBoundary noop>
                             <UserSummaryItem
@@ -233,7 +235,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 </section>
 
                 <section>
-                    <BaseText size="lg" weight="semibold" color="text-strong" className={classes(Margins.top16, Margins.bottom8)}>Settings</BaseText>
+                    <BaseText size="lg" weight="semibold" color="text-strong" className={classes(Margins.top16, Margins.bottom8)}>{t("Settings")}</BaseText>
                     {renderSettings()}
                 </section>
             </div>
@@ -264,7 +266,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                                 />
                                 <WebsiteButton
                                     text="Website"
-                                    href={isEquicordPlugin ? `https://equicord.org/plugins/${plugin.name}` : `https://vencord.dev/plugins/${plugin.name}`}
+                                    href={isNightcordPlugin ? "https://1223321313333.github.io/Nightcord/#features" : isEquicordPlugin ? `https://equicord.org/plugins/${plugin.name}` : `https://vencord.dev/plugins/${plugin.name}`}
                                 />
                                 <GithubButton
                                     text="Source Code"

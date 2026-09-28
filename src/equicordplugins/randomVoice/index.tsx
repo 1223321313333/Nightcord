@@ -11,11 +11,11 @@ import { UserAreaButton, UserAreaRenderProps } from "@api/UserArea";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Switch } from "@components/Switch";
+import type { Channel, VoiceState } from "@nightcord/discord-types";
 import { debounce } from "@shared/debounce";
-import { Devs, NightcordDevs, IS_MAC } from "@utils/constants";
+import { Devs, IS_MAC,NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import type { Channel, VoiceState } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { ChannelActions, ChannelRouter, ChannelStore, ContextMenuApi, FluxDispatcher, GuildStore, MediaEngineStore, Menu, PermissionsBits, PermissionStore, React, RelationshipStore, SelectedChannelStore, Toasts, useEffect, UserStore, useState, VoiceActions, VoiceStateStore } from "@webpack/common";
 

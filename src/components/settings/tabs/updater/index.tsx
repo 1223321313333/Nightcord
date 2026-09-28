@@ -26,6 +26,7 @@ import { Heading, HeadingSecondary } from "@components/Heading";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { useAwaiter } from "@utils/react";
 import { getRepo, isNewer, UpdateLogger } from "@utils/updater";
@@ -93,14 +94,14 @@ function Updater() {
 
             <div className="vc-settings-switches">
                 <FormSwitch
-                    title="Automatically update"
+                    title={t("Automatically update")}
                     description="When enabled, Nightcord will automatically download and install updates in the background without asking for confirmation. You'll need to restart Discord to apply the changes."
                     value={settings.autoUpdate}
                     onChange={(v: boolean) => settings.autoUpdate = v}
                     hideBorder
                 />
                 <FormSwitch
-                    title="Get notified when an automatic update completes"
+                    title={t("Get notified when an automatic update completes")}
                     description="Receive a notification when Nightcord finishes downloading an update in the background, so you know when to restart Discord."
                     value={settings.autoUpdateNotification}
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
@@ -131,7 +132,7 @@ function Updater() {
 
             <Divider className={Margins.top20} />
 
-            <Heading className={Margins.top20}>Updates</Heading>
+            <Heading className={Margins.top20}>{t("Updates")}</Heading>
             {isNewer ? <Newer {...commonProps} /> : <Updatable {...commonProps} />}
         </SettingsTab>
     );
@@ -139,4 +140,4 @@ function Updater() {
 
 export default IS_UPDATER_DISABLED
     ? null
-    : wrapTab(Updater, "Updater");
+    : wrapTab(Updater, t("Updater"));

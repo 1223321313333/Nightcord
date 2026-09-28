@@ -10,9 +10,9 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import * as DataStore from "@api/DataStore";
 import { definePluginSettings, migratePluginSetting } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Message, User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, User } from "@nightcord/discord-types";
 import { findByPropsLazy, findCssClassesLazy } from "@webpack";
 import { Button, ChannelStore, Menu, openModal, showToast, Toasts, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
 

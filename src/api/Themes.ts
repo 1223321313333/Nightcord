@@ -17,12 +17,12 @@
 */
 
 import { Settings, SettingsStore, type ThemeActivationMode } from "@api/Settings";
+import { ThemeStore } from "@nightcord/discord-types";
 import { createAndAppendStyle } from "@utils/css";
 import { isNonNullish } from "@utils/guards";
-import { ThemeStore } from "@nightcord/discord-types";
 import { PopoutWindowStore } from "@webpack/common";
 
-import { coreStyleRootNode, managedStyleRootNode, userStyleRootNode, nightcordRootNode } from "./Styles";
+import { coreStyleRootNode, managedStyleRootNode, nightcordRootNode,userStyleRootNode } from "./Styles";
 
 let style: HTMLStyleElement;
 let themesStyle: HTMLStyleElement;

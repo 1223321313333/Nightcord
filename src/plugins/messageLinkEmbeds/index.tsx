@@ -21,10 +21,10 @@ import { updateMessage } from "@api/MessageUpdater";
 import { definePluginSettings } from "@api/Settings";
 import { getUserSettingLazy } from "@api/UserSettings";
 import { BaseText } from "@components/BaseText";
+import { Channel, Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants.js";
 import { Queue } from "@utils/Queue";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, findComponentLazy, findCssClassesLazy } from "@webpack";
 import {
     Button,

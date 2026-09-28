@@ -5,9 +5,9 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { RelationshipStore, SelectedChannelStore } from "@webpack/common";
 
 interface IMessageCreate {

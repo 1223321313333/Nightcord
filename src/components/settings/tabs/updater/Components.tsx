@@ -11,6 +11,7 @@ import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
 import { changes, checkForUpdates, update, updateError } from "@utils/updater";
@@ -101,7 +102,7 @@ export function Updatable(props: CommonProps) {
                         }
                     })}
                 >
-                    Check for Updates
+                    {t("Check for Updates")}
                 </Button>
                 {isOutdated && (
                     <Button
@@ -116,10 +117,10 @@ export function Updatable(props: CommonProps) {
                                     openModal(props => (
                                         <ConfirmModal
                                             {...props}
-                                            title="Update Success!"
-                                            subtitle="Successfully updated. Restart now to apply the changes?"
-                                            confirmText="Restart"
-                                            cancelText="Not now!"
+                                            title={t("Update Success!")}
+                                            subtitle={t("Successfully updated. Restart now to apply the changes?")}
+                                            confirmText={t("Restart")}
+                                            cancelText={t("Not now!")}
                                             variant="primary"
                                             onConfirm={() => {
                                                 relaunch();
@@ -132,7 +133,7 @@ export function Updatable(props: CommonProps) {
                             }
                         })}
                     >
-                        Update Now
+                        {t("Update Now")}
                     </Button>
                 )}
             </Flex>

@@ -7,9 +7,9 @@
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { InfoIcon } from "@components/Icons";
+import { Guild } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Guild } from "@nightcord/discord-types";
 import { Menu } from "@webpack/common";
 
 import { openGuildInfoModal } from "./GuildInfoModal";

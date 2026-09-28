@@ -19,10 +19,10 @@
 import "./style.css";
 
 import { definePluginSettings, migratePluginSetting } from "@api/Settings";
+import { DiscordPlatform, User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { DiscordPlatform, User } from "@nightcord/discord-types";
 import { filters, mapMangledModuleLazy } from "@webpack";
 import { AuthenticationStore, PresenceStore, SessionsStore, Tooltip, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -60,7 +60,7 @@ const Icons = {
     embedded: Icon("M3.06 20.4q-1.53 0-2.37-1.065T.06 16.74l1.26-9q.27-1.8 1.605-2.97T6.06 3.6h11.88q1.8 0 3.135 1.17t1.605 2.97l1.26 9q.21 1.53-.63 2.595T20.94 20.4q-.63 0-1.17-.225T18.78 19.5l-2.7-2.7H7.92l-2.7 2.7q-.45.45-.99.675t-1.17.225Zm14.94-7.2q.51 0 .855-.345T19.2 12q0-.51-.345-.855T18 10.8q-.51 0-.855.345T16.8 12q0 .51.345 .855T18 13.2Zm-2.4-3.6q.51 0 .855-.345T16.8 8.4q0-.51-.345-.855T15.6 7.2q-.51 0-.855.345T14.4 8.4q0 .51.345 .855T15.6 9.6ZM6.9 13.2h1.8v-2.1h2.1v-1.8h-2.1v-2.1h-1.8v2.1h-2.1v1.8h2.1v2.1Z", { viewBox: "0 0 24 24", height: 20, width: 20 }),
     vr: Icon("M8.46 8.64a1 1 0 0 1 1 1c0 .44-.3.8-.72.92l-.11.07c-.08.06-.2.19-.2.41a.99.99 0 0 1-.98.86h-.06a1 1 0 0 1-.94-1.05l.02-.32c.05-1.06.92-1.9 1.99-1.9ZM15.55 5a5.5 5.5 0 0 1 5.15 3.67h.3a2 2 0 0 1 2 2v3.18a2 2 0 0 1-2 1.99h-.2A4.54 4.54 0 0 1 16.55 19a4.45 4.45 0 0 1-3.6-1.83 1.2 1.2 0 0 0-1.9 0 4.44 4.44 0 0 1-3.9 1.82 4.54 4.54 0 0 1-3.94-3.15H3a2 2 0 0 1-2-2v-3.18c0-1.1.9-1.99 2-1.99h.3A5.5 5.5 0 0 1 8.46 5h7.09Zm-7.1 2C6.6 7 5.06 8.5 4.97 10.41l-.02.66v3.18c0 1.43 1.05 2.66 2.34 2.74.85.06 1.63-.32 2.14-1.01a3.2 3.2 0 0 1 2.57-1.3c1 0 1.97.48 2.57 1.3.5.69 1.3 1.08 2.14 1.01 1.3-.08 2.34-1.31 2.34-2.74l-.02-3.84a3.54 3.54 0 0 0-3.49-3.43H8.45Z", { viewBox: "0 4 24 16", height: 20, width: 20 }),
     suncord: Icon("M7 4a6 6 0 00-6 6v4a6 6 0 006 6h10a6 6 0 006-6v-4a6 6 0 00-6-6H7zm0 11a1 1 0 01-1-1v-1H5a1 1 0 010-2h1v-1a1 1 0 012 0v1h1a1 1 0 010 2H8v1a1 1 0 01-1 1zm10-4a1 1 0 100-2 1 1 0 000 2zm1 3a1 1 0 11-2 0 1 1 0 012 0zm0-2a1 1 0 102 0 1 1 0 00-2 0zm-3 1a1 1 0 110-2 1 1 0 010 2z", { viewBox: "0 0 24 24", height: 24, width: 24 }),
-    nightcord: Icon("M14.8 2.7 9 3.1V47h3.3c1.7 0 6.2.3 10 .7l6.7.6V2l-4.2.2c-2.4.1-6.9.3-10 .5zm1.8 6.4c1 1.7-1.3 3.6-2.7 2.2C12.7 10.1 13.5 8 15 8c.5 0 1.2.5 1.6 1.1zM16 33c0 6-.4 10-1 10s-1-4-1-10 .4-10 1-10 1 4 1 10zm15-8v23.3l3.8-.7c2-.3 4.7-.6 6-.6H43V3h-2.2c-1.3 0-4-.3-6-.6L31 1.7V25z", { viewBox: "0 0 50 50" }),
+    vencord: Icon("M14.8 2.7 9 3.1V47h3.3c1.7 0 6.2.3 10 .7l6.7.6V2l-4.2.2c-2.4.1-6.9.3-10 .5zm1.8 6.4c1 1.7-1.3 3.6-2.7 2.2C12.7 10.1 13.5 8 15 8c.5 0 1.2.5 1.6 1.1zM16 33c0 6-.4 10-1 10s-1-4-1-10 .4-10 1-10 1 4 1 10zm15-8v23.3l3.8-.7c2-.3 4.7-.6 6-.6H43V3h-2.2c-1.3 0-4-.3-6-.6L31 1.7V25z", { viewBox: "0 0 50 50" }),
 };
 
 const PlatformIcon = ({ platform, status, small }) => {
@@ -69,14 +69,14 @@ const PlatformIcon = ({ platform, status, small }) => {
     const { ConsoleIcon } = settings.store;
     if (platform === "embedded") {
         switch (ConsoleIcon) {
-            case "nightcord":
+            case "equicord":
                 Icon = Icons.embedded;
                 break;
             case "suncord":
                 Icon = Icons.suncord;
                 break;
-            case "nightcord":
-                Icon = Icons.nightcord;
+            case "vencord":
+                Icon = Icons.vencord;
                 break;
             default:
                 Icon = Icons.embedded;
@@ -181,8 +181,8 @@ const settings = definePluginSettings({
         restartNeeded: true,
         options: [
             {
-                label: "Nightcord",
-                value: "nightcord",
+                label: "Equicord",
+                value: "equicord",
                 default: true
             },
             {
@@ -190,14 +190,15 @@ const settings = definePluginSettings({
                 value: "suncord",
             },
             {
-                label: "Nightcord",
-                value: "nightcord",
+                label: "Vencord",
+                value: "vencord",
             },
         ],
     }
 });
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "PlatformIndicators",
     description: "Adds platform indicators (Desktop, Mobile, Web...) to users",
     dependencies: ["MemberListDecoratorsAPI", "MessageDecorationsAPI", "NicknameIconsAPI"],

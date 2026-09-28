@@ -59,6 +59,9 @@
             "@webpack/types": [
                 "./src/webpack/types"
             ],
+            "@nightcordplugins/*": [
+                "./src/nightcordplugins/*"
+            ],
             "@equicordplugins/*": [
                 "./src/equicordplugins/*"
             ]

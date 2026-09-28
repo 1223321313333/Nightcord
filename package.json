@@ -2,17 +2,17 @@
     "name": "nightcord",
     "private": "true",
     "version": "1.15.7.0",
-    "description": "The other cutest Discord client mod",
-    "homepage": "https://github.com/Equicord/Equicord#readme",
+    "description": "Nightcord — a Discord client mod built on Equicord and Vencord",
+    "homepage": "https://github.com/1223321313333/Nightcord#readme",
     "bugs": {
-        "url": "https://github.com/Equicord/Equicord/issues"
+        "url": "https://github.com/1223321313333/Nightcord/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Equicord/Equicord.git"
+        "url": "git+https://github.com/1223321313333/Nightcord.git"
     },
     "license": "GPL-3.0-or-later",
-    "author": "Nightcord",
+    "author": "Nightcord contributors, based on Equicord and Vencord",
     "scripts": {
         "build": "node --require=./scripts/suppressExperimentalWarnings.js scripts/build/build.mjs",
         "buildStandalone": "pnpm build --standalone",
@@ -25,8 +25,8 @@
         "watchWeb": "pnpm buildWeb --watch",
         "generateDevsList": "tsx scripts/generateDevsList.ts",
         "generatePluginJson": "tsx scripts/generatePluginList.ts",
-        "generateEquicordPluginJson": "tsx scripts/generatePluginList.ts --nightcord",
-        "generateVencordPluginJson": "tsx scripts/generatePluginList.ts --nightcord",
+        "generateEquicordPluginJson": "tsx scripts/generatePluginList.ts --equicord",
+        "generateVencordPluginJson": "tsx scripts/generatePluginList.ts --vencord",
         "generateTypes": "tspc --emitDeclarationOnly --declaration --outDir packages/nightcord-types --allowJs false",
         "inject": "node scripts/runInstaller.mjs -- --install",
         "uninject": "node scripts/runInstaller.mjs -- --uninstall",

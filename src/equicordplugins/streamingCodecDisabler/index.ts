@@ -5,9 +5,9 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { CodecInfo } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { CodecInfo } from "@nightcord/discord-types";
 
 const settings = definePluginSettings({
     disableAv1Codec: {

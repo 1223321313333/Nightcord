@@ -9,12 +9,12 @@ import "./styles.css";
 import { showNotification } from "@api/Notifications";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Message } from "@nightcord/discord-types";
 import { copyToClipboard } from "@utils/clipboard";
 import { NightcordDevs } from "@utils/constants";
 import { showItemInFolder } from "@utils/native";
 import definePlugin, { OptionType } from "@utils/types";
 import { saveFile } from "@utils/web";
-import { Message } from "@nightcord/discord-types";
 import { Menu, Toasts } from "@webpack/common";
 
 import { ContactsList } from "./types";

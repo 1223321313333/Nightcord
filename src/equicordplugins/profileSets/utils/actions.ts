@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { isNonNullish } from "@utils/guards";
 import { ProfilePreset } from "@nightcord/discord-types";
+import { isNonNullish } from "@utils/guards";
 import { showToast, Toasts, UserProfileSettingsStore } from "@webpack/common";
 
 import { getCurrentProfile } from "./profile";

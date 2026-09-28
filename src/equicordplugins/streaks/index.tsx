@@ -8,10 +8,10 @@ import "./style.css";
 
 import { DecoratorProps } from "@api/MemberListDecorators";
 import { FireIcon } from "@components/Icons";
+import { Message } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { ChannelStore, moment, Tooltip, UserStore } from "@webpack/common";
 
 import { settings } from "./settings";

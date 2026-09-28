@@ -17,10 +17,10 @@
 */
 
 import { definePluginSettings } from "@api/Settings";
+import { Message, ReactionEmoji } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { sleep } from "@utils/misc";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import { Message, ReactionEmoji } from "@nightcord/discord-types";
 import { RelationshipStore, SelectedChannelStore, UserStore } from "@webpack/common";
 
 interface IMessageCreate {

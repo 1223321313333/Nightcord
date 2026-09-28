@@ -6,13 +6,13 @@
 
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
+import type { Channel, Message } from "@nightcord/discord-types";
+import { ApplicationIntegrationType, MessageFlags } from "@nightcord/discord-types/enums";
 import NoReplyMentionPlugin from "@plugins/noReplyMention";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { copyWithToast, insertTextIntoChatInputBox } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import type { Channel, Message } from "@nightcord/discord-types";
-import { ApplicationIntegrationType, MessageFlags } from "@nightcord/discord-types/enums";
 import { AuthenticationStore, Constants, EditMessageStore, FluxDispatcher, MessageActions, MessageTypeSets, PermissionsBits, PermissionStore, PinActions, RestAPI, Toasts, WindowStore } from "@webpack/common";
 
 import { AdditionalReactEmojisSetting, MAX_ADDITIONAL_REACT_EMOJIS, ReactEmojiSetting } from "./ReactEmojiSetting";

@@ -5,9 +5,9 @@
  */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { Channel } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { Menu, NavigationRouter, RestAPI, Toasts, UserStore } from "@webpack/common";
 
 async function findLastMessageFromUser(guildId: string, channelId: string, userId: string) {

@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { ChannelStore } from "@webpack/common";
 
 const SMALL_CAPS: Record<string, string> = {

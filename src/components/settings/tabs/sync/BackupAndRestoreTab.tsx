@@ -24,12 +24,13 @@ import { Heading } from "@components/Heading";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 
 function BackupAndRestoreTab() {
     return (
         <SettingsTab>
-            <Heading className={Margins.top16}>Backup & Restore</Heading>
+            <Heading className={Margins.top16}>{t("Backup & Restore")}</Heading>
             <Paragraph className={Margins.bottom20}>
                 Import and export your Nightcord settings as a JSON file. This allows you to easily transfer your settings to another device, or recover them after reinstalling Nightcord or Discord.
             </Paragraph>
@@ -48,7 +49,7 @@ function BackupAndRestoreTab() {
 
             <Divider className={Margins.bottom20} />
 
-            <Heading>Import Settings</Heading>
+            <Heading>{t("Import Settings")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 Select a previously exported settings file to restore your configuration. This will replace all your current settings with the ones from the backup.
             </Paragraph>
@@ -83,7 +84,7 @@ function BackupAndRestoreTab() {
 
             <Divider className={Margins.bottom20} />
 
-            <Heading>Export Settings</Heading>
+            <Heading>{t("Export Settings")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 Download your current settings as a backup file. You can export everything at once, or choose to export only specific parts of your configuration.
             </Paragraph>
@@ -119,4 +120,4 @@ function BackupAndRestoreTab() {
     );
 }
 
-export default wrapTab(BackupAndRestoreTab, "Backup & Restore");
+export default wrapTab(BackupAndRestoreTab, t("Backup & Restore"));

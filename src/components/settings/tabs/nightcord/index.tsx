@@ -8,14 +8,13 @@ import "./NightcordTab.css";
 
 import { openNotificationLogModal } from "@api/Notifications/notificationLog";
 import { useSettings } from "@api/Settings";
-import { Button } from "@components/Button";
 import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
 import { FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "@components/Icons";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
-import { openContributorModal, openPluginModal, SettingsTab, wrapTab } from "@components/settings";
+import { openPluginModal, SettingsTab, wrapTab } from "@components/settings";
 import { QuickAction, QuickActionCard } from "@components/settings/QuickAction";
 import { SpecialCard } from "@components/settings/SpecialCard";
 import BadgeAPI from "@plugins/_api/badges";
@@ -23,24 +22,16 @@ import SettingsPlugin from "@plugins/_core/settings";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { DONOR_ROLE_ID, GUILD_ID, IS_WINDOWS, VC_DONOR_ROLE_ID, VC_GUILD_ID } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
-import { isAnyPluginDev } from "@utils/misc";
 import { relaunch } from "@utils/native";
-import { Alerts, GuildMemberStore, React, useMemo, UserStore } from "@webpack/common";
+import { Alerts, GuildMemberStore, React } from "@webpack/common";
 
-import { DonateButtonComponent } from "./DonateButton";
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
 import { WindowsMaterialSettings } from "./WindowsMaterialSettings";
 
-const DEFAULT_DONATE_IMAGE = "https://cdn.discordapp.com/emojis/1026533090627174460.png";
-const SHIGGY_DONATE_IMAGE = "https://equicord.org/assets/favicon.png";
-
-const VENNIE_DONATOR_IMAGE = "https://cdn.discordapp.com/emojis/1238120638020063377.png";
-const COZY_CONTRIB_IMAGE = "https://cdn.discordapp.com/emojis/1026533070955872337.png";
-
-const DONOR_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070116305436712.png?size=2048";
-const CONTRIB_BACKGROUND_IMAGE = "https://media.discordapp.net/stickers/1311070166481895484.png?size=2048";
+const NIGHTCORD_IMAGE = "data:image/svg+xml," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='#6d28d9' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/></svg>");
 
 const cl = classNameFactory("vc-nightcord-tab-");
 
@@ -54,8 +45,8 @@ function Switches() {
     const Switches = [
         {
             key: "useQuickCss",
-            title: "Enable Custom CSS",
-            description: "Apply your configured QuickCSS"
+            title: t("Enable Custom CSS"),
+            description: t("Apply your configured QuickCSS")
         },
         (!IS_WEB && !IS_DISCORD_DESKTOP || !IS_WINDOWS) && {
             key: "mainWindowFrameless",
@@ -72,7 +63,7 @@ function Switches() {
             }
             : {
                 key: "winNativeTitleBar",
-                title: "Use Windows' native title bar instead of Discord's custom one",
+                title: t("Use Windows' native title bar instead of Discord's custom one"),
                 description: "Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools.",
                 restartRequired: true,
             }
@@ -89,7 +80,7 @@ function Switches() {
         IS_DISCORD_DESKTOP && {
             key: "disableMinSize",
             title: "Disable Minimum Window Size",
-            description: "Allows you to resize the window to any size, even smaller than Discord's minimum size",
+            description: t("Allows you to resize the window to any size, even smaller than Discord's minimum size"),
             restartRequired: true
         },
         !IS_WEB && IS_WINDOWS && {
@@ -100,8 +91,8 @@ function Switches() {
         },
         !IS_WEB && {
             key: "enableReactDevtools",
-            title: "Enable React Developer Tools",
-            description: "Mainly useful for plugin developers. Ignore this if you don't know what it is",
+            title: t("Enable React Developer Tools"),
+            description: t("Mainly useful for plugin developers. Ignore this if you don't know what it is"),
             restartRequired: true
         },
     ] satisfies Array<false | {
@@ -142,10 +133,10 @@ function Switches() {
 
                     if (restartRequired) {
                         Alerts.show({
-                            title: "Restart Required",
+                            title: t("Restart Required"),
                             body: "A restart is required to apply this change",
-                            confirmText: "Restart now",
-                            cancelText: "Later!",
+                            confirmText: t("Restart now"),
+                            cancelText: t("Later!"),
                             onConfirm: relaunch
                         });
                     }
@@ -156,98 +147,51 @@ function Switches() {
 }
 
 function NightcordSettings() {
-    const donateImage = useMemo(() =>
-        Math.random() > 0.5 ? DEFAULT_DONATE_IMAGE : SHIGGY_DONATE_IMAGE,
-        []
-    );
-
-    const user = UserStore?.getCurrentUser();
-
     return (
         <SettingsTab>
-            {(isEquicordDonor(user?.id) || isVencordDonor(user?.id)) ? (
-                <SpecialCard
-                    title="Donations"
-                    subtitle="Thank you for donating!"
-                    description={
-                        isEquicordDonor(user?.id) && isVencordDonor(user?.id)
-                            ? "All Vencord users can see your Vencord donor badge, and Equicord users can see your Equicord donor badge. To change your Vencord donor badge, contact @vending.machine. For your Equicord donor badge, make a ticket in Nightcord's server."
-                            : isVencordDonor(user?.id)
-                                ? "All Vencord users can see your badge! You can manage your perks by messaging @vending.machine."
-                                : "All Equicord users can see your badge! You can manage your perks by making a ticket in Nightcord's server."
-                    }
-                    cardImage={VENNIE_DONATOR_IMAGE}
-                    backgroundImage={DONOR_BACKGROUND_IMAGE}
-                    backgroundColor="#ED87A9"
-                >
-                    <DonateButtonComponent donated={true} />
-                </SpecialCard>
-            ) : (
-                <SpecialCard
-                    title="Support the Project"
-                    description="Please consider supporting the development of Nightcord by donating!"
-                    cardImage={donateImage}
-                    backgroundImage={DONOR_BACKGROUND_IMAGE}
-                    backgroundColor="#c3a3ce"
-                >
-                    <DonateButtonComponent />
-                </SpecialCard>
-            )}
-            {isAnyPluginDev(user?.id) && (
-                <SpecialCard
-                    title="Contributions"
-                    subtitle="Thank you for contributing!"
-                    description="Since you've contributed to Nightcord you now have a cool new badge!"
-                    cardImage={COZY_CONTRIB_IMAGE}
-                    backgroundImage={CONTRIB_BACKGROUND_IMAGE}
-                    backgroundColor="#EDCC87"
-                >
-                    <Button
-                        variant="none"
-                        size="medium"
-                        type="button"
-                        onClick={() => openContributorModal(user)}
-                        className="vc-contrib-button"
-                    >
-                        <GithubIcon aria-hidden fill={"#000000"} className={"vc-contrib-github"} />
-                        See what you've contributed to
-                    </Button>
-                </SpecialCard>
-            )}
+            <SpecialCard
+                title="Nightcord"
+                subtitle={t("Your own Discord client mod")}
+                description={t("Nightcord is based on Equicord and Vencord (GPL-3.0). Updates come from your GitHub repository.")}
+                cardImage={NIGHTCORD_IMAGE}
+                backgroundColor="#5b3fa8"
+                buttonTitle={t("Open repository on GitHub")}
+                buttonOnClick={() => NightcordNative.native.openExternal("https://github.com/" + gitRemote)}
+            />
 
-            <Heading className={Margins.top16}>Quick Actions</Heading>
+            <Heading className={Margins.top16}>{t("Quick Actions")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                Common actions you might want to perform. These shortcuts give you quick access to frequently used features without navigating through menus.
+                {t("Common actions you might want to perform. These shortcuts give you quick access to frequently used features without navigating through menus.")}
             </Paragraph>
 
             <QuickActionCard>
                 <QuickAction
                     Icon={LogIcon}
-                    text="Notification Log"
+                    text={t("Notification Log")}
                     action={openNotificationLogModal}
                 />
                 <QuickAction
                     Icon={PaintbrushIcon}
-                    text="Edit QuickCSS"
+                    text={t("Edit QuickCSS")}
                     action={() => NightcordNative.quickCss.openEditor()}
                 />
                 {!IS_WEB && (
                     <QuickAction
                         Icon={RestartIcon}
-                        text="Relaunch Discord"
+                        text={t("Relaunch Discord")}
                         action={relaunch}
                     />
                 )}
                 {!IS_WEB && (
                     <QuickAction
                         Icon={FolderIcon}
-                        text="Open Settings Folder"
+                        text={t("Open Settings Folder")}
                         action={() => NightcordNative.settings.openFolder()}
                     />
                 )}
                 <QuickAction
                     Icon={GithubIcon}
-                    text="View Source Code"
+                    text={t("View Source Code")}
                     action={() =>
                         NightcordNative.native.openExternal(
                             "https://github.com/" + gitRemote,
@@ -258,18 +202,18 @@ function NightcordSettings() {
 
             <Divider className={Margins.top20} />
 
-            <Heading className={Margins.top20}>Client Settings</Heading>
+            <Heading className={Margins.top20}>{t("Client Settings")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                Configure how Nightcord behaves and integrates with Discord. These settings affect the Discord client's appearance and behavior.
+                {t("Configure how Nightcord behaves and integrates with Discord. These settings affect the Discord client's appearance and behavior.")}
             </Paragraph>
             <Notice.Info className={Margins.bottom20} style={{ width: "100%" }}>
-                You can customize where this settings section appears in Discord's settings menu by configuring the{" "}
+                {t("You can customize where this settings section appears in Discord's settings menu by configuring the")}{" "}
                 <a
                     role="button"
                     onClick={() => openPluginModal(SettingsPlugin)}
                     style={{ cursor: "pointer", color: "var(--text-link)" }}
                 >
-                    Settings Plugin
+                    {t("Settings Plugin")}
                 </a>.
             </Notice.Info>
 
@@ -283,7 +227,7 @@ function NightcordSettings() {
     );
 }
 
-export default wrapTab(NightcordSettings, "Nightcord Settings");
+export default wrapTab(NightcordSettings, t("Nightcord Settings"));
 
 export function isEquicordDonor(userId: string): boolean {
     const donorBadges = BadgeAPI.getNightcordDonorBadges(userId);

@@ -34,6 +34,7 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     const pluginMeta = PluginMeta[plugin.name];
     const isEquicordPlugin = pluginMeta.folderName.startsWith("src/equicordplugins/") ?? false;
     const isVencordPlugin = pluginMeta.folderName.startsWith("src/plugins/") ?? false;
+    const isNightcordPlugin = pluginMeta.folderName.startsWith("src/nightcordplugins/") ?? false;
     const isUserPlugin = pluginMeta?.userPlugin ?? false;
     const isModifiedPlugin = plugin.isModified ?? false;
 
@@ -90,6 +91,12 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     }
 
     const pluginInfo = [
+        {
+            condition: isNightcordPlugin,
+            src: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238b5cf6' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/%3E%3C/svg%3E",
+            alt: "Nightcord",
+            title: "Nightcord Plugin"
+        },
         {
             condition: isModifiedPlugin,
             src: "https://equicord.org/assets/icons/equicord/modified.png",

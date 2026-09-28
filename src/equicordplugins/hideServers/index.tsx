@@ -15,9 +15,9 @@ import {
     removeServerListElement,
     ServerListRenderPosition,
 } from "@api/ServerList";
+import { Guild } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Guild } from "@nightcord/discord-types";
 import { Menu, React, SortedGuildStore, useStateFromStores } from "@webpack/common";
 
 import hiddenServersButton from "./components/HiddenServersButton";

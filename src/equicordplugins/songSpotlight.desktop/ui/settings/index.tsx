@@ -16,11 +16,11 @@ import { cl } from "@equicordplugins/songSpotlight.desktop/lib/utils";
 import { Native } from "@equicordplugins/songSpotlight.desktop/service";
 import { Spinner } from "@equicordplugins/songSpotlight.desktop/ui/common";
 import SongList from "@equicordplugins/songSpotlight.desktop/ui/settings/SongList";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { UserData, UserDataSchema } from "@song-spotlight/api/structs";
 import { sid } from "@song-spotlight/api/util";
 import { readClipboard } from "@utils/clipboard";
 import { copyWithToast } from "@utils/discord";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { Alerts, Modal,openModal, Parser, showToast, Toasts, useCallback, useEffect, useMemo, useRef, useState } from "@webpack/common";
 
 interface ImportButtonProps {

@@ -1,0 +1,9 @@
+/* A single fixed overlay is far cheaper than a filter on the whole app */
+html.nc-night body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    pointer-events: none;
+    background: rgb(26 14 0 / var(--nc-night-strength, 0.18));
+}

@@ -6,10 +6,10 @@
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
+import type { Channel } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { insertTextIntoChatInputBox } from "@utils/discord";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import type { Channel } from "@nightcord/discord-types";
 import { GuildChannelStore, Menu, React, RestAPI, UserStore, VoiceStateStore } from "@webpack/common";
 
 async function runSequential<T>(promises: Promise<T>[]): Promise<T[]> {

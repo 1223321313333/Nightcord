@@ -7,8 +7,8 @@
 import { set } from "@api/DataStore";
 import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
-import { classNameFactory } from "@utils/css";
 import { RenderModalProps } from "@nightcord/discord-types";
+import { classNameFactory } from "@utils/css";
 import { IconUtils, Modal, React, TextInput, Toasts, UserStore, useState } from "@webpack/common";
 
 import { data, KEY_DATASTORE } from ".";

@@ -8,10 +8,10 @@ import { playAudio } from "@api/AudioPlayer";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { popNotice, showNotice } from "@api/Notices";
 import { definePluginSettings } from "@api/Settings";
-import { Devs, NightcordDevs } from "@utils/constants";
-import definePlugin, { OptionType } from "@utils/types";
 import type { Channel } from "@nightcord/discord-types";
 import { ChannelType } from "@nightcord/discord-types/enums";
+import { Devs, NightcordDevs } from "@utils/constants";
+import definePlugin, { OptionType } from "@utils/types";
 import { ChannelActions, ChannelStore, Menu, PermissionsBits, PermissionStore, VoiceStateStore } from "@webpack/common";
 
 let waitingChannelId: string | null = null;

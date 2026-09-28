@@ -6,9 +6,9 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { getUserSettingLazy } from "@api/UserSettings";
+import { VoiceState } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { VoiceState } from "@nightcord/discord-types";
 import { UserStore, VoiceStateStore } from "@webpack/common";
 
 let savedStatus: string | null;

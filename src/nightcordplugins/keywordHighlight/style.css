@@ -1,0 +1,8 @@
+.nc-keyword-msg {
+    background: color-mix(in srgb, var(--nc-keyword-color) 14%, transparent);
+    box-shadow: inset 3px 0 0 var(--nc-keyword-color);
+}
+
+.nc-keyword-hit {
+    display: none;
+}

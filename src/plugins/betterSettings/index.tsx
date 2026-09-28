@@ -8,12 +8,12 @@ import { definePluginSettings } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
 import { AchievementsIcon, AppsIcon, CreditCardIcon, EquicordIcon, GameControllerIcon, HammerAndChiselIcon, MainSettingsIcon, PencilSparkleIcon, UserIcon } from "@components/Icons";
 import { buildPluginMenuEntries, buildThemeMenuEntries } from "@equicordplugins/nightcordToolbox/menu";
+import { Icon } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Icon } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { ComponentDispatch, FocusLock, Menu, useEffect, useRef } from "@webpack/common";
 import type { HTMLAttributes, ReactElement, ReactNode } from "react";
@@ -90,6 +90,7 @@ function Layer({ mode, baseLayer = false, ...props }: LayerProps) {
 }
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "BetterSettings",
     description: "Enhances your settings-menu-opening experience",
     authors: [Devs.Kyuuhachi],

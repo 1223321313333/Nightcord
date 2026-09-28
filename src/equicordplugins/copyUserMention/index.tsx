@@ -5,10 +5,10 @@
  */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import type { Channel, User } from "@nightcord/discord-types";
 import { copyToClipboard } from "@utils/clipboard";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type { Channel, User } from "@nightcord/discord-types";
 import { Menu } from "@webpack/common";
 
 const MentionIcon = () => (

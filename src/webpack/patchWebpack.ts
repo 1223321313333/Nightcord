@@ -7,11 +7,12 @@
 import { Settings } from "@api/Settings";
 import { reporterData } from "@debug/reporterData";
 import { traceFunctionWithResults } from "@debug/Tracer";
+import { WebpackRequire } from "@nightcord/discord-types/webpack";
+import { reportHealthIssue } from "@utils/health";
 import { makeLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { interpolateIfDefined } from "@utils/misc";
 import { Patch, PatchReplacement } from "@utils/types";
-import { WebpackRequire } from "@nightcord/discord-types/webpack";
 
 import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory } from "./types";
 import { _blacklistBadModules, _initWebpack, factoryListeners, findModuleFactory, moduleListeners, waitForSubscriptions, wreq } from "./webpack";
@@ -572,6 +573,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 if (newPatchedCode === patchedCode) {
                     if (!(patch.noWarn || replacement.noWarn)) {
                         logger.warn(`Patch by ${patch.plugin} had no effect (Module id is ${String(moduleId)}): ${replacement.match}`);
+                        reportHealthIssue("patch-no-effect", patch.plugin, replacement.match);
                         if (IS_DEV) {
                             logger.debug("Function Source:\n", patchedCode);
                         }
@@ -623,6 +625,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 const shouldSuppressError = patch.plugin === "ContextMenuAPI" && err instanceof SyntaxError && err.message.includes("arguments");
                 if (!shouldSuppressError) {
                     logger.error(`Patch by ${patch.plugin} errored (Module id is ${String(moduleId)}): ${replacement.match}\n`, err);
+                    reportHealthIssue("patch-error", patch.plugin, err);
 
                     if (IS_COMPANION_TEST)
                         reporterData.failedPatches.erroredPatch.push({

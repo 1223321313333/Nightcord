@@ -8,6 +8,7 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings, migratePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import { RemixIcon } from "@components/Icons";
+import type { RenderModalProps } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel } from "@utils/discord";
@@ -15,7 +16,6 @@ import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import definePlugin, { OptionType } from "@utils/types";
 import { saveFile } from "@utils/web";
-import type { RenderModalProps } from "@nightcord/discord-types";
 import { Menu, Modal, openModal, React, Select, Slider, TextInput, UploadHandler, useEffect, useRef, useState } from "@webpack/common";
 
 import { CAPTIONS } from "./captions";

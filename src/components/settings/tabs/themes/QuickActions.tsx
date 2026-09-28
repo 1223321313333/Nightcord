@@ -8,6 +8,7 @@ import { Settings } from "@api/Settings";
 import { FolderIcon, PaintbrushIcon, PencilIcon, PlusIcon, RestartIcon } from "@components/Icons";
 import { QuickAction, QuickActionCard } from "@components/settings";
 import { openPluginModal } from "@components/settings/tabs/plugins/PluginModal";
+import { t } from "@utils/i18n";
 import { findLazy } from "@webpack";
 import { React } from "@webpack/common";
 import type { ComponentType, Ref, SyntheticEvent } from "react";
@@ -36,7 +37,7 @@ export function QuickActionsSection({ fileInputRef, onFileUpload, refreshLocalTh
                 <QuickAction
                     text={
                         <span style={{ position: "relative" }}>
-                            Upload Theme
+                            {t("Upload Theme")}
                             <FileInput
                                 ref={fileInputRef}
                                 onChange={onFileUpload}
@@ -49,24 +50,24 @@ export function QuickActionsSection({ fileInputRef, onFileUpload, refreshLocalTh
                 />
             ) : (
                 <QuickAction
-                    text="Open Themes Folder"
+                    text={t("Open Themes Folder")}
                     action={() => NightcordNative.themes.openFolder()}
                     Icon={FolderIcon}
                 />
             )}
             <QuickAction
-                text="Load missing Themes"
+                text={t("Load missing Themes")}
                 action={refreshLocalThemes}
                 Icon={RestartIcon}
             />
             <QuickAction
-                text="Edit QuickCSS"
+                text={t("Edit QuickCSS")}
                 action={() => NightcordNative.quickCss.openEditor()}
                 Icon={PaintbrushIcon}
             />
             {Settings.plugins.ClientTheme.enabled && (
                 <QuickAction
-                    text="Edit ClientTheme"
+                    text={t("Edit ClientTheme")}
                     action={() => openPluginModal(Plugins.ClientTheme)}
                     Icon={PencilIcon}
                 />

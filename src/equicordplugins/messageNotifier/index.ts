@@ -6,11 +6,11 @@
 
 import { Notifications } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
+import { MessageJSON } from "@nightcord/discord-types";
+import { MessageType } from "@nightcord/discord-types/enums";
 import { NightcordDevs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { MessageJSON } from "@nightcord/discord-types";
-import { MessageType } from "@nightcord/discord-types/enums";
 import { ChannelStore, GuildStore, NavigationRouter, RelationshipStore } from "@webpack/common";
 
 interface MessageCreatePayload {

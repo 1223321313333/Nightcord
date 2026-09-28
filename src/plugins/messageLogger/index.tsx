@@ -16,12 +16,12 @@ import { definePluginSettings } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { DeleteIcon, EyeIcon } from "@components/Icons";
+import { Message, MessageAttachment } from "@nightcord/discord-types";
 import { Devs, EQUIBOT_USER_ID, NightcordDevs, SUPPORT_CHANNEL_ID, VC_SUPPORT_CATEGORY_ID, VENBOT_USER_ID } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, MessageAttachment } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { AuthenticationStore, ChannelStore, FluxDispatcher, Menu, MessageStore, Parser, SelectedChannelStore, Timestamp, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -444,6 +444,7 @@ export const settings = definePluginSettings({
 });
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "MessageLogger",
     description: "Temporarily logs deleted and edited messages.",
     tags: ["Chat", "Utility"],

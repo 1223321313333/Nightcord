@@ -176,7 +176,7 @@ export const AudioPlayer = $AudioPlayer;
 export const UserArea = $UserArea;
 
 /**
- * Just used to identify if user is on Nightcord as Nightcord doesn't have this.
+ * Just used to identify if user is on Nightcord/Equicord as Vencord doesn't have this.
  */
 export const isNightcord = true;
 

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { classNameFactory } from "@utils/css";
 import { Channel, RenderModalProps } from "@nightcord/discord-types";
+import { classNameFactory } from "@utils/css";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Avatar, Button, ChannelStore, MessageStore, Modal,React, Text, UserStore } from "@webpack/common";
 

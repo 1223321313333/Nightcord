@@ -11,11 +11,11 @@ import { Card } from "@components/Card";
 import { HeadingTertiary } from "@components/Heading";
 import { ErrorBoundary } from "@components/index";
 import { Margins } from "@components/margins";
+import { Message } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { React, TextInput } from "@webpack/common";
 
 let blockedKeywords: Array<RegExp>;

@@ -19,15 +19,15 @@
 import { addMessagePreEditListener, addMessagePreSendListener, removeMessagePreEditListener, removeMessagePreSendListener } from "@api/MessageEvents";
 import { definePluginSettings } from "@api/Settings";
 import { Paragraph } from "@components/Paragraph";
+import type { Emoji, Message, RenderModalProps, Sticker } from "@nightcord/discord-types";
+import { StickerFormatType } from "@nightcord/discord-types/enums";
 import { ApngBlendOp, ApngDisposeOp, parseAPNG } from "@utils/apng";
 import { Devs } from "@utils/constants";
 import { getCurrentGuild } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Emoji, Message, RenderModalProps, Sticker } from "@nightcord/discord-types";
-import { StickerFormatType } from "@nightcord/discord-types/enums";
 import { findByCodeLazy, findByPropsLazy, proxyLazyWebpack } from "@webpack";
-import { ChannelStore, ConfirmModal, DraftType, EmojiStore, FluxDispatcher, Forms, GuildMemberStore, IconUtils, openModal, OverridePremiumTypeStore, PermissionsBits, PermissionStore, StickersStore, UploadHandler, UserSettingsActionCreators, UserSettingsProtoStore, UserStore } from "@webpack/common";
+import { ChannelStore, ConfirmModal, DraftType, EmojiStore, FluxDispatcher, GuildMemberStore, IconUtils, openModal, OverridePremiumTypeStore, PermissionsBits, PermissionStore, StickersStore, UploadHandler, UserSettingsActionCreators, UserSettingsProtoStore } from "@webpack/common";
 import { applyPalette, GIFEncoder, quantize } from "gifenc";
 import type { ReactElement, ReactNode } from "react";
 
@@ -199,6 +199,7 @@ function showCannotEmbedNotice() {
 }
 
 export default definePlugin({
+    enabledByDefault: true,
     name: "FakeNitro",
     authors: [Devs.Arjix, Devs.D3SOX, Devs.Ven, Devs.fawn, Devs.captain, Devs.Nuckyz, Devs.AutumnVN, Devs.sadan],
     description: "Allows you to send fake emojis/stickers, use nitro themes, and stream in nitro quality",

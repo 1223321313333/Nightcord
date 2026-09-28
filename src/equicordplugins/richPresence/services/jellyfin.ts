@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Activity } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { formatDurationMs } from "@utils/text";
-import { Activity } from "@nightcord/discord-types";
 import { ApplicationAssetUtils, FluxDispatcher, showToast } from "@webpack/common";
 
 import { settings } from "../settings";

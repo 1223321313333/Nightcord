@@ -8,10 +8,10 @@ import "./styles.css";
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { Clickable, ContextMenuApi, FluxDispatcher, Menu, React } from "@webpack/common";
 

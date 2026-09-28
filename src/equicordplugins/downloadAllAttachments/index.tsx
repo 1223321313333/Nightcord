@@ -6,11 +6,11 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { CloudDownloadIcon } from "@components/Icons";
+import { Message, MessageAttachment } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { pluralize } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, MessageAttachment } from "@nightcord/discord-types";
 import { ChannelStore, showToast, Toasts } from "@webpack/common";
 
 const logger = new Logger("DownloadAllAttachments");

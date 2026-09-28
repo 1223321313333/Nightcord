@@ -6,10 +6,10 @@
 
 import { definePluginSettings, migratePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import { Activity } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { Activity } from "@nightcord/discord-types";
 import { PresenceStore, SettingsRouter, UserStore } from "@webpack/common";
 
 const extraTimeslots = [3, 4, 5, 6, 7, 10, 15, 20, 25, 30];

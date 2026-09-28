@@ -10,11 +10,11 @@ import { addMessagePreSendListener, removeMessagePreSendListener } from "@api/Me
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings, migratePluginToSettings, Settings } from "@api/Settings";
 import { ShieldIcon, WarningIcon } from "@components/Icons";
+import { StandingState } from "@nightcord/discord-types/enums";
 import customRPC from "@plugins/customRPC";
-import { Devs, NightcordDevs, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
+import { Devs, GUILD_ID, NightcordDevs, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
 import { isAnyPluginDev } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { StandingState } from "@nightcord/discord-types/enums";
 import { findByCodeLazy } from "@webpack";
 import { Alerts, ApplicationCommandIndexStore, NavigationRouter, React, SafetyHubStore, SettingsRouter, UserGuildSettingsStore, UserStore, useStateFromStores, VoiceStateStore } from "@webpack/common";
 import { ComponentType } from "react";

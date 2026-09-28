@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { openPrivateChannel, sendMessage } from "@utils/discord";
 import { sleep } from "@utils/misc";
-import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { ChannelStore, CloudUploader, IconUtils, RelationshipStore, showToast, Toasts, UserStore } from "@webpack/common";
 
 import type { FormFieldOption, FormSubmitExtras, PaletteCommand } from "../api/types";

@@ -13,11 +13,11 @@ import {
     ProfileCardClasses,
     Spinner,
 } from "@equicordplugins/songSpotlight.desktop/ui/common";
+import { User } from "@nightcord/discord-types";
 import { RenderSongInfo } from "@song-spotlight/api/handlers";
 import { UserData } from "@song-spotlight/api/structs";
 import { sid } from "@song-spotlight/api/util";
 import { classes } from "@utils/misc";
-import { User } from "@nightcord/discord-types";
 import {
     SelectedChannelStore,
     SelectedGuildStore,

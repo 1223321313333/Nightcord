@@ -6,9 +6,9 @@
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { JoinedThreadsStore, ReadStateStore, UserGuildSettingsStore, useStateFromStores } from "@webpack/common";
 

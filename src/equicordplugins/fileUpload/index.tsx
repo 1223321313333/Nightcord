@@ -9,10 +9,10 @@ import "./styles.css";
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { OpenExternalIcon } from "@components/Icons";
+import { CloudUpload } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin from "@utils/types";
-import { CloudUpload } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { DraftType, FluxDispatcher, Menu, PermissionsBits, PermissionStore, React, showToast, Toasts, UploadAttachmentStore, useEffect, UserStore, useState } from "@webpack/common";
 

@@ -5,11 +5,11 @@
  */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { User } from "@nightcord/discord-types";
 import { copyToClipboard } from "@utils/clipboard";
 import { NightcordDevs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
-import { User } from "@nightcord/discord-types";
 import { Menu, SelectedGuildStore, Toasts, UserProfileStore } from "@webpack/common";
 
 const logger = new Logger("CopyProfileColors");

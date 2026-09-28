@@ -12,6 +12,7 @@ import { Paragraph } from "@components/Paragraph";
 import { PluginCard } from "@components/settings/tabs/plugins/PluginCard";
 import { ChangeList } from "@utils/ChangeList";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { useForceUpdater } from "@utils/react";
 import { React, Tooltip } from "@webpack/common";
@@ -66,7 +67,7 @@ export function NewPluginsSection({
         if (!deps) return null;
         return (
             <React.Fragment>
-                <Paragraph>This plugin is required by:</Paragraph>
+                <Paragraph>{t("This plugin is required by:")}</Paragraph>
                 {deps.map((dep: string) => (
                     <Paragraph key={dep} className="vc-changelog-dep-text">
                         {dep}
@@ -153,7 +154,7 @@ export function NewPluginsSection({
                     <Tooltip
                         text={
                             <>
-                                The following plugins require a restart:
+                                {t("The following plugins require a restart:")}
                                 <div className={Margins.bottom8} />
                                 <ul>
                                     {changes.map(p => (
@@ -171,7 +172,7 @@ export function NewPluginsSection({
                                 onClick={() => location.reload()}
                                 className={Margins.top16}
                             >
-                                Restart Required
+                                {t("Restart Required")}
                             </Button>
                         )}
                     </Tooltip>

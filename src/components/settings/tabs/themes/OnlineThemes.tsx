@@ -11,6 +11,7 @@ import { Link } from "@components/Link";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { useAwaiter } from "@utils/react";
 import { React, TextInput } from "@webpack/common";
@@ -62,7 +63,7 @@ export function OnlineThemesSection({
 }: OnlineThemesSectionProps) {
     return (
         <>
-            <Heading className={Margins.top20}>Online Themes</Heading>
+            <Heading className={Margins.top20}>{t("Online Themes")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 Load themes directly from URLs instead of local files. Online themes auto-update when the source changes, so you always have the latest version without manual downloads.
             </Paragraph>

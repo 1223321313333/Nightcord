@@ -15,6 +15,7 @@ import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { getThemeInfo, UserThemeHeader } from "@main/themes";
 import { classNameFactory } from "@utils/css";
 import { copyWithToast } from "@utils/discord";
+import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { getStylusWebStoreUrl } from "@utils/web";
@@ -36,9 +37,9 @@ enum ThemeFilter {
 }
 
 const filterOptions = [
-    { label: "Show All", value: ThemeFilter.All },
-    { label: "Online Themes", value: ThemeFilter.Online },
-    { label: "Local Themes", value: ThemeFilter.Local },
+    { label: t("Show All"), value: ThemeFilter.All },
+    { label: t("Online Themes"), value: ThemeFilter.Online },
+    { label: t("Local Themes"), value: ThemeFilter.Local },
     { label: "Enabled", value: ThemeFilter.Enabled },
     { label: "Disabled", value: ThemeFilter.Disabled }
 ];
@@ -374,7 +375,7 @@ function ThemesTab() {
                 Customize Discord's appearance with themes. Add local .css files or load themes directly from URLs. Themes with a cog wheel icon have customizable settings you can modify.
             </Paragraph>
 
-            <Heading>Quick Actions</Heading>
+            <Heading>{t("Quick Actions")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 Shortcuts for managing your themes. Open your themes folder to add new themes, use QuickCSS for quick style tweaks, or reload themes after making changes.
             </Paragraph>
@@ -520,5 +521,5 @@ function UserscriptThemesTab() {
 }
 
 export default IS_USERSCRIPT
-    ? wrapTab(UserscriptThemesTab, "Themes")
-    : wrapTab(ThemesTab, "Themes");
+    ? wrapTab(UserscriptThemesTab, t("Themes"))
+    : wrapTab(ThemesTab, t("Themes"));

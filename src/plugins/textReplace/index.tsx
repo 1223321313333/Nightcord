@@ -26,11 +26,11 @@ import { HeadingSecondary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
 import { TooltipContainer } from "@components/TooltipContainer";
+import { Message } from "@nightcord/discord-types";
 import { Devs, NightcordDevs, SUPPORT_CHANNEL_IDS } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { React, Select, TextInput, UserStore, useState } from "@webpack/common";
 
 const cl = classNameFactory("vc-textReplace-");
@@ -422,7 +422,7 @@ const TEXT_REPLACE_RULES_EXEMPT_CHANNEL_IDS = [
 
 export default definePlugin({
     name: "TextReplace",
-    description: "Replace text in your messages. You can find pre-made rules in the #textreplace-rules channel in Nightcord's Server",
+    description: "Replace text in your messages. You can find pre-made rules in the #textreplace-rules channel in Vencord's Server",
     dependencies: ["MessagePopoverAPI"],
     tags: ["Chat", "Customisation", "Utility"],
     authors: [Devs.AutumnVN, Devs.TheKodeToad, NightcordDevs.Etorix, NightcordDevs.Ape],

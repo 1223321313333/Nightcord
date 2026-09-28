@@ -6,9 +6,9 @@
 
 import { definePluginSettings, migratePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Embed } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Embed } from "@nightcord/discord-types";
 import { useState } from "@webpack/common";
 
 interface ToggleableDescriptionProps { embed: Embed, original: () => any; }

@@ -7,8 +7,8 @@
 import { showNotice } from "@api/Notices";
 import { plugins, startDependenciesRecursive, startPlugin, stopPlugin } from "@api/PluginManager";
 import { Settings } from "@api/Settings";
-import { canonicalizeMatch } from "@utils/patches";
 import { Module } from "@nightcord/discord-types/webpack";
+import { canonicalizeMatch } from "@utils/patches";
 import { CodeFilter, FilterFn, stringMatches, wreq } from "@webpack";
 import { Toasts } from "@webpack/common";
 

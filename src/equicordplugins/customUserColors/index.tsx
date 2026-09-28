@@ -9,9 +9,9 @@ import "./styles.css";
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { get } from "@api/DataStore";
 import { definePluginSettings, Settings } from "@api/Settings";
+import { Channel, User } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, User } from "@nightcord/discord-types";
 import { extractAndLoadChunksLazy } from "@webpack";
 import { ChannelStore, Menu, openModal,SelectedChannelStore } from "@webpack/common";
 

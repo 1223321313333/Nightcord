@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nightcord — мод для Discord</title>
+<meta name="description" content="Nightcord — мод для Discord: ночная тема, закладки, заметки к каналам, исправление раскладки, экспорт чата и ещё 100+ плагинов.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238b5cf6' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/%3E%3C/svg%3E">
+<style>
+:root {
+    --bg: #0b0c11;
+    --bg-2: #0f1016;
+    --bg-3: #13141b;
+    --card: #181a23;
+    --card-2: #1d1f2a;
+    --line: rgb(255 255 255 / 0.07);
+    --text: #dcd9e8;
+    --strong: #f4f2fb;
+    --muted: #8f8aa6;
+    --accent: #8b5cf6;
+    --accent-2: #a78bfa;
+    --radius: 16px;
+    color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.6 "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent-2); }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding: 0 20px; }
+
+/* Header */
+header { position: sticky; top: 0; z-index: 10; background: rgb(11 12 17 / 0.8); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+header .wrap { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+.brand { display: flex; align-items: center; gap: 10px; color: var(--strong); font-weight: 700; font-size: 18px; text-decoration: none; }
+.brand svg { width: 26px; height: 26px; }
+nav { display: flex; gap: 22px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 15px; }
+nav a:hover { color: var(--strong); }
+
+/* Hero */
+.hero {
+    padding: 88px 0 64px;
+    background: radial-gradient(900px 420px at 50% -80px, rgb(139 92 246 / 0.28), transparent 70%);
+    text-align: center;
+}
+.hero h1 { margin: 0 0 16px; font-size: clamp(36px, 6vw, 60px); line-height: 1.08; color: var(--strong); letter-spacing: -0.02em; }
+.hero h1 span { background: linear-gradient(90deg, #c4b5fd, var(--accent)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.hero p { margin: 0 auto 32px; max-width: 620px; color: var(--muted); font-size: 18px; }
+.cta { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 24px; border-radius: 12px;
+    font-weight: 600; font-size: 16px; text-decoration: none;
+    transition: transform 0.15s, background 0.15s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--accent); color: #fff; box-shadow: 0 8px 30px rgb(139 92 246 / 0.35); }
+.btn-primary:hover { background: #7c4df0; }
+.btn-ghost { background: var(--card); color: var(--strong); border: 1px solid var(--line); }
+.btn svg { width: 20px; height: 20px; }
+.hint { margin-top: 14px; color: var(--muted); font-size: 13px; }
+
+/* Mock Discord window, drawn in CSS: no real data */
+.mock {
+    margin: 56px auto 0; max-width: 900px; height: 380px;
+    display: grid; grid-template-columns: 64px 200px 1fr;
+    border-radius: 18px; overflow: hidden;
+    border: 1px solid var(--line);
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(139 92 246 / 0.15);
+    text-align: left;
+}
+.m-servers { background: var(--bg); padding: 12px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.m-servers i { width: 40px; height: 40px; border-radius: 14px; background: var(--card-2); display: block; }
+.m-servers i:first-child { background: var(--accent); }
+.m-channels { background: var(--bg-2); padding: 16px 12px; }
+.m-title { height: 12px; width: 60%; border-radius: 6px; background: var(--card-2); margin-bottom: 18px; }
+.m-ch { display: flex; align-items: center; gap: 8px; padding: 6px 8px; border-radius: 8px; color: var(--muted); font-size: 13px; }
+.m-ch.active { background: rgb(139 92 246 / 0.16); color: var(--strong); }
+.m-chat { background: var(--bg-3); display: flex; flex-direction: column; }
+.m-top { height: 44px; border-bottom: 1px solid var(--line); display: flex; align-items: center; padding: 0 16px; color: var(--strong); font-size: 14px; font-weight: 600; }
+.m-msgs { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 14px; overflow: hidden; }
+.m-msg { display: flex; gap: 10px; align-items: flex-start; padding: 4px 6px; border-radius: 8px; }
+.m-msg b { display: block; color: var(--strong); font-size: 13px; }
+.m-msg span { font-size: 13px; color: var(--text); }
+.m-av { width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0; }
+.m-msg.hl { background: rgb(245 166 35 / 0.12); box-shadow: inset 3px 0 0 #f5a623; }
+.m-note { margin: 0 16px; padding: 8px 12px; border-radius: 10px; background: var(--card); color: var(--muted); font-size: 12px; }
+.m-input { margin: 12px 16px 16px; height: 42px; border-radius: 12px; background: var(--card); display: flex; align-items: center; justify-content: space-between; padding: 0 14px; color: var(--muted); font-size: 13px; }
+.m-input em { font-style: normal; font-weight: 700; color: var(--accent-2); font-size: 12px; }
+
+/* Sections */
+section { padding: 80px 0; }
+section h2 { margin: 0 0 10px; font-size: clamp(26px, 4vw, 36px); color: var(--strong); letter-spacing: -0.01em; }
+.lead { margin: 0 0 36px; color: var(--muted); max-width: 640px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+.card .ico { font-size: 24px; line-height: 1; margin-bottom: 12px; }
+.card h3 { margin: 0 0 6px; font-size: 16px; color: var(--strong); }
+.card p { margin: 0; font-size: 14px; color: var(--muted); }
+.card code { font: 13px/1 ui-monospace, Consolas, monospace; background: var(--card-2); padding: 2px 6px; border-radius: 6px; color: var(--accent-2); }
+
+.palettes { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 24px; }
+.pal { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; background: var(--card); border: 1px solid var(--line); font-size: 14px; }
+.pal i { width: 22px; height: 22px; border-radius: 50%; display: block; border: 2px solid rgb(255 255 255 / 0.1); }
+
+.steps { counter-reset: step; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.step { position: relative; padding: 24px 20px 20px 64px; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); }
+.step::before {
+    counter-increment: step; content: counter(step);
+    position: absolute; left: 20px; top: 22px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--accent); color: #fff; font-weight: 700;
+    display: grid; place-items: center;
+}
+.step h3 { margin: 0 0 4px; font-size: 16px; color: var(--strong); }
+.step p { margin: 0; font-size: 14px; color: var(--muted); }
+
+details { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 16px 20px; margin-bottom: 10px; }
+summary { cursor: pointer; color: var(--strong); font-weight: 600; }
+details p { margin: 10px 0 0; color: var(--muted); font-size: 15px; }
+
+footer { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); font-size: 14px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+@media (max-width: 760px) {
+    nav { display: none; }
+    .hero { padding-top: 56px; }
+    .mock { grid-template-columns: 52px 1fr; height: auto; }
+    .m-channels { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .btn { transition: none; }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <div class="wrap">
+        <a class="brand" href="#">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#8b5cf6" d="M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z"/></svg>
+            Nightcord
+        </a>
+        <nav>
+            <a href="#features">Возможности</a>
+            <a href="#install">Установка</a>
+            <a href="#faq">Вопросы</a>
+            <a href="https://github.com/1223321313333/Nightcord">GitHub</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <div class="hero">
+        <div class="wrap">
+            <h1>Discord, но <span>ночной</span></h1>
+            <p>Nightcord — мод для Discord с лёгкой ночной темой, закладками, заметками к каналам, исправлением раскладки и больше чем сотней плагинов.</p>
+            <div class="cta">
+                <a class="btn btn-primary" href="https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.zip">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1Zm-8 15a1 1 0 0 1 1 1v1h14v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z"/></svg>
+                    Скачать для Windows
+                </a>
+                <a class="btn btn-ghost" href="https://github.com/1223321313333/Nightcord">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.1-1.46-1.1-1.46-.91-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.9 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02a9.56 9.56 0 0 1 5 0c1.91-1.3 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.86v2.75c0 .27.18.58.69.48A10 10 0 0 0 12 2Z"/></svg>
+                    Исходный код
+                </a>
+            </div>
+            <div class="hint">Бесплатно · Открытый код (GPL-3.0) · Discord, PTB и Canary</div>
+
+            <div class="mock" role="img" aria-label="Схематичное окно Discord с темой Nightcord">
+                <div class="m-servers"><i></i><i></i><i></i><i></i><i></i></div>
+                <div class="m-channels">
+                    <div class="m-title"></div>
+                    <div class="m-ch"># общий</div>
+                    <div class="m-ch active"># ночной-чат</div>
+                    <div class="m-ch"># мемы</div>
+                    <div class="m-ch"># музыка</div>
+                    <div class="m-ch">🔊 голосовой</div>
+                </div>
+                <div class="m-chat">
+                    <div class="m-top"># ночной-чат</div>
+                    <div class="m-note">📝 Заметка: сюда кидаем ссылки на стримы</div>
+                    <div class="m-msgs">
+                        <div class="m-msg"><div class="m-av" style="background:#60a5fa"></div><div><b>Луна</b><span>кто сегодня на стрим?</span></div></div>
+                        <div class="m-msg hl"><div class="m-av" style="background:#f472b6"></div><div><b>Звезда</b><span>скинула ссылку в закреп, продажа начнётся в 22:00</span></div></div>
+                        <div class="m-msg"><div class="m-av" style="background:#34d399"></div><div><b>Комета</b><span>привет как дела? <span style="color:#8f8aa6">(было: ghbdtn rfr ltkf?)</span></span></div></div>
+                    </div>
+                    <div class="m-input">Написать в #ночной-чат <em>Аа</em></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section id="features">
+        <div class="wrap">
+            <h2>Что умеет Nightcord</h2>
+            <p class="lead">Всё, что есть в Vencord, плюс собственные плагины. Включаются и выключаются во вкладке «Плагины» в настройках Discord.</p>
+            <div class="grid">
+                <div class="card"><div class="ico">🌙</div><h3>Ночная тема</h3><p>4 палитры, свой акцентный цвет, скруглённые углы и шрифты. Не тормозит: только переменные Discord.</p></div>
+                <div class="card"><div class="ico">⌨️</div><h3>Раскладка</h3><p><code>ghbdtn</code> → «привет». Исправляет текст, набранный не в той раскладке, сам или по кнопке.</p></div>
+                <div class="card"><div class="ico">🔖</div><h3>Закладки</h3><p>Сохраняйте сообщения правым кликом, ищите и переходите к ним через <code>/bookmarks</code>.</p></div>
+                <div class="card"><div class="ico">📝</div><h3>Заметки к каналам</h3><p>Личная заметка к любому каналу или серверу, видна только вам.</p></div>
+                <div class="card"><div class="ico">✨</div><h3>Подсветка слов</h3><p>Сообщения с вашими словами выделяются цветом и приходят уведомлением.</p></div>
+                <div class="card"><div class="ico">🌆</div><h3>Ночной режим</h3><p>По расписанию мягко приглушает экран, чтобы не слепило ночью.</p></div>
+                <div class="card"><div class="ico">📊</div><h3>Статистика и экспорт</h3><p><code>/stats</code> — кто больше пишет, <code>/export</code> — чат в HTML или TXT.</p></div>
+                <div class="card"><div class="ico">🩺</div><h3>Самопроверка</h3><p><code>/check</code> и уведомление, если после обновления Discord что-то сломалось.</p></div>
+                <div class="card"><div class="ico">🇷🇺</div><h3>На русском</h3><p>Настройки мода переведены на русский язык.</p></div>
+            </div>
+            <div class="palettes" aria-label="Палитры темы">
+                <div class="pal"><i style="background:#8b5cf6"></i>Ночной фиолетовый</div>
+                <div class="pal"><i style="background:#000;border-color:#a78bfa"></i>Чёрный (AMOLED)</div>
+                <div class="pal"><i style="background:#60a5fa"></i>Полночный синий</div>
+                <div class="pal"><i style="background:#f472b6"></i>Розовая ночь</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="install">
+        <div class="wrap">
+            <h2>Установка за минуту</h2>
+            <p class="lead">Нужен установленный Discord для Windows. Node.js и прочее ставить не нужно.</p>
+            <div class="steps">
+                <div class="step"><h3>Скачайте архив</h3><p><a href="https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.zip">NightcordInstaller.zip</a> и распакуйте его в любую папку.</p></div>
+                <div class="step"><h3>Запустите установщик</h3><p>Двойной клик по <b>NightcordInstaller.bat</b>, выберите <b>1</b>. Discord перезапустится сам.</p></div>
+                <div class="step"><h3>Готово</h3><p>Откройте настройки Discord — там появится раздел <b>Nightcord</b>. Обновления приходят автоматически.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="faq">
+        <div class="wrap">
+            <h2>Вопросы</h2>
+            <details>
+                <summary>Меня забанят?</summary>
+                <p>Клиентские моды формально нарушают правила Discord. На практике за Vencord и его форки банят очень редко, но риск есть. Nightcord ничего не делает от вашего имени сам: никаких автоответов и спама.</p>
+            </details>
+            <details>
+                <summary>Windows или антивирус ругается на установщик</summary>
+                <p>У установщика нет платной цифровой подписи, поэтому Windows может предупредить о запуске скрипта из интернета. Код установщика открыт и лежит в репозитории — его можно прочитать перед запуском.</p>
+            </details>
+            <details>
+                <summary>Как удалить?</summary>
+                <p>Запустите NightcordInstaller.bat и выберите <b>2</b>. Discord вернётся в исходное состояние.</p>
+            </details>
+            <details>
+                <summary>Discord обновился, и что-то перестало работать</summary>
+                <p>Напишите в любом чате <b>/check</b> — Nightcord покажет, какие плагины сломались. Их можно временно выключить, исправление придёт с обновлением.</p>
+            </details>
+            <details>
+                <summary>Это вирус / кража аккаунта?</summary>
+                <p>Нет. Весь код открыт на GitHub, установщик только подключает Nightcord к Discord и ничего не отправляет. Nightcord основан на открытом проекте Vencord.</p>
+            </details>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap">
+        <span>Nightcord основан на <a href="https://github.com/Vendicated/Vencord">Vencord</a> от Vendicated и участников. Лицензия GPL-3.0.</span>
+        <span>Не связан с Discord Inc.</span>
+    </div>
+</footer>
+
+</body>
+</html>

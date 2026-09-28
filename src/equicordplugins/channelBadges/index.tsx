@@ -6,9 +6,9 @@
 
 import "./style.css";
 
+import { Channel } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { GuildStore, React, SelectedGuildStore } from "@webpack/common";
 import { JSX } from "react";
 

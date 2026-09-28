@@ -30,6 +30,7 @@ import { Link } from "@components/Link";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
 import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
+import { t } from "@utils/i18n";
 import { localStorage } from "@utils/localStorage";
 import { Margins } from "@utils/margins";
 import { useForceUpdater } from "@utils/react";
@@ -59,15 +60,15 @@ function validateUrl(url: string) {
 }
 
 const cloudBackendOptions = [
-    { label: "Nightcord Cloud", value: "https://cloud.equicord.org/" },
-    { label: "Nightcord Cloud", value: "https://api.vencord.dev/" }
+    { label: t("Nightcord Cloud"), value: "https://cloud.equicord.org/" },
+    { label: t("Nightcord Cloud"), value: "https://api.vencord.dev/" }
 ];
 
 const syncDirectionOptions = [
-    { label: "Two-way sync (changes go both directions)", value: "both" },
-    { label: "This device is the source (upload only)", value: "push" },
-    { label: "The cloud is the source (download only)", value: "pull" },
-    { label: "Do not sync automatically (manual sync via buttons below only)", value: "manual" }
+    { label: t("Two-way sync (changes go both directions)"), value: "both" },
+    { label: t("This device is the source (upload only)"), value: "push" },
+    { label: t("The cloud is the source (download only)"), value: "pull" },
+    { label: t("Do not sync automatically (manual sync via buttons below only)"), value: "manual" }
 ];
 
 function CloudTab() {
@@ -119,7 +120,7 @@ function CloudTab() {
 
             <Heading className={Margins.top20}>Cloud Backend</Heading>
             <Paragraph className={Margins.bottom16}>
-                Choose which cloud backend to use for storing your settings. You can switch between Nightcord's and Nightcord's cloud services, or use a self-hosted instance.
+                Choose which cloud backend to use for storing your settings. You can switch between Equicord's and Vencord's cloud services, or use a self-hosted instance.
             </Paragraph>
 
             <div className={Margins.bottom8}>
@@ -162,13 +163,13 @@ function CloudTab() {
 
             <Divider className={Margins.top20} />
 
-            <Heading className={Margins.top20}>Settings Sync</Heading>
+            <Heading className={Margins.top20}>{t("Settings Sync")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 Synchronize your Nightcord settings to the cloud. This makes it easy to keep your configuration consistent across multiple devices without manual import/export.
             </Paragraph>
 
             <FormSwitch
-                title="Enable Settings Sync"
+                title={t("Enable Settings Sync")}
                 description="When enabled, your settings can be synced to and from the cloud. Use the actions below to manually sync."
                 value={cloud.settingsSync}
                 onChange={v => { cloud.settingsSync = v; }}
@@ -178,7 +179,7 @@ function CloudTab() {
 
             <Divider className={Margins.top20} />
 
-            <Heading className={Margins.top20}>Sync Rules for This Device</Heading>
+            <Heading className={Margins.top20}>{t("Sync Rules for This Device")}</Heading>
             <Paragraph className={Margins.bottom16}>
                 This setting controls how settings move between <strong>this device</strong> and the cloud. You can let changes flow both ways, or choose one place to be the main source of truth.
             </Paragraph>
@@ -265,4 +266,4 @@ function CloudTab() {
     );
 }
 
-export default wrapTab(CloudTab, "Cloud");
+export default wrapTab(CloudTab, t("Cloud"));

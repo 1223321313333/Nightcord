@@ -1,27 +1,26 @@
-name: Test
+name: test
 on:
     push:
-        branches:
-            - main
-            - dev
     pull_request:
         branches:
             - main
             - dev
-
 jobs:
-    Test:
-        name: Test
+    test:
         runs-on: ubuntu-latest
 
         steps:
             - uses: actions/checkout@v7
+            - uses: pnpm/action-setup@v6 # Install pnpm using packageManager key in package.json
 
-            - name: Setup PNPM
-              uses: pnpm/setup@v2.1.0
+            - name: Use Node.js 24
+              uses: actions/setup-node@v6
               with:
-                  runtime: node@v24
-                  require-lockfile: true
+                  node-version: 24
+                  cache: "pnpm"
+
+            - name: Install dependencies
+              run: pnpm install --frozen-lockfile
 
             - name: Lint & Test if desktop version compiles
               run: pnpm test

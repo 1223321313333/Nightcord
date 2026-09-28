@@ -28,20 +28,20 @@ import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { openSettingsTabModal, UpdaterTab } from "@components/settings";
 import { platformName } from "@equicordplugins/nightcordHelper/utils";
+import { RenderModalProps } from "@nightcord/discord-types";
+import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import customIdle from "@plugins/customIdle";
 import { gitHash, gitHashShort } from "@shared/nightcordUserAgent";
-import { CONTRIB_ROLE_ID, Devs, DONOR_ROLE_ID, NIGHTCORD_TEAM, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_CONTRIB_ROLE_ID, VC_DONOR_ROLE_ID, VC_GUILD_ID, VC_REGULAR_ROLE_ID, NIGHTCORD_CONTRIB_ROLE_ID } from "@utils/constants";
+import { CONTRIB_ROLE_ID, Devs, DONOR_ROLE_ID, GUILD_ID, NIGHTCORD_CONTRIB_ROLE_ID,NIGHTCORD_TEAM, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_CONTRIB_ROLE_ID, VC_DONOR_ROLE_ID, VC_GUILD_ID, VC_REGULAR_ROLE_ID } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
-import { isAnyPluginDev, isNightcordGuild, isNightcordSupport, isKnownIssuesCategory, isSupportChannel, tryOrElse } from "@utils/misc";
+import { isAnyPluginDev, isKnownIssuesCategory, isNightcordGuild, isNightcordSupport, isSupportChannel, tryOrElse } from "@utils/misc";
 import { relaunch } from "@utils/native";
 import { onlyOnce } from "@utils/onlyOnce";
 import { makeCodeblock } from "@utils/text";
 import definePlugin from "@utils/types";
 import { checkForUpdates, isOutdated, update } from "@utils/updater";
-import { RenderModalProps } from "@nightcord/discord-types";
-import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { Alerts, ChannelStore, CloudUploader, ConfirmModal, Constants, GuildMemberStore, openModal, Parser, PermissionsBits, PermissionStore, RelationshipStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, Text, Toasts, UserStore } from "@webpack/common";
 import { JSX } from "react";
 
@@ -300,7 +300,7 @@ function DevBuildConfirmModal(props: RenderModalProps) {
             }}
         >
             <div>
-                <Paragraph>You are using a custom build of Nightcord, which we do not provide support for!</Paragraph>
+                <Paragraph>You are using Nightcord, a custom build of Equicord, which the Equicord team does not provide support for!</Paragraph>
 
                 <Paragraph className={Margins.top8}>
                     We only provide support for <Link href="https://equicord.org/download">official builds</Link>.
@@ -413,9 +413,9 @@ export default definePlugin({
                         variant="primary"
                     >
                         <div>
-                            <Paragraph>You are using an externally updated Nightcord version, which we do not provide support for!</Paragraph>
+                            <Paragraph>You are using an externally updated Equicord version, which we do not provide support for!</Paragraph>
                             <Paragraph className={Margins.top8}>
-                                Please either switch to an <Link href="https://equicord.org/download">officially supported version of Nightcord</Link>, or
+                                Please either switch to an <Link href="https://equicord.org/download">officially supported version of Equicord</Link>, or
                                 contact your package maintainer for support instead.
                             </Paragraph>
                         </div>
@@ -539,7 +539,7 @@ export default definePlugin({
 
         return (
             <Card variant="warning" className={Margins.top8} defaultPadding>
-                Please do not private message Nightcord & Nightcord plugin developers for support!
+                Please do not private message Vencord & Equicord plugin developers for support!
                 <br />
                 Instead, use the support channel: {Parser.parse("https://discord.com/channels/1173279886065029291/1297590739911573585")}
                 {!ChannelStore.getChannel(SUPPORT_CHANNEL_ID) && " (Click the link to join)"}

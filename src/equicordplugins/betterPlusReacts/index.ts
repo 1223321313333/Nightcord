@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { MessageStore } from "@webpack/common";
 
 export default definePlugin({

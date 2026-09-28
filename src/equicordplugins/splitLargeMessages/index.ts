@@ -6,12 +6,12 @@
 
 import type { MessageSendListener } from "@api/MessageEvents";
 import { definePluginSettings } from "@api/Settings";
+import type { Channel } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { copyWithToast, getCurrentChannel, insertTextIntoChatInputBox, sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { sleep } from "@utils/misc";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import type { Channel } from "@nightcord/discord-types";
 import { ChannelStore, ComponentDispatch, PermissionsBits, PermissionStore, Toasts, UserStore } from "@webpack/common";
 
 import { splitMessage, type SplitMode } from "./splitMessage";
