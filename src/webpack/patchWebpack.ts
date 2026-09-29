@@ -12,9 +12,9 @@ import { reportHealthIssue, retractHealthIssue } from "@utils/health";
 import { makeLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { interpolateIfDefined } from "@utils/misc";
-import { escapeRegExp } from "@utils/text";
 import { Patch, PatchReplacement } from "@utils/types";
 
+import { StringFindIndex } from "./stringFindIndex";
 import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, PatchedModuleFactory } from "./types";
 import { _blacklistBadModules, _initWebpack, factoryListeners, findModuleFactory, moduleListeners, waitForSubscriptions, wreq } from "./webpack";
 
@@ -497,20 +497,23 @@ function runFactoryWithWrap(patchedFactory: PatchedModuleFactory, thisArg: unkno
     return factoryReturn;
 }
 
-let stringFindsFilter: RegExp | null = null;
-let stringFindsInFilter = new Set<string>();
+let stringFindIndex: StringFindIndex | null = null;
+let indexedLastPatch: Patch | undefined;
 
 /**
- * One regex that matches if any string patch find occurs in a module.
- * Discord has ~15k modules and only a few hundred are patched, so ruling out the rest with a
- * single scan is several times faster than calling includes() once per patch per module.
- * Rebuilt whenever a patch with a new string find appears; removed patches can stay in it.
+ * Index of every string patch find, used to learn in one scan which finds occur in a module
+ * (see StringFindIndex). Rebuilt when a patch with a new string find appears; removed patches can stay in it.
  */
-function getStringFindsFilter() {
-    let stale = stringFindsFilter == null;
+function getStringFindIndex() {
+    // Patches are only ever appended or removed, so an unchanged last patch means nothing new was added
+    const lastPatch = patches[patches.length - 1];
+    if (stringFindIndex != null && lastPatch === indexedLastPatch) return stringFindIndex;
+    indexedLastPatch = lastPatch;
+
+    let stale = stringFindIndex == null;
     if (!stale) {
         for (const patch of patches) {
-            if (typeof patch.find === "string" && !stringFindsInFilter.has(patch.find)) {
+            if (typeof patch.find === "string" && !stringFindIndex!.finds.has(patch.find)) {
                 stale = true;
                 break;
             }
@@ -518,13 +521,10 @@ function getStringFindsFilter() {
     }
 
     if (stale) {
-        stringFindsInFilter = new Set(patches.flatMap(p => typeof p.find === "string" ? [p.find] : []));
-        stringFindsFilter = stringFindsInFilter.size
-            ? new RegExp(Array.from(stringFindsInFilter, escapeRegExp).join("|"))
-            : null;
+        stringFindIndex = new StringFindIndex(patches.flatMap(p => typeof p.find === "string" ? [p.find] : []));
     }
 
-    return stringFindsFilter;
+    return stringFindIndex!;
 }
 
 /**
@@ -537,8 +537,10 @@ function getStringFindsFilter() {
 function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory): PatchedModuleFactory {
     const originalFactoryCode = String(originalFactory);
     const isArrowFunction = originalFactoryCode.startsWith("(");
-    // false means no string find occurs anywhere in this module, so every string patch can be skipped
-    const mayMatchStringFind = getStringFindsFilter()?.test(originalFactoryCode) ?? false;
+    // The string finds that occur in this module; null means none, so every string patch can be skipped
+    const presentStringFinds = getStringFindIndex().match(originalFactoryCode);
+    const buildNumber = getBuildNumber();
+    const shouldCheckBuildNumber = buildNumber !== -1;
 
     // 0, prefix to turn it into an expression: 0,function(){} would be invalid syntax without the 0,
     let patchedCode = "0," + (!isArrowFunction ? "function" : "") + originalFactoryCode.slice(originalFactoryCode.indexOf("("));
@@ -550,9 +552,6 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
     for (let i = 0; i < patches.length; i++) {
         const patch = patches[i];
 
-        const buildNumber = getBuildNumber();
-        const shouldCheckBuildNumber = buildNumber !== -1;
-
         if (
             shouldCheckBuildNumber &&
             ((patch.fromBuild != null && buildNumber < patch.fromBuild) || (patch.toBuild != null && buildNumber > patch.toBuild))
@@ -562,7 +561,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
         }
 
         const moduleMatches = typeof patch.find === "string"
-            ? mayMatchStringFind && originalFactoryCode.includes(patch.find)
+            ? presentStringFinds !== null && presentStringFinds.has(patch.find)
             : (patch.find.global && (patch.find.lastIndex = 0), patch.find.test(originalFactoryCode));
 
         if (!moduleMatches) {
