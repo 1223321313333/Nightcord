@@ -13,7 +13,7 @@ import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
 import { Button, ConfirmModal, openModal, React, showToast, Toasts } from "@webpack/common";
 
-import { SENDS_DATA } from "../plugins/curation";
+import { SENDS_DATA, VISIBLE_TO_OTHERS } from "../plugins/curation";
 
 interface Preset {
     id: string;
@@ -57,9 +57,12 @@ const PRESETS: Preset[] = [
         id: "privacy",
         emoji: "🕵️",
         title: "Maximum privacy",
-        description: "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that automatically send data to other servers.",
-        enable: () => ["StripMetadata", "ClearURLs", "CleanOpenedLinks", "AnonymiseFileNames", "SilentTyping", "NoRPC", "StreamerModeOn", "NoReplyMention"],
-        disable: () => Object.entries(SENDS_DATA).filter(([, d]) => d.automatic).map(([name]) => name),
+        description: "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that send data to other servers or show others that you use a mod.",
+        enable: () => ["StripMetadata", "ClearURLs", "CleanOpenedLinks", "PrivacyGuard", "AnonymiseFileNames", "SilentTyping", "NoRPC", "StreamerModeOn", "NoReplyMention"],
+        disable: () => [
+            ...Object.entries(SENDS_DATA).filter(([, d]) => d.automatic).map(([name]) => name),
+            ...Object.keys(VISIBLE_TO_OTHERS)
+        ],
         note: "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset."
     },
     {

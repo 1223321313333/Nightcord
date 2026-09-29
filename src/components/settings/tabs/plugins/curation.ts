@@ -50,6 +50,19 @@ export const SENDS_DATA: Record<string, { what: string; automatic: boolean; }> =
     TenorGifSearch: { what: "Your GIF searches, to Tenor (Google)", automatic: false }
 };
 
+/**
+ * Plugins whose use other people can notice, which gives away that you run a modified client.
+ * Checked against each plugin's code; keep in sync when plugins change.
+ */
+export const VISIBLE_TO_OTHERS: Record<string, string> = {
+    FakeNitro: "Emoji and stickers you send without Nitro arrive as links, everyone sees them",
+    FakeProfileThemes: "Hidden characters with your theme colours are added to your profile bio",
+    VoiceMessages: "Voice messages sent from a computer, which the normal desktop app cannot do",
+    Decor: "Your avatar decoration is published on Decor's server for other Decor users",
+    ReviewDB: "Reviews you write are public on ReviewDB",
+    Timezones: "With the database on, your timezone is public to other Timezones users"
+};
+
 export type PluginTier = "curated" | "experimental" | "dev";
 
 export function getPluginTier(name: string): PluginTier {

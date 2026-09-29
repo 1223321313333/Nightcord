@@ -415,8 +415,6 @@ const RU: Record<string, string> = {
         "Приватность",
     "Maximum privacy":
         "Максимальная приватность",
-    "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that automatically send data to other servers.":
-        "Убирает GPS и данные камеры из фото и видео, вырезает трекеры из ссылок, делает имена файлов анонимными, скрывает «печатает…» и выключает плагины, которые сами отправляют данные на чужие серверы.",
     "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset.":
         "Аналитика и отчёты об ошибках самого Discord заблокированы в Nightcord всегда (NoTrack), с этим пресетом и без него.",
     "Sends outside Discord": "Отправляет за пределы Discord",
@@ -932,7 +930,6 @@ const RU: Record<string, string> = {
 
     // Account privacy checkup
     "Account privacy checkup": "Проверка приватности аккаунта",
-    "These settings are stored in your Discord account and control what Discord collects about you and what others can see. Nightcord never changes them by itself: tick what to turn off and press Apply.": "Эти настройки хранятся в вашем аккаунте Discord и определяют, что Discord собирает о вас и что видят другие. Nightcord сам их никогда не меняет: отметьте, что выключить, и нажмите «Применить».",
     "Use my data to improve Discord": "Использовать мои данные для улучшения Discord",
     "Discord keeps and analyses how you use the app.": "Discord хранит и анализирует, как вы пользуетесь приложением.",
     "Use my data to personalise my Discord experience": "Использовать мои данные для персонализации Discord",
@@ -961,6 +958,43 @@ const RU: Record<string, string> = {
 
     // Account privacy checkup (loading)
     "Checking with Discord…": "Спрашиваю у Discord…",
+
+    // Privacy: visible to others, checkup, local traces
+    "Visible to others": "Видно другим",
+    "Emoji and stickers you send without Nitro arrive as links, everyone sees them": "эмодзи и стикеры без Nitro приходят ссылками — это видят все",
+    "Hidden characters with your theme colours are added to your profile bio": "в описание профиля добавляются скрытые символы с цветами вашей темы",
+    "Voice messages sent from a computer, which the normal desktop app cannot do": "голосовые сообщения с компьютера — обычный Discord так не умеет",
+    "Your avatar decoration is published on Decor's server for other Decor users": "ваше украшение аватара публикуется на сервере Decor для других пользователей Decor",
+    "Reviews you write are public on ReviewDB": "ваши отзывы публичны в ReviewDB",
+    "With the database on, your timezone is public to other Timezones users": "с включённой базой ваш часовой пояс виден другим пользователям Timezones",
+    "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that send data to other servers or show others that you use a mod.": "Убирает GPS и данные камеры из фото и видео, вырезает трекеры из ссылок, делает имена файлов анонимными, скрывает «печатает…» и выключает плагины, которые отправляют данные на чужие серверы или показывают другим, что у вас мод.",
+    "Anyone can send me friend requests": "Любой может добавить меня в друзья",
+    "Strangers can add you. Turned off, only friends of friends and people from your servers can.": "Вас могут добавить незнакомцы. Если выключить — только друзья друзей и участники общих серверов.",
+    "strangers will not be able to add you": "незнакомцы не смогут вас добавить",
+    "Direct messages from members of new servers": "ЛС от участников новых серверов",
+    "Anyone in a server you join can message you.": "Любой участник сервера, на который вы зайдёте, может написать вам в ЛС.",
+    "people from servers you join next will need to be your friends to message you": "людям с новых серверов нужно будет стать вашими друзьями, чтобы написать вам",
+    "Two-factor authentication": "Двухфакторная защита",
+    "Off: a stolen password is enough to take over your account. Turn it on in Discord → My Account.": "Выключена: чтобы угнать аккаунт, хватит украденного пароля. Включите в Discord → «Моя учётная запись».",
+    "On.": "Включена.",
+    "Bookmarks": "Закладки",
+    "Channel and server notes": "Заметки к каналам и серверам",
+    "Notification log": "Журнал уведомлений",
+    "Deleted and edited messages saved by MessageLoggerEnhanced, with their pictures": "Удалённые и изменённые сообщения, сохранённые MessageLoggerEnhanced, вместе с картинками",
+    "Deleted and edited messages shown by MessageLogger (cleared by the restart)": "Удалённые и изменённые сообщения MessageLogger (сотрутся при перезапуске)",
+    "Erase Nightcord data on this computer?": "Стереть данные Nightcord на этом компьютере?",
+    "This deletes, without a way back:": "Будет удалено без возможности восстановления:",
+    "Settings, themes and your Discord account are not touched. Discord restarts afterwards.": "Настройки, темы и ваш аккаунт Discord не затрагиваются. После этого Discord перезапустится.",
+    "Erase": "Стереть",
+    "Traces on this computer": "Следы на этом компьютере",
+    "Nightcord keeps bookmarks, notes, the notification log and saved deleted messages on this computer. Anyone with access to it could read them.": "Nightcord хранит на этом компьютере закладки, заметки, журнал уведомлений и сохранённые удалённые сообщения. Их может прочитать любой, у кого есть доступ к компьютеру.",
+    "Erase Nightcord data…": "Стереть данные Nightcord…",
+
+    // Privacy guard
+    "These settings are stored in your Discord account and control what Discord collects about you and what others can see. Nightcord only changes them when you press Apply or turn on watching below.": "Эти настройки хранятся в вашем аккаунте Discord и определяют, что Discord собирает о вас и что видят другие. Nightcord меняет их, только когда вы нажимаете «Применить» или включаете слежение ниже.",
+    "Keep data use off": "Не давать Discord снова включать сбор данных",
+    "Discord turns data use for improving Discord and personalisation back on (from the phone app, prompts or new features). With this on, Nightcord switches them off again and tells you.": "Discord сам включает обратно использование данных и персонализацию (из приложения на телефоне, во всплывающих окнах или с новыми функциями). Если включить слежение, Nightcord будет выключать их снова и сообщать об этом.",
+    "Watch": "Следить",
 
     // Plugin tags
     "Accessibility": "Доступность",

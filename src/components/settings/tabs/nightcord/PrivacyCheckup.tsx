@@ -4,13 +4,18 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import * as DataStore from "@api/DataStore";
+import { isPluginEnabled, plugins, startPlugin, stopPlugin } from "@api/PluginManager";
+import { Settings, useSettings } from "@api/Settings";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
+import { clearLogs } from "@equicordplugins/messageLoggerEnhanced";
+import { DB_NAME as MLE_DB_NAME } from "@equicordplugins/messageLoggerEnhanced/utils/constants";
 import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
-import { Button, Checkbox, React, showToast, Toasts, useEffect, UserSettingsActionCreators, useState, useStateFromStores } from "@webpack/common";
+import { Alerts, Button, Checkbox, React, showToast, Toasts, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
 
 const logger = new Logger("PrivacyCheckup");
 
@@ -24,10 +29,29 @@ const ConsentActions: {
     setConsents: filters.byCode(".post({")
 });
 
+interface ProtoSource {
+    kind: "proto";
+    group: "privacy" | "status";
+    field: string;
+    /** The private value, unless check/fix are given */
+    privateValue?: boolean | number;
+    /** Used when the field has never been set: whether Discord stores it as { value } */
+    wrapped: boolean;
+    /** Discord's value when the field has never been set */
+    unset?: boolean | number;
+    check?(value: any): boolean;
+    fix?(value: any): boolean | number;
+}
+
 /** Where a setting lives in Discord and which value keeps it private */
 type Source =
     | { kind: "consent"; type: string; }
-    | { kind: "proto"; group: "privacy" | "status"; field: string; privateValue: boolean | number; wrapped: boolean; };
+    | ProtoSource
+    /** Only shown, Nightcord cannot change it */
+    | { kind: "info"; isFine(): boolean | undefined; };
+
+// Discord's friend request sources
+const FRIEND_REQUESTS_FROM_EVERYONE = 8;
 
 interface Item {
     id: string;
@@ -88,25 +112,48 @@ const ITEMS: Item[] = [
         description: "Discord tracks your gaming activity for Quests.",
         source: { kind: "proto", group: "privacy", field: "dropsOptedOut", privateValue: true, wrapped: true },
         optional: "Quests will stop working"
+    },
+    {
+        id: "friendRequests",
+        title: "Anyone can send me friend requests",
+        description: "Strangers can add you. Turned off, only friends of friends and people from your servers can.",
+        source: {
+            kind: "proto", group: "privacy", field: "friendSourceFlags", wrapped: true, unset: 14,
+            check: flags => (flags & FRIEND_REQUESTS_FROM_EVERYONE) === 0,
+            fix: flags => flags & ~FRIEND_REQUESTS_FROM_EVERYONE
+        },
+        optional: "strangers will not be able to add you"
+    },
+    {
+        id: "serverDms",
+        title: "Direct messages from members of new servers",
+        description: "Anyone in a server you join can message you.",
+        source: { kind: "proto", group: "privacy", field: "defaultGuildsRestricted", privateValue: true, wrapped: false, unset: false },
+        optional: "people from servers you join next will need to be your friends to message you"
+    },
+    {
+        id: "mfa",
+        title: "Two-factor authentication",
+        description: "Off: a stolen password is enough to take over your account. Turn it on in Discord → My Account.",
+        source: { kind: "info", isFine: () => UserStore.getCurrentUser()?.mfaEnabled }
     }
 ];
 
-/** Consents are only known after Discord fetched them; before that the store answers "not consented" for everything */
-const LOADING = Symbol("loading");
-
-function readValue(source: Source): unknown {
-    if (source.kind === "consent") return ConsentStore.fetchedConsents ? ConsentStore.hasConsented(source.type) : LOADING;
-    const raw = UserSettingsProtoStore.settings?.[source.group]?.[source.field];
-    return raw != null && typeof raw === "object" ? raw.value : raw;
-}
+const unwrap = (raw: unknown) => raw != null && typeof raw === "object" ? (raw as { value: unknown; }).value : raw;
 
 /** true: private, false: collects or shows data, "loading": not known yet, null: not available in this Discord version */
 function isPrivate(item: Item): boolean | null | "loading" {
-    const value = readValue(item.source);
-    if (value === LOADING) return "loading";
+    const { source } = item;
+    if (source.kind === "info") return source.isFine() ?? null;
+    if (source.kind === "consent") {
+        return ConsentStore.fetchedConsents ? !ConsentStore.hasConsented(source.type) : "loading";
+    }
+
+    const group = UserSettingsProtoStore.settings?.[source.group];
+    if (group == null) return null;
+    const value = unwrap(group[source.field]) ?? source.unset;
     if (value === undefined) return null;
-    if (item.source.kind === "consent") return value === false;
-    return (value ?? (typeof item.source.privateValue === "number" ? 0 : false)) === item.source.privateValue;
+    return source.check ? source.check(value) : value === source.privateValue;
 }
 
 async function applyPrivate(items: Item[]) {
@@ -117,11 +164,74 @@ async function applyPrivate(items: Item[]) {
         const fields = items.flatMap(i => i.source.kind === "proto" && i.source.group === group ? [i.source] : []);
         if (!fields.length) continue;
         await UserSettingsActionCreators.PreloadedUserSettingsActionCreators.updateAsync(group, (draft: any) => {
-            for (const f of fields as Extract<Source, { kind: "proto"; }>[]) {
-                draft[f.field] = f.wrapped ? { value: f.privateValue } : f.privateValue;
+            for (const f of fields) {
+                const current = draft[f.field];
+                const value = f.fix ? f.fix(unwrap(current) ?? f.unset) : f.privateValue;
+                // keep the shape Discord uses for the field: a { value } wrapper or a plain value
+                const wrapped = current != null ? typeof current === "object" : f.wrapped;
+                draft[f.field] = wrapped ? { value } : value;
             }
         }, 0);
     }
+}
+
+/** What Nightcord keeps on this computer, and how to remove it */
+const LOCAL_TRACES: { what: string; wipe(): Promise<unknown>; }[] = [
+    { what: "Bookmarks", wipe: () => DataStore.del("Nightcord_Bookmarks") },
+    { what: "Channel and server notes", wipe: () => DataStore.del("Nightcord_ChannelNotes") },
+    { what: "Notification log", wipe: () => DataStore.set("notification-log", []) },
+    {
+        what: "Deleted and edited messages saved by MessageLoggerEnhanced, with their pictures",
+        wipe: async () => {
+            if (isPluginEnabled("MessageLoggerEnhanced")) await clearLogs(false);
+            else await new Promise(resolve => { const req = indexedDB.deleteDatabase(MLE_DB_NAME); req.onsuccess = req.onerror = req.onblocked = resolve; });
+            await DataStore.clear(DataStore.createStore("MessageLoggerImageData", "MessageLoggerImageStore"));
+        }
+    },
+    // MessageLogger only keeps its log in memory; the reload after wiping clears it
+    { what: "Deleted and edited messages shown by MessageLogger (cleared by the restart)", wipe: async () => { } }
+];
+
+function confirmWipe() {
+    Alerts.show({
+        title: t("Erase Nightcord data on this computer?"),
+        body: (
+            <>
+                <Paragraph>{t("This deletes, without a way back:")}</Paragraph>
+                <ul style={{ margin: "8px 0 8px 18px", listStyle: "disc" }}>
+                    {LOCAL_TRACES.map(x => <li key={x.what}><Paragraph size="sm">{t(x.what)}</Paragraph></li>)}
+                </ul>
+                <Paragraph>{t("Settings, themes and your Discord account are not touched. Discord restarts afterwards.")}</Paragraph>
+            </>
+        ),
+        confirmText: t("Erase"),
+        confirmColor: "danger",
+        cancelText: t("Cancel"),
+        async onConfirm() {
+            for (const trace of LOCAL_TRACES) {
+                try {
+                    await trace.wipe();
+                } catch (err) {
+                    logger.error(`Could not erase: ${trace.what}`, err);
+                }
+            }
+            location.reload();
+        }
+    });
+}
+
+export function LocalTraces() {
+    return (
+        <section className={Margins.top20}>
+            <Heading>{t("Traces on this computer")}</Heading>
+            <Paragraph className={Margins.bottom16}>
+                {t("Nightcord keeps bookmarks, notes, the notification log and saved deleted messages on this computer. Anyone with access to it could read them.")}
+            </Paragraph>
+            <Button size={Button.Sizes.SMALL} color={Button.Colors.RED} onClick={confirmWipe}>
+                {t("Erase Nightcord data…")}
+            </Button>
+        </section>
+    );
 }
 
 const rowStyle: React.CSSProperties = {
@@ -140,9 +250,16 @@ export function PrivacyCheckup() {
     const [chosen, setChosen] = useState<Record<string, boolean>>({});
     const [busy, setBusy] = useState(false);
 
-    const exposed = ITEMS.filter((_, i) => states[i] === false);
+    const exposed = ITEMS.filter((item, i) => states[i] === false && item.source.kind !== "info");
     const isChosen = (item: Item) => chosen[item.id] ?? !item.optional;
     const toApply = exposed.filter(isChosen);
+
+    const guard = useSettings(["plugins.PrivacyGuard.enabled"]).plugins.PrivacyGuard?.enabled ?? false;
+    function setGuard(on: boolean) {
+        Settings.plugins.PrivacyGuard.enabled = on;
+        if (on) startPlugin(plugins.PrivacyGuard);
+        else stopPlugin(plugins.PrivacyGuard);
+    }
 
     async function apply() {
         setBusy(true);
@@ -162,7 +279,7 @@ export function PrivacyCheckup() {
         <section className={Margins.top20}>
             <Heading>{t("Account privacy checkup")}</Heading>
             <Paragraph className={Margins.bottom16}>
-                {t("These settings are stored in your Discord account and control what Discord collects about you and what others can see. Nightcord never changes them by itself: tick what to turn off and press Apply.")}
+                {t("These settings are stored in your Discord account and control what Discord collects about you and what others can see. Nightcord only changes them when you press Apply or turn on watching below.")}
             </Paragraph>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
                 {ITEMS.map((item, i) => {
@@ -185,11 +302,11 @@ export function PrivacyCheckup() {
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={titleStyle}>{t(item.title)}</div>
                                 <Paragraph size="sm">
-                                    {state ? t("Off, nothing to do.") : t(item.description)}
+                                    {state ? t(item.source.kind === "info" ? "On." : "Off, nothing to do.") : t(item.description)}
                                     {!state && item.optional ? ` ${t("Turning it off")}: ${t(item.optional)}.` : ""}
                                 </Paragraph>
                             </div>
-                            {!state && (
+                            {!state && item.source.kind !== "info" && (
                                 <Checkbox
                                     value={isChosen(item)}
                                     onChange={(_: unknown, value: boolean) => setChosen(c => ({ ...c, [item.id]: value }))}
@@ -209,6 +326,16 @@ export function PrivacyCheckup() {
                 <Paragraph size="sm">
                     {exposed.length ? t("You can switch any of these back in Discord's settings (Data & Privacy).") : t("Everything here is already private.")}
                 </Paragraph>
+            </div>
+            <div style={{ ...rowStyle, marginTop: 12 }}>
+                <span style={{ fontSize: 18 }}>🛡️</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={titleStyle}>{t("Keep data use off")}</div>
+                    <Paragraph size="sm">{t("Discord turns data use for improving Discord and personalisation back on (from the phone app, prompts or new features). With this on, Nightcord switches them off again and tells you.")}</Paragraph>
+                </div>
+                <Checkbox value={guard} onChange={(_: unknown, value: boolean) => setGuard(value)}>
+                    <Paragraph size="sm">{t("Watch")}</Paragraph>
+                </Checkbox>
             </div>
         </section>
     );

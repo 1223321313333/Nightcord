@@ -17,7 +17,7 @@ import { React, showToast, Toasts } from "@webpack/common";
 
 import { PluginMeta } from "~plugins";
 
-import { getPluginTier, SENDS_DATA } from "./curation";
+import { getPluginTier, SENDS_DATA, VISIBLE_TO_OTHERS } from "./curation";
 import { openPluginModal } from "./PluginModal";
 
 const logger = new Logger("PluginCard");
@@ -140,8 +140,14 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     ) : null;
 
     const sends = SENDS_DATA[plugin.name];
-    const tooltip = [pluginDetails?.title || "Unknown Plugin", tierNote, sends && `🌐 ${t("Sends outside Discord")}: ${t(sends.what)}`].filter(Boolean).join(" · ");
-    const marker = (tier === "experimental" ? " 🧪" : tier === "dev" ? " 🛠️" : "") + (sends ? " 🌐" : "");
+    const visible = VISIBLE_TO_OTHERS[plugin.name];
+    const tooltip = [
+        pluginDetails?.title || "Unknown Plugin",
+        tierNote,
+        sends && `🌐 ${t("Sends outside Discord")}: ${t(sends.what)}`,
+        visible && `👁 ${t("Visible to others")}: ${t(visible)}`
+    ].filter(Boolean).join(" · ");
+    const marker = (tier === "experimental" ? " 🧪" : tier === "dev" ? " 🛠️" : "") + (sends ? " 🌐" : "") + (visible ? " 👁" : "");
 
     return (
         <AddonCard
