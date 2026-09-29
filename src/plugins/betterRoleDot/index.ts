@@ -74,8 +74,8 @@ export default definePlugin({
             }
         },
         {
-            find: ".roleVerifiedIcon",
-            all: true,
+            // Nightcord: role pills in the profile; the .roleVerifiedIcon class is minified now
+            find: /\.roleStyle\),\i=\(0,\i\.\i\)\(\i,\i,\i\.colorStrings\),\i=\i\.tags\?\.guild_connections===null/,
             predicate: () => settings.store.copyRoleColorInProfilePopout && !settings.store.bothStyles,
             noWarn: true,
             replacement: {

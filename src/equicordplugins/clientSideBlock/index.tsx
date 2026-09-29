@@ -108,6 +108,16 @@ function hiddenReplyComponent() {
     }
 }
 
+// Nightcord: hide 1:1 DMs with hidden users from the DM list (group DMs stay)
+function filterPrivateChannelIds(ids: string[]) {
+    return ids.filter(id => {
+        const channel = ChannelStore.getChannel(id);
+        if (!channel?.isDM()) return true;
+        const userId = channel.getRecipientId();
+        return !userId || !shouldHideUser(userId);
+    });
+}
+
 function activeNowView(cards) {
     if (!Array.isArray(cards)) return cards;
 
@@ -147,6 +157,7 @@ export default definePlugin({
     authors: [Devs.Samwich, NightcordDevs.KamiRu],
     settings,
     activeNowView,
+    filterPrivateChannelIds,
     shouldHideUser,
     hiddenReplyComponent,
     isRoleAllBlockedMembers,
@@ -203,12 +214,12 @@ export default definePlugin({
             ]
         },
         // dm list
+        // Nightcord: Discord rewrote the DM row, so filter the channel ids the DM list renders instead
         {
-            find: "PrivateChannel.renderAvatar",
+            find: ".CONTACTS_LIST)",
             replacement: {
-                // horror but it works
-                match: /(return \i\.isMultiUserDM\(\))(?<=function\(\i,(\i),\i\){.*)/,
-                replace: "if($2.rawRecipients[0] && $2.rawRecipients[0]?.id){if($self.shouldHideUser($2.rawRecipients[0].id)) return null;}$1"
+                match: /(?<=let (\i)=\i\.\i\.getPrivateChannelIds\(\);)(?=return)/,
+                replace: "$1=$self.filterPrivateChannelIds($1);"
             }
         },
         // thank nick (644298972420374528) for these patches :3
