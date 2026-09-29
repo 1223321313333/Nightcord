@@ -30,6 +30,7 @@ import { Alerts, GuildMemberStore, React } from "@webpack/common";
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
 import { PluginPresets } from "./PluginPresets";
+import { PrivacyCheckup } from "./PrivacyCheckup";
 import { WindowsMaterialSettings } from "./WindowsMaterialSettings";
 
 const NIGHTCORD_IMAGE = "data:image/svg+xml," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='#6d28d9' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/></svg>");
@@ -202,6 +203,8 @@ function NightcordSettings() {
             </QuickActionCard>
 
             <PluginPresets />
+
+            <PrivacyCheckup />
 
             <Divider className={Margins.top20} />
 

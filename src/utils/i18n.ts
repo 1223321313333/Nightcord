@@ -930,6 +930,38 @@ const RU: Record<string, string> = {
     "Success!": "Готово!",
     "Failed to run snippet :(": "Не удалось выполнить код :(",
 
+    // Account privacy checkup
+    "Account privacy checkup": "Проверка приватности аккаунта",
+    "These settings are stored in your Discord account and control what Discord collects about you and what others can see. Nightcord never changes them by itself: tick what to turn off and press Apply.": "Эти настройки хранятся в вашем аккаунте Discord и определяют, что Discord собирает о вас и что видят другие. Nightcord сам их никогда не меняет: отметьте, что выключить, и нажмите «Применить».",
+    "Use my data to improve Discord": "Использовать мои данные для улучшения Discord",
+    "Discord keeps and analyses how you use the app.": "Discord хранит и анализирует, как вы пользуетесь приложением.",
+    "Use my data to personalise my Discord experience": "Использовать мои данные для персонализации Discord",
+    "Discord builds a profile of you for recommendations and offers.": "Discord составляет ваш профиль для рекомендаций и предложений.",
+    "Detect accounts of other platforms on this computer": "Искать на компьютере аккаунты других платформ",
+    "Discord looks for other apps you are logged into and suggests connecting them.": "Discord ищет приложения, в которых вы вошли, и предлагает их привязать.",
+    "Let Discord detect screen reader use": "Отслеживать использование экранного диктора",
+    "Discord records whether you use a screen reader.": "Discord записывает, пользуетесь ли вы экранным диктором.",
+    "Sync phone contacts": "Синхронизация контактов телефона",
+    "Your phone's contacts are uploaded to find friends.": "Контакты с телефона загружаются в Discord для поиска друзей.",
+    "Let people find me by phone number or email": "Разрешить находить меня по номеру телефона или email",
+    "Anyone with your number or email can find your account.": "Любой, у кого есть ваш номер или email, может найти ваш аккаунт.",
+    "Show what I am playing": "Показывать, во что я играю",
+    "Friends and server members see your current game.": "Друзья и участники серверов видят вашу текущую игру.",
+    "friends will not see your game": "друзья не будут видеть вашу игру",
+    "Quests and game tracking for rewards": "Квесты и отслеживание игр ради наград",
+    "Discord tracks your gaming activity for Quests.": "Discord отслеживает вашу игровую активность для квестов.",
+    "Quests will stop working": "квесты перестанут работать",
+    "Off, nothing to do.": "Выключено, всё в порядке.",
+    "Turning it off": "Если выключить",
+    "Turn off": "Выключить",
+    "Privacy settings updated": "Настройки приватности обновлены",
+    "Discord did not accept the change, try again later": "Discord не принял изменение, попробуйте позже",
+    "You can switch any of these back in Discord's settings (Data & Privacy).": "Любую из них можно вернуть в настройках Discord («Данные и конфиденциальность»).",
+    "Everything here is already private.": "Здесь уже всё приватно.",
+
+    // Account privacy checkup (loading)
+    "Checking with Discord…": "Спрашиваю у Discord…",
+
     // Plugin tags
     "Accessibility": "Доступность",
     "Activity": "Активность",

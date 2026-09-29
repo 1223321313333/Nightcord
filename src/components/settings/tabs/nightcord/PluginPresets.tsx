@@ -58,7 +58,7 @@ const PRESETS: Preset[] = [
         emoji: "🕵️",
         title: "Maximum privacy",
         description: "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that automatically send data to other servers.",
-        enable: () => ["StripMetadata", "ClearURLs", "AnonymiseFileNames", "SilentTyping", "NoRPC", "StreamerModeOn", "NoReplyMention"],
+        enable: () => ["StripMetadata", "ClearURLs", "CleanOpenedLinks", "AnonymiseFileNames", "SilentTyping", "NoRPC", "StreamerModeOn", "NoReplyMention"],
         disable: () => Object.entries(SENDS_DATA).filter(([, d]) => d.automatic).map(([name]) => name),
         note: "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset."
     },
