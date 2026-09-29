@@ -50,13 +50,37 @@
     overflow: hidden;
 }
 
-.nc-bookmark-remove {
+.nc-bookmark:focus-visible {
+    outline: 2px solid var(--focus-primary, var(--brand-500));
+    outline-offset: -2px;
+}
+
+.nc-bookmark-actions {
+    display: flex;
+    gap: 2px;
+    flex-shrink: 0;
+    opacity: 0;
+    transition: opacity 0.12s;
+}
+
+.nc-bookmark:hover .nc-bookmark-actions,
+.nc-bookmark:focus-within .nc-bookmark-actions {
+    opacity: 1;
+}
+
+.nc-bookmark-action {
     background: none;
     border: none;
+    border-radius: 4px;
     color: var(--text-muted);
     cursor: pointer;
     font-size: 14px;
     padding: 2px 6px;
+}
+
+.nc-bookmark-action:hover {
+    color: var(--text-normal);
+    background: var(--background-modifier-hover);
 }
 
 .nc-bookmark-remove:hover {
