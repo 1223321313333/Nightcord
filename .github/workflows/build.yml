@@ -9,8 +9,10 @@ on:
             - browser/**
             - scripts/build/**
             - installer/**
+            - scripts/nightcord/buildInstaller.mjs
             - package.json
             - pnpm-lock.yaml
+            - pnpm-workspace.yaml
     workflow_dispatch:
 
 env:
@@ -24,12 +26,12 @@ jobs:
         runs-on: ubuntu-latest
 
         steps:
-            - uses: actions/checkout@v7
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 
-            - uses: pnpm/action-setup@v6 # Install pnpm using packageManager key in package.json
+            - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6, installs pnpm from the packageManager key in package.json
 
             - name: Use Node.js 24
-              uses: actions/setup-node@v6
+              uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
               with:
                   node-version: 24
                   cache: "pnpm"
@@ -48,6 +50,8 @@ jobs:
                   mkdir -p dist/release
                   # desktop.asar is what the built-in updater downloads
                   cp dist/desktop.asar dist/plugins.json dist/release/
+                  # Checked by the updater and installers before they use desktop.asar (fallback for GitHub's own asset digest)
+                  (cd dist/release && sha256sum desktop.asar > desktop.asar.sha256)
                   # loose files keep older Nightcord installs (and the installer's local mode) working
                   cp dist/desktop/patcher.js dist/desktop/preload.js dist/desktop/renderer.js dist/desktop/renderer.css dist/release/
 
@@ -64,5 +68,37 @@ jobs:
                       gh release create devbuild --title "DevBuild $RELEASE_TAG" --notes "Automatic Nightcord build from the latest commit on main." --latest
                   gh release upload devbuild --clobber dist/release/*
                   gh release edit devbuild --title "DevBuild $RELEASE_TAG" --latest
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    Installer:
+        # The installer is a .NET Framework WinForms app, built with the C# compiler that ships with Windows
+        needs: Build
+        runs-on: windows-latest
+
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+            - name: Use Node.js 24
+              uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+              with:
+                  node-version: 24
+
+            - name: Build NightcordInstaller.exe
+              run: node scripts/nightcord/buildInstaller.mjs
+
+            - name: Check that the installer downloads and verifies the new release
+              shell: pwsh
+              run: |
+                  $p = Start-Process -FilePath dist\NightcordInstaller.exe -ArgumentList "--check", "$env:RUNNER_TEMP\check.txt" -Wait -PassThru
+                  Get-Content "$env:RUNNER_TEMP\check.txt"
+                  if ($p.ExitCode -ne 0) { exit 1 }
+
+            - name: Upload installer to the release
+              shell: pwsh
+              run: |
+                  $hash = (Get-FileHash -Algorithm SHA256 dist\NightcordInstaller.exe).Hash.ToLowerInvariant()
+                  "$hash  NightcordInstaller.exe" | Set-Content -NoNewline -Encoding ascii dist\NightcordInstaller.exe.sha256
+                  gh release upload devbuild --clobber dist\NightcordInstaller.exe dist\NightcordInstaller.exe.sha256
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

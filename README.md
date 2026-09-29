@@ -6,10 +6,12 @@ Nightcord is a Discord client mod built on [Equicord](https://github.com/Equicor
 
 ## Install (Windows)
 
-1. Download [NightcordInstaller.zip](https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.zip) and unzip it.
-2. Double-click `NightcordInstaller.bat` and choose **1**.
+1. Download [NightcordInstaller.exe](https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.exe).
+2. Run it and click **Установить** (Install). No administrator rights are needed.
 
-The installer downloads `desktop.asar` from this repository's `devbuild` release and injects it into Discord, Discord PTB and Discord Canary. Choose **2** to remove it and restore the original Discord.
+The installer (`installer/NightcordInstaller.cs`, a small .NET Framework app built by GitHub Actions) finds Discord, Discord PTB and Discord Canary, downloads `desktop.asar` from this repository's `devbuild` release, checks its SHA-256 against the digest GitHub reports for that file and only then injects it. **Удалить Nightcord** restores the original Discord. Windows SmartScreen may warn because the installer is not code-signed: choose *More info → Run anyway*.
+
+Without a window: `NightcordInstaller.exe --install` or `--uninstall`. The PowerShell installer (`NightcordInstaller.zip` in the same release) does the same from a console.
 
 ## Build from source
 

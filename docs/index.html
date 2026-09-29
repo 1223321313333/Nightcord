@@ -166,7 +166,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
             <h1>Discord, но <span>ночной</span></h1>
             <p>Nightcord — мод для Discord с лёгкой ночной темой, закладками, заметками к каналам, исправлением раскладки и почти 400 плагинами.</p>
             <div class="cta">
-                <a class="btn btn-primary" href="https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.zip">
+                <a class="btn btn-primary" href="https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.exe">
                     <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1Zm-8 15a1 1 0 0 1 1 1v1h14v-1a1 1 0 1 1 2 0v2a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-2a1 1 0 0 1 1-1Z"/></svg>
                     Скачать для Windows
                 </a>
@@ -230,8 +230,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
             <h2>Установка за минуту</h2>
             <p class="lead">Нужен установленный Discord для Windows. Node.js и прочее ставить не нужно.</p>
             <div class="steps">
-                <div class="step"><h3>Скачайте архив</h3><p><a href="https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.zip">NightcordInstaller.zip</a> и распакуйте его в любую папку.</p></div>
-                <div class="step"><h3>Запустите установщик</h3><p>Двойной клик по <b>NightcordInstaller.bat</b>, выберите <b>1</b>. Discord перезапустится сам.</p></div>
+                <div class="step"><h3>Скачайте установщик</h3><p><a href="https://github.com/1223321313333/Nightcord/releases/download/devbuild/NightcordInstaller.exe">NightcordInstaller.exe</a> — один файл, около 40 КБ. Права администратора не нужны.</p></div>
+                <div class="step"><h3>Нажмите «Установить»</h3><p>Установщик найдёт Discord, скачает Nightcord, проверит контрольную сумму и сам перезапустит Discord.</p></div>
                 <div class="step"><h3>Готово</h3><p>Откройте настройки Discord — там появится раздел <b>Nightcord</b>. Обновления приходят автоматически.</p></div>
             </div>
         </div>
@@ -246,11 +246,11 @@ footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wr
             </details>
             <details>
                 <summary>Windows или антивирус ругается на установщик</summary>
-                <p>У установщика нет платной цифровой подписи, поэтому Windows может предупредить о запуске скрипта из интернета. Код установщика открыт и лежит в репозитории — его можно прочитать перед запуском.</p>
+                <p>У установщика нет платной цифровой подписи, поэтому Windows SmartScreen может показать «Система Windows защитила ваш компьютер». Нажмите <b>Подробнее → Выполнить в любом случае</b>. Код установщика открыт (<a href="https://github.com/1223321313333/Nightcord/tree/main/installer">installer</a>), а собирает его GitHub Actions прямо из репозитория. Скачанную сборку Nightcord установщик проверяет по SHA-256 и не ставит, если она повреждена или подменена.</p>
             </details>
             <details>
                 <summary>Как удалить?</summary>
-                <p>Запустите NightcordInstaller.bat и выберите <b>2</b>. Discord вернётся в исходное состояние.</p>
+                <p>Запустите NightcordInstaller.exe и нажмите <b>Удалить Nightcord</b>. Discord вернётся в исходное состояние, ваши настройки останутся в папке %APPDATA%\Nightcord.</p>
             </details>
             <details>
                 <summary>Discord обновился, и что-то перестало работать</summary>
