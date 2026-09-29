@@ -11,8 +11,9 @@ import { insertTextIntoChatInputBox } from "@utils/discord";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import { Toasts } from "@webpack/common";
 
-const EN = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>";
-const RU = "ёйцукенгшщзхъфывапролджэячсмитьбю.ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ";
+// Same physical keys on the US and Russian (ЙЦУКЕН) layouts, shifted symbols included
+const EN = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?@#$^&|";
+const RU = "ёйцукенгшщзхъфывапролджэячсмитьбю.ЁЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ,\"№;:?/";
 
 const enToRu = new Map<string, string>();
 const ruToEn = new Map<string, string>();
@@ -26,32 +27,75 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         description: "Automatically fix messages that were clearly typed in the English layout instead of Russian (e.g. ghbdtn → привет)",
         default: true
+    },
+    notifyOnFix: {
+        type: OptionType.BOOLEAN,
+        description: "Show a notification with the original text when a message was fixed automatically",
+        default: true
     }
 });
 
 const hasCyrillic = (s: string) => /[а-яё]/i.test(s);
 
+const convert = (text: string, map: Map<string, string>) => [...text].map(c => map.get(c) ?? c).join("");
+
 /** Converts text to the other layout. Direction is picked from the text itself. */
 export function switchLayout(text: string) {
-    const map = hasCyrillic(text) ? ruToEn : enToRu;
-    return [...text].map(c => map.get(c) ?? c).join("");
+    return convert(text, hasCyrillic(text) ? ruToEn : enToRu);
+}
+
+/** Words that must never be converted: links, mentions, emoji, emoticons and anything with digits */
+function isProtected(token: string) {
+    return /^(https?:\/\/|www\.)/i.test(token)
+        || /^<.*>$/.test(token) // <@user>, <#channel>, <:emoji:id>, <t:time>
+        || /^:\w+:$/.test(token) // :emoji:
+        || /\d/.test(token) // cs2, 1v1, 10pm
+        || /^[:;=xX8][-']?[()[\]DPpOo|\\/3*]+$/.test(token) // :D xD ;)
+        || /^[^\p{L}]+$/u.test(token); // only punctuation or emoji
+}
+
+// Russian letters on these keys (ф, ш, щ) make up ~1.5% of Russian text; a, i and o are ~23% of English.
+// "e" and "u" are not counted: they are the keys of the common Russian "у" and "г".
+const EN_VOWELS = new Set("aio");
+const RU_VOWELS = new Set("аеёиоуыэюя");
+
+function vowelShare(text: string, letters: RegExp, vowels: Set<string>) {
+    const found = text.toLowerCase().match(letters) ?? [];
+    return found.length ? found.filter(c => vowels.has(c)).length / found.length : 0;
 }
 
 /**
- * Russian typed on an English layout has almost no a/e/i/o,
- * because Russian vowels sit on f, t, b, j, s, z, ' and so on.
+ * Whether Latin text is really Russian typed on the English layout.
+ * Such text has almost no a/i/o (Russian vowels sit on f, t, b, j, s, z, ' ...), and once converted it has
+ * a normal share of Russian vowels. The second check keeps things like "xDDDDD", "hmmmmm" or "rhythm" intact.
  */
-function looksLikeWrongLayout(text: string) {
+export function looksLikeWrongLayout(words: string[]) {
+    const text = words.join(" ");
     if (hasCyrillic(text)) return false;
-    // Leave links, mentions, emoji, commands and code alone
-    if (/https?:\/\/|<[@#:a]|:\w+:|^[/!.]|`/.test(text)) return false;
 
     const letters = text.match(/[a-z]/gi) ?? [];
     // Short slang like "gg wp" or "brb" is left alone
     if (letters.length < 6 || !/[a-z]{4,}/i.test(text)) return false;
+    // Long runs of one letter are laughter or noise, not words
+    if (/([a-z])\1{3,}/i.test(text)) return false;
 
-    const vowels = letters.filter(c => "aeio".includes(c.toLowerCase())).length;
-    return vowels / letters.length < 0.12;
+    if (vowelShare(text, /[a-z]/g, EN_VOWELS) >= 0.07) return false;
+
+    const ru = vowelShare(convert(text, enToRu), /[а-яё]/g, RU_VOWELS);
+    return ru >= 0.28 && ru <= 0.6;
+}
+
+/** Fixes a whole message, leaving links, mentions and emoji as they are. Returns null when nothing should change. */
+export function fixMessage(content: string) {
+    if (!content || hasCyrillic(content)) return null;
+    // Commands for bots and code are never touched
+    if (/^[/!.$?]/.test(content) || content.includes("`")) return null;
+
+    const parts = content.split(/(\s+)/);
+    const words = parts.filter((p, i) => i % 2 === 0 && p && !isProtected(p));
+    if (!looksLikeWrongLayout(words)) return null;
+
+    return parts.map((p, i) => i % 2 === 0 && p && !isProtected(p) ? convert(p, enToRu) : p).join("");
 }
 
 function getChatInput() {
@@ -115,6 +159,17 @@ export default definePlugin({
 
     onBeforeMessageSend(_, msg) {
         if (!settings.store.autoFix) return;
-        if (looksLikeWrongLayout(msg.content)) msg.content = switchLayout(msg.content);
+        const fixed = fixMessage(msg.content);
+        if (fixed == null || fixed === msg.content) return;
+
+        const original = msg.content;
+        msg.content = fixed;
+        if (settings.store.notifyOnFix) {
+            Toasts.show({
+                message: `Раскладка исправлена. Было: ${original.length > 60 ? original.slice(0, 60) + "…" : original}`,
+                type: Toasts.Type.MESSAGE,
+                id: Toasts.genId()
+            });
+        }
     }
 });
