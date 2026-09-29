@@ -83,6 +83,8 @@ for (const f of files) {
     for (const re of PROTECT) s = s.replace(re, m => /vencord|equicord|Vendicated/i.test(m) ? hide(m) : m);
     s = s.replace(BRAND, t => protectTokens.has(t) ? hide(t) : t);
     s = s.replace(BRAND, t => rename(t));
+    // "an Equicord update" -> "a Nightcord update"
+    s = s.replace(/\b([Aa])n Nightcord\b/g, "$1 Nightcord");
     for (let i = 0; i < 3; i++) s = s.replace(/\u0000(\d+)\u0000/g, (_, n) => stash[+n]);
 
     if (s !== orig) {
