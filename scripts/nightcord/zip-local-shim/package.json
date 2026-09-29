@@ -1,0 +1,8 @@
+{
+    "name": "zip-local",
+    "version": "0.3.5-nightcord",
+    "description": "Drop-in replacement for the part of zip-local used by scripts/build/buildWeb.mjs, built on fflate. zip-local depends on jszip 2.x, which has known vulnerabilities and no fixed 2.x release.",
+    "main": "index.js",
+    "private": true,
+    "license": "GPL-3.0-or-later"
+}

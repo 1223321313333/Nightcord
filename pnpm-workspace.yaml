@@ -19,3 +19,25 @@ minimumReleaseAge: 7
 minimumReleaseAgeExclude:
     - "@song-spotlight/api"
     - "@nightcord/*"
+
+# Nightcord: patched versions of vulnerable transitive dependencies (pnpm audit).
+# None of these are bundled into the client; they come from build and lint tooling.
+# Ranges stay within each major line so packages keep the API they expect.
+overrides:
+    zip-local: "link:./scripts/nightcord/zip-local-shim" # drops jszip 2.x, which has no fixed 2.x release
+    moment: "^2.30.1"
+    "minimatch@^3.0.0": "^3.1.5"
+    "minimatch@^9.0.0": "^9.0.7"
+    flatted: "^3.4.2"
+    "brace-expansion@^1.0.0": "^1.1.18"
+    "brace-expansion@^2.0.0": "^2.1.4"
+    "brace-expansion@^5.0.0": "^5.0.9"
+    "picomatch@^2.0.0": "^2.3.2"
+    "picomatch@^4.0.0": "^4.0.4"
+    dompurify: "^3.4.13"
+    fast-uri: "^3.1.7"
+    postcss: "^8.5.23"
+    "nanoid@^3.0.0": "^3.3.18"
+    js-yaml: "^4.3.2"
+    svgo: "^4.1.0"
+    colord: "^2.9.4"
