@@ -321,6 +321,7 @@ export const PLUGIN_DESCRIPTIONS_RU: Record<string, [string, string]> = {
     "Streaks": ["4exzye", "Серия дней, когда вы переписывались в ЛС подряд"],
     "StreamerModeOn": ["1ejoumy", "Сам включает режим стримера, когда вы стримите"],
     "StreamingCodecDisabler": ["1tjgwhq", "Отключить выбранные видеокодеки для стрима и камеры"],
+    "StripMetadata": ["1x7mjo6", "Перед загрузкой убирает из фото и видео GPS-координаты, модель камеры и другие метаданные"],
     "SuperReactionTweaks": ["1resx2l", "Лимит одновременных суперреакций и суперреакция по умолчанию"],
     "SupportHelper": ["c156bj", "Служебный: помогает с поддержкой"],
     "TalkInReverse": ["hs3d25", "Переворачивает текст сообщения перед отправкой"],

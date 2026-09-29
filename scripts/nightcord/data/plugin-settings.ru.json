@@ -244,6 +244,11 @@
     "autoFix": ["Automatically fix messages that were clearly typed in the English layout instead of Russian (e.g. ghbdtn → привет)","Автоисправление","Сам исправлять сообщения, явно набранные в английской раскладке вместо русской (ghbdtn → привет)"],
     "notifyOnFix": ["Show a notification with the original text when a message was fixed automatically","Сообщать об исправлении","Показывать уведомление с исходным текстом, когда сообщение исправлено автоматически"]
   },
+  "StripMetadata": {
+    "images": ["Remove metadata from photos (JPEG, PNG, WebP): GPS location, camera model, dates, editing software","Фото","Убирать метаданные из фото (JPEG, PNG, WebP): GPS-координаты, модель камеры, даты, программу обработки"],
+    "videos": ["Remove location and device model from videos (MP4, MOV)","Видео","Убирать координаты и модель устройства из видео (MP4, MOV)"],
+    "notify": ["Show a notification when a file contained a location","Сообщать о координатах","Показывать уведомление, если в файле были координаты"]
+  },
   "KeywordHighlight": {
     "keywords": ["Keywords to highlight, separated by commas (e.g. продажа, прокси, мой ник)","Ключевые слова","Слова для подсветки через запятую (например: продажа, прокси, мой ник)"],
     "includeMyName": ["Also highlight messages that mention your username or display name as plain text","Мой ник тоже","Подсвечивать и сообщения, где упоминают ваш ник или имя простым текстом"],

@@ -13,6 +13,8 @@ import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
 import { Button, ConfirmModal, openModal, React, showToast, Toasts } from "@webpack/common";
 
+import { SENDS_DATA } from "../plugins/curation";
+
 interface Preset {
     id: string;
     emoji: string;
@@ -54,10 +56,11 @@ const PRESETS: Preset[] = [
     {
         id: "privacy",
         emoji: "🕵️",
-        title: "Privacy",
-        description: "Hide that you are typing, strip trackers from links, anonymise uploaded file names, no reply pings and streamer mode while streaming.",
-        enable: () => ["SilentTyping", "ClearURLs", "AnonymiseFileNames", "NoRPC", "StreamerModeOn", "NoReplyMention"],
-        disable: () => []
+        title: "Maximum privacy",
+        description: "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that automatically send data to other servers.",
+        enable: () => ["StripMetadata", "ClearURLs", "AnonymiseFileNames", "SilentTyping", "NoRPC", "StreamerModeOn", "NoReplyMention"],
+        disable: () => Object.entries(SENDS_DATA).filter(([, d]) => d.automatic).map(([name]) => name),
+        note: "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset."
     },
     {
         id: "speed",

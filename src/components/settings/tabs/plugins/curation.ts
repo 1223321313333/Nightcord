@@ -31,6 +31,25 @@ export const CURATED_EQUICORD = new Set([
     "ZipPreview"
 ]);
 
+/**
+ * Plugins that send data about you or the people you look at to servers other than Discord.
+ * Plugins that only download a shared list (badges, banners, link rules) are not listed: they reveal no more than
+ * visiting a website. `automatic` means it happens without you doing anything, which the privacy preset turns off.
+ * Checked against each plugin's code; keep in sync when plugins change.
+ */
+export const SENDS_DATA: Record<string, { what: string; automatic: boolean; }> = {
+    ReviewDB: { what: "IDs of the profiles you open, to ReviewDB (manti.vendicated.dev)", automatic: true },
+    Decor: { what: "IDs of the people you see in chat, to Decor (decor.fieryflames.dev)", automatic: true },
+    Dearrow: { what: "IDs of YouTube videos posted in chat, to DeArrow (sponsor.ajay.app)", automatic: true },
+    ShowConnections: { what: "GitHub names from the profiles you open, to api.github.com", automatic: true },
+    MessageTranslate: { what: "Text of messages, to Google Translate", automatic: true },
+    MusicControls: { what: "The track you are playing, to lyrics services (lrclib.net and others)", automatic: true },
+    MusicRichPresence: { what: "Your Last.fm or ListenBrainz username, to their API", automatic: true },
+    Translate: { what: "Text you choose to translate, to Google, DeepL or Kagi", automatic: false },
+    FileUpload: { what: "Files you upload with it, to the chosen file host", automatic: false },
+    TenorGifSearch: { what: "Your GIF searches, to Tenor (Google)", automatic: false }
+};
+
 export type PluginTier = "curated" | "experimental" | "dev";
 
 export function getPluginTier(name: string): PluginTier {

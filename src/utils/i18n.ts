@@ -413,8 +413,24 @@ const RU: Record<string, string> = {
         "Популярный набор: эмодзи и стикеры без Nitro, удалённые сообщения, скрытые каналы, скрытое «печатает…» и полезные мелочи.",
     "Privacy":
         "Приватность",
-    "Hide that you are typing, strip trackers from links, anonymise uploaded file names, no reply pings and streamer mode while streaming.":
-        "Скрыть «печатает…», вырезать трекеры из ссылок, анонимные имена файлов, ответы без пинга и режим стримера во время стрима.",
+    "Maximum privacy":
+        "Максимальная приватность",
+    "Removes GPS and camera data from photos and videos, strips trackers from links, anonymises file names, hides that you are typing, and turns off plugins that automatically send data to other servers.":
+        "Убирает GPS и данные камеры из фото и видео, вырезает трекеры из ссылок, делает имена файлов анонимными, скрывает «печатает…» и выключает плагины, которые сами отправляют данные на чужие серверы.",
+    "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset.":
+        "Аналитика и отчёты об ошибках самого Discord заблокированы в Nightcord всегда (NoTrack), с этим пресетом и без него.",
+    "Sends outside Discord": "Отправляет за пределы Discord",
+    "automatically": "автоматически",
+    "IDs of the profiles you open, to ReviewDB (manti.vendicated.dev)": "ID профилей, которые вы открываете, — в ReviewDB (manti.vendicated.dev)",
+    "IDs of the people you see in chat, to Decor (decor.fieryflames.dev)": "ID людей, которых видно в чате, — в Decor (decor.fieryflames.dev)",
+    "IDs of YouTube videos posted in chat, to DeArrow (sponsor.ajay.app)": "ID YouTube-видео из чата — в DeArrow (sponsor.ajay.app)",
+    "GitHub names from the profiles you open, to api.github.com": "имена GitHub из открытых профилей — в api.github.com",
+    "Text of messages, to Google Translate": "текст сообщений — в Google Переводчик",
+    "The track you are playing, to lyrics services (lrclib.net and others)": "трек, который у вас играет, — в сервисы текстов песен (lrclib.net и другие)",
+    "Your Last.fm or ListenBrainz username, to their API": "ваш логин Last.fm или ListenBrainz — в их API",
+    "Text you choose to translate, to Google, DeepL or Kagi": "текст, который вы переводите, — в Google, DeepL или Kagi",
+    "Files you upload with it, to the chosen file host": "файлы, которые вы загружаете через него, — на выбранный файлообменник",
+    "Your GIF searches, to Tenor (Google)": "ваши поиски гифок — в Tenor (Google)",
     "Maximum speed":
         "Максимальная скорость",
     "Turns off plugins that add work to every message or member, and swaps heavy themes for the lightweight Nightcord theme.":

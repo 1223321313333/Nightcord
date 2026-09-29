@@ -43,6 +43,7 @@ import { PluginMeta } from "~plugins";
 
 import { OptionComponentMap } from "./components";
 import { openContributorModal } from "./ContributorModal";
+import { SENDS_DATA } from "./curation";
 import { FavoriteButton, GithubButton, WebsiteButton } from "./PluginModalButtons";
 
 const cl = classNameFactory("vc-plugin-modal-");
@@ -191,6 +192,12 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 <div className={cl("info")}>
                     <div>
                         <Paragraph size="md">{tPluginDescription(plugin)}</Paragraph>
+                        {SENDS_DATA[plugin.name] && (
+                            <Paragraph size="sm" className={cl("sends-data")}>
+                                🌐 {t("Sends outside Discord")}: {t(SENDS_DATA[plugin.name].what)}
+                                {SENDS_DATA[plugin.name].automatic ? ` (${t("automatically")})` : ""}
+                            </Paragraph>
+                        )}
                         {!!plugin.tags?.length && <PluginTags tags={plugin.tags} />}
                     </div>
                 </div>

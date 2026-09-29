@@ -65,6 +65,11 @@
     align-items: start;
 }
 
+.vc-plugin-modal-sends-data {
+    margin-top: 6px;
+    color: var(--text-warning, #f0b232);
+}
+
 .vc-plugin-modal-tags {
     display: flex;
     flex-wrap: wrap;
