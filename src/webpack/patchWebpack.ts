@@ -8,7 +8,7 @@ import { Settings } from "@api/Settings";
 import { reporterData } from "@debug/reporterData";
 import { traceFunctionWithResults } from "@debug/Tracer";
 import { WebpackRequire } from "@nightcord/discord-types/webpack";
-import { reportHealthIssue } from "@utils/health";
+import { reportHealthIssue, retractHealthIssue } from "@utils/health";
 import { makeLazy } from "@utils/lazy";
 import { Logger } from "@utils/Logger";
 import { interpolateIfDefined } from "@utils/misc";
@@ -576,6 +576,8 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
 
         let shouldRestorePrevious = false;
         let markedAsPatched = false;
+        let appliedAny = false;
+        let attemptedAny = false;
 
         const executePatch = traceFunctionWithResults(`patch by ${patch.plugin}`, (match: string | RegExp, replace: string) => {
             if (typeof match !== "string" && match.global) {
@@ -594,6 +596,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 continue;
             }
 
+            attemptedAny = true;
             let newPatchedCode: string = "";
             try {
                 const [patchResult, totalTime] = executePatch(replacement.match, replacement.replace as string);
@@ -653,6 +656,9 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 patchedCode = newPatchedCode;
                 patchedSource = newPatchedSource;
                 patchedFactory = newPatchedFactory;
+                appliedAny = true;
+                // An earlier module with the same find may have reported this replacement as failed
+                retractHealthIssue("patch-no-effect", patch.plugin, replacement.match);
             } catch (err) {
                 // FIXME: Maybe fix this properly
                 const shouldSuppressError = patch.plugin === "ContextMenuAPI" && err instanceof SyntaxError && err.message.includes("arguments");
@@ -690,13 +696,17 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
             patchedCode = previousPatchedCode;
             patchedSource = previousPatchedSource;
             patchedFactory = previousPatchedFactory;
+            appliedAny = false;
 
             if (markedAsPatched) {
                 patchedBy.delete(patch.plugin);
             }
         }
 
-        if (!patch.all) {
+        // Nightcord: when replacements were tried but not a single one matched, this is most likely another module
+        // that happens to contain the same find, so keep the patch for the next matching module instead of losing it.
+        // Patches with nothing to try here (all replacements turned off by settings or build range) are done.
+        if (!patch.all && (appliedAny || !attemptedAny)) {
             patches.splice(i--, 1);
         }
     }

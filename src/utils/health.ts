@@ -20,6 +20,13 @@ export interface HealthIssue {
 
 export const healthIssues: HealthIssue[] = [];
 
+/** Remove an issue that turned out not to be one, e.g. a patch that later applied to the right module */
+export function retractHealthIssue(kind: HealthIssueKind, plugin: string | null, detail: unknown) {
+    const text = (detail instanceof Error ? detail.message : String(detail)).slice(0, 300);
+    const index = healthIssues.findIndex(i => i.kind === kind && i.plugin === plugin && i.detail === text);
+    if (index !== -1) healthIssues.splice(index, 1);
+}
+
 export function reportHealthIssue(kind: HealthIssueKind, plugin: string | null, detail: unknown) {
     const text = detail instanceof Error ? detail.message : String(detail);
     // The same patch can fail on several modules; keep one entry per problem
