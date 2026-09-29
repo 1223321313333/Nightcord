@@ -102,6 +102,22 @@ function Start-Discord($installs) {
     }
 }
 
+# The SHA-256 desktop.asar must have: GitHub's digest for the release file, or desktop.asar.sha256 published next to it
+function Get-ExpectedSha256 {
+    try {
+        $release = Invoke-RestMethod -UseBasicParsing -Headers @{ "User-Agent" = "NightcordInstaller" } `
+            -Uri "https://api.github.com/repos/$Repo/releases/tags/devbuild"
+        $asset = $release.assets | Where-Object name -eq $AsarName | Select-Object -First 1
+        if ($asset.digest -match '^sha256:([a-fA-F0-9]{64})$') { return $Matches[1].ToLowerInvariant() }
+    } catch {
+        # The GitHub API allows 60 requests per hour per IP; fall back to the checksum file
+    }
+    $text = (Invoke-WebRequest -UseBasicParsing -Uri "$ReleaseUrl/$AsarName.sha256").Content
+    if ($text -is [byte[]]) { $text = [Text.Encoding]::ASCII.GetString($text) }
+    if ($text -match '\b([a-fA-F0-9]{64})\b') { return $Matches[1].ToLowerInvariant() }
+    throw "Не удалось получить контрольную сумму сборки, установка отменена."
+}
+
 # Returns the path Discord should require: a local patcher.js, or the downloaded desktop.asar
 function Get-Build {
     if ($DistPath) {
@@ -117,7 +133,8 @@ function Get-Build {
 
     New-Item -ItemType Directory -Force $DataDir | Out-Null
     $target = Join-Path $DataDir $AsarName
-    Write-Step "Скачиваю свежую сборку Nightcord с GitHub ($Repo), это около 16 МБ"
+    $expected = Get-ExpectedSha256
+    Write-Step "Скачиваю свежую сборку Nightcord с GitHub ($Repo), это около 17 МБ"
     $oldProgress = $ProgressPreference
     $ProgressPreference = "SilentlyContinue" # the progress bar makes Invoke-WebRequest many times slower
     try {
@@ -125,6 +142,13 @@ function Get-Build {
     } finally {
         $ProgressPreference = $oldProgress
     }
+
+    $actual = (Get-FileHash -Algorithm SHA256 "$target.download").Hash.ToLowerInvariant()
+    if ($actual -ne $expected) {
+        Remove-Item -Force "$target.download"
+        throw "Скачанная сборка повреждена или подменена (SHA-256 не совпадает). Ничего не установлено, попробуйте ещё раз."
+    }
+    Write-Ok "SHA-256 совпадает"
     Move-Item -Force "$target.download" $target
     Write-Ok "Сборка сохранена: $target"
     return $target
