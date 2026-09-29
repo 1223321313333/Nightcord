@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { translateUi } from "@api/UiTranslation";
 import type * as t from "@nightcord/discord-types";
 import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "@webpack";
 import type * as TSPattern from "ts-pattern";
@@ -139,7 +140,7 @@ export const Toasts = {
  * Show a simple toast. If you need more options, use Toasts.show manually
  */
 export function showToast(message: string, type = ToastType.MESSAGE, options?: ToastOptions) {
-    Toasts.show(Toasts.create(message, type, options));
+    Toasts.show(Toasts.create(translateUi(message), type, options));
 }
 
 export const UserUtils = {

@@ -17,6 +17,7 @@
 */
 
 import { Settings } from "@api/Settings";
+import { translateUi } from "@api/UiTranslation";
 import { Queue } from "@utils/Queue";
 import { createRoot, WindowStore } from "@webpack/common";
 import type { ReactNode } from "react";
@@ -107,6 +108,7 @@ export async function requestPermission() {
 }
 
 export async function showNotification(data: NotificationData) {
+    data = { ...data, title: translateUi(data.title), body: translateUi(data.body) };
     persistNotification(data);
 
     if (shouldBeNative() && await requestPermission()) {

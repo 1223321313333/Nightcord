@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { hasUiTranslator, translateUi } from "@api/UiTranslation";
 import { Logger } from "@utils/Logger";
 import { Menu, React } from "@webpack/common";
 import type { ReactElement } from "react";
@@ -161,7 +162,23 @@ export function _usePatchContextMenu(props: ContextMenuProps) {
         }
     }
 
+    if (hasUiTranslator()) translateMenuLabels(props.children);
+
     return props;
+}
+
+/** Translate the string labels of plugin menu items. Discord's own labels are already localized and pass through unchanged. */
+function translateMenuLabels(children: any, depth = 0) {
+    if (depth > 8 || children == null) return;
+    if (Array.isArray(children)) {
+        for (const child of children) translateMenuLabels(child, depth + 1);
+        return;
+    }
+    if (!React.isValidElement(children)) return;
+
+    const props = children.props as { label?: unknown; children?: unknown; };
+    if (typeof props.label === "string" && !Object.isFrozen(props)) props.label = translateUi(props.label);
+    if (props.children) translateMenuLabels(props.children, depth + 1);
 }
 
 function cloneMenuChildren(obj: ReactElement<any> | Array<ReactElement<any> | null> | null) {

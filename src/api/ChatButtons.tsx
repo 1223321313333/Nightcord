@@ -6,6 +6,7 @@
 
 import "./ChatButton.css";
 
+import { translateUi } from "@api/UiTranslation";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Channel } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
@@ -136,11 +137,11 @@ export interface ChatBarButtonProps {
 
 export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
     return (
-        <Tooltip text={props.tooltip}>
+        <Tooltip text={translateUi(props.tooltip)}>
             {({ onMouseEnter, onMouseLeave }) => (
                 <div className={`expression-picker-chat-input-button ${ChannelTextAreaClasses?.buttonContainer ?? ""} vc-chatbar-button`}>
                     <Clickable
-                        aria-label={props.tooltip}
+                        aria-label={translateUi(props.tooltip)}
                         onMouseEnter={onMouseEnter}
                         onMouseLeave={onMouseLeave}
                         className={classes(ButtonWrapperClasses.button, ChannelTextAreaClasses?.button)}

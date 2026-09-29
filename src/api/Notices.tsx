@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { translateUi } from "@api/UiTranslation";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { isPrimitiveReactNode } from "@utils/react";
 import { waitFor } from "@webpack";
@@ -40,8 +41,9 @@ export function nextNotice() {
 }
 
 export function showNotice(message: ReactNode, buttonText: string, onOkClick: () => void) {
+    buttonText = translateUi(buttonText);
     const notice = isPrimitiveReactNode(message)
-        ? message
+        ? translateUi(message)
         : <ErrorBoundary fallback={() => "Error Showing Notice"}>{message}</ErrorBoundary>;
 
     noticesQueue.push(["GENERIC", notice, buttonText, onOkClick]);
