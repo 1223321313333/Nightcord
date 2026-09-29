@@ -30,7 +30,7 @@ import { RenderModalProps, User } from "@nightcord/discord-types";
 import { debounce } from "@shared/debounce";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { classNameFactory } from "@utils/css";
-import { t, tPluginDescription } from "@utils/i18n";
+import { t, tPluginDescription, tPluginSetting } from "@utils/i18n";
 import { proxyLazy } from "@utils/lazy";
 import { Margins } from "@utils/margins";
 import { classes, isObjectEmpty } from "@utils/misc";
@@ -79,7 +79,7 @@ function PluginTags({ tags }: { tags: PluginTag[]; }) {
     return (
         <div className={cl("tags")}>
             {tags.map(tag => (
-                <div key={tag} className={cl("tag")}>{tag}</div>
+                <div key={tag} className={cl("tag")}>{t(tag)}</div>
             ))}
         </div>
     );
@@ -138,7 +138,7 @@ export default function PluginModal({ plugin, onRestartNeeded, onClose, transiti
                 <ErrorBoundary noop key={key}>
                     <Component
                         id={key}
-                        setting={setting}
+                        setting={tPluginSetting(plugin.name, key, setting)}
                         onChange={debounce(onChange)}
                         pluginSettings={pluginSettings}
                         definedSettings={settings}

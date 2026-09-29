@@ -17,6 +17,7 @@ import { React, showToast, Toasts } from "@webpack/common";
 
 import { PluginMeta } from "~plugins";
 
+import { getPluginTier } from "./curation";
 import { openPluginModal } from "./PluginModal";
 
 const logger = new Logger("PluginCard");
@@ -125,6 +126,10 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
     ];
 
     const pluginDetails = pluginInfo.find(p => p.condition);
+    const tier = getPluginTier(plugin.name);
+    const tierNote = tier === "experimental"
+        ? t("Experimental: from Equicord's wider collection, may be unstable or look rough")
+        : tier === "dev" ? t("Developer tool") : null;
 
     const sourceBadge = pluginDetails ? (
         <img
@@ -134,11 +139,12 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
         />
     ) : null;
 
-    const tooltip = pluginDetails?.title || "Unknown Plugin";
+    const tooltip = [pluginDetails?.title || "Unknown Plugin", tierNote].filter(Boolean).join(" · ");
+    const marker = tier === "experimental" ? " 🧪" : tier === "dev" ? " 🛠️" : "";
 
     return (
         <AddonCard
-            name={plugin.name}
+            name={plugin.name + marker}
             sourceBadge={sourceBadge}
             tooltip={tooltip}
             description={tPluginDescription(plugin)}

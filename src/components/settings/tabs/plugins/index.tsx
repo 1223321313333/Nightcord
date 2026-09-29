@@ -44,6 +44,7 @@ import { JSX } from "react";
 
 import Plugins, { ExcludedPlugins, PluginMeta } from "~plugins";
 
+import { getPluginTier } from "./curation";
 import { PluginCard } from "./PluginCard";
 import { openWarningModal } from "./PluginModal";
 import { StockPluginsCard, UserPluginsCard } from "./PluginStatCards";
@@ -100,6 +101,9 @@ function ReloadRequiredCard({ required, enabledPlugins, openWarningModal, resetC
 }
 
 const enum SearchStatus {
+    CURATED,
+    EXPERIMENTAL,
+    DEV_TOOLS,
     ALL,
     FAVORITES,
     ENABLED,
@@ -210,7 +214,7 @@ export default function PluginSettings() {
 
     const hasUserPlugins = useMemo(() => !IS_STANDALONE && Object.values(PluginMeta).some(m => m.userPlugin), []);
 
-    const [searchValue, setSearchValue] = useState({ value: "", tags: [] as PluginTag[], status: SearchStatus.ALL });
+    const [searchValue, setSearchValue] = useState({ value: "", tags: [] as PluginTag[], status: SearchStatus.CURATED });
 
     const search = searchValue.value.toLowerCase();
     const onSearch = (query: string) => setSearchValue(prev => ({ ...prev, value: query }));
@@ -219,6 +223,16 @@ export default function PluginSettings() {
         const { status, tags } = searchValue;
 
         switch (status) {
+            case SearchStatus.CURATED:
+                // Searching by name still finds experimental plugins, so nothing seems to be missing
+                if (!search && getPluginTier(plugin.name) !== "curated" && !isPluginEnabled(plugin.name)) return false;
+                break;
+            case SearchStatus.EXPERIMENTAL:
+                if (getPluginTier(plugin.name) !== "experimental") return false;
+                break;
+            case SearchStatus.DEV_TOOLS:
+                if (getPluginTier(plugin.name) !== "dev") return false;
+                break;
             case SearchStatus.FAVORITES:
                 if (!settings.plugins[plugin.name]?.isFavorite) return false;
                 break;
@@ -433,7 +447,10 @@ export default function PluginSettings() {
                 <div className={classes(Margins.bottom20, Margins.top8, cl("filter-controls"))}>
                     <Select
                         options={[
-                            { label: t("Show All"), value: SearchStatus.ALL, default: true },
+                            { label: t("Show Curated"), value: SearchStatus.CURATED, default: true },
+                            { label: t("Show All"), value: SearchStatus.ALL },
+                            { label: t("Show Experimental"), value: SearchStatus.EXPERIMENTAL },
+                            { label: t("Show Developer Tools"), value: SearchStatus.DEV_TOOLS },
                             { label: t("Show Favorites"), value: SearchStatus.FAVORITES },
                             { label: t("Show Enabled"), value: SearchStatus.ENABLED },
                             { label: t("Show Disabled"), value: SearchStatus.DISABLED },
@@ -451,7 +468,7 @@ export default function PluginSettings() {
                         placeholder={t("Filter by Type")}
                     />
                     <SearchableSelect
-                        options={PluginTags.map(tag => ({ label: tag, value: tag }))}
+                        options={PluginTags.map(tag => ({ label: t(tag), value: tag }))}
                         value={searchValue.tags}
                         onChange={tags => setSearchValue(prev => ({ ...prev, tags }))}
                         closeOnSelect={false}

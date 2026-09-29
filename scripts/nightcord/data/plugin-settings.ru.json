@@ -1,0 +1,831 @@
+{
+  "AccountPanelServerProfile": {
+    "prioritizeServerProfile": ["Prioritize Server Profile when left clicking your account panel","Сначала профиль сервера","Левый клик по панели аккаунта открывает профиль на текущем сервере"]
+  },
+  "AlwaysAnimate": {
+    "icons": ["Always animate server icons, avatars, decor and more","Иконки","Всегда анимировать иконки серверов, аватары, украшения и прочее"],
+    "statusEmojis": ["Always animate status emojis","Эмодзи статусов","Всегда анимировать эмодзи в статусах"],
+    "serverBanners": ["Always animate server banners","Баннеры серверов","Всегда анимировать баннеры серверов"],
+    "nameplates": ["Always animate nameplates","Таблички имён","Всегда анимировать таблички имён"],
+    "roleGradients": ["Always animate role gradients","Градиенты ролей","Всегда анимировать градиентные цвета ролей"]
+  },
+  "AlwaysExpandRoles": {
+    "hideArrow": ["Hide Arrow","Скрыть стрелку","Скрыть стрелку разворачивания"]
+  },
+  "AlwaysTrust": {
+    "domain": ["Remove the untrusted domain popup when opening links","Непроверенные ссылки","Не спрашивать подтверждение при открытии непроверенных ссылок"],
+    "file": ["Remove the 'Potentially Dangerous Download' popup when opening links","Опасные файлы","Убрать окно «Потенциально опасная загрузка»"],
+    "noDeleteSafety": ["Removes the enter server name requirement when deleting a server","Удаление сервера без ввода имени","Не требовать вводить название сервера при его удалении"],
+    "confirmModal": ["Should a \"are you sure you want to delete\" modal be shown?","Окно подтверждения","Показывать окно «Вы уверены, что хотите удалить?»"]
+  },
+  "AnonymiseFileNames": {
+    "anonymiseByDefault": ["Whether to anonymise file names by default","Анонимизировать по умолчанию","Заменять имена файлов по умолчанию"],
+    "spoilerMessages": ["Spoiler messages","Спойлер-сообщения","Спойлер-сообщения"],
+    "method": ["Anonymising method","Способ","Как заменять имя файла",{"Random Characters":"Случайные символы","Consistent":"Одно и то же имя","Timestamp":"Метка времени","Date":"Дата"}],
+    "randomisedLength": ["Random characters length","Длина случайного имени","Сколько случайных символов в имени"],
+    "consistent": ["Consistent filename","Постоянное имя","Имя файла для способа «Одно и то же имя»"],
+    "dateFormat": ["Date format (YYYY, MM, DD, HH, mm, ss, SSS are supported)","Формат даты","Формат даты (поддерживаются YYYY, MM, DD, HH, mm, ss, SSS)"]
+  },
+  "AutoDNDWhilePlaying": {
+    "statusToSet": ["Status to set while playing a game","Статус во время игры","Какой статус ставить, пока вы играете",{"Online":"В сети","Idle":"Неактивен","Do Not Disturb":"Не беспокоить","Invisible":"Невидимка"}]
+  },
+  "BetterFolders": {
+    "sidebar": ["Display servers from folder on dedicated sidebar","Боковая панель","Показывать серверы из папки на отдельной боковой панели"],
+    "sidebarAnim": ["Animate opening the folder sidebar","Анимация панели","Анимировать открытие боковой панели папки"],
+    "closeAllFolders": ["Close all folders when selecting a server not in a folder","Закрывать все папки","Закрывать все папки при выборе сервера не из папки"],
+    "closeAllHomeButton": ["Close all folders when clicking on the home button","Закрывать по кнопке «Домой»","Закрывать все папки при нажатии на кнопку «Домой»"],
+    "closeOthers": ["Close other folders when opening a folder","Закрывать другие папки","Закрывать остальные папки, когда открываете одну"],
+    "closeServerFolder": ["Close folder when selecting a server in that folder","Закрывать папку при выборе сервера","Закрывать папку, когда выбираете сервер из неё"],
+    "forceOpen": ["Force a folder to open when switching to a server of that folder","Открывать папку сервера","Открывать папку, когда переходите на сервер из неё"],
+    "keepIcons": ["Keep showing guild icons in the primary guild bar folder when it's open in the BetterFolders sidebar","Оставлять иконки","Показывать иконки серверов в основном списке, даже когда папка открыта на боковой панели"],
+    "showFolderIcon": ["Show the folder icon above the folder guilds in the BetterFolders sidebar","Иконка папки","Показывать иконку папки над её серверами на боковой панели",{"Never":"Никогда","Always":"Всегда","When more than one folder is expanded":"Когда раскрыто больше одной папки"}]
+  },
+  "BetterRoleContext": {
+    "roleIconFileFormat": ["File format to use when viewing role icons","Формат иконки роли","Формат файла при просмотре иконки роли"]
+  },
+  "BetterRoleDot": {
+    "bothStyles": ["Show both role dot and coloured names","Оба стиля","Показывать и цветную точку роли, и цветные ники"],
+    "copyRoleColorInProfilePopout": ["Allow click on role dot in profile popout to copy role color","Копировать цвет в профиле","Клик по точке роли в мини-профиле копирует цвет роли"]
+  },
+  "BetterSessions": {
+    "backgroundCheck": ["Check for new sessions in the background, and display notifications when they are detected","Проверка в фоне","Проверять новые сессии в фоне и показывать уведомление о каждой"],
+    "checkInterval": ["How often to check for new sessions in the background (if enabled), in minutes","Интервал проверки","Как часто проверять новые сессии в фоне (в минутах)"]
+  },
+  "BetterSettings": {
+    "disableFade": ["Disable the crossfade animation","Без затухания","Отключить анимацию плавного перехода"],
+    "organizeMenu": ["Organizes the settings cog context menu into categories","Упорядочить меню","Разбить меню шестерёнки настроек по категориям"],
+    "eagerLoad": ["Removes the loading delay when opening the menu for the first time","Быстрая загрузка","Убрать задержку при первом открытии меню"]
+  },
+  "BlockKeywords": {
+    "blockedWords": ["Comma-separated list of words to block","Слова для блокировки","Слова через запятую: сообщения с ними будут скрыты"],
+    "useRegex": ["Use each value as a regular expression when checking message content (advanced)","Регулярные выражения","Считать каждое значение регулярным выражением (для опытных)"],
+    "caseSensitive": ["Whether to use a case sensitive search or not","Учитывать регистр","Различать заглавные и строчные буквы при поиске"],
+    "ignoreBlockedMessages": ["Completely ignores (recent) new messages bar","Не учитывать в «новых сообщениях»","Полностью игнорировать такие сообщения в полосе «новые сообщения»"]
+  },
+  "BlurNSFW": {
+    "blurAmount": ["Blur Amount (in pixels)","Сила размытия","Размытие в пикселях"],
+    "blurAllChannels": ["Blur attachments in all channels (not just NSFW)","Размывать везде","Размывать вложения во всех каналах, а не только в NSFW"]
+  },
+  "CallTimer": {
+    "format": ["Compact or human readable format:","Формат","Компактный или подробный формат времени"],
+    "allCallTimers": ["Add call timer to all users in a server voice channel","Таймер для всех","Показывать таймер у всех участников голосового канала на сервере"],
+    "showWithoutHover": ["Always show the timer without needing to hover","Показывать всегда","Показывать таймер без наведения курсора"],
+    "showRoleColor": ["Show the user's role color (if this plugin in enabled)","Цвет роли","Показывать цвет роли пользователя (если этот плагин включён)"],
+    "trackSelf": ["Also track yourself","Считать и себя","Показывать таймер и для себя"],
+    "showSeconds": ["Show seconds in the timer","Секунды","Показывать секунды в таймере"],
+    "watchLargeGuilds": ["Track users in large guilds. This may cause lag if you're in a lot of large guilds with active voice users. Tested with up to 2000 active voice users with no issues.","Большие серверы","Считать время и на больших серверах. Может тормозить, если вы на многих больших серверах с активными голосовыми каналами (проверено до 2000 человек в голосовых)"]
+  },
+  "ChannelNotes": {
+    "showBanner": ["Show the note in a banner at the top when you open a channel or server that has one","Показывать полосу","Показывать заметку полосой сверху, когда открываете канал или сервер с заметкой"]
+  },
+  "ChannelTabs": {
+    "onStartup": ["On startup","При запуске","Что открывать при запуске Discord",{"Do nothing (open on the friends tab)":"Ничего (вкладка «Друзья»)","Remember tabs from last session":"Вкладки с прошлого раза","Open on a specific set of tabs":"Заданный набор вкладок"}],
+    "showStatusIndicators": ["Show status indicators for DM's","Статусы в ЛС","Показывать статус собеседника на вкладках ЛС"],
+    "bookmarkNotificationDot": ["Show notification dot for bookmarks","Точка уведомлений у закладок","Показывать точку непрочитанного у закладок"],
+    "persistUnreadCountFallback": ["Persist unread badge fallbacks across reloads for tabs and bookmarks","Сохранять счётчики","Сохранять счётчики непрочитанного у вкладок и закладок после перезагрузки"],
+    "widerTabsAndBookmarks": ["Extend the length of tabs and bookmarks for larger monitors","Широкие вкладки","Делать вкладки и закладки шире для больших мониторов"],
+    "tabHeightScale": ["Tab height scale (percentage).","Высота вкладок","Масштаб высоты вкладок (в процентах)"],
+    "renderAllTabs": ["Keep all tabs cached in memory for faster switching (caches scroll position and state)","Держать вкладки в памяти","Хранить все вкладки в памяти для быстрого переключения (сохраняется прокрутка и состояние)"],
+    "switchToExistingTab": ["Switch to tab if it already exists for the channel you're navigating to","Переходить в открытую вкладку","Если для канала уже есть вкладка, переключаться на неё"],
+    "createNewTabIfNotExists": ["Create a new tab if one doesn't exist for the channel you're navigating to","Создавать вкладку","Создавать новую вкладку, если для канала её нет"],
+    "enableRapidNavigation": ["Enable rapid navigation behavior - quickly navigating between channels will replace the current tab instead of creating new ones","Быстрая навигация","При быстром переходе между каналами заменять текущую вкладку, а не создавать новые"],
+    "rapidNavigationThreshold": ["Time window (in seconds) for rapid navigation. Within this time, new channels replace the current tab instead of creating new ones.","Окно быстрой навигации","Сколько секунд после перехода новые каналы заменяют текущую вкладку"],
+    "tabBarPosition": ["Where to show the tab bar.","Где панель вкладок","Где показывать панель вкладок",{"Top":"Сверху","Bottom":"Снизу"}],
+    "enableNumberKeySwitching": ["Enable number keys (1-9) to switch tabs","Переключение цифрами","Переключать вкладки клавишами 1–9"],
+    "numberKeySwitchCount": ["Number of tabs accessible via number keys (1-9)","Сколько вкладок на цифрах","Сколько вкладок доступно по клавишам 1–9"],
+    "enableCloseTabShortcut": ["Enable close tab keyboard shortcut","Закрытие вкладки клавишами","Сочетание клавиш для закрытия вкладки"],
+    "enableNewTabShortcut": ["Enable new tab keyboard shortcut","Новая вкладка клавишами","Сочетание клавиш для новой вкладки"],
+    "enableTabCycleShortcut": ["Enable tab cycling keyboard shortcut","Перебор вкладок клавишами","Сочетание клавиш для перебора вкладок"],
+    "showTabNumbers": ["Show numbered badges on tabs to indicate keyboard shortcuts","Номера на вкладках","Показывать номера вкладок для сочетаний клавиш"],
+    "tabNumberPosition": ["Where to display the numbered badge on tabs","Где номер","Где показывать номер на вкладке",{"Left side (before icon)":"Слева (перед иконкой)","Right side (after content)":"Справа (после текста)"}],
+    "compactAutoExpandSelected": ["Automatically expand compact tabs when selected to show the full channel name","Раскрывать выбранную","Раскрывать компактную вкладку, когда она выбрана, чтобы видеть название канала целиком"],
+    "compactAutoExpandOnHover": ["Automatically expand compact tabs on hover to show the full channel name","Раскрывать при наведении","Раскрывать компактную вкладку при наведении"],
+    "openInNewTabAutoSwitch": ["Automatically switch to new tabs opened from 'Open in New Tab' context menu","Переходить в новую вкладку","Сразу переключаться на вкладку, открытую через «Открыть в новой вкладке»"],
+    "bookmarksIndependentFromTabs": ["Bookmarks navigate independently without affecting the active tabs bar","Закладки отдельно","Переход по закладке не меняет панель вкладок"],
+    "showResizeHandle": ["Show resize handle when hovering over tabs to adjust tab width","Ручка ширины","Показывать при наведении ручку для изменения ширины вкладок"],
+    "openNewTabsInCompactMode": ["Open all newly created tabs in compact mode by default","Новые вкладки компактными","Открывать новые вкладки в компактном виде"],
+    "newTabButtonBehavior": ["New tab (+) button follows tabs instead of staying pinned to the right","Кнопка «+» за вкладками","Кнопка новой вкладки идёт следом за вкладками, а не прижата вправо"],
+    "oneTabPerServer": ["Limit to one tab per server, so opening a new channel in that server will use the existing tab.","Одна вкладка на сервер","Новый канал того же сервера открывается в его существующей вкладке"],
+    "maxOpenTabs": ["Maximum number of open tabs (0 = unlimited)","Максимум вкладок","Сколько вкладок можно открыть (0 — без ограничения)"]
+  },
+  "CharacterCounter": {
+    "colorEffects": ["Enable yellow/red colouring as you get closer to the character limit","Цветные предупреждения","Жёлтый и красный цвет по мере приближения к лимиту символов"]
+  },
+  "ClientSideBlock": {
+    "hideVc": ["Hide voice channels containing blocked users.","Скрывать голосовые","Скрывать голосовые каналы, где сидят заблокированные"],
+    "usersToBlock": ["User IDs seperated by a comma and a space","Кого скрыть","ID пользователей через запятую и пробел"],
+    "hideBlockedUsers": ["Should blocked users should also be hidden everywhere","Скрывать заблокированных везде","Прятать заблокированных пользователей по всему Discord"],
+    "hideBlockedMessages": ["Should messages from blocked users should be hidden fully (same as the old noblockedmessages plugin)","Полностью скрывать сообщения","Полностью прятать сообщения заблокированных (как старый NoBlockedMessages)"],
+    "hideEmptyRoles": ["Should role headers be hidden if all of their members are blocked","Скрывать пустые роли","Скрывать заголовки ролей, если все их участники заблокированы"],
+    "blockedReplyDisplay": ["What should display instead of the message when someone replies to someone you have hidden","Ответы на скрытых","Что показывать вместо сообщения, когда отвечают скрытому пользователю",{"Display text saying a hidden message was replied to":"Надпись, что ответили на скрытое сообщение","Literally nothing":"Совсем ничего"}],
+    "guildBlackList": ["Guild ids to disable functionality in","Отключить на серверах","ID серверов, где функция не работает"],
+    "guildWhiteList": ["Guild ids to enable functionality in","Включить только на серверах","ID серверов, где функция работает"]
+  },
+  "CommandPalette": {
+    "closeAfterExecute": ["Close the palette after running a command.","Закрывать после команды","Закрывать палитру после выполнения команды"]
+  },
+  "CopyEmojiMarkdown": {
+    "copyUnicode": ["Copy the raw unicode character instead of :name: for default emojis (👽)","Копировать символ","Для стандартных эмодзи копировать сам символ (👽), а не :название:"]
+  },
+  "CrashHandler": {
+    "attemptToPreventCrashes": ["Whether to attempt to prevent Discord crashes.","Предотвращать сбои","Пытаться не дать Discord упасть"],
+    "attemptToNavigateToHome": ["Whether to attempt to navigate to the home when preventing Discord crashes.","Уходить на главную","При спасении от сбоя переходить на главную страницу"]
+  },
+  "CustomIdle": {
+    "idleTimeout": ["Minutes before Discord goes idle (0 to disable auto-idle)","Время до «Неактивен»","Через сколько минут ставить статус «Неактивен» (0 — никогда)"],
+    "remainInIdle": ["When you come back to Discord, remain idle until you confirm you want to go online","Оставаться неактивным","Когда вернётесь, оставаться «Неактивен», пока не подтвердите выход в сеть"]
+  },
+  "CustomUserColors": {
+    "dmList": ["Users with custom colors defined will have their name in the dm list colored","Цвета в списке ЛС","Показывать заданные цвета ников в списке личных сообщений"],
+    "colorInServers": ["If name colors should be changed within servers","Цвета на серверах","Менять цвета ников и на серверах"]
+  },
+  "Dearrow": {
+    "hideButton": ["Hides the Dearrow button from YouTube embeds","Скрыть кнопку","Не показывать кнопку DeArrow у видео YouTube"],
+    "replaceElements": ["Choose which elements of the embed will be replaced","Что заменять","Какие части превью заменять",{"Everything (Titles & Thumbnails)":"Всё (заголовки и превью)","Titles":"Заголовки","Thumbnails":"Превью"}],
+    "dearrowByDefault": ["Dearrow videos automatically","Сразу","Применять DeArrow к видео автоматически"]
+  },
+  "Declutter": {
+    "removeAvatarDecoration": ["Remove avatar decorations. This is/will be disabled if Decor is enabled.","Без украшений аватаров","Убрать украшения аватаров (не работает при включённом Decor)"],
+    "removeNameplate": ["Remove nameplates.","Без табличек имён","Убрать таблички имён"],
+    "removeProfileEffect": ["Remove profile animation effects on open.","Без эффектов профиля","Убрать анимированные эффекты при открытии профиля"],
+    "removeProfileFrame": ["Remove profile frames.","Без рамок профиля","Убрать рамки профиля"],
+    "removeClanTag": ["Remove clan tags.","Без тегов кланов","Убрать теги кланов"],
+    "removeDisplayNameStyles": ["Remove animated/styled display names in the member list.","Без стилей ников","Убрать анимированные и стилизованные ники в списке участников"],
+    "alwaysShowUsername": ["Always show username instead of status.","Всегда имя пользователя","Показывать имя пользователя вместо статуса"],
+    "removeShopAboveDms": ["Remove shops above DMs list.","Без магазина","Убрать «Магазин» над списком ЛС"],
+    "removeQuestsAboveDms": ["Remove quests above DMs list.","Без заданий","Убрать «Задания» над списком ЛС"],
+    "removeLibraryAboveDms": ["Remove library above DMs list.","Без библиотеки","Убрать «Библиотеку» над списком ЛС"],
+    "removeFamilyCenterAboveDms": ["Remove family center above DMs list.","Без семейного центра","Убрать «Семейный центр» над списком ЛС"],
+    "removeServerBoostInfo": ["Remove server boost info above channel list.","Без бустов","Убрать информацию о бустах над списком каналов"],
+    "removeBillingSettings": ["Remove billing settings.","Без оплаты","Убрать раздел оплаты из настроек"],
+    "removeGiftButton": ["Remove gift button.","Без кнопки подарка","Убрать кнопку подарка"],
+    "removeUnavailableEmojiPicker": ["Remove unavailable categories from the emoji picker.","Без недоступных эмодзи","Убрать недоступные категории из выбора эмодзи"],
+    "removeAudioMenus": ["Remove menus next to mute and deafen buttons.","Без меню у микрофона","Убрать меню рядом с кнопками микрофона и звука"],
+    "removeButtonTooltips": ["Remove button tooltips.","Без подсказок","Убрать всплывающие подсказки у кнопок"]
+  },
+  "FakeNitro": {
+    "enableEmojiBypass": ["Allows sending fake emojis (also bypasses missing permission to use custom emojis)","Эмодзи без Nitro","Отправлять эмодзи без Nitro (и без права на чужие эмодзи)"],
+    "emojiSize": ["Size of the emojis when sending","Размер эмодзи","Размер отправляемых эмодзи"],
+    "transformEmojis": ["Whether to transform fake emojis into real ones","Превращать в настоящие","Показывать такие эмодзи как настоящие"],
+    "enableStickerBypass": ["Allows sending fake stickers (also bypasses missing permission to use stickers)","Стикеры без Nitro","Отправлять стикеры без Nitro (и без права на стикеры)"],
+    "stickerSize": ["Size of the stickers when sending","Размер стикеров","Размер отправляемых стикеров"],
+    "transformStickers": ["Whether to transform fake stickers into real ones","Стикеры как настоящие","Показывать такие стикеры как настоящие"],
+    "transformCompoundSentence": ["Whether to transform fake stickers and emojis in compound sentences (sentences with more content than just the fake emoji or sticker link)","В обычном тексте","Превращать эмодзи и стикеры и в сообщениях, где кроме них есть текст"],
+    "enableStreamQualityBypass": ["Allow streaming in nitro quality","Стрим как с Nitro","Стримить в качестве Nitro"],
+    "useStickerHyperLinks": ["Whether to use hyperlinks when sending fake stickers","Стикеры ссылкой-текстом","Отправлять стикеры как текстовую ссылку"],
+    "useEmojiHyperLinks": ["Whether to use hyperlinks when sending fake emojis","Эмодзи ссылкой-текстом","Отправлять эмодзи как текстовую ссылку"],
+    "hyperLinkText": ["What text the hyperlink should use. {{NAME}} will be replaced with the emoji/sticker name.","Текст ссылки","Текст ссылки; {{NAME}} заменится на название эмодзи или стикера"],
+    "disableEmbedPermissionCheck": ["Whether to disable the embed permission check when sending fake emojis and stickers","Без проверки прав на превью","Не проверять право на встраивание ссылок при отправке"]
+  },
+  "FakeProfileThemes": {
+    "nitroFirst": ["Default color source if both are present","Приоритет цветов","Какие цвета показывать, если есть и те, и другие",{"Nitro colors":"Цвета Nitro","Fake colors":"Поддельные цвета"}]
+  },
+  "FavouriteAnything": {
+    "localThumbnails": ["Generate file thumbnails locally instead of using an external service (placeholder.nin0.dev). Not compatible with mobile. Toggling this option will not affect existing favourites.","Превью на компьютере","Делать превью файлов у себя, а не через внешний сервис (placeholder.nin0.dev). Не работает на телефоне; уже добавленное не изменится"]
+  },
+  "FileUpload": {
+    "autoUploadPastedFiles": ["Automatically upload files from clipboard to image host when pasting in chat input.","Загружать вставленное","Файлы из буфера обмена при вставке в поле ввода сразу загружать на файлообменник"]
+  },
+  "FixImagesQuality": {
+    "originalImagesInChat": ["Also load the original image in Chat. WARNING: Read the caveats above","Оригиналы в чате","Грузить оригиналы картинок и в чате. Внимание: см. оговорки выше"]
+  },
+  "FixSpotifyEmbeds": {
+    "volume": ["The volume % to set for spotify embeds. Anything above 10% is veeeery loud","Громкость","Громкость встроенного Spotify в %. Больше 10% — очень громко"]
+  },
+  "FixYoutubeEmbeds": {
+    "youtubeDescription": ["Adds descriptions to youtube video embeds","Описание видео","Добавлять описание к видео YouTube"]
+  },
+  "GameActivityToggle": {
+    "oldIcon": ["Use the old icon style before Discord icon redesign","Старая иконка","Иконка в старом стиле, до редизайна Discord"]
+  },
+  "GlobalBadges": {
+    "showModStyle": ["Mod Style","Показ мода","Показывать ли, из какого мода значок",{"Don't Show Mod":"Не показывать","Show Mod as Prefix":"Мод перед названием","Show Mod as Suffix":"Мод после названия"}],
+    "apiUrl": ["API to use","Адрес API","Какой API использовать"]
+  },
+  "GreetStickerPicker": {
+    "greetMode": ["Choose the greet mode","Режим приветствия","Как отправлять стикер приветствия",{"Greet (you can only greet 3 times)":"Приветствие (не больше 3 раз)","Normal Message (you can greet spam)":"Обычное сообщение (без ограничений)"}]
+  },
+  "HideServers": {
+    "showIndicator": ["Show menu to unhide servers at the bottom of the list","Меню скрытых","Показывать внизу списка меню для возврата скрытых серверов"]
+  },
+  "IgnoreActivities": {
+    "listMode": ["Change the mode of the filter list","Режим списка","Как работает список",{"Whitelist":"Белый список","Blacklist":"Чёрный список"}],
+    "ignorePlaying": ["Ignore all playing activities (These are usually game and RPC activities)","Игры","Скрывать все активности «Играет» (обычно игры и RPC)"],
+    "ignoreStreaming": ["Ignore all streaming activities","Стримы","Скрывать все активности «Стримит»"],
+    "ignoreListening": ["Ignore all listening activities (These are usually Spotify activities)","Музыка","Скрывать все активности «Слушает» (обычно Spotify)"],
+    "ignoreWatching": ["Ignore all watching activities","Просмотр","Скрывать все активности «Смотрит»"],
+    "ignoreCompeting": ["Ignore all competing activities (These are normally special game activities)","Соревнования","Скрывать все активности «Соревнуется» (особые игровые активности)"]
+  },
+  "IgnoreCalls": {
+    "permanentlyIgnoredUsers": ["User IDs (comma + space) who should be permanetly ignored","Всегда игнорировать","ID пользователей (через запятую и пробел), чьи звонки всегда игнорировать"]
+  },
+  "ImageFilename": {
+    "showFullUrl": ["Show the full URL of the image instead of just the file name. Always enabled for GIFs because they usually have no meaningful file name","Полная ссылка","Показывать полную ссылку вместо имени файла (для GIF всегда)"]
+  },
+  "ImageZoom": {
+    "saveZoomValues": ["Whether to save zoom and lens size values","Запоминать зум","Сохранять увеличение и размер лупы"],
+    "invertScroll": ["Invert scroll","Обратная прокрутка","Инвертировать направление колёсика"],
+    "nearestNeighbour": ["Use Nearest Neighbour Interpolation when scaling images","Без сглаживания","Масштабировать «по пикселям» (Nearest Neighbour)"],
+    "square": ["Make the lens square","Квадратная лупа","Сделать лупу квадратной"],
+    "zoom": ["Zoom of the lens","Увеличение","Кратность увеличения лупы"],
+    "size": ["Radius / Size of the lens","Размер лупы","Радиус / размер лупы"],
+    "zoomSpeed": ["How fast the zoom / lens size changes","Скорость","Как быстро меняются увеличение и размер лупы"]
+  },
+  "ImplicitRelationships": {
+    "sortByAffinity": ["Whether to sort implicit relationships by their affinity to you.","По близости","Сортировать неявных друзей по тому, как часто вы общаетесь"]
+  },
+  "IrcColors": {
+    "lightness": ["Lightness, in %. Change if the colors are too light or too dark","Яркость","Яркость цветов в %. Меняйте, если цвета слишком светлые или тёмные"],
+    "memberListColors": ["Replace role colors in the member list","В списке участников","Заменять цвета ролей в списке участников"],
+    "applyColorOnlyToUsersWithoutColor": ["Apply colors only to users who don't have a predefined color","Только без цвета","Раскрашивать только тех, у кого нет своего цвета"],
+    "applyColorOnlyInDms": ["Apply colors only in direct messages; do not apply colors in servers.","Только в ЛС","Раскрашивать только в личных сообщениях, не на серверах"]
+  },
+  "KeyboardLayoutFix": {
+    "autoFix": ["Automatically fix messages that were clearly typed in the English layout instead of Russian (e.g. ghbdtn → привет)","Автоисправление","Сам исправлять сообщения, явно набранные в английской раскладке вместо русской (ghbdtn → привет)"]
+  },
+  "KeywordHighlight": {
+    "keywords": ["Keywords to highlight, separated by commas (e.g. продажа, прокси, мой ник)","Ключевые слова","Слова для подсветки через запятую (например: продажа, прокси, мой ник)"],
+    "includeMyName": ["Also highlight messages that mention your username or display name as plain text","Мой ник тоже","Подсвечивать и сообщения, где упоминают ваш ник или имя простым текстом"],
+    "color": ["Highlight colour (any CSS colour)","Цвет","Цвет подсветки (любой цвет CSS)"],
+    "notify": ["Show a notification when a new message contains one of your keywords (your own name is only highlighted, Discord already notifies about mentions)","Уведомления","Уведомлять о новых сообщениях с вашими словами (ваш ник только подсвечивается — об упоминаниях Discord уведомляет сам)"]
+  },
+  "LoadingQuotes": {
+    "replaceEvents": ["Should this plugin also apply during events with special event themed quotes? (e.g. Halloween)","И во время событий","Заменять фразы и во время событий с особыми фразами (например, Хэллоуин)"],
+    "enablePluginPresetQuotes": ["Enable the quotes preset by this plugin","Фразы плагина","Включить набор фраз от плагина"],
+    "enableDiscordPresetQuotes": ["Enable Discord's preset quotes (including event quotes, during events)","Фразы Discord","Включить фразы Discord (и праздничные во время событий)"],
+    "additionalQuotes": ["Additional custom quotes to possibly appear, separated by the below delimiter","Свои фразы","Свои фразы для экрана загрузки через разделитель ниже"],
+    "additionalQuotesDelimiter": ["Delimiter for additional quotes","Разделитель","Разделитель для своих фраз"]
+  },
+  "MarkdownTables": {
+    "hideToggle": ["Hide the Table/Raw toggle and always show rendered tables.","Без переключателя","Скрыть переключатель «Таблица/Текст» и всегда показывать таблицу"]
+  },
+  "MemberCount": {
+    "toolTip": ["Show member count on the server tooltip","В подсказке сервера","Показывать число участников в подсказке сервера"],
+    "memberList": ["Show member count in the member list","В списке участников","Показывать число участников в списке участников"],
+    "voiceActivity": ["Show voice activity with member count in the member list","Голосовые","Показывать и число людей в голосовых каналах"]
+  },
+  "MentionAvatars": {
+    "showAtSymbol": ["Whether the the @ symbol should be displayed on user mentions","Показывать @","Показывать символ @ в упоминаниях пользователей"]
+  },
+  "MessageClickActions": {
+    "singleClickAction": ["Action on single click (your messages)","Одиночный клик (свои)","Действие по клику на свои сообщения",{"None":"Ничего","Delete":"Удалить","Copy Link":"Скопировать ссылку","Copy ID":"Скопировать ID","Copy Content":"Скопировать текст","Copy User ID":"Скопировать ID автора","Edit":"Изменить","Reply":"Ответить","React":"Реакция","Open Thread":"Открыть ветку","Open Tab":"Открыть вкладку"}],
+    "singleClickModifier": ["Modifier required for single click action (your messages)","Клавиша для клика (свои)","Какую клавишу держать для действия по клику на свои сообщения",{"None":"Никакую"}],
+    "singleClickOthersAction": ["Action on single click (others' messages)","Одиночный клик (чужие)","Действие по клику на чужие сообщения",{"None":"Ничего","Delete":"Удалить","Copy Link":"Скопировать ссылку","Copy ID":"Скопировать ID","Copy Content":"Скопировать текст","Copy User ID":"Скопировать ID автора","Edit":"Изменить","Reply":"Ответить","React":"Реакция","Open Thread":"Открыть ветку","Open Tab":"Открыть вкладку"}],
+    "singleClickOthersModifier": ["Modifier required for single click action (others' messages)","Клавиша для клика (чужие)","Какую клавишу держать для действия по клику на чужие сообщения",{"None":"Никакую"}],
+    "doubleClickAction": ["Action on double-click (your messages)","Двойной клик (свои)","Действие по двойному клику на свои сообщения",{"None":"Ничего","Delete":"Удалить","Reply":"Ответить","Edit":"Изменить","Quote":"Процитировать","Copy Content":"Скопировать текст","Copy Link":"Скопировать ссылку","Copy ID":"Скопировать ID","Copy User ID":"Скопировать ID автора","React":"Реакция","Pin":"Закрепить"}],
+    "doubleClickOthersAction": ["Action on double-click (others' messages)","Двойной клик (чужие)","Действие по двойному клику на чужие сообщения",{"None":"Ничего","Delete":"Удалить","Reply":"Ответить","Quote":"Процитировать","Copy Content":"Скопировать текст","Copy Link":"Скопировать ссылку","Copy ID":"Скопировать ID","Copy User ID":"Скопировать ID автора","React":"Реакция","Pin":"Закрепить"}],
+    "doubleClickModifier": ["Modifier required for double-click action","Клавиша для двойного клика","Какую клавишу держать для действия по двойному клику",{"None":"Никакую"}],
+    "tripleClickAction": ["Action on triple-click","Тройной клик","Действие по тройному клику",{"None":"Ничего","Delete":"Удалить","Copy Link":"Скопировать ссылку","Copy ID":"Скопировать ID","Copy Content":"Скопировать текст","Copy User ID":"Скопировать ID автора","Edit":"Изменить","Reply":"Ответить","React":"Реакция","Open Thread":"Открыть ветку","Open Tab":"Открыть вкладку"}],
+    "tripleClickModifier": ["Modifier required for triple-click action","Клавиша для тройного клика","Какую клавишу держать для действия по тройному клику",{"None":"Никакую"}],
+    "addAdditionalReacts": ["Also add additional configured reaction emojis","Доп. реакции","Ставить и дополнительные настроенные реакции"],
+    "disableInDms": ["Disable all click actions in direct messages","Не в ЛС","Отключить все действия по клику в личных сообщениях"],
+    "disableInSystemDms": ["Disable all click actions in system DMs","Не в системных ЛС","Отключить действия по клику в системных сообщениях"],
+    "clickTimeout": ["Timeout to distinguish double/triple clicks (ms)","Пауза между кликами","Сколько мс ждать, чтобы отличить двойной и тройной клик"],
+    "doubleClickHoldThreshold": ["Max hold time for double-click actions (ms). Holding longer allows text selection","Удержание при двойном клике","Максимальное удержание для двойного клика (мс). Дольше — можно выделять текст"],
+    "deferDoubleClickForTriple": ["Delay double-click to allow triple-click actions (disables triple-click when off)","Ждать тройного клика","Откладывать двойной клик, чтобы успеть сделать тройной (без этого тройной клик не работает)"],
+    "selectionHoldTimeout": ["Timeout to allow text selection (ms)","Время для выделения","Сколько мс удерживать, чтобы выделять текст"],
+    "quoteWithReply": ["When quoting, also reply to the message","Цитата с ответом","При цитировании ещё и отвечать на сообщение"],
+    "useSelectionForQuote": ["When quoting, use selected text if available","Цитировать выделенное","При цитировании брать выделенный текст, если он есть"]
+  },
+  "MessageLatency": {
+    "latency": ["Threshold in seconds for latency indicator","Порог задержки","Через сколько секунд задержки показывать значок"],
+    "detectDiscordKotlin": ["Detect old Discord Android clients","Старые клиенты Android","Определять старые клиенты Discord для Android"],
+    "showMillis": ["Show milliseconds","Миллисекунды","Показывать миллисекунды"],
+    "ignoreSelf": ["Don't add indicator to your own messages","Кроме своих","Не отмечать ваши собственные сообщения"]
+  },
+  "MessageLinkEmbeds": {
+    "messageBackgroundColor": ["Background color for messages in rich embeds","Цвет фона","Цвет фона у превью сообщений"],
+    "automodEmbeds": ["Use automod embeds instead of rich embeds (smaller but less info)","Вид превью","Какие превью использовать",{"Always use automod embeds":"Всегда компактные","Prefer automod embeds, but use rich embeds if some content can't be shown":"Компактные, но полные, если иначе что-то не видно","Never use automod embeds":"Всегда полные"}],
+    "listMode": ["Whether to use ID list as blacklist or whitelist","Режим списка","Список ID — чёрный или белый",{"Blacklist":"Чёрный список","Whitelist":"Белый список"}],
+    "idList": ["Guild/channel/user IDs to blacklist or whitelist (separate with comma)","Список ID","ID серверов, каналов или людей через запятую"]
+  },
+  "MessageLinkTooltip": {
+    "onLink": ["Show tooltip when hovering over message links","На ссылках","Показывать подсказку при наведении на ссылки на сообщения"],
+    "onReply": ["Show tooltip when hovering over message replies","На ответах","Показывать подсказку при наведении на ответы"],
+    "onForward": ["Show tooltip when hovering over forwarded messages","На пересылках","Показывать подсказку при наведении на пересланные сообщения"],
+    "display": ["Display style","Вид","Стиль отображения",{"Same as message":"Как у сообщений","Compact":"Компактный","Cozy":"Обычный"}]
+  },
+  "MessageLogger": {
+    "deleteStyle": ["The style of deleted messages","Вид удалённых","Как показывать удалённые сообщения",{"Red text":"Красный текст","Red overlay":"Красная подложка"}],
+    "logDeletes": ["Whether to log deleted messages","Удалённые","Сохранять удалённые сообщения"],
+    "collapseDeleted": ["Whether to collapse deleted messages, similar to blocked messages","Сворачивать удалённые","Сворачивать удалённые сообщения, как сообщения заблокированных"],
+    "logEdits": ["Whether to log edited messages","Изменённые","Сохранять изменённые сообщения"],
+    "logDeletedAttachments": ["Whether to log deleted attachments","Удалённые вложения","Сохранять удалённые вложения"],
+    "inlineEdits": ["Whether to display edit history as part of message content","История правок в тексте","Показывать историю правок прямо в сообщении"],
+    "ignoreBots": ["Whether to ignore messages by bots","Кроме ботов","Не сохранять сообщения ботов"],
+    "ignoreSelf": ["Whether to ignore messages by yourself","Кроме своих","Не сохранять ваши сообщения"],
+    "ignoreSelfEdits": ["Whether to ignore edits by yourself","Кроме своих правок","Не сохранять ваши правки"],
+    "ignoreUsers": ["Comma-separated list of user IDs to ignore","Игнорировать людей","ID пользователей через запятую"],
+    "ignoreChannels": ["Comma-separated list of channel IDs to ignore","Игнорировать каналы","ID каналов через запятую"],
+    "ignoreGuilds": ["Comma-separated list of guild IDs to ignore","Игнорировать серверы","ID серверов через запятую"],
+    "showEditDiffs": ["Show visual differences between edited message versions","Показывать разницу","Выделять, что изменилось между версиями сообщения"],
+    "separatedDiffs": ["Separate addition and removals in diffs for a more readable differential","Раздельная разница","Показывать добавленное и удалённое отдельно, так читается проще"]
+  },
+  "MessageLoggerEnhanced": {
+    "saveMessages": ["Whether to save the deleted and edited messages.","Сохранять сообщения","Сохранять удалённые и изменённые сообщения"],
+    "saveImages": ["Save deleted attachments.","Сохранять вложения","Сохранять удалённые вложения"],
+    "sortNewest": ["Sort logs by newest.","Сначала новые","Сортировать журнал от новых к старым"],
+    "cacheMessagesFromServers": ["Usually message logger only logs from whitelisted ids and dms, enabling this would mean it would log messages from all servers as well. Note that this may cause the cache to exceed its limit, resulting in some messages being missed. If you are in a lot of servers, this may significantly increase the chances of messages being logged, which can result in a large message record and the inclusion of irrelevant messages.","Все серверы","Обычно сохраняются только ЛС и белый список. Включите, чтобы сохранять со всех серверов. Кэш может переполняться, часть сообщений потеряется, а журнал сильно разрастётся, если серверов много"],
+    "ignoreBots": ["Whether to ignore messages by bots","Кроме ботов","Не сохранять сообщения ботов"],
+    "ignoreWebhooks": ["Whether to ignore messages by webhooks","Кроме вебхуков","Не сохранять сообщения вебхуков"],
+    "ignoreSelf": ["Whether to ignore messages by yourself","Кроме своих","Не сохранять ваши сообщения"],
+    "ignoreMutedGuilds": ["Messages in muted guilds will not be logged. Whitelisted users/channels in muted guilds will still be logged.","Кроме заглушённых серверов","Не сохранять сообщения с заглушённых серверов (белый список всё равно сохраняется)"],
+    "ignoreMutedCategories": ["Messages in channels belonging to muted categories will not be logged. Whitelisted users/channels in muted guilds will still be logged.","Кроме заглушённых категорий","Не сохранять сообщения из заглушённых категорий (белый список всё равно сохраняется)"],
+    "ignoreMutedChannels": ["Messages in muted channels will not be logged. Whitelisted users/channels in muted guilds will still be logged.","Кроме заглушённых каналов","Не сохранять сообщения из заглушённых каналов (белый список всё равно сохраняется)"],
+    "alwaysLogDirectMessages": ["Always log DMs","Всегда ЛС","Всегда сохранять личные сообщения"],
+    "alwaysLogCurrentChannel": ["Always log current selected channel. Blacklisted channels/users will still be ignored.","Всегда текущий канал","Всегда сохранять открытый канал (кроме чёрного списка)"],
+    "permanentlyRemoveLogByDefault": ["Vencord's base MessageLogger remove log button wiil delete logs permanently","Удалять насовсем","Кнопка удаления записи в обычном MessageLogger от Vencord удаляет запись навсегда"],
+    "hideMessageFromMessageLoggers": ["When enabled, a context menu button will be added to messages to allow you to delete messages without them being logged by other loggers. Might not be safe, use at your own risk.","Скрытие от логгеров","Пункт меню, чтобы удалить сообщение так, что его не сохранят чужие логгеры. Может быть небезопасно — на свой риск"],
+    "ShowLogsButton": ["Toggle to whenever show the toolbox or not","Кнопка журнала","Показывать кнопку журнала в тулбоксе"],
+    "ShowWhereMessageIsFrom": ["Show message channel/author name and server name","Откуда сообщение","Показывать канал, автора и сервер сообщения"],
+    "messagesToDisplayAtOnceInLogs": ["Number of messages to display at once in logs & number of messages to load when loading more messages in logs.","Сообщений за раз","Сколько сообщений показывать и подгружать в журнале за раз"],
+    "hideMessageFromMessageLoggersDeletedMessage": ["The message content to replace the message with when using the hide message from message loggers feature.","Текст-замена","Каким текстом заменить сообщение при скрытии от логгеров"],
+    "messageLimit": ["Maximum number of messages to save. Older messages are deleted when the limit is reached. 0 means there is no limit","Лимит сообщений","Сколько сообщений хранить; старые удаляются (0 — без ограничения)"],
+    "attachmentSizeLimitInMegabytes": ["Maximum size of an attachment in megabytes to save. Attachments larger than this size will not be saved.","Лимит размера вложения","Максимальный размер сохраняемого вложения в МБ"],
+    "attachmentFileExtensions": ["Comma separated list of file extensions to save. Attachments with file extensions not in this list will not be saved.","Типы файлов","Расширения файлов через запятую; другие не сохраняются"],
+    "cacheLimit": ["Maximum number of messages to store in the cache. Older messages are deleted when the limit is reached. This helps reduce memory usage and improve performance. 0 means there is no limit","Лимит кэша","Сколько сообщений держать в кэше; меньше — меньше памяти (0 — без ограничения)"],
+    "timeBasedCleanupMinutes": ["Automatically remove messages from servers that are older than this many minutes. Set to 0 to disable time-based cleanup.","Очистка по времени","Удалять сообщения с серверов старше стольких минут (0 — не удалять)"],
+    "preserveCurrentChannel": ["When enabled, messages in your currently selected channel are not affected by time-based cleanup.","Не чистить текущий канал","Очистка по времени не трогает открытый канал"],
+    "whitelistedIds": ["Whitelisted server, channel, or user IDs.","Белый список","ID серверов, каналов или людей"],
+    "blacklistedIds": ["Blacklisted server, channel, or user IDs.","Чёрный список","ID серверов, каналов или людей"],
+    "clearLogsOnRestart": ["Clear logs when Discord restarts.","Очищать при перезапуске","Очищать журнал при перезапуске Discord"]
+  },
+  "MessagePeek": {
+    "hideMuted": ["Hide message previews and timestamps for muted DMs and group chats.","Скрывать у заглушённых","Не показывать превью и время у заглушённых ЛС и групп"]
+  },
+  "MessageTranslate": {
+    "targetLanguage": ["Target language code for translations (e.g. en, es, fr, de, ja).","Язык перевода","Код языка, на который переводить (например: ru, en, de)"],
+    "excludedLanguages": ["Language codes to exclude from translation (e.g. en, es, fr, de, ja).","Не переводить с языков","Коды языков, которые не нужно переводить (например: ru, uk)"],
+    "confidenceRequirement": ["Minimum confidence (0 to 1) required to show a translation.","Минимальная уверенность","Насколько сервис должен быть уверен в языке (от 0 до 1), чтобы показать перевод"],
+    "autoTranslate": ["Automatically translate messages as they appear.","Автоперевод","Переводить сообщения сразу при появлении"],
+    "skipOwnMessages": ["Do not translate your own messages.","Кроме своих","Не переводить ваши сообщения"],
+    "skipBotMessages": ["Do not translate bot messages.","Кроме ботов","Не переводить сообщения ботов"],
+    "ignoredGuilds": ["Comma-separated list of server IDs to not translate in.","Не на серверах","ID серверов через запятую, где не переводить"],
+    "ignoredChannels": ["Comma-separated list of channel IDs to not translate in.","Не в каналах","ID каналов через запятую, где не переводить"],
+    "ignoredUsers": ["Comma-separated list of user IDs to not translate.","Не от людей","ID пользователей через запятую, которых не переводить"],
+    "showIndicator": ["Append a small (translated) indicator to translated messages.","Пометка «переведено»","Добавлять маленькую пометку к переведённым сообщениям"],
+    "showOriginal": ["Show the original and translated text.","Показывать оригинал","Показывать исходный и переведённый текст",{"Don't show original.":"Не показывать оригинал","Show original in subtext":"Оригинал мелким текстом","Show original message, translation in subtext":"Оригинал, перевод мелким текстом"}]
+  },
+  "MoreQuickReactions": {
+    "reactionCount": ["Number of reactions (0-42)","Число реакций","Сколько реакций показывать (0–42)"],
+    "frequentEmojis": ["Use frequently used emojis instead of favourite emojis","Частые эмодзи","Брать часто используемые эмодзи вместо избранных"],
+    "rows": ["Rows of quick reactions to display","Строк","Сколько строк быстрых реакций"],
+    "columns": ["Columns of quick reactions to display","Столбцов","Сколько столбцов быстрых реакций"],
+    "compactMode": ["Scales the buttons to 75% of their original scale, whilst increasing the inner emoji to 125% scale. Emojis will be 93.75% of the original size. Recommended to have a minimum of 5 columns","Компактно","Кнопки 75% размера, эмодзи внутри крупнее. Лучше от 5 столбцов"],
+    "scroll": ["Enable scrolling the list of emojis","Прокрутка","Прокручивать список эмодзи"]
+  },
+  "MusicControls": {
+    "hoverControls": ["Show controls on hover","Кнопки при наведении","Показывать управление при наведении"],
+    "showMusicNoteOnNoLyrics": ["Show a music note icon when no lyrics are found","Нота без текста","Показывать ноту, если текст песни не найден"],
+    "lyricsPosition": ["Position of the lyrics","Где текст песни","Где показывать текст песни",{"Above Player(s)":"Над плеером","Below  Player(s)":"Под плеером"}],
+    "translateTo": ["Translate lyrics to - Changing this will clear existing translations","Переводить текст на","Язык перевода текста песен (при смене переводы сбросятся)",{"Detect language":"Определить язык","Russian":"Русский","English":"Английский","Ukrainian":"Украинский"}],
+    "lyricsConversion": ["Automatically translate or romanize lyrics","Обработка текста","Сам переводить или транслитерировать текст песен",{"None":"Ничего","Translate":"Переводить","Romanize":"Транслитерировать"}],
+    "fallbackProvider": ["When a lyrics provider fails, try other providers","Запасные источники","Если источник текстов не ответил, пробовать другие"],
+    "showFailedToasts": ["Hide toasts when lyrics fail to fetch","Уведомления об ошибках","Скрывать уведомления, когда текст не загрузился"],
+    "showSpotifyControls": ["Show Spotify Controls","Управление Spotify","Показывать управление Spotify"],
+    "showSpotifyLyrics": ["Show Spotify Lyrics","Тексты Spotify","Показывать тексты песен Spotify"],
+    "useSpotifyUris": ["Open Spotify URIs instead of Spotify URLs. Will only work if you have Spotify installed and might not work on all platforms","Открывать в приложении","Открывать Spotify-ссылки в приложении Spotify (нужно установленное приложение)"],
+    "previousButtonRestartsTrack": ["Restart currently playing track when pressing the previous button if playtime is >3s","«Назад» с начала","Кнопка «Назад» перезапускает трек, если он играет больше 3 секунд"],
+    "showTidalControls": ["Show Tidal Player","Плеер Tidal","Показывать плеер Tidal"],
+    "showTidalLyrics": ["Show Tidal Controls","Управление Tidal","Показывать управление Tidal"],
+    "websocketURL": ["Default is ws://localhost:24123","Адрес WebSocket","По умолчанию ws://localhost:24123"]
+  },
+  "MusicRichPresence": {
+    "scrobblerBackend": ["The scrobbler backend to use.","Сервис","Какой сервис скробблинга использовать",{"ListenBrainz Compatible (self-hosted)":"Совместимый с ListenBrainz (свой сервер)"}],
+    "username": ["Username","Имя пользователя","Ваше имя пользователя в сервисе"],
+    "shareUsername": ["Show link to scrobbler profile","Ссылка на профиль","Показывать ссылку на профиль в сервисе"],
+    "clickableLinks": ["Make track, artist and album names clickable links","Кликабельные ссылки","Названия трека, исполнителя и альбома — ссылки"],
+    "hideWithSpotify": ["Hide presence if Spotify is running","Скрывать при Spotify","Не показывать, если запущен Spotify"],
+    "hideWithActivity": ["Hide presence if you have any other presence","Скрывать при другой активности","Не показывать, если у вас уже есть другая активность"],
+    "statusName": ["Custom status text. You can use the following variables: {artist} | {album} | {title}","Текст статуса","Свой текст статуса. Можно использовать {artist}, {album}, {title}"],
+    "statusDisplayType": ["Show the track / artist name in the member list","В списке участников","Что показывать в списке участников",{"Don't show (shows generic listening message)":"Ничего (просто «Слушает»)","Show artist name":"Исполнителя","Show track name":"Название трека"}],
+    "nameFormat": ["Show name of song and artist in status name","Формат названия","Как показывать песню и исполнителя в статусе",{"Use custom status name":"Свой текст статуса","Use music service name (falls back to custom status text)":"Название сервиса (или свой текст)","Use format 'artist - song'":"«исполнитель — песня»","Use format 'song - artist'":"«песня — исполнитель»","Use artist name only":"Только исполнитель","Use song name only":"Только песня","Use album name (falls back to custom status text if song has no album)":"Название альбома (или свой текст)"}],
+    "useListeningStatus": ["Show \"Listening to\" status instead of \"Playing\"","«Слушает»","Показывать статус «Слушает» вместо «Играет»"],
+    "missingArt": ["When album or album art is missing","Без обложки","Что показывать, если нет обложки",{"Use large scrobbler logo":"Большой логотип сервиса","Use generic placeholder":"Заглушку"}],
+    "showLogo": ["Show the scrobbler service logo by the album cover","Логотип сервиса","Показывать логотип сервиса у обложки"],
+    "showAlbumCover": ["Show album cover. Disabling this will display a placeholder. Useful if your music has inappropriate art","Обложка альбома","Показывать обложку. Если выключить, будет заглушка — полезно при неприличных обложках"]
+  },
+  "NewGuildSettings": {
+    "guild": ["Mute Guild automatically","Заглушать сервер","Сам заглушать новые серверы"],
+    "messages": ["Server Notification Settings","Уведомления сервера","Какие уведомления получать с нового сервера",{"All messages":"Все сообщения","Only @mentions":"Только @упоминания","Nothing":"Ничего","Server default":"Как на сервере"}],
+    "everyone": ["Suppress @everyone and @here","Без @everyone","Глушить @everyone и @here"],
+    "role": ["Suppress All Role @mentions","Без упоминаний ролей","Глушить все @упоминания ролей"],
+    "highlights": ["Suppress Highlights automatically","Без подборок","Сам глушить подборки (Highlights)"],
+    "events": ["Mute New Events automatically","Без событий","Сам глушить новые события"],
+    "showAllChannels": ["Show all channels automatically","Все каналы","Сам показывать все каналы"],
+    "mobilePush": ["Mute Mobile Push Notifications automatically","Без пушей","Сам глушить пуш-уведомления на телефоне"],
+    "voiceChannels": ["Hide names in Voice channels automatically","Скрывать имена в голосовых","Сам скрывать имена в голосовых каналах"]
+  },
+  "Nightcord": {
+    "palette": ["When to apply the Nightcord theme","Когда применять тему","Когда включать тему Nightcord",{"Only when no other theme is enabled":"Только если нет другой темы","Always (on top of other themes)":"Всегда (поверх других тем)","Never":"Никогда"}],
+    "preset": ["Colour palette","Палитра","Цветовая палитра"],
+    "accentColor": ["Accent colour (any CSS colour, e.g. #8b5cf6). Leave empty to use the palette's own accent","Акцентный цвет","Любой цвет CSS, например #8b5cf6. Пусто — акцент палитры"],
+    "rounded": ["Rounder corners on buttons, cards and popups","Скругления","Более круглые углы у кнопок, карточек и окон"],
+    "font": ["Font (loaded from Google Fonts)","Шрифт","Шрифт (загружается из Google Fonts)"]
+  },
+  "NightcordCheck": {
+    "notifyAfterUpdate": ["Show a notification when plugins break after a Discord update","Уведомлять о поломках","Уведомлять, если после обновления Discord сломались плагины"],
+    "verboseLogs": ["Detailed Nightcord logs in the console (DevTools). Off: only warnings and errors are printed","Подробные логи","Подробные логи Nightcord в консоли (DevTools). Выкл.: только предупреждения и ошибки"]
+  },
+  "NightSchedule": {
+    "startHour": ["Night starts at (hour)","Начало ночи","Во сколько начинается ночь (час)"],
+    "endHour": ["Night ends at (hour)","Конец ночи","Во сколько заканчивается ночь (час)"],
+    "strength": ["How much to dim and warm the screen at night (0 = off)","Сила","Насколько приглушать и «утеплять» экран ночью (0 — выкл.)"]
+  },
+  "NoBlockedMessages": {
+    "alsoHideIgnoredUsers": ["Also hide messages from ignored users.","И игнорируемых","Скрывать и сообщения игнорируемых пользователей"],
+    "disableNotifications": ["Hide new message notifications for blocked users. Always true if \"Default Hide Users\" is enabled below and the user triggering the notification is not exempted in \"Override Users\".","Без уведомлений","Не уведомлять о сообщениях заблокированных. Всегда включено, если ниже включено «скрывать по умолчанию» и автор не в списке исключений"],
+    "allowAutoModMessages": ["Allow messages sent by AutoMod to bypass filtering.","Сообщения AutoMod","Не фильтровать сообщения, отправленные AutoMod"],
+    "hideBlockedUserReplies": ["Hide replies to blocked users.","Ответы заблокированным","Скрывать ответы на сообщения заблокированных"],
+    "defaultHideUsers": ["If enabled, messages from blocked users will be completely hidden and any messages from user IDs in the override list will be collapsed (default Discord behavior) instead. If disabled, messages from blocked users will be collapsed and any messages from user IDs in the override list will be completely hidden instead.","Скрывать по умолчанию","Вкл.: сообщения заблокированных полностью скрыты, а пользователи из списка ниже только свёрнуты. Выкл.: наоборот"],
+    "overrideUsers": ["Comma separated list of user IDs which will be hidden or collapsed instead of the default behavior selected above.","Исключения","ID пользователей через запятую, для которых поведение обратное"]
+  },
+  "NoMosaic": {
+    "inlineVideo": ["Play videos without carousel modal","Видео в чате","Проигрывать видео прямо в чате, без окна-карусели"]
+  },
+  "NoPendingCount": {
+    "hideFriendRequestsCount": ["Hide incoming friend requests count","Заявки в друзья","Скрыть счётчик заявок в друзья"],
+    "hideMessageRequestsCount": ["Hide message requests count","Запросы сообщений","Скрыть счётчик запросов на переписку"],
+    "hidePremiumOffersCount": ["Hide nitro offers count","Предложения Nitro","Скрыть счётчик предложений Nitro"]
+  },
+  "NoReplyMention": {
+    "userList": ["List of user ids to allow or exempt pings for (separated by commas or spaces)","Список людей","ID пользователей через запятую или пробел"],
+    "roleList": ["List of role ids to allow or exempt pings for (separated by commas or spaces)","Список ролей","ID ролей через запятую или пробел"],
+    "shouldPingListed": ["Behaviour","Поведение","Как работать со списком",{"Do not ping the listed users / roles":"Не упоминать тех, кто в списке","Only ping the listed users / roles":"Упоминать только тех, кто в списке"}],
+    "inverseShiftReply": ["Invert Discord's shift replying behaviour (enable to make shift reply mention user)","Обратный Shift","Ответ с Shift упоминает пользователя (наоборот, чем в Discord)"]
+  },
+  "NoServerEmojis": {
+    "shownEmojis": ["The types of emojis to show in the autocomplete menu.","Какие эмодзи показывать","Какие эмодзи показывать в автодополнении",{"Only unicode emojis":"Только стандартные","Unicode emojis and server emojis from current server":"Стандартные и с текущего сервера","Unicode emojis and all server emojis (Discord default)":"Стандартные и со всех серверов (как в Discord)"}]
+  },
+  "NotificationVolume": {
+    "notificationVolume": ["Notification volume","Громкость уведомлений","Громкость уведомлений"]
+  },
+  "NoTrack": {
+    "disableAnalytics": ["Disable Discord's tracking (analytics/'science')","Без аналитики","Отключить слежку Discord (аналитику)"],
+    "disableStackDumping": ["Print a native stack trace to the console when Discord crashes. Requires full restart.","Трассировка при сбое","Печатать трассировку в консоль при падении Discord. Нужен полный перезапуск"]
+  },
+  "OnePingPerDM": {
+    "channelToAffect": ["Select the type of DM for the plugin to affect","Какие ЛС","На какие личные сообщения действует плагин",{"Both":"Все","User DMs":"Личные","Group DMs":"Групповые"}],
+    "allowMentions": ["Receive audio pings for @mentions","Звук при @упоминаниях","Всегда звук при @упоминаниях"],
+    "allowEveryone": ["Receive audio pings for @everyone and @here in group DMs","Звук при @everyone","Всегда звук при @everyone и @here в группах"],
+    "ignoreUsers": ["User IDs (comma + space) whose pings should NEVER be throttled","Без ограничения для","ID пользователей (через запятую и пробел), чьи уведомления не ограничивать"],
+    "alwaysPlaySound": ["Play the message notification sound even when its disabled","Всегда звук","Играть звук уведомления, даже если он отключён"]
+  },
+  "OpenInApp": {
+    "spotify": ["Open Spotify links in the Spotify app","Spotify","Открывать ссылки Spotify в приложении Spotify"],
+    "steam": ["Open Steam links in the Steam app","Steam","Открывать ссылки Steam в приложении Steam"],
+    "epic": ["Open Epic Games links in the Epic Games Launcher","Epic Games","Открывать ссылки Epic Games в лаунчере Epic Games"],
+    "tidal": ["Open Tidal links in the Tidal app","Tidal","Открывать ссылки Tidal в приложении Tidal"],
+    "itunes": ["Open Apple Music links in the iTunes app","iTunes","Открывать ссылки Apple Music в iTunes"],
+    "vrcx": ["Open VRChat links in the VRCX app","VRCX","Открывать ссылки VRChat в приложении VRCX"],
+    "telegram": ["Open Telegram links in the Telegram app","Telegram","Открывать ссылки Telegram в приложении Telegram"]
+  },
+  "OverrideForumDefaults": {
+    "defaultLayout": ["Which layout to use as default","Вид по умолчанию","Какой вид форумов использовать по умолчанию",{"List":"Список","Gallery":"Галерея"}],
+    "defaultSortOrder": ["Which sort order to use as default","Сортировка по умолчанию","Какую сортировку использовать по умолчанию",{"Recently Active":"Недавно активные","Date Posted":"Дата публикации"}]
+  },
+  "PermissionFreeWill": {
+    "lockout": ["Bypass the permission lockout prevention (\"Pretty sure you don't want to do this\")","Без защиты от блокировки","Отключить защиту «Вы точно не хотите этого делать» при изменении прав"],
+    "onboarding": ["Bypass the onboarding requirements (\"Making this change will make your server incompatible [...]\")","Без требований знакомства","Отключить требования знакомства с сервером («Изменение сделает сервер несовместимым…»)"]
+  },
+  "PermissionsViewer": {
+    "permissionsSortOrder": ["The sort method used for defining which role grants an user a certain permission","Сортировка","Какая роль считается источником права",{"Highest Role":"Самая высокая","Lowest Role":"Самая низкая"}]
+  },
+  "PictureInPicture": {
+    "loop": ["Whether to make the PiP video loop or not","Повтор","Зацикливать видео в режиме «картинка в картинке»"]
+  },
+  "PinDMs": {
+    "pinOrder": ["Which order should pinned DMs be displayed in?","Порядок закреплённых","В каком порядке показывать закреплённые ЛС",{"Most recent message":"По последнему сообщению","Custom (right click channels to reorder)":"Свой (ПКМ по ЛС, чтобы менять)"}],
+    "canCollapseDmSection": ["Allow uncategorised DMs section to be collapsable","Сворачивать раздел ЛС","Разрешить сворачивать раздел незакреплённых ЛС"]
+  },
+  "PlatformIndicators": {
+    "list": ["Show indicators in the member list","В списке участников","Показывать значки в списке участников"],
+    "profiles": ["Show indicators in user profiles","В профилях","Показывать значки в профилях"],
+    "messages": ["Show indicators inside messages","В сообщениях","Показывать значки в сообщениях"],
+    "colorMobileIndicator": ["Whether to make the mobile indicator match the color of the user status.","Цвет телефона","Красить значок телефона в цвет статуса"],
+    "showBots": ["Whether to show platform indicators on bots","У ботов","Показывать значки и у ботов"],
+    "ConsoleIcon": ["What console icon to use","Иконка консоли","Какую иконку показывать для консолей"]
+  },
+  "QuickReply": {
+    "shouldMention": ["Ping reply by default","Упоминание при ответе","Упоминать ли автора при ответе с клавиатуры",{"Follow NoReplyMention plugin (if enabled)":"Как в плагине NoReplyMention (если включён)","Enabled":"Да","Disabled":"Нет"}],
+    "ignoreBlockedAndIgnored": ["Ignore messages by blocked/ignored users when navigating","Пропускать заблокированных","Пропускать сообщения заблокированных и игнорируемых при переходе"]
+  },
+  "RecentDMSwitcher": {
+    "visualStyle": ["Visual indicator style while cycling","Вид","Как показывать переключение",{"Overlay (Alt+Tab style)":"Окно (как Alt+Tab)","Toast (status message)":"Всплывающее сообщение","Off":"Никак"}],
+    "overlayMode": ["Overlay content","Что в окне","Содержимое окна",{"Row of recent":"Ряд недавних","Current only":"Только текущий"}],
+    "amountOfUsers": ["Number of users to show in overlay","Людей в окне","Сколько людей показывать в окне"],
+    "overlayRowLength": ["Number of recent DMs to show in row","Длина ряда","Сколько недавних ЛС в ряду"],
+    "overlayShowAvatars": ["Show avatars in overlay","Аватары","Показывать аватары в окне"],
+    "toastDurationMs": ["Toast hide delay (ms)","Время сообщения","Через сколько мс скрывать всплывающее сообщение"]
+  },
+  "RelationshipNotifier": {
+    "notices": ["Also show a notice at the top of your screen when removed (use this if you don't want to miss any notifications).","Полоса сверху","Показывать ещё и полосу вверху экрана (чтобы точно не пропустить)"],
+    "offlineRemovals": ["Notify you when starting discord if you were removed while offline.","Удаления офлайн","При запуске сообщать, если вас удалили, пока вы были не в сети"],
+    "friends": ["Notify when a friend removes you","Друзья","Сообщать, когда друг удаляет вас"],
+    "friendRequestCancels": ["Notify when a friend request is cancelled","Отменённые заявки","Сообщать, когда заявку в друзья отменили"],
+    "servers": ["Notify when removed from a server","Серверы","Сообщать, когда вас удалили с сервера"],
+    "groups": ["Notify when removed from a group chat","Группы","Сообщать, когда вас удалили из группы"]
+  },
+  "ReplaceGoogleSearch": {
+    "customEngineName": ["Name of the custom search engine","Название своего поисковика","Как называется ваш поисковик"],
+    "customEngineURL": ["The URL of your Engine","Адрес своего поисковика","Ссылка на ваш поисковик"],
+    "replacementEngine": ["Replace with a specific search engine instead of adding a menu","Заменить на","Заменить поиск Google конкретным поисковиком вместо меню",{"Off":"Не заменять","Custom Engine":"Свой поисковик"}]
+  },
+  "ReplyPingControl": {
+    "alwaysPingOnReply": ["Always get pinged when someone replies to your messages","Всегда пинг при ответе","Всегда получать упоминание, когда отвечают на ваши сообщения"],
+    "replyPingWhitelist": ["Comma-separated list of User IDs to always receive reply pings from","Всегда от","ID пользователей через запятую, от кого всегда получать упоминание при ответе"],
+    "replyPingBlacklist": ["Comma-separated list of User IDs to never receive reply pings from","Никогда от","ID пользователей через запятую, от кого никогда не получать упоминание при ответе"]
+  },
+  "ReviewDB": {
+    "notifyReviews": ["Notify about new reviews on startup","Новые отзывы","Уведомлять о новых отзывах при запуске"],
+    "showWarning": ["Display warning to be respectful at the top of the reviews list","Предупреждение","Показывать просьбу быть вежливыми над отзывами"],
+    "hideTimestamps": ["Hide timestamps on reviews","Без даты","Скрывать дату у отзывов"],
+    "hideBlockedUsers": ["Hide reviews from blocked users","Без заблокированных","Скрывать отзывы заблокированных"]
+  },
+  "RoleColorEverywhere": {
+    "chatMentions": ["Show role colors in chat mentions (including in the message box)","В упоминаниях","Цвет роли в упоминаниях в чате (и в поле ввода)"],
+    "memberList": ["Show role colors in member list role headers","В заголовках ролей","Цвет роли в заголовках списка участников"],
+    "voiceUsers": ["Show role colors in the voice chat user list","В голосовых","Цвет роли в списке людей в голосовом"],
+    "reactorsList": ["Show role colors in the reactors list","В реакциях","Цвет роли в списке поставивших реакцию"],
+    "pollResults": ["Show role colors in the poll results","В опросах","Цвет роли в результатах опросов"],
+    "colorChatMessages": ["Color chat messages based on the author's role color","Цвет сообщений","Красить текст сообщений в цвет роли автора"],
+    "messageSaturation": ["Intensity of message coloring.","Насыщенность","Насколько сильно красить сообщения"]
+  },
+  "ScheduledMessages": {
+    "maxMessagesPerMinute": ["Max scheduled messages per channel that can fire in the same minute.","Лимит в минуту","Сколько запланированных сообщений в канал может уйти за одну минуту"],
+    "checkIntervalSeconds": ["How often to check for messages to send (seconds).","Интервал проверки","Как часто проверять, пора ли отправлять (в секундах)"],
+    "showNotifications": ["Show toast notifications when messages are sent.","Уведомления","Показывать уведомление, когда сообщение отправлено"],
+    "showPhantomMessages": ["Show scheduled messages as phantom messages in chat.","Черновики в чате","Показывать запланированные сообщения полупрозрачными в чате"]
+  },
+  "SecretRingToneEnabler": {
+    "onlySnow": ["Only play the Snow Halation Theme","Только Snow Halation","Играть только тему Snow Halation"]
+  },
+  "SendTimestamps": {
+    "replaceMessageContents": ["Replace timestamps in message contents","Заменять в тексте","Заменять метки времени в тексте сообщения"]
+  },
+  "ServerInfo": {
+    "sorting": ["Username or if applicable Display Name","Сортировка","Сортировать по имени пользователя или отображаемому имени",{"Username":"Имя пользователя","Display Name":"Отображаемое имя","Dont Sort":"Не сортировать"}]
+  },
+  "ServerListIndicators": {
+    "mode": ["Mode","Режим","Что показывать",{"Only online friend count":"Только друзей в сети","Only server count":"Только число серверов","Both server and online friend counts":"И то, и другое"}],
+    "useCompact": ["Makes the indicator appear with only text","Компактно","Показывать только текстом"]
+  },
+  "Settings": {
+    "settingsLocation": ["Где показывать раздел настроек Nightcord","Раздел настроек","Где показывать раздел настроек Nightcord"],
+    "includeNightcordInfoWhenCopying": ["Also copy Nightcord info (Nightcord, Electron, Chromium) when clicking the version info in the bottom left area of the Settings page","Копировать инфо Nightcord","При клике по версии внизу настроек копировать и версии Nightcord, Electron и Chromium"]
+  },
+  "ShikiCodeblocks": {
+    "theme": ["Default themes","Тема","Встроенные темы подсветки"],
+    "customTheme": ["A link to a custom vscode theme","Своя тема","Ссылка на свою тему VS Code"],
+    "tryHljs": ["Use the more lightweight default Discord highlighter and theme.","Highlight.js","Использовать более лёгкую стандартную подсветку Discord",{"Never":"Никогда","Prefer Shiki instead of Highlight.js":"Лучше Shiki, чем Highlight.js","Prefer Highlight.js instead of Shiki":"Лучше Highlight.js, чем Shiki","Always":"Всегда"}],
+    "useDevIcon": ["How to show language icons on codeblocks","Иконки языков","Как показывать иконку языка у блоков кода",{"Disabled":"Не показывать","Colorless":"Бесцветные","Colored":"Цветные"}],
+    "bgOpacity": ["Background opacity","Прозрачность фона","Непрозрачность фона блоков кода"]
+  },
+  "ShowAllMessageButtons": {
+    "noShiftDelete": ["Remove requirement to hold shift for deleting a message.","Удаление без Shift","Не нужно держать Shift, чтобы удалить сообщение"],
+    "noShiftPin": ["Remove requirement to hold shift for pinning a message.","Закрепление без Shift","Не нужно держать Shift, чтобы закрепить сообщение"],
+    "noQuickReacts": ["Hide quick reacts. By default, showing the full menu hides quick react buttons.","Без быстрых реакций","Скрыть быстрые реакции. По умолчанию полное меню и так их скрывает"]
+  },
+  "ShowConnections": {
+    "iconSize": ["Icon size (px)","Размер иконок","Размер иконок (px)"],
+    "iconSpacing": ["Icon margin","Отступы","Расстояние между иконками",{"Compact":"Компактно","Cozy":"Обычно","Roomy":"Просторно"}],
+    "showGithubOrgs": ["Show GitHub organizations the user is a member of","Организации GitHub","Показывать организации GitHub, где состоит пользователь"],
+    "showOnModal": ["Show connected accounts in the full-size profile modal","В полном профиле","Показывать привязанные аккаунты в полном окне профиля"]
+  },
+  "ShowHiddenChannels": {
+    "channelStyle": ["The style used to display hidden channels.","Вид каналов","Как выглядят скрытые каналы",{"Classic":"Как обычно","Muted":"Приглушённые","Show Unreads":"С непрочитанными","Muted and Show Unreads":"Приглушённые с непрочитанными"}],
+    "showMode": ["The mode used to display hidden channels.","Значок","Как отмечать скрытые каналы",{"Lock Icon replacing channel icon":"Замок вместо значка канала","Eye icon on the right":"Глаз справа","Lock icon on the right":"Замок справа"}],
+    "defaultAllowedUsersAndRolesDropdownState": ["Whether the allowed users and roles dropdown on hidden channels should be open by default","Список доступа открыт","Сразу раскрывать список людей и ролей с доступом к скрытому каналу"]
+  },
+  "ShowHiddenThings": {
+    "showTimeouts": ["Show member timeout icons in chat.","Тайм-ауты","Показывать значок тайм-аута у участников в чате"],
+    "showInvitesPaused": ["Show the invites paused tooltip in the server list.","Приглашения на паузе","Показывать подсказку «приглашения приостановлены» в списке серверов"],
+    "showModView": ["Show the member mod view context menu item in all servers.","Режим модератора","Показывать пункт «Режим модератора» в меню на всех серверах"]
+  },
+  "ShowMeYourName": {
+    "messages": ["Display custom name format in messages.","В сообщениях","Свой формат имени в сообщениях"],
+    "replies": ["Display custom name format in replies.","В ответах","Свой формат имени в ответах"],
+    "mentions": ["Display custom name format in mentions.","В упоминаниях","Свой формат имени в упоминаниях"],
+    "typingIndicator": ["Display the first available name listed in your custom name format in the typing indicator.","«Печатает…»","Первое доступное имя из вашего формата в строке «печатает»"],
+    "memberList": ["Display the first available name listed in your custom name format in the members list, DMs list, friends list, and Active Now.","В списках","Первое доступное имя из формата в списке участников, ЛС, друзей и «Активны сейчас»"],
+    "searchAutocomplete": ["Display the first available name listed in your custom name format in mention and search autocomplete.","В подсказках","Первое доступное имя из формата в подсказках упоминаний и поиска"],
+    "profilePopout": ["Display the first available name listed in your custom name format in profile popouts.","В мини-профиле","Первое доступное имя из формата в мини-профиле"],
+    "voiceChannels": ["Display the first available name listed in your custom name format in voice channels.","В голосовых","Первое доступное имя из формата в голосовых каналах"],
+    "reactions": ["Display the first available name listed in your custom name format in reaction tooltips, and the full name in reaction popouts.","В реакциях","Первое доступное имя из формата в подсказках реакций и полное имя в окне реакций"],
+    "styleDirectMessagesList": ["Show display name effects on unselected entries without requiring hover. Selected and hovered entries are still styled when disabled.","Эффекты в списке ЛС","Эффекты имени в списке ЛС без наведения. Если выключено, выбранные и наведённые всё равно со стилем"],
+    "styleDirectMessagesMessages": ["Show display name effects on message authors without requiring hover. Hovered names are still styled when disabled.","Эффекты в сообщениях ЛС","Эффекты имени у авторов сообщений без наведения. Если выключено, при наведении всё равно со стилем"],
+    "styleFriendsList": ["Show display name effects without requiring hover. Hovered entries are still styled when disabled.","Эффекты в друзьях","Эффекты имени без наведения. Если выключено, при наведении всё равно со стилем"],
+    "styleActiveNow": ["Show display name effects without requiring hover. Hovered entries are still styled when disabled.","Эффекты в «Активны сейчас»","Эффекты имени без наведения. Если выключено, при наведении всё равно со стилем"],
+    "discriminators": ["Append discriminators to usernames for bots. Discriminators were deprecated for users, but are still used for bots. By default, a bot's username is equivalent to a user's global name, therefore multiple bots can have the same username. Appending discriminators makes them unique again.","Теги ботов","Добавлять #тег к именам ботов. У людей теги отменены, у ботов остались — так одинаковые боты различимы"],
+    "hideDefaultAtSign": ["Hide the default \"@\" symbol before the name in mentions and replies. Only applied if either feature is enabled.","Без «@»","Скрыть «@» перед именем в упоминаниях и ответах (если они включены)"],
+    "truncateAllNamesWithStreamerMode": ["Truncate all names, not just usernames, while in Streamer Mode.","Сокращать в режиме стримера","В режиме стримера сокращать все имена, а не только имена пользователей"],
+    "removeDuplicates": ["If any of the names are equivalent, remove them, leaving only the unique names.","Без повторов","Если имена совпадают, оставлять только разные"],
+    "ignoreFonts": ["For the non-primary names, use Discord's default fonts regardless of the user's custom nitro font.","Без шрифтов","Для второстепенных имён — обычный шрифт Discord, без шрифта Nitro"],
+    "ignoreEffects": ["For non-primary names, use only the primary role color and omit display name effects.","Без эффектов","Для второстепенных имён — только основной цвет роли, без эффектов"],
+    "animateEffects": ["Animate role gradients and display name effects on non-primary names. This is disabled by \"Ignore Effects\" and reduced motion.","Анимация эффектов","Анимировать градиенты ролей и эффекты имён у второстепенных имён. Выключается «Без эффектов» и уменьшением движения"],
+    "alwaysAnimateEffects": ["Force display name effects to animate when they would already be visible, even without hover.","Всегда анимировать","Анимировать эффекты имени, когда они видны, даже без наведения"],
+    "gradientGlow": ["Add a glow to animated user gradients the same way server role gradients glow.","Свечение градиента","Свечение у анимированных градиентов, как у градиентов ролей"],
+    "nameSeparator": ["The separator to use between names. The default is a single space.","Разделитель","Что ставить между именами. По умолчанию — один пробел"],
+    "friendNameOnlyInDirectMessages": ["Only display friend names when in DMs, and not in servers.","Имя друга только в ЛС","Показывать имена друзей только в ЛС, не на серверах"],
+    "customNameOnlyInDirectMessages": ["Only display custom names when in DMs, and not in servers.","Своё имя только в ЛС","Показывать заданные вами имена только в ЛС, не на серверах"],
+    "includedNames": ["The order to display usernames, display names, nicknames, friend names, and custom names. Use the following placeholders: {user}, {display}, {nick}, {friend}, {custom}. You can provide multiple name options to use as fallbacks if one is unavailable by separating them with commas as such: {custom, friend, nick}. You can have up to three prefixes and three suffixes per name.","Порядок имён","Порядок имён. Метки: {user} — имя пользователя, {display} — отображаемое, {nick} — ник на сервере, {friend} — имя друга, {custom} — ваше. Запасные варианты через запятую: {custom, friend, nick}. До трёх префиксов и суффиксов на имя"],
+    "customNameColor": ["The color to use for the custom name you assigned a user if it's not the first displayed. Accepts any valid CSS input. Use \"Role\" to follow the user's top role colors, nitro effect colors, or IRCColors color if enabled. Use \"Role+-#\" to adjust the brightness by that percentage (ex: \"Role+15\")","Цвет своего имени","Цвет заданного вами имени, если оно не первое. Любой цвет CSS; «Role» — цвет роли, «Role+15» — ярче на 15%"],
+    "friendNameColor": ["The color to use for a friend's nickname if it's not the first displayed. Accepts any valid CSS input. Use \"Role\" to follow the user's top role colors, nitro effect colors, or IRCColors color if enabled. Use \"Role+-#\" to adjust the brightness by that percentage (ex: \"Role+15\")","Цвет имени друга","Цвет имени друга, если оно не первое. Любой цвет CSS; «Role» — цвет роли, «Role+15» — ярче на 15%"],
+    "nicknameColor": ["The color to use for the nickname if it's not the first displayed. Accepts any valid CSS input. Use \"Role\" to follow the user's top role colors, nitro effect colors, or IRCColors color if enabled. Use \"Role+-#\" to adjust the brightness by that percentage (ex: \"Role+15\")","Цвет ника","Цвет ника на сервере, если он не первый. Любой цвет CSS; «Role» — цвет роли, «Role+15» — ярче на 15%"],
+    "displayNameColor": ["The color to use for the display name if it's not the first displayed. Accepts any valid CSS input. Use \"Role\" to follow the user's top role colors, nitro effect colors, or IRCColors color if enabled. Use \"Role+-#\" to adjust the brightness by that percentage (ex: \"Role+15\")","Цвет отображаемого имени","Цвет отображаемого имени, если оно не первое. Любой цвет CSS; «Role» — цвет роли, «Role+15» — ярче на 15%"],
+    "usernameColor": ["The color to use for the username if it's not the first displayed. Accepts any valid CSS input. Use \"Role\" to follow the user's top role colors, nitro effect colors, or IRCColors color if enabled. Use \"Role+-#\" to adjust the brightness by that percentage (ex: \"Role+15\")","Цвет имени пользователя","Цвет имени пользователя, если оно не первое. Любой цвет CSS; «Role» — цвет роли, «Role+15» — ярче на 15%"]
+  },
+  "ShowTimeoutDuration": {
+    "displayStyle": ["How to display the timeout duration","Где показывать","Где показывать длительность тайм-аута",{"In the Tooltip":"В подсказке","Next to the timeout icon":"Рядом со значком"}]
+  },
+  "SilenceUsers": {
+    "mutedUserIds": ["Comma-separated Discord user IDs to silence pings and server badges.","Заглушённые люди","ID пользователей через запятую: их упоминания не будут пинговать и не дадут значков на серверах"]
+  },
+  "SilentMessageToggle": {
+    "persistState": ["How to persist the silent message toggle state","Запоминать","Запоминать ли переключатель тихих сообщений",{"Don't persist (reset on channel change)":"Нет (сброс при смене канала)","Persist between channels":"Между каналами","Persist between channels and restarts":"Между каналами и перезапусками"}],
+    "autoDisable": ["Automatically disable the silent message toggle again after sending one","Выключать после отправки","Выключать тихий режим после отправки сообщения"]
+  },
+  "SilentTyping": {
+    "enabledGlobally": ["Toggle functionality of your own typing indicator globally.","Везде","Скрывать, что вы печатаете, везде"],
+    "hideChatBoxTypingIndicators": ["Hide other users' typing indicators from above the chat bar.","Скрыть «печатает» в чате","Не показывать, кто печатает, над полем ввода"],
+    "hideMembersListTypingIndicators": ["Hide other users' typing indicators from the members list.","Скрыть «печатает» в списке","Не показывать, кто печатает, в списке участников"],
+    "chatIcon": ["Show an icon in the chat bar for modifying the plugin on the go.","Кнопка в чате","Кнопка в поле ввода для быстрой настройки"],
+    "chatIconLeftClickAction": ["What to do when left clicking the chat icon.","Левый клик","Что делает левый клик по кнопке",{"Toggle Typing Globally":"Переключить везде","Toggle Typing in Channel":"Переключить в канале","Toggle Typing in Guild":"Переключить на сервере","Open Plugin Settings":"Открыть настройки"}],
+    "chatIconMiddleClickAction": ["What to do when middle clicking the chat icon.","Средний клик","Что делает клик колёсиком по кнопке",{"Toggle Typing Globally":"Переключить везде","Toggle Typing in Channel":"Переключить в канале","Toggle Typing in Guild":"Переключить на сервере","Open Plugin Settings":"Открыть настройки"}],
+    "chatIconRightClickAction": ["What to do when right clicking the chat icon.","Правый клик","Что делает правый клик по кнопке",{"Toggle Typing Globally":"Переключить везде","Toggle Typing in Channel":"Переключить в канале","Toggle Typing in Guild":"Переключить на сервере","Open Plugin Settings":"Открыть настройки"}],
+    "chatContextMenu": ["Show a dropdown in the chat context menu to modify plugin settings on the go.","В меню чата","Пункт в контекстном меню чата для быстрой настройки"],
+    "defaultHidden": ["If enabled, the plugin will hide your typing from others in any DMs/channels/guilds not listed in \"Disabled Locations\" below. If disabled, the plugin will show your typing to others for any DMs/channels/guilds not listed in \"Enabled Locations\" below.","Скрывать по умолчанию","Вкл.: скрывать везде, кроме «Выключено для». Выкл.: показывать везде, кроме «Включено для»"],
+    "alwaysEnableInActiveVoiceChat": ["Always allow your typing indicator to show when typing in a voice channel you are connected to.","Показывать в своём голосовом","Всегда показывать, что вы печатаете, в голосовом канале, где вы сидите"],
+    "temporaryEnableThresholdServers": ["Temporarily allow your typing indicator to show for this many seconds after sending a message in a server channel. If the typing indicator is already visible in the channel, this setting will have no effect.","Показ после сообщения (серверы)","Сколько секунд показывать «печатает» после вашего сообщения на сервере"],
+    "temporaryEnableThresholdDirectMessages": ["Temporarily allow your typing indicator to show for this many seconds after sending a message in a DM or Group DM. If the typing indicator is already visible in the channel, this setting will have no effect.","Показ после сообщения (ЛС)","Сколько секунд показывать «печатает» после вашего сообщения в ЛС или группе"],
+    "enabledLocations": ["Enable functionality for these IDs. Accepts a comma separated list of DM IDs, channel IDs, and guild IDs. Only used if \"Default Hidden\" is disabled.","Включено для","ID ЛС, каналов и серверов через запятую. Работает, если «Скрывать по умолчанию» выключено"],
+    "disabledLocations": ["Disable functionality for these IDs. Accepts a comma separated list of DM IDs, channel IDs, and guild IDs. Only used if \"Default Hidden\" is enabled.","Выключено для","ID ЛС, каналов и серверов через запятую. Работает, если «Скрывать по умолчанию» включено"]
+  },
+  "SortFriends": {
+    "showDates": ["Show dates on friend requests","Даты заявок","Показывать даты у заявок в друзья"]
+  },
+  "SplitLargeMessages": {
+    "sendDelay": ["Minimum delay between each chunk in seconds.","Задержка","Минимальная пауза между частями (в секундах)"],
+    "splitMode": ["Prefer this boundary when splitting a message.","Где резать","По чему лучше делить сообщение",{"Newlines":"По строкам","Spaces":"По пробелам","Strict character limit":"Строго по лимиту символов"}],
+    "splitInSlowmode": ["Allow splitting in slowmode when its delay is within the configured maximum.","В медленном режиме","Делить сообщения в медленном режиме, если задержка не больше максимума"],
+    "slowmodeMax": ["Maximum slowmode duration allowed when splitting messages.","Максимум медленного режима","Максимальная задержка медленного режима, при которой ещё можно делить сообщения"]
+  },
+  "SpotifyCrack": {
+    "noSpotifyAutoPause": ["Disable Spotify auto-pause","Без автопаузы","Отключить автопаузу Spotify"],
+    "keepSpotifyActivityOnIdle": ["Keep Spotify activity playing when idling","Статус в простое","Не убирать статус Spotify, когда вы неактивны"]
+  },
+  "StickerBlocker": {
+    "showGif": ["Whether to show a snazzy cat gif","Гифка с котом","Показывать стильную гифку с котом"],
+    "showMessage": ["Whether to show a message detailing which id was blocked","Сообщение","Показывать, какой ID был заблокирован"],
+    "showButton": ["Whether to show a button to unblock the gif","Кнопка разблокировки","Показывать кнопку, чтобы разблокировать стикер"],
+    "blockedStickers": ["The list of blocked sticker IDs (don't edit unless you know what you're doing)","Заблокированные стикеры","Список ID заблокированных стикеров (не меняйте, если не уверены)"]
+  },
+  "SuperReactionTweaks": {
+    "superReactByDefault": ["Reaction picker will default to Super Reactions","Суперреакции по умолчанию","Выбор реакций сразу открывается на суперреакциях"],
+    "unlimitedSuperReactionPlaying": ["Remove the limit on Super Reactions playing at once","Без лимита анимаций","Снять ограничение на число одновременно играющих суперреакций"],
+    "superReactionPlayingLimit": ["Max Super Reactions to play at once. 0 to disable playing Super Reactions","Лимит анимаций","Сколько суперреакций проигрывать одновременно. 0 — не проигрывать"]
+  },
+  "TextReplace": {
+    "stringRules": ["Rules for replacing text using string matching.","Правила по тексту","Правила замены по простому совпадению текста"],
+    "regexRules": ["Rules for replacing text using regular expressions.","Правила regex","Правила замены по регулярным выражениям"]
+  },
+  "Timezones": {
+    "showOwnTimezone": ["Show your own timezone in profiles and message headers","Свой часовой пояс","Показывать ваш часовой пояс в профилях и сообщениях"],
+    "twentyFourHourFormat": ["Show time in 24h format","24 часа","Показывать время в 24-часовом формате"],
+    "showTimezoneInfo": ["Show timezone info next to time","Инфо о поясе","Показывать часовой пояс рядом со временем"],
+    "showMessageHeaderTime": ["Show time in message headers","В сообщениях","Показывать время в заголовках сообщений"],
+    "recipientTimezoneInDms": ["In DMs, show the recipient's timezone on your messages","Пояс собеседника в ЛС","В ЛС показывать часовой пояс собеседника на ваших сообщениях"],
+    "showProfileTime": ["Show time in profiles","В профилях","Показывать время в профилях"],
+    "useDatabase": ["Enable database for getting user timezones","База поясов","Брать часовые пояса людей из общей базы"],
+    "preferDatabaseOverLocal": ["Prefer database over local storage for timezones","База важнее","Предпочитать базу вместо сохранённых у вас поясов"],
+    "showLocalTimezone": ["Show Local Timezone instead of just local","Название пояса","Показывать название вашего пояса, а не просто «местное»"],
+    "databaseUrl": ["Database URL for timezone storage","Адрес базы","Адрес базы часовых поясов"]
+  },
+  "ToastNotifications": {
+    "position": ["The position of the toast notification.","Положение","Где показывать уведомления",{"Bottom Left":"Снизу слева","Top Left":"Сверху слева","Top Right":"Сверху справа","Bottom Right":"Снизу справа"}],
+    "timeout": ["Time in seconds notifications will be shown for.","Длительность","Сколько секунд показывать уведомление"],
+    "opacity": ["The visible opacity of the notification.","Непрозрачность","Непрозрачность уведомления"],
+    "maxNotifications": ["Maximum number of notifications displayed at once.","Максимум","Сколько уведомлений показывать одновременно"],
+    "disableInStreamerMode": ["Do not show notifications when streamer mode is enabled.","Не в режиме стримера","Не показывать уведомления в режиме стримера"],
+    "respectDoNotDisturb": ["Do not show notifications when your status is Do Not Disturb.","Учитывать «Не беспокоить»","Не показывать уведомления в статусе «Не беспокоить»"],
+    "directMessages": ["Show notifications for direct messages.","Личные сообщения","Уведомлять о личных сообщениях"],
+    "groupMessages": ["Show notifications for group messages.","Групповые","Уведомлять о сообщениях в группах"],
+    "friendServerNotifications": ["Show notifications when friends send messages in servers they share with you.","Друзья на серверах","Уведомлять, когда друзья пишут на общих серверах"],
+    "ignoreUsers": ["A list of user IDs (separate by commas) to ignore displaying notifications for.","Игнорировать","ID пользователей через запятую, о которых не уведомлять"],
+    "notifyFor": ["A list of channel IDs (separate by commas) to always receive notifications from.","Всегда уведомлять","ID каналов через запятую, о которых уведомлять всегда"]
+  },
+  "Translate": {
+    "service": ["Translation provider","Сервис","Сервис перевода",{"DeepL Free - API key required":"DeepL Free — нужен API-ключ","DeepL Pro - API key required":"DeepL Pro — нужен API-ключ","Kagi Translate - API key required":"Kagi Translate — нужен API-ключ"}],
+    "autoTranslate": ["Automatically translate your messages before sending. You can also Shift+click or right-click the translate button to toggle this","Автоперевод","Переводить ваши сообщения перед отправкой. Переключается Shift+кликом или ПКМ по кнопке перевода"],
+    "showAutoTranslateTooltip": ["Show a tooltip on the chat bar button when a message is auto-translated","Подсказка","Показывать подсказку у кнопки, когда сообщение переведено автоматически"]
+  },
+  "TypingIndicator": {
+    "includeCurrentChannel": ["Whether to show the typing indicator for the currently selected channel","Текущий канал","Показывать «печатает» и для открытого канала"],
+    "includeMutedChannels": ["Whether to show the typing indicator for muted channels.","Заглушённые каналы","Показывать «печатает» для заглушённых каналов"],
+    "includeIgnoredUsers": ["Whether to show the typing indicator for ignored users.","Игнорируемые","Показывать «печатает» от игнорируемых пользователей"],
+    "includeBlockedUsers": ["Whether to show the typing indicator for blocked users.","Заблокированные","Показывать «печатает» от заблокированных пользователей"],
+    "indicatorMode": ["How should the indicator be displayed?","Вид","Как показывать индикатор",{"Avatars and animated dots":"Аватары и точки","Animated dots":"Точки","Avatars":"Аватары"}]
+  },
+  "TypingTweaks": {
+    "showAvatars": ["Show avatars in the typing indicator","Аватары","Показывать аватары в строке «печатает»"],
+    "showRoleColors": ["Show role colors in the typing indicator","Цвета ролей","Показывать цвета ролей в строке «печатает»"],
+    "alternativeFormatting": ["Show a more useful message when several users are typing","Понятнее","Понятнее писать, когда печатают несколько человек"],
+    "amITyping": ["Shows you if other people can see you typing","Видно ли меня","Показывает, видят ли другие, что вы печатаете"]
+  },
+  "UnlockedAvatarZoom": {
+    "zoomMultiplier": ["Zoom multiplier","Увеличение","Множитель увеличения"]
+  },
+  "UnreadCountBadge": {
+    "showOnMutedChannels": ["Show unread count on muted channels","В заглушённых","Показывать число непрочитанных в заглушённых каналах"],
+    "notificationCountLimit": ["Show +99 instead of true amount","Лимит 99+","Показывать «+99» вместо точного числа"]
+  },
+  "UserMessagesPronouns": {
+    "pronounsFormat": ["The format for pronouns to appear in chat","Формат","Как показывать местоимения в чате",{"Lowercase":"строчными","Capitalized":"С заглавной"}],
+    "showSelf": ["Enable or disable showing pronouns for yourself","Свои","Показывать ваши собственные местоимения"]
+  },
+  "UserVoiceShow": {
+    "showInUserProfileModal": ["Show a user's Voice Channel indicator in their profile next to the name","В профиле","Показывать голосовой канал пользователя в профиле рядом с именем"],
+    "showInMemberList": ["Show a user's Voice Channel indicator in the member and DMs list","В списках","Показывать голосовой канал в списке участников и ЛС"],
+    "showInMessages": ["Show a user's Voice Channel indicator in messages","В сообщениях","Показывать голосовой канал в сообщениях"]
+  },
+  "USRBG": {
+    "nitroFirst": ["Banner to use if both Nitro and USRBG banners are present","Какой баннер","Какой баннер показывать, если есть оба",{"Nitro banner":"Баннер Nitro","USRBG banner":"Баннер USRBG"}],
+    "voiceBackground": ["Use USRBG banners as voice chat backgrounds","Фон в голосовых","Использовать баннеры USRBG как фон в голосовых каналах"]
+  },
+  "VcNarrator": {
+    "volume": ["Narrator Volume","Громкость","Громкость диктора"],
+    "rate": ["Narrator Speed","Скорость","Скорость речи диктора"],
+    "sayOwnName": ["Say own name","Своё имя","Произносить ваше имя"],
+    "latinOnly": ["Strip non latin characters from names before saying them","Только латиница","Убирать из имён всё, кроме латиницы, перед озвучкой"],
+    "joinMessage": ["Join Message","Вход","Фраза при входе в канал"],
+    "leaveMessage": ["Leave Message","Выход","Фраза при выходе из канала"],
+    "moveMessage": ["Move Message","Перемещение","Фраза при перемещении"],
+    "muteMessage": ["Mute Message (only self for now)","Выкл. микрофон","Фраза при выключении микрофона (пока только для вас)"],
+    "unmuteMessage": ["Unmute Message (only self for now)","Вкл. микрофон","Фраза при включении микрофона (пока только для вас)"],
+    "deafenMessage": ["Deafen Message (only self for now)","Выкл. звук","Фраза при выключении звука (пока только для вас)"],
+    "undeafenMessage": ["Undeafen Message (only self for now)","Вкл. звук","Фраза при включении звука (пока только для вас)"]
+  },
+  "VCPanelSettings": {
+    "uncollapseSettingsByDefault": ["Automatically uncollapse voice settings by default","Раскрыто по умолчанию","Сразу раскрывать настройки голоса"],
+    "outputVolume": ["Show an output volume slider","Громкость звука","Показывать ползунок громкости звука"],
+    "inputVolume": ["Show an input volume slider","Громкость микрофона","Показывать ползунок громкости микрофона"],
+    "outputDevice": ["Show an output device selector","Устройство вывода","Показывать выбор устройства вывода"],
+    "inputDevice": ["Show an input device selector","Устройство ввода","Показывать выбор микрофона"],
+    "camera": ["Show a camera selector","Камера","Показывать выбор камеры"],
+    "showOutputVolumeHeader": ["Show header above output volume slider","Заголовок громкости звука","Показывать заголовок над ползунком громкости звука"],
+    "showInputVolumeHeader": ["Show header above input volume slider","Заголовок громкости микрофона","Показывать заголовок над ползунком громкости микрофона"],
+    "showOutputDeviceHeader": ["Show header above output device selector","Заголовок вывода","Показывать заголовок над выбором устройства вывода"],
+    "showInputDeviceHeader": ["Show header above input device selector","Заголовок ввода","Показывать заголовок над выбором микрофона"],
+    "showVideoDeviceHeader": ["Show header above camera selector","Заголовок камеры","Показывать заголовок над выбором камеры"]
+  },
+  "ViewIcons": {
+    "format": ["Choose the image format to use for non-animated images. Animated images will always use .webp","Формат","Формат для неанимированных картинок. Анимированные всегда в .webp"],
+    "imgSize": ["The image size to use","Размер","Размер картинки"]
+  },
+  "VoiceButtons": {
+    "showChatButton": ["Whether you want to display the chat button","Кнопка чата","Показывать кнопку чата"],
+    "showMuteButton": ["Whether you want to display the mute button","Кнопка заглушения","Показывать кнопку заглушения"],
+    "showDeafenButton": ["Whether you want to display the deafen button","Кнопка звука","Показывать кнопку отключения звука"],
+    "muteSoundboard": ["Toggles their soundboard upon clicking deafen button.","И звуковую панель","При отключении звука глушить и звуковую панель человека"],
+    "disableVideo": ["Toggles their video upon clicking deafen button.","И видео","При отключении звука отключать и видео человека"],
+    "useServer": ["Use server mute/deafen instead of local when you have permission.","Серверное","Глушить на сервере, а не только у себя, если есть права"],
+    "serverSelf": ["Deafen / Mute yourself on the server when using mute/deafen.","Себя на сервере","Глушить себя на сервере при нажатии"],
+    "showButtonsSelf": ["Whether you want to display buttons for your own user. Same functionality as other button(s) except it'll open DMs panel and mute/deafen for yourself upon clicking button(s).","Кнопки у себя","Показывать кнопки у себя. Работают так же, но открывают ЛС-панель и глушат вас",{"Display":"Показывать","Hide":"Скрыть","Disable":"Отключить"}],
+    "whichNameToShow": ["Choose whether to show nickname or username in tooltip.","Имя в подсказке","Показывать ник или имя пользователя в подсказке",{"Both":"Оба","Global Name":"Отображаемое имя","Username":"Имя пользователя"}],
+    "buttonPosition": ["Choose where to place voice buttons in the voice user row.","Положение кнопок","Где размещать кнопки в строке голосового",{"Left":"Слева","Right":"Справа"}]
+  },
+  "VoiceChatUtilities": {
+    "waitAfter": ["Amount of API actions to perform before waiting (to avoid rate limits)","Действий до паузы","Сколько действий выполнить перед паузой (чтобы не упереться в лимиты)"],
+    "waitSeconds": ["Time to wait between each action (in seconds)","Пауза","Пауза между действиями (в секундах)"]
+  },
+  "VoiceMessages": {
+    "noiseSuppression": ["Noise Suppression","Шумоподавление","Подавлять фоновый шум"],
+    "echoCancellation": ["Echo Cancellation","Эхоподавление","Подавлять эхо"]
+  },
+  "VolumeBooster": {
+    "multiplier": ["Volume Multiplier","Множитель","Во сколько раз можно усилить громкость"]
+  },
+  "WaitForSlot": {
+    "autoJoin": ["Join the channel immediately instead of showing a notice.","Заходить сразу","Заходить в канал сразу, без уведомления"],
+    "notificationSound": ["Play a sound when a slot becomes available.","Звук","Играть звук, когда освободилось место"]
+  },
+  "WhoReacted": {
+    "clickableAvatars": ["While this is enabled, clicking a reacting user's avatar will open their profile instead of adding the reaction","Кликабельные аватары","Клик по аватару поставившего реакцию открывает профиль, а не ставит реакцию"]
+  },
+  "XSOverlay": {
+    "webSocketPort": ["Websocket port","Порт WebSocket","Порт WebSocket"],
+    "preferUDP": ["Enable if you use an older build of XSOverlay unable to connect through websockets. This setting is ignored on web.","UDP","Включите для старых версий XSOverlay, которые не подключаются по WebSocket. В браузере игнорируется"],
+    "botNotifications": ["Allow bot notifications","От ботов","Разрешить уведомления от ботов"],
+    "serverNotifications": ["Allow server notifications","С серверов","Разрешить уведомления с серверов"],
+    "dmNotifications": ["Allow Direct Message notifications","Из ЛС","Разрешить уведомления из личных сообщений"],
+    "groupDmNotifications": ["Allow Group DM notifications","Из групп","Разрешить уведомления из групп"],
+    "callNotifications": ["Allow call notifications","Звонки","Разрешить уведомления о звонках"],
+    "pingColor": ["User mention color","Цвет упоминаний","Цвет упоминаний пользователей"],
+    "channelPingColor": ["Channel mention color","Цвет каналов","Цвет упоминаний каналов"],
+    "soundPath": ["Notification sound (default/warning/error)","Звук","Звук уведомления (default/warning/error)"],
+    "timeout": ["Notification duration (secs)","Длительность","Длительность уведомления (сек)"],
+    "lengthBasedTimeout": ["Extend duration with message length","Дольше для длинных","Продлевать по длине сообщения"],
+    "opacity": ["Notif opacity","Непрозрачность","Непрозрачность уведомления"],
+    "volume": ["Volume","Громкость","Громкость"]
+  }
+}

@@ -7,6 +7,7 @@
 import { Settings } from "@api/Settings";
 
 import { PLUGIN_DESCRIPTIONS_RU } from "./pluginDescriptionsRu";
+import { PLUGIN_SETTINGS_RU } from "./pluginSettingsRu";
 
 /** Russian strings for Nightcord's own UI, keyed by the English original. */
 const RU: Record<string, string> = {
@@ -381,6 +382,18 @@ const RU: Record<string, string> = {
     "Vencord Cloud": "Облако Vencord",
     "Add": "Добавить",
 
+    // Plugin curation
+    "Show Curated":
+        "Проверенные",
+    "Show Experimental":
+        "Экспериментальные 🧪",
+    "Show Developer Tools":
+        "Для разработчиков 🛠️",
+    "Experimental: from Equicord's wider collection, may be unstable or look rough":
+        "Экспериментальный: из расширенной коллекции Equicord, может работать нестабильно или выглядеть сыро",
+    "Developer tool":
+        "Инструмент разработчика",
+
     // Plugin presets
     "Big files without Nitro":
         "Большие файлы без Nitro",
@@ -461,7 +474,7 @@ const RU: Record<string, string> = {
     "The following plugins require a restart:": "Эти плагины требуют перезапуска:",
     "Filters": "Фильтры",
     "Search for a plugin...": "Поиск плагина...",
-    "Show All": "Все",
+    "Show All": "Все плагины",
     "Show Favorites": "Избранные",
     "Show Enabled": "Включённые",
     "Show Disabled": "Выключенные",
@@ -559,6 +572,162 @@ const RU: Record<string, string> = {
     "Erase it!": "Удалить",
     "Nevermind": "Отмена",
     "Delete your Cloud Account": "Удалить облачный аккаунт",
+
+    // Plugin setting inputs
+    "Select an option": "Выберите вариант",
+    "Enter a number": "Введите число",
+    "Enter a value": "Введите значение",
+    "Invalid input provided": "Недопустимое значение",
+
+    // Custom plugin settings panels (FileUpload, MusicControls)
+    "Fallback Order": "Порядок запасных хостингов",
+    "Drag hosts to reorder fallback attempts. The selected host is tried first, then this order is used.": "Перетаскивайте хостинги, чтобы задать порядок. Сначала пробуется выбранный, затем по этому списку.",
+    "Upload Service": "Хостинг",
+    "Choose where FileUpload sends new files.": "Куда загружать файлы.",
+    "Connection details for your Zipline instance.": "Подключение к вашему серверу Zipline.",
+    "Service URL": "Адрес сервиса",
+    "The URL of your Zipline instance": "Адрес вашего сервера Zipline",
+    "Zipline Token": "Токен Zipline",
+    "Your Zipline API authorization token": "Ваш API-токен Zipline",
+    "Folder ID": "ID папки",
+    "Folder ID for uploads (leave empty for no folder)": "ID папки для загрузок (пусто — без папки)",
+    "Connection details for E-Z Host uploads.": "Подключение к E-Z Host.",
+    "E-Z Host API Key": "API-ключ E-Z Host",
+    "Your E-Z Host API key": "Ваш API-ключ E-Z Host",
+    "Connection details for Nest uploads.": "Подключение к Nest.",
+    "Nest Token": "Токен Nest",
+    "Your Nest API authorization token": "Ваш API-токен Nest",
+    "Connection details for Encrypting.host uploads.": "Подключение к Encrypting.host.",
+    "Encrypting.host API Key": "API-ключ Encrypting.host",
+    "Your Encrypting.host API key": "Ваш API-ключ Encrypting.host",
+    "URL Style": "Вид ссылок",
+    "How Encrypting.host should format returned links.": "Как Encrypting.host оформляет ссылки.",
+    "Domains JSON": "Домены (JSON)",
+    "JSON array of domains to use, for example [\"offensive\"].": "JSON-массив доменов, например [\"offensive\"].",
+    "Embed Title": "Заголовок превью",
+    "Optional title for embed style responses.": "Заголовок для превью (необязательно).",
+    "Embed Color": "Цвет превью",
+    "Optional color for embed style responses.": "Цвет для превью (необязательно).",
+    "Fake Link": "Фейковая ссылка",
+    "Optional fake link value for fakelink style responses.": "Текст фейковой ссылки для вида «fakelink» (необязательно).",
+    "S3-Compatible Storage": "S3-совместимое хранилище",
+    "Connection details and object naming for your bucket.": "Подключение и имена файлов в вашем бакете.",
+    "S3 Endpoint URL": "Адрес S3",
+    "S3-compatible endpoint (e.g. https://<accountid>.r2.cloudflarestorage.com)": "S3-совместимый адрес (например https://<accountid>.r2.cloudflarestorage.com)",
+    "Bucket Name": "Бакет",
+    "Bucket to upload into": "Куда загружать",
+    "Region": "Регион",
+    "AWS region or auto for Cloudflare R2": "Регион AWS или auto для Cloudflare R2",
+    "Access Key ID": "ID ключа доступа",
+    "S3-compatible access key": "Ключ доступа S3",
+    "Secret Access Key": "Секретный ключ",
+    "S3-compatible secret key": "Секретный ключ S3",
+    "Session Token": "Токен сессии",
+    "Optional temporary credential token": "Временный токен (необязательно)",
+    "Public Base URL": "Публичный адрес",
+    "Optional public URL base to use for returned links": "Начало публичных ссылок (необязательно)",
+    "Object Key Prefix": "Префикс файлов",
+    "Optional folder/prefix inside the bucket": "Папка или префикс внутри бакета (необязательно)",
+    "Use Path-Style Endpoint": "Адреса вида endpoint/bucket/key",
+    "Use endpoint/bucket/key format, recommended for R2.": "Формат endpoint/bucket/key, рекомендуется для R2.",
+    "Optional account binding for Catbox uploads.": "Привязка к аккаунту Catbox (необязательно).",
+    "Catbox Userhash": "Userhash Catbox",
+    "Your Catbox userhash for account binding, leave empty for anonymous uploads.": "Ваш userhash Catbox для привязки к аккаунту. Пусто — анонимно.",
+    "Litterbox Expiry": "Срок хранения Litterbox",
+    "How long uploads are retained": "Сколько хранятся файлы",
+    "Optional account binding for GoFile uploads.": "Привязка к аккаунту GoFile (необязательно).",
+    "GoFile Token": "Токен GoFile",
+    "Optional GoFile token to upload into your account.": "Токен GoFile, чтобы загружать в ваш аккаунт (необязательно).",
+    "Connection details for PixelVault uploads.": "Подключение к PixelVault.",
+    "PixelVault Upload Key": "Ключ загрузки PixelVault",
+    "Your PixelVault authorization key.": "Ваш ключ авторизации PixelVault.",
+    "Optional account binding for PixelDrain uploads.": "Привязка к аккаунту PixelDrain (необязательно).",
+    "PixelDrain API Key": "API-ключ PixelDrain",
+    "Optional PixelDrain API key for authenticated uploads. Leave empty for anonymous uploads.": "API-ключ PixelDrain для загрузки в аккаунт. Пусто — анонимно.",
+    "ShareX Custom Uploader": "Свой загрузчик ShareX",
+    "Paste, import, or validate a ShareX custom uploader config.": "Вставьте, импортируйте или проверьте конфиг загрузчика ShareX.",
+    "ShareX Custom Uploader Config": "Конфиг загрузчика ShareX",
+    "Paste your ShareX custom uploader JSON (.sxcu/.json). DestinationType must include FileUploader or ImageUploader.": "Вставьте JSON загрузчика ShareX (.sxcu/.json). В DestinationType должен быть FileUploader или ImageUploader.",
+    "ShareX Config Actions": "Действия с конфигом ShareX",
+    "Import from file or validate pasted config": "Импорт из файла или проверка вставленного конфига",
+    "Connection details for WebDAV servers (Nextcloud, Owncloud, etc.).": "Подключение к WebDAV-серверу (Nextcloud, ownCloud и др.).",
+    "Server URL": "Адрес сервера",
+    "Base WebDAV URL (e.g. https://nextcloud.example.com/remote.php/dav/files/username)": "Адрес WebDAV (например https://nextcloud.example.com/remote.php/dav/files/username)",
+    "Username": "Имя пользователя",
+    "WebDAV username": "Имя пользователя WebDAV",
+    "Password or App Token": "Пароль или токен приложения",
+    "WebDAV password or app token": "Пароль WebDAV или токен приложения",
+    "Upload Directory": "Папка загрузки",
+    "Optional subdirectory on the server to upload into (e.g. uploads)": "Подпапка на сервере (например uploads, необязательно)",
+    "Server Type": "Тип сервера",
+    "Select your WebDAV server type. Nextcloud and ownCloud will create a public share link. Generic returns the raw file URL.": "Тип WebDAV-сервера. Nextcloud и ownCloud создают публичную ссылку, обычный WebDAV отдаёт прямой адрес файла.",
+    "Share Link Format": "Формат ссылки",
+    "How to return the public share link. Share Page links to a web page; Direct Download links straight to the file; Markdown Link wraps the share page in a clickable filename.": "Какую ссылку отдавать: на страницу, прямую на файл или Markdown-ссылку с именем файла.",
+    "Upload Behavior": "После загрузки",
+    "Control what FileUpload does after a host returns a URL.": "Что делать, когда хостинг вернул ссылку.",
+    "Strip Query Parameters": "Убирать параметры из ссылки",
+    "Strip query parameters from the uploaded file URL.": "Убирать ?параметры из ссылки на файл.",
+    "Use Embed Proxy": "Прокси для превью",
+    "Wrap uploaded video links with an embed proxy service for better Discord previews.": "Пропускать ссылки на видео через прокси, чтобы Discord лучше показывал превью.",
+    "Embed Proxy Service": "Сервис прокси превью",
+    "Choose which embed proxy service to use for uploaded video links": "Какой прокси использовать для ссылок на видео",
+    "Convert APNG to GIF": "APNG в GIF",
+    "Convert APNG files to GIF format.": "Конвертировать APNG в GIF.",
+    "Preserve Original Filename": "Сохранять имя файла",
+    "Use the original filename instead of naming uploads as upload.ext.": "Загружать с исходным именем, а не upload.ext.",
+    "Auto Copy URL": "Копировать ссылку",
+    "Automatically copy the uploaded file URL to clipboard.": "Сразу копировать ссылку на файл в буфер обмена.",
+    "Disable Fallback Uploaders": "Без запасных хостингов",
+    "Only use the selected uploader without trying fallback hosts.": "Использовать только выбранный хостинг, не пробовать запасные.",
+    "Insert URL into Chat Input": "Вставлять ссылку в поле ввода",
+    "After upload, insert the resulting URL into the current chat input.": "После загрузки вставлять ссылку в поле ввода.",
+    "Format Inserted URL": "Ссылка без превью",
+    "Wrap inserted URLs in angle brackets to avoid Discord preview embedding.": "Оборачивать ссылку в <угловые скобки>, чтобы Discord не делал превью.",
+    "Discord Integration": "Работа с Discord",
+    "Choose when FileUpload takes over Discord file handling.": "Когда FileUpload берёт загрузку файлов на себя.",
+    "Bypass Discord Upload Button": "Вместо загрузки Discord",
+    "Use FileUpload when uploading through Discord's file picker.": "Загружать через FileUpload файлы, выбранные кнопкой Discord.",
+    "Auto Upload Pasted Files": "Загружать вставленное",
+    "Automatically upload files from clipboard to image host when pasting in chat input.": "Файлы из буфера обмена при вставке в поле ввода сразу загружать на хостинг.",
+    "Respect Discord File Size Limit": "Только сверх лимита Discord",
+    "Use FileUpload only for files larger than your current Discord upload limit.": "Использовать FileUpload только для файлов больше вашего лимита Discord.",
+    "Allowed File Types": "Типы файлов",
+    "Comma-separated list of extensions (e.g. png,jpg,gif). Leave empty to allow all.": "Расширения через запятую (например png,jpg,gif). Пусто — все.",
+    "Network": "Сеть",
+    "Configure browser upload proxying and timeouts.": "Прокси для загрузки из браузера и таймауты.",
+    "CORS Proxy URL": "Адрес CORS-прокси",
+    "CORS proxy used for web uploads. Leave empty to use the default proxy.": "CORS-прокси для загрузки в браузерной версии. Пусто — стандартный.",
+    "Default CORS Proxy Source": "Исходники стандартного прокси",
+    "Source code for the default CORS proxy": "Исходный код стандартного CORS-прокси",
+    "Upload Timeout": "Таймаут загрузки",
+    "Maximum time to wait per upload attempt before switching to fallback": "Сколько ждать загрузку, прежде чем пробовать запасной хостинг",
+    "Lyrics Provider": "Источник текстов",
+    "Where lyrics are fetched from.": "Откуда брать тексты песен.",
+    "Spotify Lyrics API Base URL": "Адрес API текстов Spotify",
+    "Custom instance base URL (for example: http://localhost:8080).": "Адрес своего сервера (например http://localhost:8080).",
+
+    "NEW": "НОВОЕ",
+
+    // Plugin tags
+    "Accessibility": "Доступность",
+    "Activity": "Активность",
+    "Appearance": "Внешний вид",
+    "Chat": "Чат",
+    "Commands": "Команды",
+    "Console": "Консоль",
+    "Customisation": "Кастомизация",
+    "Developers": "Разработчикам",
+    "Emotes": "Эмодзи",
+    "Friends": "Друзья",
+    "Fun": "Развлечения",
+    "Media": "Медиа",
+    "Organisation": "Организация",
+    "Reactions": "Реакции",
+    "Roles": "Роли",
+    "Servers": "Серверы",
+    "Shortcuts": "Горячие клавиши",
+    "Utility": "Полезное",
+    "Voice": "Голос",
 };
 
 /** FNV-1a, must match scripts/nightcord/genDescriptions.cjs */
@@ -580,6 +749,35 @@ export function tPluginDescription(plugin: { name: string; description: string; 
     if (!Settings.plugins?.RussianNightcord?.enabled) return plugin.description;
     const entry = PLUGIN_DESCRIPTIONS_RU[plugin.name];
     return entry && entry[0] === hashDescription(plugin.description) ? entry[1] : plugin.description;
+}
+
+const localizedSettings = new WeakMap<object, any>();
+
+/**
+ * Russian title, description and option labels for a plugin setting, if it has a translation.
+ * Title and description are only replaced while the English description matches the translated one;
+ * option labels are matched by their English text.
+ */
+export function tPluginSetting<T extends object>(pluginName: string, key: string, setting: T): T {
+    if (!Settings.plugins?.RussianNightcord?.enabled) return setting;
+    const entry = PLUGIN_SETTINGS_RU[pluginName]?.[key];
+    if (!entry) return setting;
+
+    let localized = localizedSettings.get(setting);
+    if (localized) return localized;
+
+    const [hash, title, description, options] = entry;
+    const def = setting as { description?: string; options?: { label?: unknown; }[]; };
+    localized = { ...setting };
+    if (hash === hashDescription(def.description ?? "")) {
+        localized.displayName = title;
+        localized.description = description;
+    }
+    if (options && Array.isArray(def.options)) {
+        localized.options = def.options.map(o => typeof o?.label === "string" && options[o.label] ? { ...o, label: options[o.label] } : o);
+    }
+    localizedSettings.set(setting, localized);
+    return localized;
 }
 
 /** Translate a Nightcord UI string when the RussianNightcord plugin is enabled. */

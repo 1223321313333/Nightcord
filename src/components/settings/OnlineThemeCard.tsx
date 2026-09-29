@@ -22,6 +22,7 @@ import { Badge } from "@components/Badge";
 import { BaseText } from "@components/BaseText";
 import { Switch } from "@components/settings";
 import { classNameFactory } from "@utils/css";
+import { t } from "@utils/i18n";
 import { useRef } from "@webpack/common";
 import type { MouseEventHandler, ReactNode } from "react";
 
@@ -101,7 +102,7 @@ export function OnlineThemeCard({
                                 )}
                             </div>
                         </div>
-                        {isNew && <Badge text="NEW" variant="danger" />}
+                        {isNew && <Badge text={t("NEW")} variant="danger" />}
                     </BaseText>
 
                     {!!author && (
