@@ -7,6 +7,7 @@
 import { normalizeCorsProxyUrl, toProxiedUrl } from "@equicordplugins/fileUpload/constants";
 import { settings } from "@equicordplugins/fileUpload/settings";
 import { fallbackServiceOrder, serviceLabels, ServiceType, ShareXUploaderConfig, UploadResponse } from "@equicordplugins/fileUpload/types";
+import { stripForUpload } from "@nightcordplugins/stripMetadata";
 import { copyToClipboard } from "@utils/clipboard";
 import { insertTextIntoChatInputBox } from "@utils/discord";
 import { Logger } from "@utils/Logger";
@@ -1327,6 +1328,8 @@ async function notifyUploadSuccess(finalUrl: string, forceSend?: boolean): Promi
 }
 
 async function uploadWithFallbacks(fileBlob: Blob, filename: string, primary: ServiceType): Promise<string> {
+    // Nightcord: files sent to other hosts lose their GPS and camera metadata too (StripMetadata)
+    fileBlob = await stripForUpload(fileBlob, filename);
     const uploadOrder = buildUploadOrder(primary, filename);
     const attempted: string[] = [];
     let lastError = "Unknown error";
