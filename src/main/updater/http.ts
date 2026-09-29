@@ -48,13 +48,19 @@ async function calculateGitChanges() {
     const isOutdated = await fetchUpdates();
     if (!isOutdated) return [];
 
-    const data = await githubGet(`/compare/${gitHash}...HEAD`);
+    try {
+        const data = await githubGet(`/compare/${gitHash}...HEAD`);
 
-    return data.commits.map((c: any) => ({
-        hash: c.sha,
-        author: c.author?.login ?? c.commit?.author?.name ?? "Unknown Author",
-        message: c.commit.message.split("\n")[0]
-    }));
+        return data.commits.map((c: any) => ({
+            hash: c.sha,
+            author: c.author?.login ?? c.commit?.author?.name ?? "Unknown Author",
+            message: c.commit.message.split("\n")[0]
+        }));
+    } catch {
+        // Nightcord: the list of changes is only for display. If GitHub can't compare the two builds
+        // (for example after the history was rewritten), still offer the update instead of failing.
+        return [{ hash: "latest", author: "Nightcord", message: "Новая версия Nightcord" }];
+    }
 }
 
 async function fetchUpdates() {

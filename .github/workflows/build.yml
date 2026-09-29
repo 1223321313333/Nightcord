@@ -68,6 +68,8 @@ jobs:
                       gh release create devbuild --title "DevBuild $RELEASE_TAG" --notes "Automatic Nightcord build from the latest commit on main." --latest
                   gh release upload devbuild --clobber dist/release/*
                   gh release edit devbuild --title "DevBuild $RELEASE_TAG" --latest
+                  # Keep the release tag on the commit it was built from, so it never pins old history
+                  git push --force origin "HEAD:refs/tags/devbuild"
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
