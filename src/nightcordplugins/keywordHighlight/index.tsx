@@ -9,7 +9,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { ChannelStore, GuildStore, NavigationRouter, React, SelectedChannelStore, useLayoutEffect, useRef,UserStore } from "@webpack/common";
+import { ChannelStore, GuildStore, NavigationRouter, React, RelationshipStore, SelectedChannelStore, useLayoutEffect, useRef, UserStore } from "@webpack/common";
 
 import style from "./style.css?managed";
 
@@ -39,8 +39,19 @@ const settings = definePluginSettings({
         type: OptionType.BOOLEAN,
         description: "Show a notification when a new message contains one of your keywords (your own name is only highlighted, Discord already notifies about mentions)",
         default: true
+    },
+    ignoreBots: {
+        type: OptionType.BOOLEAN,
+        description: "Do not notify about messages from bots and webhooks",
+        default: false
     }
 });
+
+/** Your own messages and messages from people you blocked or ignored are never highlighted or notified about */
+function isHidden(message: Message) {
+    const id = message.author?.id;
+    return !id || id === UserStore.getCurrentUser()?.id || RelationshipStore.isBlockedOrIgnored(id);
+}
 
 /** Highlights: your keywords plus, optionally, your own name */
 let matcher: RegExp | null = null;
@@ -110,15 +121,15 @@ export default definePlugin({
 
     renderMessageAccessory(props) {
         const message = props.message as Message;
-        if (message.author?.id === UserStore.getCurrentUser()?.id) return null;
+        if (isHidden(message)) return null;
         const hit = findKeyword(message.content);
         return hit ? <KeywordMarker keyword={hit} /> : null;
     },
 
     flux: {
         MESSAGE_CREATE({ message, optimistic }: { message: Message; optimistic: boolean; }) {
-            if (optimistic || !settings.store.notify) return;
-            if (message.author?.id === UserStore.getCurrentUser()?.id) return;
+            if (optimistic || !settings.store.notify || isHidden(message)) return;
+            if (settings.store.ignoreBots && (message.author?.bot || (message as any).webhook_id)) return;
             // You are already looking at this chat
             if (message.channel_id === SelectedChannelStore.getChannelId() && document.hasFocus()) return;
 

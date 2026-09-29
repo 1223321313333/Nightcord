@@ -7,10 +7,12 @@
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
+import { Toasts } from "@webpack/common";
 
 import style from "./style.css?managed";
 
 const CLASS = "nc-night";
+const READY_CLASS = "nc-night-ready";
 
 const settings = definePluginSettings({
     startHour: {
@@ -41,6 +43,9 @@ const settings = definePluginSettings({
 
 let timer: ReturnType<typeof setInterval> | undefined;
 
+/** Set from the toolbox; lasts until the schedule itself switches next time */
+let manual: { on: boolean; scheduledWhenSet: boolean; } | null = null;
+
 export function isNight(hour: number, start: number, end: number) {
     start = Math.round(start);
     end = Math.round(end);
@@ -49,21 +54,43 @@ export function isNight(hour: number, start: number, end: number) {
     return start < end ? hour >= start && hour < end : hour >= start || hour < end;
 }
 
+function scheduled() {
+    return isNight(new Date().getHours(), settings.store.startHour, settings.store.endHour);
+}
+
 function update() {
-    const { startHour, endHour, strength } = settings.store;
     const root = document.documentElement;
-    root.style.setProperty("--nc-night-strength", String(strength));
-    root.classList.toggle(CLASS, isNight(new Date().getHours(), startHour, endHour));
+    const now = scheduled();
+    if (manual && manual.scheduledWhenSet !== now) manual = null;
+
+    root.style.setProperty("--nc-night-strength", String(settings.store.strength));
+    root.classList.add(READY_CLASS);
+    root.classList.toggle(CLASS, manual ? manual.on : now);
+}
+
+function toggleNow() {
+    const on = !document.documentElement.classList.contains(CLASS);
+    manual = { on, scheduledWhenSet: scheduled() };
+    update();
+    Toasts.show({
+        message: on ? "Ночной режим включён до утра по расписанию" : "Ночной режим выключен до следующего вечера",
+        type: Toasts.Type.MESSAGE,
+        id: Toasts.genId()
+    });
 }
 
 export default definePlugin({
     name: "NightSchedule",
-    description: "Gently dims and warms Discord at night on a schedule (23:00–07:00 by default)",
+    description: "Gently dims and warms Discord at night on a schedule (23:00–07:00 by default). Can be switched by hand from the Nightcord toolbox.",
     tags: ["Appearance"],
     authors: [Devs.Nightcord],
     enabledByDefault: true,
     settings,
     managedStyle: style,
+
+    toolboxActions: {
+        "Ночной режим: переключить": toggleNow
+    },
 
     start() {
         update();
@@ -72,7 +99,8 @@ export default definePlugin({
 
     stop() {
         clearInterval(timer);
-        document.documentElement.classList.remove(CLASS);
+        manual = null;
+        document.documentElement.classList.remove(CLASS, READY_CLASS);
         document.documentElement.style.removeProperty("--nc-night-strength");
     }
 });

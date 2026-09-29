@@ -10,7 +10,7 @@ import * as DataStore from "@api/DataStore";
 import { currentNotice, noticesQueue, popNotice, showNotice } from "@api/Notices";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Channel, Guild, RenderModalProps } from "@nightcord/discord-types";
+import { Channel, Guild, ModalAction, RenderModalProps } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import { ChannelStore, GuildStore, Menu, Modal, openModal, React, SelectedChannelStore, TextArea, useState } from "@webpack/common";
@@ -40,8 +40,10 @@ async function setNote(id: string, text: string) {
 function getNotesFor(channelId: string) {
     const channel = ChannelStore.getChannel(channelId);
     const guildId = channel?.guild_id;
+    // A thread without its own note shows the note of the channel it belongs to
+    const parentId = channel?.isThread?.() ? channel.parent_id : undefined;
     return {
-        channel: notes[channelId],
+        channel: notes[channelId] ?? (parentId ? notes[parentId] : undefined),
         guild: guildId ? notes[guildId] : undefined,
         guildName: guildId ? GuildStore.getGuild(guildId)?.name : undefined
     };
@@ -78,7 +80,8 @@ function showBannerFor(channelId: string | null | undefined) {
 }
 
 function NoteEditor({ id, what, modalProps }: { id: string; what: string; modalProps: RenderModalProps; }) {
-    const [text, setText] = useState(notes[id] ?? "");
+    const existing = notes[id];
+    const [text, setText] = useState(existing ?? "");
 
     async function commit(value: string) {
         await setNote(id, value);
@@ -86,18 +89,20 @@ function NoteEditor({ id, what, modalProps }: { id: string; what: string; modalP
         showBannerFor(SelectedChannelStore.getChannelId());
     }
 
+    const actions: ModalAction[] = [{ text: "Сохранить", variant: "primary", onClick: () => commit(text) }];
+    if (existing) actions.push({ text: "Удалить", variant: "critical-primary", onClick: () => commit("") });
+
     return (
         <Modal
             {...modalProps}
             title={`Заметка ${what}`}
-            subtitle="Видна только вам"
+            subtitle="Видна только вам · Ctrl+Enter — сохранить"
             size="md"
-            actions={[
-                { text: "Сохранить", variant: "primary", onClick: () => commit(text) },
-                { text: "Удалить", variant: "critical-primary", onClick: () => commit("") }
-            ]}
+            actions={actions}
         >
-            <TextArea value={text} onChange={setText} placeholder="Например: тут скидывают читы, не путать с основным" autosize />
+            <div onKeyDown={e => { if (e.key === "Enter" && (e.ctrlKey || e.metaKey)) { e.preventDefault(); commit(text); } }}>
+                <TextArea value={text} onChange={setText} placeholder="Например: тут скидывают читы, не путать с основным" autosize autoFocus />
+            </div>
         </Modal>
     );
 }

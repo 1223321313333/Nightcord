@@ -1,9 +1,20 @@
 /* A single fixed overlay is far cheaper than a filter on the whole app */
-html.nc-night body::after {
+html.nc-night-ready body::after {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 2147483647;
     pointer-events: none;
     background: rgb(26 14 0 / var(--nc-night-strength, 0.18));
+    opacity: 0;
+    visibility: hidden;
+
+    /* fade in and out; visibility waits for the fade so the hidden overlay costs nothing */
+    transition: opacity 2.5s ease, visibility 0s linear 2.5s;
+}
+
+html.nc-night body::after {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 2.5s ease, visibility 0s;
 }

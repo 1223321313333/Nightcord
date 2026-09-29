@@ -241,13 +241,15 @@
     "applyColorOnlyInDms": ["Apply colors only in direct messages; do not apply colors in servers.","Только в ЛС","Раскрашивать только в личных сообщениях, не на серверах"]
   },
   "KeyboardLayoutFix": {
-    "autoFix": ["Automatically fix messages that were clearly typed in the English layout instead of Russian (e.g. ghbdtn → привет)","Автоисправление","Сам исправлять сообщения, явно набранные в английской раскладке вместо русской (ghbdtn → привет)"]
+    "autoFix": ["Automatically fix messages that were clearly typed in the English layout instead of Russian (e.g. ghbdtn → привет)","Автоисправление","Сам исправлять сообщения, явно набранные в английской раскладке вместо русской (ghbdtn → привет)"],
+    "notifyOnFix": ["Show a notification with the original text when a message was fixed automatically","Сообщать об исправлении","Показывать уведомление с исходным текстом, когда сообщение исправлено автоматически"]
   },
   "KeywordHighlight": {
     "keywords": ["Keywords to highlight, separated by commas (e.g. продажа, прокси, мой ник)","Ключевые слова","Слова для подсветки через запятую (например: продажа, прокси, мой ник)"],
     "includeMyName": ["Also highlight messages that mention your username or display name as plain text","Мой ник тоже","Подсвечивать и сообщения, где упоминают ваш ник или имя простым текстом"],
     "color": ["Highlight colour (any CSS colour)","Цвет","Цвет подсветки (любой цвет CSS)"],
-    "notify": ["Show a notification when a new message contains one of your keywords (your own name is only highlighted, Discord already notifies about mentions)","Уведомления","Уведомлять о новых сообщениях с вашими словами (ваш ник только подсвечивается — об упоминаниях Discord уведомляет сам)"]
+    "notify": ["Show a notification when a new message contains one of your keywords (your own name is only highlighted, Discord already notifies about mentions)","Уведомления","Уведомлять о новых сообщениях с вашими словами (ваш ник только подсвечивается — об упоминаниях Discord уведомляет сам)"],
+    "ignoreBots": ["Do not notify about messages from bots and webhooks","Без ботов","Не уведомлять о сообщениях ботов и вебхуков"]
   },
   "LoadingQuotes": {
     "replaceEvents": ["Should this plugin also apply during events with special event themed quotes? (e.g. Halloween)","И во время событий","Заменять фразы и во время событий с особыми фразами (например, Хэллоуин)"],
