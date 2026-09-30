@@ -177,7 +177,7 @@ function initTrayIpc() {
             NightcordNative.tray.setUpdateState(isOutdated);
 
             if (isOutdated) {
-                showNotice("An Nightcord update is available!", "View Update", () => openSettingsTabModal(UpdaterTab!));
+                showNotice("A Nightcord update is available!", "View Update", () => openSettingsTabModal(UpdaterTab!));
             } else {
                 showNotice("No updates available, you're on the latest version!", "OK", popNotice);
             }
