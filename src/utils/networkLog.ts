@@ -23,6 +23,8 @@ export interface OutsideHost {
 }
 
 const hosts = new Map<string, OutsideHost>();
+/** Hosts that strict connections (CSP) blocked, with how often */
+const blocked = new Map<string, number>();
 const listeners = new Set<() => void>();
 let notifyQueued = false;
 
@@ -46,14 +48,30 @@ function record(entries: PerformanceEntryList) {
         changed = true;
     }
 
-    if (changed && !notifyQueued) {
-        notifyQueued = true;
-        queueMicrotask(() => {
-            notifyQueued = false;
-            listeners.forEach(l => l());
-        });
-    }
+    if (changed) notify();
 }
+
+function notify() {
+    if (notifyQueued) return;
+    notifyQueued = true;
+    queueMicrotask(() => {
+        notifyQueued = false;
+        listeners.forEach(l => l());
+    });
+}
+
+// Blocked requests never show up in resource timing; the CSP reports them instead
+document.addEventListener("securitypolicyviolation", e => {
+    let host: string;
+    try {
+        host = new URL(e.blockedURI).hostname;
+    } catch {
+        return;
+    }
+    if (!host || DISCORD_HOST.test(host)) return;
+    blocked.set(host, (blocked.get(host) ?? 0) + 1);
+    notify();
+});
 
 try {
     // buffered: also gets what loaded before Nightcord started watching
@@ -64,6 +82,10 @@ try {
 
 export function getOutsideHosts(): OutsideHost[] {
     return [...hosts.values()].sort((a, b) => a.firstAt - b.firstAt);
+}
+
+export function getBlockedHosts(): [string, number][] {
+    return [...blocked];
 }
 
 export function subscribeOutsideHosts(listener: () => void) {

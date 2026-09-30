@@ -1037,7 +1037,8 @@ const RU: Record<string, string> = {
     "Beta versions": "Бета-версии",
     "Get every new Nightcord version right away. Normally a version reaches everyone a day later, after beta testers have used it and the automatic checks passed.": "Получать каждую новую версию Nightcord сразу. Обычно версия приходит всем на день позже, когда её уже опробовали бета-тестеры и прошли автоматические проверки.",
     "Strict connections": "Строгий режим подключений",
-    "Normally a Nightcord helper lets this window connect to any server. In strict mode it can only reach Discord and servers known to Nightcord, so nothing can quietly send your data elsewhere. Some plugins that use other sites may stop working.": "Обычно помощник Nightcord разрешает этому окну подключаться к любому серверу. В строгом режиме доступны только Discord и серверы, известные Nightcord, поэтому ничто не сможет незаметно отправить ваши данные куда-то ещё. Некоторые плагины, которые работают с другими сайтами, могут перестать работать.",
+    "On by default. This window can only reach Discord and the servers Nightcord and its plugins use, so nothing can quietly send your data anywhere else. If a theme or plugin cannot load something, it shows up below as blocked.": "Включён по умолчанию. Это окно может подключаться только к Discord и к серверам, которыми пользуются Nightcord и его плагины, поэтому ничто не сможет незаметно отправить ваши данные куда-то ещё. Если тема или плагин не может что-то загрузить, это появится ниже как заблокированное.",
+    "Blocked by strict connections.": "Заблокировано строгим режимом подключений.",
     "Reload": "Перезагрузить",
     "On": "Вкл.",
 

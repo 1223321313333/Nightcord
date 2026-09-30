@@ -7,6 +7,8 @@
 import { NativeSettings, RendererSettings } from "@main/settings";
 import { session } from "electron";
 
+import { PLUGIN_HOSTS } from "~nightcordPluginHosts";
+
 type PolicyMap = Record<string, string[]>;
 
 export const ConnectSrc = ["connect-src"];
@@ -131,11 +133,17 @@ const patchCsp = (headers: PolicyMap) => {
 
         // Nightcord: in strict mode the "*" rule (added by NightcordHelper) is left out, so the window can only
         // reach Discord and the servers listed here, and cannot quietly send data anywhere else
-        const strict = RendererSettings.store.strictConnections === true;
+        const strict = RendererSettings.store.strictConnections !== false;
         for (const [host, directives] of Object.entries(CspPolicies)) {
             if (strict && host === "*") continue;
             for (const directive of directives) {
                 pushDirective(directive, host);
+            }
+        }
+        // ...but every server that plugin code mentions stays reachable, so plugins keep working (no scripts or frames)
+        if (strict) {
+            for (const directive of ["connect-src", "img-src", "media-src", "style-src", "font-src"]) {
+                pushDirective(directive, ...PLUGIN_HOSTS);
             }
         }
 

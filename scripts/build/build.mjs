@@ -22,6 +22,7 @@
 import { createPackage } from "@electron/asar";
 import { readdir, writeFile } from "fs/promises";
 import { dirname, join, resolve } from "path";
+import { createRequire } from "module";
 import { fileURLToPath } from "url";
 
 import { getPluginTarget } from "../utils.mjs";
@@ -58,6 +59,25 @@ const nodeCommonOpts = {
     target: ["esnext"],
     // @ts-expect-error this is never undefined
     external: ["electron", "original-fs", "~pluginNatives", ...commonOpts.external]
+};
+
+/**
+ * Nightcord: ~nightcordPluginHosts, every web host that plugin code mentions (scripts/nightcord/genCspHosts.cjs).
+ * Strict connections (src/main/csp) allows them, and it is built fresh so new plugins from Equicord just work.
+ * @type {import("esbuild").Plugin}
+ */
+const pluginHostsPlugin = {
+    name: "nightcord-plugin-hosts",
+    setup: build => {
+        build.onResolve({ filter: /^~nightcordPluginHosts$/ }, args => ({ namespace: "nightcord-plugin-hosts", path: args.path }));
+        build.onLoad({ filter: /.*/, namespace: "nightcord-plugin-hosts" }, () => {
+            const { collectHosts, DIRS } = createRequire(import.meta.url)("../nightcord/genCspHosts.cjs");
+            return {
+                contents: `export const PLUGIN_HOSTS = ${JSON.stringify(collectHosts())};`,
+                watchDirs: DIRS.map(d => resolve(d))
+            };
+        });
+    }
 };
 
 const sourceMapFooter = s => watch ? "" : `//# sourceMappingURL=nightcord://${s}.js.map`;
@@ -135,7 +155,8 @@ const buildConfigs = ([
         plugins: [
             // @ts-ignore this is never undefined
             ...nodeCommonOpts.plugins,
-            globNativesPlugin
+            globNativesPlugin,
+            pluginHostsPlugin
         ],
         define: {
             ...defines,
@@ -187,7 +208,8 @@ const buildConfigs = ([
         sourcemap,
         plugins: [
             ...nodeCommonOpts.plugins,
-            globNativesPlugin
+            globNativesPlugin,
+            pluginHostsPlugin
         ],
         define: {
             ...defines,

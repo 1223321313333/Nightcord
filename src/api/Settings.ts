@@ -152,7 +152,7 @@ const DefaultSettings: Settings = {
     },
 
     ignoreResetWarning: false,
-    strictConnections: false,
+    strictConnections: true,
     betaUpdates: false,
 };
 

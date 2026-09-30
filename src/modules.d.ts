@@ -28,6 +28,11 @@ declare module "~plugins" {
     export const ExcludedPlugins: Record<string, PluginTarget>;
 }
 
+// Nightcord: web hosts plugin code mentions, created by scripts/build/build.mjs (main process only)
+declare module "~nightcordPluginHosts" {
+    export const PLUGIN_HOSTS: string[];
+}
+
 declare module "~git-hash" {
     const hash: string;
     export default hash;

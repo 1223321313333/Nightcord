@@ -9,7 +9,7 @@ import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
-import { getOutsideHosts, subscribeOutsideHosts } from "@utils/networkLog";
+import { getBlockedHosts, getOutsideHosts, subscribeOutsideHosts } from "@utils/networkLog";
 import { Button, Checkbox, React, useEffect, useState } from "@webpack/common";
 
 import { checkboxStyle } from "./PrivacyCheckup";
@@ -53,7 +53,11 @@ function explain(host: string) {
 
 export function OutsideConnections() {
     const [hosts, setHosts] = useState(getOutsideHosts);
-    useEffect(() => subscribeOutsideHosts(() => setHosts(getOutsideHosts())), []);
+    const [blocked, setBlocked] = useState(getBlockedHosts);
+    useEffect(() => subscribeOutsideHosts(() => {
+        setHosts(getOutsideHosts());
+        setBlocked(getBlockedHosts());
+    }), []);
 
     const settings = useSettings(["plugins.BadgeAPI.donorBadges", "strictConnections"]);
     const donorBadges = settings.plugins.BadgeAPI?.donorBadges ?? false;
@@ -91,7 +95,7 @@ export function OutsideConnections() {
                     <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={titleStyle}>{t("Strict connections")}</div>
                         <Paragraph size="sm">
-                            {t("Normally a Nightcord helper lets this window connect to any server. In strict mode it can only reach Discord and servers known to Nightcord, so nothing can quietly send your data elsewhere. Some plugins that use other sites may stop working.")}
+                            {t("On by default. This window can only reach Discord and the servers Nightcord and its plugins use, so nothing can quietly send your data anywhere else. If a theme or plugin cannot load something, it shows up below as blocked.")}
                         </Paragraph>
                     </div>
                     {settings.strictConnections !== strictAtStart && (
@@ -109,6 +113,15 @@ export function OutsideConnections() {
                         <Paragraph size="sm">{t("Nothing yet: since the start this window has only talked to Discord.")}</Paragraph>
                     </div>
                 )}
+                {blocked.map(([host, count]) => (
+                    <div key={"blocked-" + host} style={rowStyle}>
+                        <span style={{ fontSize: 18 }}>⛔</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={titleStyle}>{host} <span style={{ fontWeight: 400, opacity: 0.7 }}>×{count}</span></div>
+                            <Paragraph size="sm">{t("Blocked by strict connections.")}</Paragraph>
+                        </div>
+                    </div>
+                ))}
                 {hosts.map(h => {
                     const why = explain(h.host);
                     const kinds = [...new Set([...h.kinds].map(k => t(KIND_NAMES[k] ?? "other")))].join(", ");
