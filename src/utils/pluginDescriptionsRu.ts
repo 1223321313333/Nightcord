@@ -283,6 +283,7 @@ export const PLUGIN_DESCRIPTIONS_RU: Record<string, [string, string]> = {
     "ScheduledMessages": ["a0squc", "Отложенная отправка сообщений на время или через задержку"],
     "ScreenRecorder": ["rjssgl", "Запись экрана с загрузкой записи в канал"],
     "SearchFix": ["1gtck7x", "Исправляет ошибку поиска «We dropped the magnifying glass!»"],
+    "SecretChat": ["10jiqxb", "Сквозное шифрование в личке с другими пользователями Nightcord: Discord видит только спойлер с шифром. Включается кнопкой с замком в личных сообщениях"],
     "SecretRingToneEnabler": ["78kmvm", "Всегда секретная версия рингтона Discord (кроме особых событий)"],
     "SedEnhanced": ["1jretik", "Расширенная замена текста в стиле `sed`"],
     "SekaiStickers": ["6n7giz", "Стикеры Project Sekai прямо в Discord"],

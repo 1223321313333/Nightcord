@@ -275,6 +275,7 @@
     "ScheduledMessages": "Отложенная отправка сообщений на время или через задержку",
     "ScreenRecorder": "Запись экрана с загрузкой записи в канал",
     "SearchFix": "Исправляет ошибку поиска «We dropped the magnifying glass!»",
+    "SecretChat": "Сквозное шифрование в личке с другими пользователями Nightcord: Discord видит только спойлер с шифром. Включается кнопкой с замком в личных сообщениях",
     "SecretRingToneEnabler": "Всегда секретная версия рингтона Discord (кроме особых событий)",
     "SedEnhanced": "Расширенная замена текста в стиле `sed`",
     "SekaiStickers": "Стикеры Project Sekai прямо в Discord",
