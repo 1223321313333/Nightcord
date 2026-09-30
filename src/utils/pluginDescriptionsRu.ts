@@ -119,6 +119,7 @@ export const PLUGIN_DESCRIPTIONS_RU: Record<string, [string, string]> = {
     "FileUpload": ["16t29a2", "Загрузка файлов на хостинги: Zipline, Nest, S3, WebDAV"],
     "FindReply": ["6tsah2", "Переход к самому раннему ответу на сообщение, чтобы проследить разговор"],
     "FixCodeblockGap": ["ak7ntq", "Убирает отступ между блоком кода и текстом под ним"],
+    "FixDiscordCss": ["vqwb1l", "Убирает правило CSS Discord, из-за которого сильно тормозит интерфейс"],
     "FixFileExtensions": ["a33j63", "Исправляет расширения файлов на поддерживаемые, если возможно"],
     "FixImagesQuality": ["4eyyp9", "Картинки грузятся в исходном разрешении"],
     "FixSpotifyEmbeds": ["gwjupu", "Своя громкость для встроенного Spotify, чтобы не орал"],
