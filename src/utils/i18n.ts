@@ -1023,6 +1023,8 @@ const RU: Record<string, string> = {
     "audio": "аудио",
     "other": "другое",
     "Donor badges are turned off in BadgeAPI settings": "Значки донатеров выключены в настройках BadgeAPI",
+    "Discord did not start properly several times in a row, so Nightcord started without plugins. If a plugin was the cause, turn it off in Nightcord settings before turning plugins back on.": "Discord несколько раз подряд не запустился нормально, поэтому Nightcord запущен без плагинов. Если виноват какой-то плагин, выключите его в настройках Nightcord, а потом включайте плагины обратно.",
+    "Turn plugins back on": "Включить плагины обратно",
     "Strict connections": "Строгий режим подключений",
     "Normally a Nightcord helper lets this window connect to any server. In strict mode it can only reach Discord and servers known to Nightcord, so nothing can quietly send your data elsewhere. Some plugins that use other sites may stop working.": "Обычно помощник Nightcord разрешает этому окну подключаться к любому серверу. В строгом режиме доступны только Discord и серверы, известные Nightcord, поэтому ничто не сможет незаметно отправить ваши данные куда-то ещё. Некоторые плагины, которые работают с другими сайтами, могут перестать работать.",
     "Reload": "Перезагрузить",

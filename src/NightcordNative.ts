@@ -80,6 +80,10 @@ export default {
     native: {
         getVersions: () => process.versions as Partial<NodeJS.ProcessVersions>,
         supportsWindowsMaterial: () => sendSync<boolean>(IpcEvents.SUPPORTS_WINDOWS_MATERIAL),
+        /** Nightcord safe mode: see src/main/safeMode.ts */
+        getStartupState: () => sendSync<{ safeMode: boolean; failedStarts: number; }>(IpcEvents.GET_STARTUP_STATE),
+        startupOk: () => invoke<void>(IpcEvents.STARTUP_OK),
+        resetStartup: () => invoke<void>(IpcEvents.RESET_STARTUP),
         openExternal: (url: string) => invoke<void>(IpcEvents.OPEN_EXTERNAL, url),
         getRendererCss: () => invoke<string>(IpcEvents.GET_RENDERER_CSS),
         onRendererCssUpdate: (cb: (newCss: string) => void) => {

@@ -56,6 +56,9 @@ window.NightcordNative = {
     native: {
         getVersions: () => ({}),
         supportsWindowsMaterial: () => false,
+        getStartupState: () => ({ safeMode: false, failedStarts: 0 }),
+        startupOk: async () => { },
+        resetStartup: async () => { },
         openExternal: async (url) => void open(url, "_blank"),
         getRendererCss: async () => {
             if (IS_USERSCRIPT)

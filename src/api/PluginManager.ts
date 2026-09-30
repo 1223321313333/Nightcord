@@ -34,6 +34,7 @@ import { reportHealthIssue } from "@utils/health";
 import { Logger } from "@utils/Logger";
 import { onlyOnce } from "@utils/onlyOnce";
 import { canonicalizeFind, canonicalizeReplacement } from "@utils/patches";
+import { STARTUP } from "@utils/safeMode";
 import { DefinedSettings, Patch, Plugin, PluginDef, PluginSettingDef, ReporterTestable, StartAt } from "@utils/types";
 import { FluxDispatcher } from "@webpack/common";
 import { patches } from "@webpack/patcher";
@@ -59,7 +60,8 @@ export function isPluginEnabled(p: string) {
     return (
         Plugins[p]?.required ||
         Plugins[p]?.isDependency ||
-        Settings.plugins[p]?.enabled
+        // Nightcord: in safe mode only required plugins run, without touching the saved settings
+        (!STARTUP.safeMode && Settings.plugins[p]?.enabled)
     ) ?? false;
 }
 export function isPluginRequired(p: string) {

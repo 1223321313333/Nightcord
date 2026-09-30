@@ -56,4 +56,9 @@ export const enum IpcEvents {
     TRAY_CHECK_UPDATES = "NightcordTrayCheckUpdates",
     TRAY_ABOUT = "NightcordTrayAbout",
     SUPPORTS_WINDOWS_MATERIAL = "NightcordSupportsWindowsMaterial",
+
+    // Nightcord safe mode (src/main/safeMode.ts)
+    GET_STARTUP_STATE = "NightcordGetStartupState",
+    STARTUP_OK = "NightcordStartupOk",
+    RESET_STARTUP = "NightcordResetStartup",
 }
