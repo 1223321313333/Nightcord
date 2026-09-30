@@ -1,0 +1,144 @@
+name: Check against the latest Discord
+# Every day: load discord.com with the Nightcord reporter build (no account needed, the login page carries all of
+# Discord's code), try every patch and every plugin start, and keep one issue up to date with what broke.
+# Plugins that only exist in Equibop, Vesktop or the browser extension are left out: Nightcord does not ship them.
+on:
+    schedule:
+        - cron: "0 5 * * *" # daily, 05:00 UTC
+    workflow_dispatch:
+    push:
+        branches: [main]
+        paths: [.github/workflows/report.yml]
+
+permissions:
+    contents: read
+
+concurrency:
+    group: report
+
+env:
+    FORCE_COLOR: true
+
+jobs:
+    report:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+            - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+              with:
+                  node-version: 24
+                  cache: "pnpm"
+
+            - run: pnpm install --frozen-lockfile
+
+            - name: Build the reporter version
+              run: pnpm buildReporter
+
+            - name: Run it against discord.com
+              timeout-minutes: 15
+              run: |
+                  mkdir -p /tmp/report
+                  ./node_modules/.bin/esbuild scripts/generateReport.ts > dist/report.mjs
+                  set +e
+                  CHROMIUM_BIN=/usr/bin/google-chrome node dist/report.mjs > /tmp/report/report.md 2> /tmp/report/stderr.txt
+                  echo "$?" > /tmp/report/exit.txt
+                  set -e
+                  cat /tmp/report/report.md >> "$GITHUB_STEP_SUMMARY"
+
+            - name: Summarise for Nightcord
+              run: |
+                  node - <<'EOF'
+                  const fs = require("fs");
+                  const path = require("path");
+
+                  // plugins Nightcord never ships (their folder ends in .equibop, .vesktop, .web, ...)
+                  const notShipped = new Set();
+                  for (const dir of ["src/plugins", "src/equicordplugins"]) {
+                      for (const entry of fs.readdirSync(dir)) {
+                          if (!/\.(equibop|vesktop|web|browser|userscript|dev)$/.test(entry.replace(/\.tsx?$/, ""))) continue;
+                          const full = path.join(dir, entry);
+                          const file = fs.statSync(full).isDirectory() ? ["index.ts", "index.tsx"].map(f => path.join(full, f)).find(fs.existsSync) : full;
+                          const m = file && fs.readFileSync(file, "utf8").match(/definePlugin\(\{[\s\S]{0,300}?\bname:\s*"([^"]+)"/);
+                          if (m) notShipped.add(m[1]);
+                      }
+                  }
+
+                  const report = fs.readFileSync("/tmp/report/report.md", "utf8");
+                  const section = title => {
+                      const m = report.match(new RegExp(`## ${title}\\n([\\s\\S]*?)(?=\\n## |$)`));
+                      return (m?.[1] ?? "").split(/\n(?=- )/).map(s => s.trim()).filter(s => s.startsWith("- "));
+                  };
+                  const shipped = item => !notShipped.has(item.match(/^- (\S+)/)?.[1]);
+
+                  const broken = {
+                      "Bad Patches": section("Bad Patches").filter(shipped),
+                      "Bad Webpack Finds": section("Bad Webpack Finds"),
+                      "Bad Starts": section("Bad Starts").filter(shipped)
+                  };
+                  const count = Object.values(broken).reduce((n, list) => n + list.length, 0);
+                  const ran = report.includes("# Nightcord Report");
+
+                  let body = `The daily check against the current discord.com found ${count} problem(s) in plugins Nightcord ships.\n`;
+                  for (const [title, list] of Object.entries(broken)) {
+                      if (list.length) body += `\n## ${title}\n${list.join("\n")}\n`;
+                  }
+                  body += `\nFull report: ${process.env.RUN_URL}\n\n(This issue is updated every day and closed once everything works again.)`;
+
+                  fs.writeFileSync("/tmp/report/issue.md", body);
+                  fs.writeFileSync("/tmp/report/status.txt", !ran ? "failed" : count ? "broken" : "ok");
+                  console.log(!ran ? "The reporter did not finish" : `${count} problem(s)`);
+                  EOF
+              env:
+                  RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+              with:
+                  name: report
+                  path: /tmp/report
+                  retention-days: 14
+
+    issue:
+        needs: report
+        runs-on: ubuntu-latest
+        permissions:
+            issues: write
+        env:
+            GH_TOKEN: ${{ github.token }}
+            GH_REPO: ${{ github.repository }}
+            TITLE: "Broken on the current Discord"
+        steps:
+            - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+              with:
+                  name: report
+                  path: /tmp/report
+
+            - name: Open, update or close the issue
+              run: |
+                  status=$(cat /tmp/report/status.txt)
+                  existing=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n 1)
+
+                  case "$status" in
+                      broken)
+                          if [ -n "$existing" ]; then
+                              gh issue edit "$existing" --body-file /tmp/report/issue.md
+                          else
+                              gh issue create --title "$TITLE" --body-file /tmp/report/issue.md
+                          fi
+                          ;;
+                      ok)
+                          if [ -n "$existing" ]; then
+                              gh issue close "$existing" --comment "The daily check found no problems any more."
+                          fi
+                          ;;
+                      *)
+                          echo "The reporter did not finish, leaving issues as they are"
+                          exit 1
+                          ;;
+                  esac
