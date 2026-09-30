@@ -47,10 +47,13 @@ function attachmentHtml(a: RawAttachment) {
     return `<a class="att file" href="${url}">📎 ${escapeHtml(a.filename)} <span>${formatSize(a.size)}</span></a>`;
 }
 
+/** Discord's copy of an embed picture, so opening the export does not contact the site the picture came from */
+const embedImageUrl = (img: { url: string; proxy_url?: string; }) => img.proxy_url ?? img.url;
+
 function embedHtml(e: RawEmbed, ctx: { guildId: string | null; }) {
     // Plain link previews repeat the link that is already in the text
     if ((e.type === "image" || e.type === "gifv") && (e.thumbnail?.url || e.image?.url)) {
-        const src = escapeHtml(e.image?.url ?? e.thumbnail!.url);
+        const src = escapeHtml(embedImageUrl(e.image ?? e.thumbnail!));
         return `<img class="att" loading="lazy" src="${src}" alt="">`;
     }
     if (!e.title && !e.description && !e.fields?.length && !e.image) return "";
@@ -60,7 +63,7 @@ function embedHtml(e: RawEmbed, ctx: { guildId: string | null; }) {
         ? (e.url && /^https?:\/\//.test(e.url) ? `<a class="et" href="${escapeHtml(e.url)}">${escapeHtml(e.title)}</a>` : `<div class="et">${escapeHtml(e.title)}</div>`)
         : "";
     const fields = (e.fields ?? []).map(f => `<div class="ef"><b>${escapeHtml(f.name)}</b><div>${markupToHtml(f.value, ctx)}</div></div>`).join("");
-    const image = e.image?.url ? `<img loading="lazy" src="${escapeHtml(e.image.url)}" alt="">` : "";
+    const image = e.image?.url ? `<img loading="lazy" src="${escapeHtml(embedImageUrl(e.image))}" alt="">` : "";
     return `<div class="embed" style="border-color:${color}">${e.author?.name ? `<div class="ea">${escapeHtml(e.author.name)}</div>` : ""}${title}${e.description ? `<div class="ed">${markupToHtml(e.description, ctx)}</div>` : ""}${fields}${image}${e.footer?.text ? `<div class="eft">${escapeHtml(e.footer.text)}</div>` : ""}</div>`;
 }
 
@@ -128,6 +131,8 @@ export function toHtml(info: ExportInfo, messages: RawMessage[]) {
 
     return `<!doctype html>
 <html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; img-src https: data:; media-src https:; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
 <title>${escapeHtml(info.title)}</title>
 <style>
 :root{--bg:#1a1b1e;--bg2:#232428;--text:#dbdee1;--muted:#949ba4;--accent:#a78bfa;--line:#2e3035}

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { NativeSettings } from "@main/settings";
+import { NativeSettings, RendererSettings } from "@main/settings";
 import { session } from "electron";
 
 type PolicyMap = Record<string, string[]>;
@@ -38,6 +38,7 @@ export const CspPolicies: PolicyMap = {
     "jsdelivr.net": ImageAndCssSrc, // jsDelivr, used by very few themes
 
     "fonts.googleapis.com": CssSrc, // Google Fonts, used by many themes
+    "fonts.gstatic.com": ["font-src"], // the font files Google Fonts stylesheets point to
 
     "i.imgur.com": ImageSrc, // Imgur, used by some themes
     "i.ibb.co": ImageSrc, // ImgBB, used by some themes
@@ -128,7 +129,11 @@ const patchCsp = (headers: PolicyMap) => {
             }
         }
 
+        // Nightcord: in strict mode the "*" rule (added by NightcordHelper) is left out, so the window can only
+        // reach Discord and the servers listed here, and cannot quietly send data anywhere else
+        const strict = RendererSettings.store.strictConnections === true;
         for (const [host, directives] of Object.entries(CspPolicies)) {
+            if (strict && host === "*") continue;
             for (const directive of directives) {
                 pushDirective(directive, host);
             }

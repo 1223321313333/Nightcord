@@ -26,6 +26,8 @@ interface Preset {
     disableThemes?: boolean;
     /** Plugin settings to set, as { PluginName: { settingKey: value } } */
     settings?: Record<string, Record<string, unknown>>;
+    /** Turn on strict connections (see OutsideConnections) */
+    strictConnections?: boolean;
     /** Shown in the confirmation, for presets whose effect is not obvious from plugin names */
     note?: string;
 }
@@ -66,6 +68,7 @@ const PRESETS: Preset[] = [
         settings: {
             BadgeAPI: { donorBadges: false }
         },
+        strictConnections: true,
         note: "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset."
     },
     {
@@ -117,11 +120,14 @@ function planFor(preset: Preset) {
         .flatMap(([plugin, values]) => Object.entries(values)
             .filter(([key, value]) => Settings.plugins[plugin]?.[key] !== value)
             .map(([key, value]) => ({ plugin, key, value })));
-    return { toEnable, toDisable, themes, settingChanges, note: preset.note };
+    const strict = !!preset.strictConnections && !Settings.strictConnections;
+    return { toEnable, toDisable, themes, settingChanges, strict, note: preset.note };
 }
 
-function applyPlan({ toEnable, toDisable, themes, settingChanges }: ReturnType<typeof planFor>) {
-    let restartNeeded = false;
+function applyPlan({ toEnable, toDisable, themes, settingChanges, strict }: ReturnType<typeof planFor>) {
+    // strict connections apply when the page loads
+    let restartNeeded = strict;
+    if (strict) Settings.strictConnections = true;
     const failed: string[] = [];
 
     // Settings first, so plugins that start below already see them
@@ -158,7 +164,7 @@ function applyPlan({ toEnable, toDisable, themes, settingChanges }: ReturnType<t
 
 function confirmPreset(preset: Preset) {
     const plan = planFor(preset);
-    const nothing = !plan.toEnable.length && !plan.toDisable.length && !plan.themes.length && !plan.settingChanges.length;
+    const nothing = !plan.toEnable.length && !plan.toDisable.length && !plan.themes.length && !plan.settingChanges.length && !plan.strict;
     if (nothing) {
         showToast(t("Everything from this preset is already set up."), Toasts.Type.MESSAGE);
         return;
@@ -196,6 +202,11 @@ function confirmPreset(preset: Preset) {
             {!!plan.settingChanges.length && (
                 <Paragraph className={Margins.bottom8}>
                     <b>{t("Will change settings")}:</b> {plan.settingChanges.map(c => `${c.plugin} → ${c.key} = ${String(c.value)}`).join(", ")}
+                </Paragraph>
+            )}
+            {plan.strict && (
+                <Paragraph className={Margins.bottom8}>
+                    <b>{t("Will turn on")}:</b> {t("Strict connections")}
                 </Paragraph>
             )}
             {plan.note && (

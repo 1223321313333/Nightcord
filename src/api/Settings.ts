@@ -102,6 +102,8 @@ export interface Settings {
     };
 
     ignoreResetWarning: boolean;
+    /** Nightcord: leave out the "any server" CSP rule, so the Discord window only reaches known servers */
+    strictConnections: boolean;
 }
 
 const DefaultSettings: Settings = {
@@ -148,6 +150,7 @@ const DefaultSettings: Settings = {
     },
 
     ignoreResetWarning: false,
+    strictConnections: false,
 };
 
 const settings = !IS_REPORTER ? NightcordNative.settings.get() : {} as Settings;

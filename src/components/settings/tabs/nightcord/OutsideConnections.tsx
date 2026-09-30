@@ -10,7 +10,7 @@ import { Paragraph } from "@components/Paragraph";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { getOutsideHosts, subscribeOutsideHosts } from "@utils/networkLog";
-import { Checkbox, React, useEffect, useState } from "@webpack/common";
+import { Button, Checkbox, React, useEffect, useState } from "@webpack/common";
 
 import { checkboxStyle } from "./PrivacyCheckup";
 
@@ -55,7 +55,10 @@ export function OutsideConnections() {
     const [hosts, setHosts] = useState(getOutsideHosts);
     useEffect(() => subscribeOutsideHosts(() => setHosts(getOutsideHosts())), []);
 
-    const donorBadges = useSettings(["plugins.BadgeAPI.donorBadges"]).plugins.BadgeAPI?.donorBadges ?? false;
+    const settings = useSettings(["plugins.BadgeAPI.donorBadges", "strictConnections"]);
+    const donorBadges = settings.plugins.BadgeAPI?.donorBadges ?? false;
+    // The rule is applied when Discord loads the page, so a change needs a reload
+    const [strictAtStart] = useState(settings.strictConnections);
 
     return (
         <section className={Margins.top20}>
@@ -80,6 +83,23 @@ export function OutsideConnections() {
                     <div style={checkboxStyle}>
                         <Checkbox value={donorBadges} onChange={(_: unknown, value: boolean) => { Settings.plugins.BadgeAPI.donorBadges = value; }}>
                             <Paragraph size="sm">{t("Load")}</Paragraph>
+                        </Checkbox>
+                    </div>
+                </div>
+                <div style={rowStyle}>
+                    <span style={{ fontSize: 18 }}>🔒</span>
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={titleStyle}>{t("Strict connections")}</div>
+                        <Paragraph size="sm">
+                            {t("Normally a Nightcord helper lets this window connect to any server. In strict mode it can only reach Discord and servers known to Nightcord, so nothing can quietly send your data elsewhere. Some plugins that use other sites may stop working.")}
+                        </Paragraph>
+                    </div>
+                    {settings.strictConnections !== strictAtStart && (
+                        <Button size={Button.Sizes.SMALL} onClick={() => location.reload()}>{t("Reload")}</Button>
+                    )}
+                    <div style={checkboxStyle}>
+                        <Checkbox value={settings.strictConnections} onChange={(_: unknown, value: boolean) => { Settings.strictConnections = value; }}>
+                            <Paragraph size="sm">{t("On")}</Paragraph>
                         </Checkbox>
                     </div>
                 </div>

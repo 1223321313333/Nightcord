@@ -35,8 +35,8 @@ export interface RawEmbed {
     description?: string;
     color?: number;
     author?: { name?: string; };
-    image?: { url: string; };
-    thumbnail?: { url: string; };
+    image?: { url: string; proxy_url?: string; };
+    thumbnail?: { url: string; proxy_url?: string; };
     video?: { url: string; };
     fields?: { name: string; value: string; }[];
     footer?: { text?: string; };

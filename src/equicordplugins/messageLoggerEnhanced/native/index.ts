@@ -64,6 +64,8 @@ export async function getImageNative(_event: IpcMainInvokeEvent, attachmentId: s
 
 export async function writeImageNative(_event: IpcMainInvokeEvent, filename: string, content: Uint8Array) {
     if (!filename || !content) return;
+    // Nightcord: only a plain file name, never a path out of the image folder
+    if (typeof filename !== "string" || path.basename(filename) !== filename || filename.startsWith(".")) return;
     const imageDir = await getImageCacheDir();
     const attachmentId = getAttachmentIdFromFilename(filename);
 
