@@ -28,6 +28,7 @@ import gitHash from "~git-hash";
 import gitRemote from "~git-remote";
 
 import { ASAR_FILE, serializeErrors } from "./common";
+import { checkProvenance } from "./provenance";
 
 const API_BASE = `https://api.github.com/repos/${gitRemote}`;
 let PendingUpdate: string | null = null;
@@ -105,6 +106,11 @@ async function applyUpdates() {
     const expected = await getExpectedDigest(PendingUpdate);
     const actual = createHash("sha256").update(data).digest("hex");
     if (actual !== expected) throw new Error(`The downloaded update is damaged or was changed (sha256 ${actual}, expected ${expected}). Not installing it.`);
+
+    // Nightcord: and it must have been built by this repository's build workflow (signed provenance, see provenance.ts)
+    const provenance = await checkProvenance(githubGet, url => fetchBuffer(url, { headers: { "User-Agent": NIGHTCORD_USER_AGENT } }), gitRemote, actual);
+    if (provenance.ok === false) throw new Error(`The update was not built by Nightcord's build workflow (${provenance.reason}). Not installing it.`);
+    if (provenance.ok === "unknown") console.warn("[Nightcord] Could not check where the update was built, relying on its sha256:", provenance.reason);
 
     writeFileSync(__dirname, data, { flush: true });
 
