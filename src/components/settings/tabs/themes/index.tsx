@@ -25,6 +25,7 @@ import { SyntheticEvent } from "react";
 import { OnlineThemesSection } from "./OnlineThemes";
 import { QuickActionsSection } from "./QuickActions";
 import { ThemeCard } from "./ThemeCard";
+import { ThemeGallery } from "./ThemeGallery";
 
 const cl = classNameFactory("vc-settings-theme-");
 
@@ -385,6 +386,10 @@ function ThemesTab() {
                 onFileUpload={onFileUpload}
                 refreshLocalThemes={refreshLocalThemes}
             />
+
+            <Divider className={Margins.top20} />
+
+            <ThemeGallery />
 
             <Divider className={Margins.top20} />
 
