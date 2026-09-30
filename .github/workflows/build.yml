@@ -47,6 +47,10 @@ jobs:
             - name: Build
               run: pnpm buildStandalone
 
+            - name: Build the browser versions
+              # userscript (Tampermonkey / Violentmonkey) and the Chrome and Firefox extensions
+              run: pnpm buildWeb
+
             - name: Generate plugin list
               run: pnpm generatePluginJson dist/plugins.json
 
@@ -59,6 +63,10 @@ jobs:
                   (cd dist/release && sha256sum desktop.asar > desktop.asar.sha256)
                   # loose files keep older Nightcord installs (and the installer's local mode) working
                   cp dist/desktop/patcher.js dist/desktop/preload.js dist/desktop/renderer.js dist/desktop/renderer.css dist/release/
+
+                  # browser: the userscript, its header alone (checked for updates, see @updateURL) and the extensions
+                  cp dist/Nightcord.user.js dist/extension-chrome.zip dist/extension-firefox.zip dist/release/
+                  sed -n '1,\#==/UserScript==#p' dist/Nightcord.user.js > dist/release/Nightcord.meta.js
 
                   for f in installer/NightcordInstaller.bat installer/NightcordInstaller.ps1; do
                       sed 's/\r*$/\r/' "$f" > "dist/release/$(basename "$f")"

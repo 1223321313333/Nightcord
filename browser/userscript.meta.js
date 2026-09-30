@@ -1,11 +1,14 @@
 // ==UserScript==
 // @name            Nightcord
-// @description     A Discord client mod - Web version
+// @description     Nightcord in the browser: the Discord mod with Russian UI and privacy tools
 // @version         %version%
-// @author          Nightcord (https://github.com/Equicord)
-// @namespace       https://github.com/Equicord/Equicord
-// @supportURL      https://github.com/Equicord/Equicord
-// @icon            https://raw.githubusercontent.com/Equicord/Equicord/refs/heads/main/browser/icon.png
+// @author          Nightcord
+// @namespace       https://github.com/1223321313333/Nightcord
+// @homepageURL     https://github.com/1223321313333/Nightcord
+// @supportURL      https://github.com/1223321313333/Nightcord/issues
+// @icon            https://raw.githubusercontent.com/1223321313333/Nightcord/main/browser/icon.png
+// @updateURL       https://github.com/1223321313333/Nightcord/releases/latest/download/Nightcord.meta.js
+// @downloadURL     https://github.com/1223321313333/Nightcord/releases/latest/download/Nightcord.user.js
 // @license         GPL-3.0
 // @match           *://*.discord.com/*
 // @grant           GM_xmlhttpRequest
