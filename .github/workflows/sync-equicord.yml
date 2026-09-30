@@ -90,6 +90,13 @@ jobs:
                   (cd /tmp/upstream && ./node_modules/.bin/eslint --fix src scripts) || true
                   rm /tmp/upstream/node_modules
 
+                  # The workflow token may not push changes to workflow files, and Nightcord has its own CI anyway:
+                  # keep Equicord's workflows as they were at the last sync
+                  if git cat-file -e origin/upstream-nightcord:.github/workflows 2>/dev/null; then
+                      rm -rf /tmp/upstream/.github/workflows
+                      git -C /tmp/upstream checkout origin/upstream-nightcord -- .github/workflows
+                  fi
+
                   git -C /tmp/upstream add -A
                   tree=$(git -C /tmp/upstream write-tree)
                   commit=$(git commit-tree "$tree" -p origin/upstream-nightcord -p equicord/dev \
