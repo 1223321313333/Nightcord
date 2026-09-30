@@ -11,10 +11,10 @@
 
 import { IpcEvents } from "@shared/IpcEvents";
 import { ipcMain } from "electron";
-import { mkdirSync, readFileSync, writeFileSync } from "fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
-import { SETTINGS_DIR } from "./utils/constants";
+import { SETTINGS_DIR, SETTINGS_FILE } from "./utils/constants";
 
 const STATE_FILE = join(SETTINGS_DIR, "startup.json");
 const FAILED_STARTS_FOR_SAFE_MODE = 3;
@@ -37,6 +37,8 @@ function write(failedStarts: number) {
     }
 }
 
+// No settings yet: Nightcord was just installed (this module loads before anything writes them)
+const firstRun = !existsSync(SETTINGS_FILE);
 const failedStarts = read();
 const safeMode = failedStarts >= FAILED_STARTS_FOR_SAFE_MODE || process.argv.includes("--nightcord-safe-mode");
 
@@ -45,7 +47,7 @@ write(failedStarts + 1);
 if (safeMode) console.warn(`[Nightcord] Safe mode: ${failedStarts} starts in a row did not finish, plugins stay off`);
 
 ipcMain.on(IpcEvents.GET_STARTUP_STATE, e => {
-    e.returnValue = { safeMode, failedStarts };
+    e.returnValue = { safeMode, failedStarts, firstRun };
 });
 
 // In safe mode a good start does not count: the problem is still there once plugins are back

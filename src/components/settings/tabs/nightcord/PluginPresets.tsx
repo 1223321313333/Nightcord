@@ -15,7 +15,7 @@ import { Button, ConfirmModal, openModal, React, showToast, Toasts } from "@webp
 
 import { SENDS_DATA, VISIBLE_TO_OTHERS } from "../plugins/curation";
 
-interface Preset {
+export interface Preset {
     id: string;
     emoji: string;
     title: string;
@@ -40,7 +40,7 @@ const HEAVY_PLUGINS = [
     "Timezones", "ShowRolesInChat", "IrcColors", "MessageColors", "MessageLinkEmbeds", "BetterAudioPlayer"
 ];
 
-const PRESETS: Preset[] = [
+export const PRESETS: Preset[] = [
     {
         id: "friends",
         emoji: "😎",
@@ -162,7 +162,7 @@ function applyPlan({ toEnable, toDisable, themes, settingChanges, strict }: Retu
     return { restartNeeded, failed };
 }
 
-function confirmPreset(preset: Preset) {
+export function confirmPreset(preset: Preset) {
     const plan = planFor(preset);
     const nothing = !plan.toEnable.length && !plan.toDisable.length && !plan.themes.length && !plan.settingChanges.length && !plan.strict;
     if (nothing) {

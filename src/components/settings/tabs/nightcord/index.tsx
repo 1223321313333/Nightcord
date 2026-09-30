@@ -11,7 +11,7 @@ import { useSettings } from "@api/Settings";
 import { Divider } from "@components/Divider";
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
-import { FolderIcon, GithubIcon, LogIcon, PaintbrushIcon, RestartIcon } from "@components/Icons";
+import { FolderIcon, GithubIcon, LogIcon, NotesIcon, PaintbrushIcon, RestartIcon } from "@components/Icons";
 import { Notice } from "@components/Notice";
 import { Paragraph } from "@components/Paragraph";
 import { openPluginModal, SettingsTab, wrapTab } from "@components/settings";
@@ -32,6 +32,7 @@ import { NotificationSection } from "./NotificationSettings";
 import { OutsideConnections } from "./OutsideConnections";
 import { PluginPresets } from "./PluginPresets";
 import { LocalTraces, PrivacyCheckup } from "./PrivacyCheckup";
+import { openWhatsNew } from "./Welcome";
 import { WindowsMaterialSettings } from "./WindowsMaterialSettings";
 
 const NIGHTCORD_IMAGE = "data:image/svg+xml," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='#6d28d9' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/></svg>");
@@ -168,6 +169,11 @@ function NightcordSettings() {
             </Paragraph>
 
             <QuickActionCard>
+                <QuickAction
+                    Icon={NotesIcon}
+                    text={t("What's new")}
+                    action={() => openWhatsNew()}
+                />
                 <QuickAction
                     Icon={LogIcon}
                     text={t("Notification Log")}

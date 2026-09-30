@@ -9,7 +9,7 @@
 /** How long the window has to run before the start counts as good */
 const GOOD_START_AFTER = 20_000;
 
-function readState(): { safeMode: boolean; failedStarts: number; } {
+function readState(): { safeMode: boolean; failedStarts: number; firstRun?: boolean; } {
     try {
         return IS_DISCORD_DESKTOP
             ? NightcordNative.native.getStartupState?.() ?? { safeMode: false, failedStarts: 0 }
