@@ -19,6 +19,11 @@ import { AnyModuleFactory, AnyWebpackRequire, MaybePatchedModuleFactory, Patched
 import { _blacklistBadModules, _initWebpack, factoryListeners, findModuleFactory, moduleListeners, waitForSubscriptions, wreq } from "./webpack";
 
 export const patches = [] as Patch[];
+/**
+ * Nightcord: patches whose find matched a module at least once. A patch that matched but changed nothing stays in
+ * `patches` (it may still apply to a later module), so staying there alone does not mean its module is missing.
+ */
+export const matchedPatches = new WeakSet<Patch>();
 
 export const SYM_ORIGINAL_MODULE_FACTORIES = Symbol("WebpackPatcher.originalModuleFactories");
 export const SYM_IS_PROXIED_FACTORY = Symbol("WebpackPatcher.isProxiedFactory");
@@ -567,6 +572,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
         if (!moduleMatches) {
             continue;
         }
+        matchedPatches.add(patch);
 
         // Save the result from the previous patch so we can restore it in case a patch group fails.
         const previousPatchedCode = patchedCode;

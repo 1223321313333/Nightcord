@@ -13,7 +13,7 @@ import { Devs } from "@utils/constants";
 import { healthIssues } from "@utils/health";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { getBuildNumber, patches } from "@webpack/patcher";
+import { getBuildNumber, matchedPatches, patches } from "@webpack/patcher";
 
 const KEY = "Nightcord_LastCheck";
 const CHECK_DELAY = 45_000;
@@ -54,7 +54,7 @@ function collect() {
     }
 
     // Patches that have not found their module yet. Many live in parts of Discord you haven't opened.
-    const waiting = new Set(patches.filter(p => !p.all).map(p => p.plugin));
+    const waiting = new Set(patches.filter(p => !p.all && !matchedPatches.has(p)).map(p => p.plugin));
     const enabled = Object.values(plugins).filter(p => isPluginEnabled(p.name) && !p.hidden).length;
 
     return { byPlugin, missingModules, waiting, enabled };

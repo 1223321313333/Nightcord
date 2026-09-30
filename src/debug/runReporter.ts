@@ -8,7 +8,7 @@ import { addPatch } from "@api/PluginManager";
 import { initWs } from "@plugins/devCompanion.dev/initWs";
 import { Logger } from "@utils/Logger";
 import * as Webpack from "@webpack";
-import { getBuildNumber, patches, patchTimings } from "@webpack/patcher";
+import { getBuildNumber, matchedPatches, patches, patchTimings } from "@webpack/patcher";
 
 import { loadLazyChunks } from "./loadLazyChunks";
 import { reporterData } from "./reporterData";
@@ -53,7 +53,8 @@ async function runReporter() {
         }
 
         for (const patch of patches) {
-            if (!patch.all) {
+            // a patch that found its module but changed nothing already warned there (unless noWarn)
+            if (!patch.all && !matchedPatches.has(patch)) {
                 new Logger("WebpackPatcher").warn(`Patch by ${patch.plugin} found no module (Module id is -): ${patch.find}`);
                 if (IS_COMPANION_TEST)
                     reporterData.failedPatches.foundNoModule.push(patch);
