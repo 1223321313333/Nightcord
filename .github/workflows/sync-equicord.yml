@@ -1,41 +1,53 @@
 name: Sync with Equicord
 # Pulls new Equicord commits (their dev branch, where fixes for Discord updates land first) into Nightcord once a week.
 #
-# 1. The new Equicord version is rebranded with scripts/nightcord/rebrand.cjs and committed on top of
-#    the `upstream-nightcord` branch, so that branch only ever differs by real upstream changes.
-# 2. That commit is merged into a sync branch made from main. Known conflicts are resolved by
-#    scripts/nightcord/resolve-sync.cjs; anything else opens an issue for a human.
-# 3. Build, type-check and lint. If everything passes it is pushed to main (when auto-merge is on)
-#    or left on the sync branch with an issue linking to it.
+# Two jobs, so Equicord's code never runs with write access to this repository:
+#  - prepare (read-only, no credentials): rebrand the new Equicord version with scripts/nightcord/rebrand.cjs,
+#    merge it into a sync branch made from main (known conflicts are resolved by scripts/nightcord/resolve-sync.cjs),
+#    then install, build, type-check and lint. The result is handed over as a git bundle.
+#  - publish (write access, runs only git and gh): checks the bundle really is main + that Equicord version,
+#    pushes it, and ships it to main when the checks passed, auto-merge is on and nothing sensitive changed.
+#    Changes to the main process, native code, build scripts, CI, the installer or package scripts and
+#    new dependencies always wait for a human, with an issue listing them.
 on:
     schedule:
         - cron: "0 6 * * 1" # Mondays 06:00 UTC
     workflow_dispatch:
         inputs:
             auto_merge:
-                description: "Push to main automatically if the build and checks pass"
+                description: "Push to main automatically if the build and checks pass and nothing sensitive changed"
                 type: boolean
                 default: false
+    push:
+        # run right away when this workflow changes, so a broken sync is noticed the same day
+        branches: [main]
+        paths: [.github/workflows/sync-equicord.yml]
 
 permissions:
-    contents: write
-    issues: write
-    actions: write
+    contents: read
 
 concurrency:
     group: sync-equicord
 
 env:
     FORCE_COLOR: true
-    AUTO_MERGE: ${{ inputs.auto_merge || vars.NIGHTCORD_AUTO_MERGE == 'true' }}
 
 jobs:
-    sync:
+    prepare:
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
+        outputs:
+            changed: ${{ steps.check.outputs.changed }}
+            new: ${{ steps.check.outputs.new }}
+            short: ${{ steps.check.outputs.short }}
+            conflicts: ${{ steps.merge.outputs.conflicts }}
+            passed: ${{ steps.test.outputs.passed }}
         steps:
             - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
               with:
                   fetch-depth: 0
+                  persist-credentials: false
 
             - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
 
@@ -83,25 +95,24 @@ jobs:
                   commit=$(git commit-tree "$tree" -p origin/upstream-nightcord -p equicord/dev \
                       -m "Equicord ${{ steps.check.outputs.short }} rebranded to Nightcord" \
                       -m "Upstream: ${{ steps.check.outputs.new }}")
-                  git push origin "$commit:refs/heads/upstream-nightcord"
-                  echo "UPSTREAM_COMMIT=$commit" >> "$GITHUB_ENV"
+                  git branch -f nc-upstream "$commit"
 
             - name: Merge into a sync branch
               id: merge
               if: steps.check.outputs.changed == 'true'
               run: |
-                  branch="sync/equicord-${{ steps.check.outputs.short }}"
-                  echo "branch=$branch" >> "$GITHUB_OUTPUT"
-                  git checkout -b "$branch"
+                  mkdir -p /tmp/sync
+                  : > /tmp/sync/resolve.txt
+                  git checkout -b nc-sync
 
-                  if git merge --no-edit -m "Sync with Equicord ${{ steps.check.outputs.short }}" "$UPSTREAM_COMMIT"; then
+                  if git merge --no-edit -m "Sync with Equicord ${{ steps.check.outputs.short }}" nc-upstream; then
                       echo "conflicts=false" >> "$GITHUB_OUTPUT"
-                  elif node scripts/nightcord/resolve-sync.cjs > /tmp/resolve.txt; then
-                      cat /tmp/resolve.txt
+                  elif node scripts/nightcord/resolve-sync.cjs > /tmp/sync/resolve.txt; then
+                      cat /tmp/sync/resolve.txt
                       git commit --no-edit
                       echo "conflicts=false" >> "$GITHUB_OUTPUT"
                   else
-                      cat /tmp/resolve.txt
+                      cat /tmp/sync/resolve.txt
                       git merge --abort
                       echo "conflicts=true" >> "$GITHUB_OUTPUT"
                   fi
@@ -117,34 +128,130 @@ jobs:
                   fi
 
                   set +e
-                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm lint-styles && pnpm generatePluginJson > /dev/null; } > /tmp/test.txt 2>&1
+                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm lint-styles && pnpm generatePluginJson > /dev/null; } > /tmp/sync/test.txt 2>&1
                   result=$?
                   set -e
-                  tail -n 40 /tmp/test.txt
+                  tail -n 40 /tmp/sync/test.txt
                   if [ $result -eq 0 ]; then echo "passed=true" >> "$GITHUB_OUTPUT"; else echo "passed=false" >> "$GITHUB_OUTPUT"; fi
 
-            - name: Ship to main
-              if: steps.test.outputs.passed == 'true' && env.AUTO_MERGE == 'true'
+            - name: Bundle the result
+              if: steps.check.outputs.changed == 'true'
               run: |
-                  git push origin "HEAD:main"
+                  refs="nc-upstream"
+                  [ "${{ steps.merge.outputs.conflicts }}" = "false" ] && refs="$refs nc-sync"
+                  git bundle create /tmp/sync/sync.bundle $refs ^origin/main ^origin/upstream-nightcord
+
+            - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+              if: steps.check.outputs.changed == 'true'
+              with:
+                  name: sync
+                  path: /tmp/sync
+                  retention-days: 14
+
+    publish:
+        needs: prepare
+        if: needs.prepare.outputs.changed == 'true'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            issues: write
+            actions: write
+        env:
+            AUTO_MERGE: ${{ inputs.auto_merge || vars.NIGHTCORD_AUTO_MERGE == 'true' }}
+            NEW: ${{ needs.prepare.outputs.new }}
+            SHORT: ${{ needs.prepare.outputs.short }}
+            CONFLICTS: ${{ needs.prepare.outputs.conflicts }}
+            PASSED: ${{ needs.prepare.outputs.passed }}
+            GH_TOKEN: ${{ github.token }}
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  fetch-depth: 0
+
+            - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+              with:
+                  name: sync
+                  path: /tmp/sync
+
+            - name: Check the bundle
+              id: verify
+              run: |
+                  git config core.hooksPath /dev/null
+                  git fetch --no-tags origin upstream-nightcord
+                  git fetch --no-tags /tmp/sync/sync.bundle "refs/heads/*:refs/bundle/*"
+
+                  # the upstream commit must be exactly: previous upstream-nightcord + that Equicord commit
+                  test "$(git rev-parse refs/bundle/nc-upstream^1)" = "$(git rev-parse origin/upstream-nightcord)"
+                  test "$(git rev-parse refs/bundle/nc-upstream^2)" = "$NEW"
+
+                  if [ "$CONFLICTS" = "false" ]; then
+                      git merge-base --is-ancestor origin/main refs/bundle/nc-sync
+                      git merge-base --is-ancestor refs/bundle/nc-upstream refs/bundle/nc-sync
+
+                      # Redo the merge here with main's own resolver and compare: the sync branch may differ only
+                      # in the lockfile, which prepare regenerated
+                      cp scripts/nightcord/resolve-sync.cjs /tmp/resolve-sync.cjs
+                      git config user.name "github-actions[bot]"
+                      git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                      git checkout -q -b nc-verify origin/main
+                      if ! git merge -q --no-edit refs/bundle/nc-upstream > /dev/null; then
+                          node /tmp/resolve-sync.cjs > /dev/null
+                          git commit -q --no-edit
+                      fi
+                      diff=$(git diff --name-only nc-verify refs/bundle/nc-sync -- . ':!pnpm-lock.yaml')
+                      if [ -n "$diff" ]; then echo "The sync branch has changes the merge does not explain:"; echo "$diff"; exit 1; fi
+                      git checkout -q main
+                  fi
+
+            - name: Look for sensitive changes
+              id: sensitive
+              if: needs.prepare.outputs.conflicts == 'false'
+              run: |
+                  git diff --name-only origin/main refs/bundle/nc-sync > /tmp/changed.txt
+                  grep -E '^(\.github/|scripts/|installer/|browser/|packages/|src/main/|src/shared/|src/preload\.ts|pnpm-workspace\.yaml|\.npmrc)|/native(\.tsx?$|/)' /tmp/changed.txt > /tmp/sensitive.txt || true
+
+                  # package.json: new dependencies or changed scripts count, version bumps do not
+                  git show origin/main:package.json > /tmp/pkg-old.json
+                  git show refs/bundle/nc-sync:package.json > /tmp/pkg-new.json
+                  node -e '
+                      const [a, b] = ["/tmp/pkg-old.json", "/tmp/pkg-new.json"].map(f => JSON.parse(require("fs").readFileSync(f, "utf8")));
+                      const deps = p => new Set(Object.keys({ ...p.dependencies, ...p.devDependencies, ...p.optionalDependencies }));
+                      const added = [...deps(b)].filter(d => !deps(a).has(d));
+                      if (added.length) console.log("package.json: new dependencies " + added.join(", "));
+                      if (JSON.stringify(a.scripts) !== JSON.stringify(b.scripts)) console.log("package.json: scripts changed");
+                      if (JSON.stringify(a.pnpm) !== JSON.stringify(b.pnpm)) console.log("package.json: pnpm settings changed");
+                  ' >> /tmp/sensitive.txt
+
+                  # the lockfile may only point at the npm registry
+                  if git diff origin/main refs/bundle/nc-sync -- pnpm-lock.yaml | grep -E '^\+' | grep -qE 'tarball|codeload|git\+|(https?|ssh)://'; then
+                      echo "pnpm-lock.yaml: packages from outside the npm registry" >> /tmp/sensitive.txt
+                  fi
+
+                  if [ -s /tmp/sensitive.txt ]; then echo "found=true" >> "$GITHUB_OUTPUT"; else echo "found=false" >> "$GITHUB_OUTPUT"; fi
+                  cat /tmp/sensitive.txt
+
+            - name: Push the rebranded upstream
+              run: git push origin "refs/bundle/nc-upstream:refs/heads/upstream-nightcord"
+
+            - name: Ship to main
+              if: needs.prepare.outputs.passed == 'true' && steps.sensitive.outputs.found == 'false' && env.AUTO_MERGE == 'true'
+              run: |
+                  git push origin "refs/bundle/nc-sync:refs/heads/main"
                   # Pushes made with GITHUB_TOKEN don't trigger other workflows, so start the release build by hand
                   gh workflow run build.yml --ref main
-                  echo "Merged Equicord ${{ steps.check.outputs.short }} into main and started a DevBuild." >> "$GITHUB_STEP_SUMMARY"
-              env:
-                  GH_TOKEN: ${{ github.token }}
+                  echo "Merged Equicord $SHORT into main and started a DevBuild." >> "$GITHUB_STEP_SUMMARY"
 
             - name: Leave it for review
-              if: steps.merge.outputs.conflicts == 'true' || steps.test.outputs.passed == 'false' || (steps.test.outputs.passed == 'true' && env.AUTO_MERGE != 'true')
+              if: needs.prepare.outputs.conflicts == 'true' || needs.prepare.outputs.passed != 'true' || steps.sensitive.outputs.found == 'true' || env.AUTO_MERGE != 'true'
               run: |
-                  short="${{ steps.check.outputs.short }}"
-                  branch="${{ steps.merge.outputs.branch }}"
+                  branch="sync/equicord-$SHORT"
                   repo="${{ github.repository }}"
 
-                  if [ "${{ steps.merge.outputs.conflicts }}" = "true" ]; then
-                      title="Equicord $short: merge conflicts need a human"
-                      body="Nightcord could not merge Equicord \`$short\` automatically.
+                  if [ "$CONFLICTS" = "true" ]; then
+                      title="Equicord $SHORT: merge conflicts need a human"
+                      body="Nightcord could not merge Equicord \`$SHORT\` automatically.
 
-                  $(sed 's/^/    /' /tmp/resolve.txt)
+                  $(sed 's/^/    /' /tmp/sync/resolve.txt)
 
                   The rebranded upstream is on the \`upstream-nightcord\` branch. To finish by hand:
 
@@ -154,24 +261,27 @@ jobs:
 
                   then fix the files listed above, commit and push."
                   else
-                      git push origin "HEAD:refs/heads/$branch"
-                      if [ "${{ steps.test.outputs.passed }}" = "true" ]; then
-                          title="Equicord $short is ready to merge"
-                          status="The build, type-check and lint all passed."
-                      else
-                          title="Equicord $short: checks failed"
+                      git push origin "refs/bundle/nc-sync:refs/heads/$branch"
+                      if [ "$PASSED" != "true" ]; then
+                          title="Equicord $SHORT: checks failed"
                           status="The merge worked, but the checks failed:
 
-                  $(tail -n 30 /tmp/test.txt | sed 's/^/    /')"
+                  $(tail -n 30 /tmp/sync/test.txt | sed 's/^/    /')"
+                      elif [ -s /tmp/sensitive.txt ]; then
+                          title="Equicord $SHORT changes sensitive files: review before merging"
+                          status="The checks passed, but this update touches code that runs with full access to the computer, the build or CI, so it is not merged automatically:
+
+                  $(sed 's/^/    /' /tmp/sensitive.txt)"
+                      else
+                          title="Equicord $SHORT is ready to merge"
+                          status="The build, type-check and lint all passed."
                       fi
                       body="$status
 
                   Review and merge: https://github.com/$repo/compare/main...$branch?expand=1
 
-                  Or turn on automatic merging: set the repository variable \`NIGHTCORD_AUTO_MERGE\` to \`true\`."
+                  Automatic merging of safe updates is controlled by the repository variable \`NIGHTCORD_AUTO_MERGE\`."
                   fi
 
                   gh issue create --title "$title" --body "$body"
                   echo "$title" >> "$GITHUB_STEP_SUMMARY"
-              env:
-                  GH_TOKEN: ${{ github.token }}
