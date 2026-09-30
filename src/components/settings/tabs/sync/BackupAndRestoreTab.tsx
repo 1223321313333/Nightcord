@@ -27,6 +27,8 @@ import { SettingsTab, wrapTab } from "@components/settings/tabs/BaseTab";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 
+import { DiscordSync } from "./DiscordSync";
+
 function BackupAndRestoreTab() {
     return (
         <SettingsTab>
@@ -116,6 +118,8 @@ function BackupAndRestoreTab() {
                     {t("Export DataStore")}
                 </Button>
             </Flex>
+
+            <DiscordSync />
         </SettingsTab>
     );
 }
