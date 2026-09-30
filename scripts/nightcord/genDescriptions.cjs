@@ -45,7 +45,8 @@ export const PLUGIN_DESCRIPTIONS_RU: Record<string, [string, string]> = {
 ${entries.join("\n")}
 };
 `;
-const target = path.join(__dirname, "..", "..", "src", "utils", "pluginDescriptionsRu.ts");
+// NIGHTCORD_GEN_OUT: write somewhere else (tests compare the result with the committed file)
+const target = process.env.NIGHTCORD_GEN_OUT ?? path.join(__dirname, "..", "..", "src", "utils", "pluginDescriptionsRu.ts");
 fs.writeFileSync(target, out);
 console.log(`${entries.length} translations written`);
 if (missing.length) console.log("no translation:", missing.join(", "));

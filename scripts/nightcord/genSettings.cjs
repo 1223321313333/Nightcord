@@ -52,6 +52,7 @@ export const PLUGIN_SETTINGS_RU: Record<string, Record<string, [string, string, 
 ${lines.join("\n")}
 };
 `;
-const target = path.join(__dirname, "..", "..", "src", "utils", "pluginSettingsRu.ts");
+// NIGHTCORD_GEN_OUT: write somewhere else (tests compare the result with the committed file)
+const target = process.env.NIGHTCORD_GEN_OUT ?? path.join(__dirname, "..", "..", "src", "utils", "pluginSettingsRu.ts");
 fs.writeFileSync(target, out);
 console.log(`${count} settings of ${Object.keys(data).length} plugins written`);

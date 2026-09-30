@@ -34,3 +34,6 @@ jobs:
 
             - name: Test if plugin structure is valid
               run: pnpm generatePluginJson
+
+            - name: Nightcord unit tests
+              run: node --test "test/nightcord/*.test.mjs"

@@ -135,7 +135,7 @@ jobs:
                   fi
 
                   set +e
-                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm lint-styles && pnpm generatePluginJson > /dev/null; } > /tmp/sync/test.txt 2>&1
+                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm lint-styles && pnpm generatePluginJson > /dev/null && node --test "test/nightcord/*.test.mjs"; } > /tmp/sync/test.txt 2>&1
                   result=$?
                   set -e
                   tail -n 40 /tmp/sync/test.txt
