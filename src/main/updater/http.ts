@@ -16,6 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+import { RendererSettings } from "@main/settings";
 import { fetchBuffer, fetchJson } from "@main/utils/http";
 import { IpcEvents } from "@shared/IpcEvents";
 import { NIGHTCORD_USER_AGENT } from "@shared/nightcordUserAgent";
@@ -30,6 +31,8 @@ import { ASAR_FILE, serializeErrors } from "./common";
 
 const API_BASE = `https://api.github.com/repos/${gitRemote}`;
 let PendingUpdate: string | null = null;
+// Nightcord: commit of the release the pending update comes from, for the list of changes
+let PendingHash: string | null = null;
 // Nightcord: sha256 of the pending desktop.asar as reported by GitHub, checked before the file replaces the install
 let PendingUpdateDigest: string | null = null;
 
@@ -49,7 +52,7 @@ async function calculateGitChanges() {
     if (!isOutdated) return [];
 
     try {
-        const data = await githubGet(`/compare/${gitHash}...HEAD`);
+        const data = await githubGet(`/compare/${gitHash}...${PendingHash ?? "HEAD"}`);
 
         return data.commits.map((c: any) => ({
             hash: c.sha,
@@ -64,11 +67,13 @@ async function calculateGitChanges() {
 }
 
 async function fetchUpdates() {
-    const data = await githubGet("/releases/latest");
+    // Nightcord: the stable release is GitHub's "latest"; beta testers take every build from the devbuild release
+    const data = await githubGet(RendererSettings.store.betaUpdates ? "/releases/tags/devbuild" : "/releases/latest");
 
     const hash = data.name.slice(data.name.lastIndexOf(" ") + 1);
     if (hash === gitHash)
         return false;
+    PendingHash = /^[0-9a-f]{7,40}$/.test(hash) ? hash : null;
 
     const asset = data.assets.find(a => a.name === ASAR_FILE);
     if (!asset) throw new Error(`The latest release has no ${ASAR_FILE}`);

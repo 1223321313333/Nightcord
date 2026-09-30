@@ -17,7 +17,9 @@ $ErrorActionPreference = "Stop"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
 $Repo = "1223321313333/Nightcord"
-$ReleaseUrl = "https://github.com/$Repo/releases/download/devbuild"
+# "stable" follows "devbuild" (every commit) a day later, see .github/workflows/promote.yml
+$ReleaseTag = "stable"
+$ReleaseUrl = "https://github.com/$Repo/releases/download/$ReleaseTag"
 $AsarName = "desktop.asar"
 $DataDir = Join-Path $env:APPDATA "Nightcord"
 $Flavours = @(
@@ -106,7 +108,7 @@ function Start-Discord($installs) {
 function Get-ExpectedSha256 {
     try {
         $release = Invoke-RestMethod -UseBasicParsing -Headers @{ "User-Agent" = "NightcordInstaller" } `
-            -Uri "https://api.github.com/repos/$Repo/releases/tags/devbuild"
+            -Uri "https://api.github.com/repos/$Repo/releases/tags/$ReleaseTag"
         $asset = $release.assets | Where-Object name -eq $AsarName | Select-Object -First 1
         if ($asset.digest -match '^sha256:([a-fA-F0-9]{64})$') { return $Matches[1].ToLowerInvariant() }
     } catch {

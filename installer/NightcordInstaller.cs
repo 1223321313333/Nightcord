@@ -52,8 +52,12 @@ namespace NightcordInstaller
                 ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
             }
 
-            // --check <report>: download and verify the latest build without installing anything (used by CI)
-            if (args.Length == 2 && args[0] == "--check") return Check(args[1]);
+            // --check <report> [release]: download and verify a build without installing anything (used by CI)
+            if ((args.Length == 2 || args.Length == 3) && args[0] == "--check")
+            {
+                if (args.Length == 3) Installer.ReleaseTag = args[2];
+                return Check(args[1]);
+            }
             // --install / --uninstall [report]: no window, every Discord found, closes and restarts Discord by itself
             if (args.Length >= 1 && (args[0] == "--install" || args[0] == "--uninstall"))
                 return Silent(args[0] == "--install", args.Length >= 2 ? args[1] : null);
@@ -169,7 +173,8 @@ namespace NightcordInstaller
     static class Installer
     {
         public const string Repo = "1223321313333/Nightcord";
-        const string ReleaseTag = "devbuild";
+        // "stable" follows "devbuild" (every commit) a day later, see .github/workflows/promote.yml
+        public static string ReleaseTag = "stable";
         const string AsarName = "desktop.asar";
         const string UserAgent = "NightcordInstaller/1.1 (+https://github.com/" + Repo + ")";
 

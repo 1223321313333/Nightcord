@@ -21,6 +21,11 @@ env:
 permissions:
     contents: write
 
+concurrency:
+    # promote.yml copies this release; never let the two overlap
+    group: release
+    cancel-in-progress: false
+
 jobs:
     Build:
         runs-on: ubuntu-latest
@@ -61,13 +66,18 @@ jobs:
                   (cd dist/release && zip -q NightcordInstaller.zip NightcordInstaller.bat NightcordInstaller.ps1)
 
             - name: Upload DevBuild as release
-              # The standalone updater reads /releases/latest and takes the commit hash from the release title
+              # The updater takes the commit hash from the release title. devbuild is the beta channel: a pre-release
+              # once the stable release exists (promote.yml copies builds there a day later); until then it is "latest"
               run: |
                   RELEASE_TAG=$(git rev-parse HEAD)
                   gh release view devbuild >/dev/null 2>&1 || \
-                      gh release create devbuild --title "DevBuild $RELEASE_TAG" --notes "Automatic Nightcord build from the latest commit on main." --latest
+                      gh release create devbuild --title "DevBuild $RELEASE_TAG" --notes "Automatic Nightcord build from the latest commit on main (beta)." --latest
                   gh release upload devbuild --clobber dist/release/*
-                  gh release edit devbuild --title "DevBuild $RELEASE_TAG" --latest
+                  if gh release view stable >/dev/null 2>&1; then
+                      gh release edit devbuild --title "DevBuild $RELEASE_TAG" --prerelease --latest=false
+                  else
+                      gh release edit devbuild --title "DevBuild $RELEASE_TAG" --latest
+                  fi
                   # Keep the release tag on the commit it was built from, so it never pins old history
                   git push --force origin "HEAD:refs/tags/devbuild"
               env:
@@ -92,7 +102,7 @@ jobs:
             - name: Check that the installer downloads and verifies the new release
               shell: pwsh
               run: |
-                  $p = Start-Process -FilePath dist\NightcordInstaller.exe -ArgumentList "--check", "$env:RUNNER_TEMP\check.txt" -Wait -PassThru
+                  $p = Start-Process -FilePath dist\NightcordInstaller.exe -ArgumentList "--check", "$env:RUNNER_TEMP\check.txt", "devbuild" -Wait -PassThru
                   Get-Content "$env:RUNNER_TEMP\check.txt"
                   if ($p.ExitCode -ne 0) { exit 1 }
 

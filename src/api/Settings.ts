@@ -104,6 +104,8 @@ export interface Settings {
     ignoreResetWarning: boolean;
     /** Nightcord: leave out the "any server" CSP rule, so the Discord window only reaches known servers */
     strictConnections: boolean;
+    /** Nightcord: take every new build (the devbuild release) instead of the stable one, which follows a day later */
+    betaUpdates: boolean;
 }
 
 const DefaultSettings: Settings = {
@@ -151,6 +153,7 @@ const DefaultSettings: Settings = {
 
     ignoreResetWarning: false,
     strictConnections: false,
+    betaUpdates: false,
 };
 
 const settings = !IS_REPORTER ? NightcordNative.settings.get() : {} as Settings;

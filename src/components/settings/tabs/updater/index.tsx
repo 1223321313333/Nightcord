@@ -70,7 +70,7 @@ function EquibopSection() {
 }
 
 function Updater() {
-    const settings = useSettings(["autoUpdate", "autoUpdateNotification"]);
+    const settings = useSettings(["autoUpdate", "autoUpdateNotification", "betaUpdates"]);
 
     const [repo, err, repoPending] = useAwaiter(getRepo, { fallbackValue: "Loading..." });
 
@@ -106,6 +106,13 @@ function Updater() {
                     value={settings.autoUpdateNotification}
                     onChange={(v: boolean) => settings.autoUpdateNotification = v}
                     disabled={!settings.autoUpdate}
+                    hideBorder
+                />
+                <FormSwitch
+                    title={t("Beta versions")}
+                    description={t("Get every new Nightcord version right away. Normally a version reaches everyone a day later, after beta testers have used it and the automatic checks passed.")}
+                    value={settings.betaUpdates}
+                    onChange={(v: boolean) => settings.betaUpdates = v}
                     hideBorder
                 />
             </div>

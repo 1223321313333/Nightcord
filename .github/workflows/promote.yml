@@ -1,0 +1,93 @@
+name: Promote to stable
+# Once a day the beta build (the devbuild release, rebuilt on every push to main) is copied to the stable release,
+# if it is at least 20 hours old and its CI passed. The stable release is GitHub's "latest": the website, the
+# installer and the built-in updater use it unless "Beta versions" is on. Run it by hand with "now" to ship an urgent
+# fix right away.
+on:
+    schedule:
+        - cron: "0 7 * * *" # daily, 07:00 UTC
+    workflow_dispatch:
+        inputs:
+            now:
+                description: "Promote the current beta right away, without waiting 20 hours"
+                type: boolean
+                default: false
+    push:
+        # the first run creates the stable release
+        branches: [main]
+        paths: [.github/workflows/promote.yml]
+
+permissions:
+    contents: write
+    actions: read
+
+concurrency:
+    # shares the group with build.yml, so a build never changes devbuild while it is being copied
+    group: release
+    cancel-in-progress: false
+
+jobs:
+    promote:
+        runs-on: ubuntu-latest
+        env:
+            GH_TOKEN: ${{ github.token }}
+            GH_REPO: ${{ github.repository }}
+            NOW: ${{ inputs.now || false }}
+        steps:
+            - name: Decide
+              id: decide
+              run: |
+                  beta=$(gh release view devbuild --json name --jq .name)
+                  hash=${beta##* }
+                  stable=$(gh release view stable --json name --jq .name 2>/dev/null || true)
+                  echo "hash=$hash" >> "$GITHUB_OUTPUT"
+
+                  if [ -n "$stable" ] && [ "${stable##* }" = "$hash" ]; then
+                      echo "Stable already has $hash." | tee -a "$GITHUB_STEP_SUMMARY"
+                      echo "promote=false" >> "$GITHUB_OUTPUT"; exit 0
+                  fi
+
+                  committed=$(gh api "repos/$GH_REPO/commits/$hash" --jq .commit.committer.date)
+                  age_hours=$(( ($(date +%s) - $(date -d "$committed" +%s)) / 3600 ))
+                  checks=$(gh api "repos/$GH_REPO/actions/runs?head_sha=$hash&per_page=50" \
+                      --jq '[.workflow_runs[] | select(.name == "test" or .name == "Build DevBuild")] | map(.name + ":" + (.conclusion // "running")) | join(";")')
+                  echo "Beta $hash: ${age_hours}h old, checks: ${checks:-none}" | tee -a "$GITHUB_STEP_SUMMARY"
+
+                  if [ -z "$stable" ]; then
+                      reason="there is no stable release yet"
+                  elif [ "$NOW" = "true" ]; then
+                      reason="started by hand with now"
+                  elif [ "$age_hours" -lt 20 ]; then
+                      echo "Too new, waiting until it is 20 hours old." | tee -a "$GITHUB_STEP_SUMMARY"
+                      echo "promote=false" >> "$GITHUB_OUTPUT"; exit 0
+                  elif echo "$checks" | tr ";" "\n" | grep -qx "test:success" && ! echo "$checks" | tr ";" "\n" | grep -qvxE "(test|Build DevBuild):success"; then
+                      reason="${age_hours}h old and CI passed"
+                  else
+                      echo "Not promoting: CI did not pass for $hash." | tee -a "$GITHUB_STEP_SUMMARY"
+                      echo "promote=false" >> "$GITHUB_OUTPUT"; exit 0
+                  fi
+
+                  echo "Promoting $hash: $reason." | tee -a "$GITHUB_STEP_SUMMARY"
+                  echo "promote=true" >> "$GITHUB_OUTPUT"
+
+            - name: Copy the beta to stable
+              if: steps.decide.outputs.promote == 'true'
+              run: |
+                  hash="${{ steps.decide.outputs.hash }}"
+                  mkdir -p /tmp/assets
+                  gh release download devbuild --dir /tmp/assets
+
+                  # never publish a build whose checksum does not match
+                  (cd /tmp/assets && sha256sum --check --strict desktop.asar.sha256)
+
+                  notes="Nightcord $hash. This is the version everyone gets; it was a beta for at least a day first."
+                  if gh release view stable >/dev/null 2>&1; then
+                      gh release upload stable --clobber /tmp/assets/*
+                      gh release edit stable --title "Stable $hash" --notes "$notes" --prerelease=false --latest
+                      gh api -X PATCH "repos/$GH_REPO/git/refs/tags/stable" -f sha="$hash" -F force=true > /dev/null
+                  else
+                      gh release create stable /tmp/assets/* --target "$hash" --title "Stable $hash" --notes "$notes" --latest
+                  fi
+
+                  # beta stays available to beta testers, but is no longer what "latest" points at
+                  gh release edit devbuild --prerelease --latest=false
