@@ -239,6 +239,8 @@ const rowStyle: React.CSSProperties = {
     background: "var(--background-surface-high, var(--background-secondary))"
 };
 const titleStyle: React.CSSProperties = { fontWeight: 600, color: "var(--text-strong, var(--header-primary))" };
+// Discord's Checkbox grows to fill the row and squeezes the text next to it
+export const checkboxStyle: React.CSSProperties = { flex: "none" };
 
 export function PrivacyCheckup() {
     const states = useStateFromStores([ConsentStore, UserSettingsProtoStore], () => ITEMS.map(isPrivate));
@@ -307,13 +309,15 @@ export function PrivacyCheckup() {
                                 </Paragraph>
                             </div>
                             {!state && item.source.kind !== "info" && (
-                                <Checkbox
-                                    value={isChosen(item)}
-                                    onChange={(_: unknown, value: boolean) => setChosen(c => ({ ...c, [item.id]: value }))}
-                                    disabled={busy}
-                                >
-                                    <Paragraph size="sm">{t("Turn off")}</Paragraph>
-                                </Checkbox>
+                                <div style={checkboxStyle}>
+                                    <Checkbox
+                                        value={isChosen(item)}
+                                        onChange={(_: unknown, value: boolean) => setChosen(c => ({ ...c, [item.id]: value }))}
+                                        disabled={busy}
+                                    >
+                                        <Paragraph size="sm">{t("Turn off")}</Paragraph>
+                                    </Checkbox>
+                                </div>
                             )}
                         </div>
                     );
@@ -333,9 +337,11 @@ export function PrivacyCheckup() {
                     <div style={titleStyle}>{t("Keep data use off")}</div>
                     <Paragraph size="sm">{t("Discord turns data use for improving Discord and personalisation back on (from the phone app, prompts or new features). With this on, Nightcord switches them off again and tells you.")}</Paragraph>
                 </div>
-                <Checkbox value={guard} onChange={(_: unknown, value: boolean) => setGuard(value)}>
-                    <Paragraph size="sm">{t("Watch")}</Paragraph>
-                </Checkbox>
+                <div style={checkboxStyle}>
+                    <Checkbox value={guard} onChange={(_: unknown, value: boolean) => setGuard(value)}>
+                        <Paragraph size="sm">{t("Watch")}</Paragraph>
+                    </Checkbox>
+                </div>
             </div>
         </section>
     );

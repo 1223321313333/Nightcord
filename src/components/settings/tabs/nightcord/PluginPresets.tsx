@@ -63,6 +63,9 @@ const PRESETS: Preset[] = [
             ...Object.entries(SENDS_DATA).filter(([, d]) => d.automatic).map(([name]) => name),
             ...Object.keys(VISIBLE_TO_OTHERS)
         ],
+        settings: {
+            BadgeAPI: { donorBadges: false }
+        },
         note: "Discord's own analytics and crash reports are always blocked by Nightcord (NoTrack), with or without this preset."
     },
     {

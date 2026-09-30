@@ -51,7 +51,7 @@ function makeSearchItem(src: string) {
                         key={key}
                         id={key}
                         label={engine}
-                        leadingAccessory={{ type: "image", src: `https://icons.duckduckgo.com/ip3/${new URL(Engines[engine]).host}.ico` }}
+                        leadingAccessory={{ type: "icon", icon: OpenExternalIcon }}
                         action={() => search(src, Engines[engine])}
                     />
                 );

@@ -19,6 +19,7 @@
 import "./fixDiscordBadgePadding.css";
 
 import { _getBadges, BadgePosition, BadgeUserArgs, ProfileBadge } from "@api/Badges";
+import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { CopyIcon, LinkIcon } from "@components/Icons";
 import { openContributorModal } from "@components/settings/tabs";
@@ -26,7 +27,7 @@ import { Devs } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { shouldShowContributorBadge, shouldShowNightcordContributorBadge } from "@utils/misc";
-import definePlugin from "@utils/types";
+import definePlugin, { OptionType } from "@utils/types";
 import { ContextMenuApi, Menu, Toasts, UserStore } from "@webpack/common";
 
 import Plugins, { PluginMeta } from "~plugins";
@@ -110,6 +111,28 @@ async function loadAllBadges(noCache = false) {
 
 let intervalId: any;
 
+// Nightcord: the donor lists come from Vencord's and Equicord's servers, which then see the user's IP address
+// every 30 minutes. Off unless the user asks for them.
+const settings = definePluginSettings({
+    donorBadges: {
+        type: OptionType.BOOLEAN,
+        description: "Show Vencord and Equicord donor badges. The lists are downloaded from badges.vencord.dev and badge.equicord.org every 30 minutes, so those servers see your IP address",
+        default: false,
+        onChange: () => void startDonorBadges()
+    }
+});
+
+async function startDonorBadges() {
+    clearInterval(intervalId);
+    if (!settings.store.donorBadges) {
+        DonorBadges = {};
+        NightcordDonorBadges = {};
+        return;
+    }
+    await loadAllBadges();
+    intervalId = setInterval(loadAllBadges, 1000 * 60 * 30); // 30 minutes
+}
+
 export function BadgeContextMenu({ badge }: { badge: Omit<ProfileBadge, "id"> & BadgeUserArgs; }) {
     return (
         <Menu.Menu
@@ -142,6 +165,7 @@ export default definePlugin({
     description: "API to add badges to users",
     authors: [Devs.Megu, Devs.Ven, Devs.TheSun],
     required: true,
+    settings,
     patches: [
         {
             find: "#{intl::PROFILE_USER_BADGES}",
@@ -187,6 +211,14 @@ export default definePlugin({
 
     toolboxActions: {
         async "Refetch Badges"() {
+            if (!settings.store.donorBadges) {
+                Toasts.show({
+                    id: Toasts.genId(),
+                    message: "Donor badges are turned off in BadgeAPI settings",
+                    type: Toasts.Type.MESSAGE
+                });
+                return;
+            }
             await loadAllBadges(true);
             Toasts.show({
                 id: Toasts.genId(),
@@ -199,9 +231,7 @@ export default definePlugin({
     userProfileBadges: [ContributorBadge, NightcordContributorBadge, UserPluginContributorBadge],
 
     async start() {
-        await loadAllBadges();
-        clearInterval(intervalId);
-        intervalId = setInterval(loadAllBadges, 1000 * 60 * 30); // 30 minutes
+        await startDonorBadges();
     },
 
     async stop() {

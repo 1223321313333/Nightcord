@@ -45,6 +45,7 @@ export const SENDS_DATA: Record<string, { what: string; automatic: boolean; }> =
     MessageTranslate: { what: "Text of messages, to Google Translate", automatic: true },
     MusicControls: { what: "The track you are playing, to lyrics services (lrclib.net and others)", automatic: true },
     MusicRichPresence: { what: "Your Last.fm or ListenBrainz username, to their API", automatic: true },
+    FriendshipRanks: { what: "Your IP address, to equicord.org, which hosts the rank pictures shown on friends' profiles", automatic: true },
     Translate: { what: "Text you choose to translate, to Google, DeepL or Kagi", automatic: false },
     FileUpload: { what: "Files you upload with it, to the chosen file host", automatic: false },
     TenorGifSearch: { what: "Your GIF searches, to Tenor (Google)", automatic: false }

@@ -29,6 +29,7 @@ import { Alerts, GuildMemberStore, React } from "@webpack/common";
 
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
+import { OutsideConnections } from "./OutsideConnections";
 import { PluginPresets } from "./PluginPresets";
 import { LocalTraces, PrivacyCheckup } from "./PrivacyCheckup";
 import { WindowsMaterialSettings } from "./WindowsMaterialSettings";
@@ -205,6 +206,8 @@ function NightcordSettings() {
             <PluginPresets />
 
             <PrivacyCheckup />
+
+            <OutsideConnections />
 
             <LocalTraces />
 

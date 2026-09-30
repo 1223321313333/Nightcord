@@ -19,7 +19,7 @@ import { classNameFactory } from "@utils/css";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
-import { EmojiStore, Menu, openModal,TextInput, Toasts, useEffect, useState } from "@webpack/common";
+import { EmojiStore, EmojiUtils, Menu, openModal,TextInput, Toasts, useEffect, useState } from "@webpack/common";
 
 import { ClearAliasesConfirmModal } from "./components/modals/ClearAliasesConfirmModal";
 import { SetAliasModal } from "./components/modals/SetAliasModal";
@@ -302,13 +302,7 @@ function getUnicodePreviewUrl(ref: StoredEmojiRef): string | null {
     const surrogate = getUnicodeSurrogate(ref) ?? resolveUnicodeSurrogateByName(ref.name);
     if (!surrogate) return null;
 
-    const codepoints = Array.from(surrogate)
-        .map(char => char.codePointAt(0)?.toString(16))
-        .filter((value): value is string => !!value)
-        .join("-");
-
-    if (!codepoints.length) return null;
-    return `https://twemoji.maxcdn.com/v/latest/72x72/${codepoints}.png`;
+    return EmojiUtils.getURL(surrogate) || null;
 }
 
 function isDirectUnicodeTarget(target: HTMLElement): string | null {

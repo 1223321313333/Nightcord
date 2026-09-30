@@ -37,6 +37,9 @@ export const PLUGIN_SETTINGS_RU: Record<string, Record<string, [string, string, 
     "AutoDNDWhilePlaying": {
         "statusToSet": ["1h80rh2", "Статус во время игры", "Какой статус ставить, пока вы играете", { "Online": "В сети", "Idle": "Неактивен", "Do Not Disturb": "Не беспокоить", "Invisible": "Невидимка" }],
     },
+    "BadgeAPI": {
+        "donorBadges": ["15oluda", "Значки донатеров", "Показывать значки донатеров Vencord и Equicord. Списки скачиваются с badges.vencord.dev и badge.equicord.org каждые 30 минут, поэтому эти серверы видят ваш IP-адрес"],
+    },
     "BetterFolders": {
         "sidebar": ["198syyr", "Боковая панель", "Показывать серверы из папки на отдельной боковой панели"],
         "sidebarAnim": ["l2vpj1", "Анимация панели", "Анимировать открытие боковой панели папки"],

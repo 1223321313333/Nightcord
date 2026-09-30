@@ -29,6 +29,9 @@
   "AutoDNDWhilePlaying": {
     "statusToSet": ["Status to set while playing a game","Статус во время игры","Какой статус ставить, пока вы играете",{"Online":"В сети","Idle":"Неактивен","Do Not Disturb":"Не беспокоить","Invisible":"Невидимка"}]
   },
+  "BadgeAPI": {
+    "donorBadges": ["Show Vencord and Equicord donor badges. The lists are downloaded from badges.vencord.dev and badge.equicord.org every 30 minutes, so those servers see your IP address","Значки донатеров","Показывать значки донатеров Vencord и Equicord. Списки скачиваются с badges.vencord.dev и badge.equicord.org каждые 30 минут, поэтому эти серверы видят ваш IP-адрес"]
+  },
   "BetterFolders": {
     "sidebar": ["Display servers from folder on dedicated sidebar","Боковая панель","Показывать серверы из папки на отдельной боковой панели"],
     "sidebarAnim": ["Animate opening the folder sidebar","Анимация панели","Анимировать открытие боковой панели папки"],
@@ -243,11 +246,6 @@
   "KeyboardLayoutFix": {
     "autoFix": ["Automatically fix messages that were clearly typed in the English layout instead of Russian (e.g. ghbdtn → привет)","Автоисправление","Сам исправлять сообщения, явно набранные в английской раскладке вместо русской (ghbdtn → привет)"],
     "notifyOnFix": ["Show a notification with the original text when a message was fixed automatically","Сообщать об исправлении","Показывать уведомление с исходным текстом, когда сообщение исправлено автоматически"]
-  },
-  "StripMetadata": {
-    "images": ["Remove metadata from photos (JPEG, PNG, WebP): GPS location, camera model, dates, editing software","Фото","Убирать метаданные из фото (JPEG, PNG, WebP): GPS-координаты, модель камеры, даты, программу обработки"],
-    "videos": ["Remove location and device model from videos (MP4, MOV)","Видео","Убирать координаты и модель устройства из видео (MP4, MOV)"],
-    "notify": ["Show a notification when a file contained a location","Сообщать о координатах","Показывать уведомление, если в файле были координаты"]
   },
   "KeywordHighlight": {
     "keywords": ["Keywords to highlight, separated by commas (e.g. продажа, прокси, мой ник)","Ключевые слова","Слова для подсветки через запятую (например: продажа, прокси, мой ник)"],
@@ -686,6 +684,11 @@
     "showMessage": ["Whether to show a message detailing which id was blocked","Сообщение","Показывать, какой ID был заблокирован"],
     "showButton": ["Whether to show a button to unblock the gif","Кнопка разблокировки","Показывать кнопку, чтобы разблокировать стикер"],
     "blockedStickers": ["The list of blocked sticker IDs (don't edit unless you know what you're doing)","Заблокированные стикеры","Список ID заблокированных стикеров (не меняйте, если не уверены)"]
+  },
+  "StripMetadata": {
+    "images": ["Remove metadata from photos (JPEG, PNG, WebP): GPS location, camera model, dates, editing software","Фото","Убирать метаданные из фото (JPEG, PNG, WebP): GPS-координаты, модель камеры, даты, программу обработки"],
+    "videos": ["Remove location and device model from videos (MP4, MOV)","Видео","Убирать координаты и модель устройства из видео (MP4, MOV)"],
+    "notify": ["Show a notification when a file contained a location","Сообщать о координатах","Показывать уведомление, если в файле были координаты"]
   },
   "SuperReactionTweaks": {
     "superReactByDefault": ["Reaction picker will default to Super Reactions","Суперреакции по умолчанию","Выбор реакций сразу открывается на суперреакциях"],

@@ -19,6 +19,7 @@ import { PluginMeta } from "~plugins";
 
 import { getPluginTier, SENDS_DATA, VISIBLE_TO_OTHERS } from "./curation";
 import { openPluginModal } from "./PluginModal";
+import { SOURCE_ICONS } from "./sourceIcons";
 
 const logger = new Logger("PluginCard");
 const cl = classNameFactory("vc-plugins-");
@@ -101,25 +102,25 @@ export function PluginCard({ plugin, disabled, onRestartNeeded, onMouseEnter, on
         },
         {
             condition: isModifiedPlugin,
-            src: "https://equicord.org/assets/icons/equicord/modified.png",
+            src: SOURCE_ICONS.modified,
             alt: "Modified",
             title: t("Modified Vencord Plugin")
         },
         {
             condition: isEquicordPlugin,
-            src: "https://equicord.org/assets/favicon.png",
+            src: SOURCE_ICONS.equicord,
             alt: "Equicord",
             title: t("Equicord Plugin")
         },
         {
             condition: isVencordPlugin,
-            src: "https://equicord.org/assets/icons/vencord/icon-light.png",
+            src: SOURCE_ICONS.vencord,
             alt: "Vencord",
             title: t("Vencord Plugin")
         },
         {
             condition: isUserPlugin,
-            src: "https://equicord.org/assets/icons/misc/userplugin.png",
+            src: SOURCE_ICONS.user,
             alt: "User",
             title: t("User Plugin")
         }
