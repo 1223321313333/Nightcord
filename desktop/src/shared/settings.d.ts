@@ -14,6 +14,8 @@ export interface Settings {
         | "default_public_interface_only"
         | "default_public_and_private_interfaces"
         | "disable_non_proxied_udp";
+    // Nightcord: encrypted DNS (DNS over HTTPS). Hides which hostnames you look up from your network/ISP.
+    dnsOverHttps?: "off" | "cloudflare" | "quad9";
     tray: boolean;
     minimizeToTray: boolean;
     autoStartMinimized: boolean;

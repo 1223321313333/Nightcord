@@ -136,6 +136,22 @@ function init() {
     app.whenReady().then(async () => {
         if (process.platform === "win32") app.setAppUserModelId("org.equicord.equibop");
 
+        // Nightcord: encrypted DNS (DoH). "secure" means only the chosen DoH server is used, with no plaintext
+        // fallback, so the network cannot see which hostnames are looked up. Must be set before any request.
+        const dohServers: Record<string, string> = {
+            cloudflare: "https://cloudflare-dns.com/dns-query",
+            quad9: "https://dns.quad9.net/dns-query"
+        };
+        const doh = Settings.store.dnsOverHttps;
+        if (doh && doh !== "off" && dohServers[doh]) {
+            try {
+                app.configureHostResolver({ secureDnsMode: "secure", secureDnsServers: [dohServers[doh]] });
+                console.log("Nightcord: DNS over HTTPS enabled via", doh);
+            } catch (e) {
+                console.error("Nightcord: could not enable DNS over HTTPS", e);
+            }
+        }
+
         registerScreenShareHandler();
         registerMediaPermissionsHandler();
 

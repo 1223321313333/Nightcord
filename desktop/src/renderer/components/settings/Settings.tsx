@@ -16,6 +16,7 @@ import { ArRPCSettingsButton } from "./ArRPCSettings";
 import { AutoStartToggle } from "./AutoStartToggle";
 import { DeveloperOptionsButton } from "./DeveloperOptions";
 import { DiscordBranchPicker } from "./DiscordBranchPicker";
+import { DnsOverHttpsPicker } from "./DnsOverHttpsPicker";
 import { NotificationBadgeToggle } from "./NotificationBadgeToggle";
 import { OutdatedVesktopWarning } from "./OutdatedVesktopWarning";
 import { Updater } from "./Updater";
@@ -151,7 +152,8 @@ const SettingsOptions: Record<string, Array<BooleanSetting | SettingsComponent>>
             title: "Open Links in app (experimental)",
             description: "Opens links in a new Nightcord Desktop window instead of your web browser"
         },
-        WebRTCIPHandlingPolicyPicker
+        WebRTCIPHandlingPolicyPicker,
+        DnsOverHttpsPicker
     ],
     "Developer Options": [DeveloperOptionsButton]
 };

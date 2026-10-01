@@ -34,6 +34,7 @@ export const DefaultEquibopSettings: Settings = {
     middleClickAutoscroll: false,
     autoStartMinimized: false,
     webRTCIPHandlingPolicy: "default",
+    dnsOverHttps: "off",
     appBadge: true,
     badgeOnlyForMentions: false,
     transparencyOption: "none"

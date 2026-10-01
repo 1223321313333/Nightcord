@@ -16,6 +16,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG_RU: ChangelogEntry[] = [
     {
+        id: "2026-10-01-doh",
+        date: "1 октября 2026",
+        title: "Зашифрованный DNS в приложении",
+        items: [
+            "В приложении Nightcord Desktop в настройках появился «Encrypted DNS (DNS over HTTPS)»: адреса серверов запрашиваются по шифрованному каналу, и провайдер не видит, какие домены вы открываете.",
+            "По умолчанию выключено. Провайдер всё равно видит сам факт подключения к Discord — полную анонимность это не даёт, для неё нужен VPN."
+        ]
+    },
+    {
         id: "2026-10-01-desktop-linux",
         date: "1 октября 2026",
         title: "Nightcord Desktop для Linux",
