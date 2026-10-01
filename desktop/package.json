@@ -94,36 +94,20 @@
             "appimage": "1.0.3"
         },
         "linux": {
-            "icon": "build/icon.svg",
+            "icon": "build/icon.png",
             "category": "Network",
             "maintainer": "Nightcord",
             "target": [
                 {
-                    "target": "deb",
-                    "arch": [
-                        "x64",
-                        "arm64"
-                    ]
-                },
-                {
-                    "target": "tar.gz",
-                    "arch": [
-                        "x64",
-                        "arm64"
-                    ]
-                },
-                {
-                    "target": "rpm",
-                    "arch": [
-                        "x64",
-                        "arm64"
-                    ]
-                },
-                {
                     "target": "AppImage",
                     "arch": [
-                        "x64",
-                        "arm64"
+                        "x64"
+                    ]
+                },
+                {
+                    "target": "deb",
+                    "arch": [
+                        "x64"
                     ]
                 }
             ],
@@ -137,7 +121,8 @@
                     "MimeType": "x-scheme-handler/discord",
                     "StartupWMClass": "nightcord-desktop"
                 }
-            }
+            },
+            "artifactName": "NightcordDesktop-${version}.${ext}"
         },
         "mac": {
             "target": [

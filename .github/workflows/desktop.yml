@@ -1,7 +1,8 @@
 name: Build Nightcord Desktop
-# Nightcord Desktop (desktop/, an Equibop fork) for Windows: builds the installer and publishes it with the files
-# electron-updater reads (latest.yml, blockmap) to the "desktop" release. Installed apps update from there; the
-# Nightcord inside them updates on its own from the stable release, like the injected one.
+# Nightcord Desktop (desktop/, an Equibop fork) for Windows and Linux: builds the installers and publishes them with
+# the files electron-updater reads (latest.yml / latest-linux.yml) to the "desktop" release. Installed apps update
+# from there; the Nightcord inside them updates on its own from the stable release, like the injected one.
+# linux runs after windows so the two never edit the same release at once.
 on:
     push:
         branches: [main]
@@ -71,6 +72,57 @@ jobs:
                   gh release view desktop --json assets --jq '.assets[].name' \
                       | grep -E '^NightcordDesktop-Setup-.+\.exe(\.blockmap)?$' \
                       | grep -vxF -e "$exe" -e "$exe.blockmap" \
+                      | while read -r old; do gh release delete-asset desktop "$old" --yes; done
+              env:
+                  GH_TOKEN: ${{ github.token }}
+
+    linux:
+        needs: windows
+        runs-on: ubuntu-latest
+        defaults:
+            run:
+                working-directory: desktop
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+            - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+            # libvesktop's native tray (status notifier) needs GLib headers to build
+            - name: System dependencies
+              run: sudo apt-get update && sudo apt-get install -y libglib2.0-dev
+
+            - name: Install dependencies
+              run: bun install
+
+            - name: Same version as the windows job (one build across platforms)
+              run: node -e 'const f="package.json";const p=JSON.parse(require("fs").readFileSync(f,"utf8"));p.version="1.0.${{ github.run_number }}";require("fs").writeFileSync(f,JSON.stringify(p,null,4)+"\n")'
+
+            - name: Build the AppImage and deb
+              run: |
+                  bun run build
+                  bunx electron-builder --linux --x64 --publish never
+
+            - name: Sign where the builds came from
+              uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+              with:
+                  subject-path: |
+                      desktop/dist/NightcordDesktop-*.AppImage
+                      desktop/dist/NightcordDesktop-*.deb
+
+            - name: Publish to the desktop release
+              run: |
+                  cd dist
+                  version=$(node -p "require('../package.json').version")
+                  appimage="NightcordDesktop-$version.AppImage"
+                  deb="NightcordDesktop-$version.deb"
+                  # a stable AppImage name for the website link, besides the versioned file auto-update reads
+                  cp "$appimage" NightcordDesktop.AppImage
+                  sha256sum "$appimage" "$deb" NightcordDesktop.AppImage >> SHA256SUMS.linux
+                  gh release upload desktop --clobber "$appimage" "$deb" latest-linux.yml NightcordDesktop.AppImage SHA256SUMS.linux
+                  # drop older versioned Linux builds once latest-linux.yml points at the new one
+                  gh release view desktop --json assets --jq '.assets[].name' \
+                      | grep -E '^NightcordDesktop-.+\.(AppImage|deb)$' \
+                      | grep -vxF -e "$appimage" -e "$deb" \
                       | while read -r old; do gh release delete-asset desktop "$old" --yes; done
               env:
                   GH_TOKEN: ${{ github.token }}

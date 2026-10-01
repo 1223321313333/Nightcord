@@ -16,6 +16,15 @@ export interface ChangelogEntry {
 
 export const CHANGELOG_RU: ChangelogEntry[] = [
     {
+        id: "2026-10-01-desktop-linux",
+        date: "1 октября 2026",
+        title: "Nightcord Desktop для Linux",
+        items: [
+            "У приложения Nightcord Desktop появились сборки для Linux: AppImage (запускается без установки) и .deb для Debian/Ubuntu, ссылки на сайте.",
+            "Как и версия для Windows, оно обновляется само."
+        ]
+    },
+    {
         id: "2026-10-01-hide-ip",
         date: "1 октября 2026",
         title: "Скрытие IP в звонках",

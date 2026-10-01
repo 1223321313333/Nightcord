@@ -1,6 +1,6 @@
 # Nightcord Desktop
 
-A Windows app with Nightcord built in, made from [Equibop](https://github.com/Equicord/Equibop) (itself a Vesktop fork).
+A Windows and Linux app with Nightcord built in, made from [Equibop](https://github.com/Equicord/Equibop) (itself a Vesktop fork).
 Unlike the official Discord app with Nightcord injected, it does not run Discord's native modules (process scanning for
 game detection, the crash reporter, the host updater), and Discord updates cannot break the injection.
 
@@ -11,8 +11,10 @@ game detection, the crash reporter, the host updater), and Discord updates canno
 - `src/main/utils/vencordLoader.ts` downloads `equibop.asar` from Nightcord's stable release and checks it against the
   `equibop.asar.sha256` published next to it. After that, Nightcord inside the app updates itself like the injected
   one: stable or beta channel, sha256 and signed build provenance.
-- `.github/workflows/desktop.yml` builds the installer on every change under `desktop/` and publishes it to the
-  `desktop` release (`NightcordDesktopSetup.exe`, plus the versioned file and `latest.yml` the app updates from).
+- `.github/workflows/desktop.yml` builds on every change under `desktop/` and publishes to the `desktop` release:
+  the Windows installer (`NightcordDesktopSetup.exe` + `latest.yml`) and the Linux AppImage and `.deb`
+  (`NightcordDesktop.AppImage` + `latest-linux.yml`). The app updates from those. No macOS build: it needs a paid
+  Apple signing/notarization certificate.
 
 ## Updating from Equibop
 

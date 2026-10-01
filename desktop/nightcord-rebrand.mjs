@@ -64,9 +64,15 @@ edit("package.json", s => {
     pkg.build.win.target = [{ target: "nsis", arch: ["x64"] }];
     // no spaces: GitHub renames uploaded files with spaces, and latest.yml would point at a file that is not there
     pkg.build.nsis = { ...pkg.build.nsis, artifactName: "NightcordDesktop-Setup-${version}.${ext}" };
-    if (pkg.build.linux?.desktop?.entry) {
-        Object.assign(pkg.build.linux.desktop.entry, { Name: "Nightcord Desktop", StartupWMClass: "nightcord-desktop" });
+    if (pkg.build.linux) {
+        // AppImage runs anywhere without installing; deb covers Debian/Ubuntu. x64 only — no arm64 among the friends.
+        pkg.build.linux.target = [{ target: "AppImage", arch: ["x64"] }, { target: "deb", arch: ["x64"] }];
+        pkg.build.linux.icon = "build/icon.png";
+        pkg.build.linux.artifactName = "NightcordDesktop-${version}.${ext}";
         pkg.build.linux.maintainer = "Nightcord";
+        if (pkg.build.linux.desktop?.entry) {
+            Object.assign(pkg.build.linux.desktop.entry, { Name: "Nightcord Desktop", StartupWMClass: "nightcord-desktop" });
+        }
     }
     return JSON.stringify(pkg, null, 4) + "\n";
 });
