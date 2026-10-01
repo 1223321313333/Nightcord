@@ -1086,6 +1086,8 @@ const RU: Record<string, string> = {
     "Strict connections": "Строгий режим подключений",
     "On by default. This window can only reach Discord and the servers Nightcord and its plugins use, so nothing can quietly send your data anywhere else. If a theme or plugin cannot load something, it shows up below as blocked.": "Включён по умолчанию. Это окно может подключаться только к Discord и к серверам, которыми пользуются Nightcord и его плагины, поэтому ничто не сможет незаметно отправить ваши данные куда-то ещё. Если тема или плагин не может что-то загрузить, это появится ниже как заблокированное.",
     "Blocked by strict connections.": "Заблокировано строгим режимом подключений.",
+    "Hide my IP in calls": "Скрывать мой IP в звонках",
+    "Voice and video go only through Discord's servers, so other people in a call cannot see your IP address from a direct connection. May slightly lower call quality and is usually not needed, since Discord already relays most calls.": "Голос и видео идут только через серверы Discord, поэтому другие участники звонка не смогут увидеть ваш IP-адрес через прямое соединение. Может немного снизить качество связи и обычно не требуется, так как Discord и так проводит большинство звонков через свои серверы.",
     "Reload": "Перезагрузить",
     "On": "Вкл.",
 

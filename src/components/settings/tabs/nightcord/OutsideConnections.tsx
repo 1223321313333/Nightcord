@@ -59,7 +59,7 @@ export function OutsideConnections() {
         setBlocked(getBlockedHosts());
     }), []);
 
-    const settings = useSettings(["plugins.BadgeAPI.donorBadges", "strictConnections"]);
+    const settings = useSettings(["plugins.BadgeAPI.donorBadges", "strictConnections", "hideIpInCalls"]);
     const donorBadges = settings.plugins.BadgeAPI?.donorBadges ?? false;
     // The rule is applied when Discord loads the page, so a change needs a reload
     const [strictAtStart] = useState(settings.strictConnections);
@@ -107,6 +107,22 @@ export function OutsideConnections() {
                         </Checkbox>
                     </div>
                 </div>
+                {!IS_WEB && (
+                    <div style={rowStyle}>
+                        <span style={{ fontSize: 18 }}>📞</span>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                            <div style={titleStyle}>{t("Hide my IP in calls")}</div>
+                            <Paragraph size="sm">
+                                {t("Voice and video go only through Discord's servers, so other people in a call cannot see your IP address from a direct connection. May slightly lower call quality and is usually not needed, since Discord already relays most calls.")}
+                            </Paragraph>
+                        </div>
+                        <div style={checkboxStyle}>
+                            <Checkbox value={settings.hideIpInCalls} onChange={(_: unknown, value: boolean) => { Settings.hideIpInCalls = value; }}>
+                                <Paragraph size="sm">{t("On")}</Paragraph>
+                            </Checkbox>
+                        </div>
+                    </div>
+                )}
                 {hosts.length === 0 && (
                     <div style={rowStyle}>
                         <span style={{ fontSize: 18 }}>✅</span>

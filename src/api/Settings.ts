@@ -106,6 +106,8 @@ export interface Settings {
     strictConnections: boolean;
     /** Nightcord: take every new build (the devbuild release) instead of the stable one, which follows a day later */
     betaUpdates: boolean;
+    /** Nightcord: route voice/video through Discord's relays so other people in a call cannot see your IP */
+    hideIpInCalls: boolean;
 }
 
 const DefaultSettings: Settings = {
@@ -154,6 +156,7 @@ const DefaultSettings: Settings = {
     ignoreResetWarning: false,
     strictConnections: true,
     betaUpdates: false,
+    hideIpInCalls: false,
 };
 
 const settings = !IS_REPORTER ? NightcordNative.settings.get() : {} as Settings;

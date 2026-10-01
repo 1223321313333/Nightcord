@@ -44,6 +44,18 @@ if (!IS_VANILLA) {
 
     patchTrayMenu();
 
+    // Nightcord: "disable_non_proxied_udp" makes WebRTC (voice/video) go only through Discord's relay servers,
+    // so other people in a call cannot learn your IP from a direct connection. "default" is Discord's own behaviour.
+    const webRtcPolicy = () => (RendererSettings.store.hideIpInCalls ? "disable_non_proxied_udp" : "default");
+    const applyWebRtcPolicy = () => {
+        for (const win of electron.BrowserWindow.getAllWindows()) {
+            try {
+                win.webContents.setWebRTCIPHandlingPolicy(webRtcPolicy());
+            } catch { }
+        }
+    };
+    RendererSettings.addChangeListener("hideIpInCalls", applyWebRtcPolicy);
+
     /*
      * re-apply the patch when discord ships a new host version. skipped
      * on vesktop and equibop because they manage their own updates.
@@ -123,6 +135,10 @@ if (!IS_VANILLA) {
             process.env.DISCORD_PRELOAD = original;
 
             super(options);
+
+            try {
+                this.webContents.setWebRTCIPHandlingPolicy(webRtcPolicy());
+            } catch { }
 
             if (disableMinSize) {
                 // Disable the Electron call entirely so that Discord can't dynamically change the size
