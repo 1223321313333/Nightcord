@@ -25,7 +25,7 @@ minimumReleaseAgeExclude:
 # Ranges stay within each major line so packages keep the API they expect.
 overrides:
     zip-local: "link:./scripts/nightcord/zip-local-shim" # drops jszip 2.x, which has no fixed 2.x release
-    moment: "^2.30.1"
+    moment: "^2.31.0"
     "minimatch@^3.0.0": "^3.1.5"
     "minimatch@^9.0.0": "^9.0.7"
     flatted: "^3.4.2"
