@@ -40,14 +40,28 @@ export async function githubGet(endpoint: string) {
 
 // Nightcord Desktop: Nightcord's stable release, checked against the sha256 published next to it before use.
 // Later updates come through Nightcord's own updater, which also checks the build's signed provenance.
-const NIGHTCORD_ASAR = "https://github.com/1223321313333/Nightcord/releases/latest/download/equibop.asar";
+// The beta release is the fallback for a build that has not reached stable yet.
+const NIGHTCORD_ASARS = [
+    "https://github.com/1223321313333/Nightcord/releases/latest/download/equibop.asar",
+    "https://github.com/1223321313333/Nightcord/releases/download/devbuild/equibop.asar"
+];
 
 export async function downloadVencordAsar() {
     const temp = VENCORD_DIR + ".download";
     const headers = { "User-Agent": USER_AGENT };
-    await downloadFile(NIGHTCORD_ASAR, temp, { headers }, { retryOnNetworkError: true });
 
-    const sums = await (await fetchie(NIGHTCORD_ASAR + ".sha256", { headers }, { retryOnNetworkError: true })).text();
+    let url: string | undefined;
+    for (const candidate of NIGHTCORD_ASARS) {
+        try {
+            await downloadFile(candidate, temp, { headers }, { retryOnNetworkError: true });
+            url = candidate;
+            break;
+        } catch (err) {
+            if (candidate === NIGHTCORD_ASARS.at(-1)) throw err;
+        }
+    }
+
+    const sums = await (await fetchie(url + ".sha256", { headers }, { retryOnNetworkError: true })).text();
     const expected = sums.match(/\b[a-f0-9]{64}\b/i)?.[0]?.toLowerCase();
     const actual = createHash("sha256").update(readFileSync(temp)).digest("hex");
     if (!expected || actual !== expected) {
