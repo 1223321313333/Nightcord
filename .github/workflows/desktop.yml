@@ -1,0 +1,76 @@
+name: Build Nightcord Desktop
+# Nightcord Desktop (desktop/, an Equibop fork) for Windows: builds the installer and publishes it with the files
+# electron-updater reads (latest.yml, blockmap) to the "desktop" release. Installed apps update from there; the
+# Nightcord inside them updates on its own from the stable release, like the injected one.
+on:
+    push:
+        branches: [main]
+        paths:
+            - desktop/**
+            - .github/workflows/desktop.yml
+    workflow_dispatch:
+
+permissions:
+    contents: write
+    id-token: write
+    attestations: write
+
+concurrency:
+    group: desktop
+    cancel-in-progress: false
+
+jobs:
+    windows:
+        runs-on: windows-latest
+        defaults:
+            run:
+                working-directory: desktop
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+
+            - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
+
+            - name: Version from the run number, so every build is an update for installed apps
+              shell: bash
+              run: node -e 'const f="package.json";const p=JSON.parse(require("fs").readFileSync(f,"utf8"));p.version="1.0.${{ github.run_number }}";require("fs").writeFileSync(f,JSON.stringify(p,null,4)+"\n")'
+
+            - name: Check
+              run: |
+                  bunx tsc --noEmit
+                  bunx eslint src
+
+            - name: Build the installer
+              run: |
+                  bun run build
+                  bunx electron-builder --win nsis --x64 --publish never
+
+            - name: Sign where the installer came from
+              uses: actions/attest-build-provenance@4d101475d8b20a2381f78447822ac1eab6504dd8 # v4.2.2
+              with:
+                  subject-path: desktop/dist/NightcordDesktop-Setup-*[0-9].exe
+
+            - name: Publish to the desktop release
+              shell: bash
+              run: |
+                  cd dist
+                  version=$(node -p "require('../package.json').version")
+                  # not the NightcordDesktop-Setup-<version>.__uninstaller.exe next to it
+                  exe="NightcordDesktop-Setup-$version.exe"
+                  # one stable name for the website link, besides the versioned file electron-updater uses
+                  cp "$exe" NightcordDesktopSetup.exe
+                  sha256sum "$exe" NightcordDesktopSetup.exe > SHA256SUMS
+                  gh release view desktop >/dev/null 2>&1 || \
+                      gh release create desktop --title "Nightcord Desktop" --prerelease --latest=false \
+                          --notes "Nightcord Desktop for Windows: Discord with Nightcord built in. Download NightcordDesktopSetup.exe."
+                  gh release upload desktop --clobber "$exe" "$exe.blockmap" latest.yml NightcordDesktopSetup.exe SHA256SUMS
+                  gh release edit desktop --title "Nightcord Desktop $version" --prerelease --latest=false
+                  # older versioned installers (180 MB each) are not needed once latest.yml points at the new one
+                  gh release view desktop --json assets --jq '.assets[].name' \
+                      | grep -E '^NightcordDesktop-Setup-.+\.exe(\.blockmap)?$' \
+                      | grep -vxF -e "$exe" -e "$exe.blockmap" \
+                      | while read -r old; do gh release delete-asset desktop "$old" --yes; done
+              env:
+                  GH_TOKEN: ${{ github.token }}

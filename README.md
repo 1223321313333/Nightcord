@@ -21,6 +21,8 @@ pnpm build
 pnpm inject
 ```
 
+**Nightcord Desktop** (beta, `desktop/`): a Windows app with Nightcord built in, made from Equibop, from the [`desktop` release](https://github.com/1223321313333/Nightcord/releases/tag/desktop). See `desktop/NIGHTCORD.md`.
+
 On Windows, `pnpm inject` / `pnpm uninject` use Nightcord's own installer with your local `dist` folder. Every push to `main` is built by GitHub Actions and published to the `devbuild` release (beta). Once a day a build that is at least 20 hours old and passed CI is copied to the `stable` release, which is what the installer and the updater use unless *Beta versions* is on.
 
 ## Licence

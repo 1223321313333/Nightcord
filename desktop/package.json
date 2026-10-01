@@ -1,0 +1,225 @@
+{
+    "name": "nightcord-desktop",
+    "desktopName": "nightcord-desktop",
+    "version": "3.3.1",
+    "private": true,
+    "description": "Nightcord Desktop: Discord with Nightcord built in",
+    "keywords": [],
+    "homepage": "https://github.com/1223321313333/Nightcord",
+    "license": "GPL-3.0-or-later",
+    "author": "Nightcord",
+    "main": "dist/js/main.js",
+    "scripts": {
+        "build": "bun run scripts/build/build.mts",
+        "build:dev": "bun run build --dev",
+        "buildLibVesktop": "bun install --cwd packages/libvesktop && bun run --cwd packages/libvesktop build",
+        "compileArrpc": "bun run scripts/build/compileArrpc.mts",
+        "package": "bun run build && electron-builder",
+        "package:dir": "bun run build && electron-builder --dir",
+        "lint": "eslint",
+        "lint:fix": "bun lint --fix",
+        "start": "bun run build && electron .",
+        "start:dev": "bun run build:dev && electron .",
+        "start:watch": "bun run build:dev && bun run scripts/startWatch.mts",
+        "test": "bun lint && bun testTypes",
+        "testTypes": "tsc --noEmit",
+        "watch": "bun run build --watch",
+        "generateMeta": "bun run scripts/utils/generateMeta.mts",
+        "updateArrpcDB": "bun ./node_modules/arrpc-bun/scripts/update_db.ts",
+        "postinstall": "bun updateArrpcDB && bun compileArrpc"
+    },
+    "dependencies": {
+        "@types/ws": "^8.18.1",
+        "@typescript-eslint/eslint-plugin": "^8.70.0",
+        "@typescript-eslint/parser": "^8.70.0",
+        "arrpc-bun": "^1.4.0",
+        "electron-updater": "^6.8.9",
+        "tsutils": "^3.21.0",
+        "ws": "^8.21.3"
+    },
+    "optionalDependencies": {
+        "@vencord/venmic": "^7.2.3"
+    },
+    "devDependencies": {
+        "@equicord/types": "^1.14.15",
+        "@fal-works/esbuild-plugin-global-externals": "^2.1.2",
+        "@stylistic/eslint-plugin": "^5.10.0",
+        "@types/node": "^26.6.1",
+        "@types/react": "19.2.9",
+        "dotenv": "^17.4.2",
+        "electron": "^43.7.1",
+        "electron-builder": "^26.16.1",
+        "esbuild": "^0.28.2",
+        "eslint": "^10.10.0",
+        "eslint-import-resolver-alias": "^1.1.2",
+        "eslint-plugin-path-alias": "^2.1.0",
+        "eslint-plugin-prettier": "^5.5.6",
+        "eslint-plugin-react": "^7.37.5",
+        "eslint-plugin-simple-header": "^1.2.2",
+        "eslint-plugin-simple-import-sort": "^14.0.0",
+        "eslint-plugin-unused-imports": "^4.4.1",
+        "libvesktop": "file:packages/libvesktop",
+        "prettier": "^3.9.7",
+        "source-map-support": "^0.5.21",
+        "tsx": "^4.23.13",
+        "type-fest": "^5.9.0",
+        "typescript": "^6.0.3",
+        "typescript-eslint": "^8.70.0",
+        "xml-formatter": "^3.7.0"
+    },
+    "engines": {
+        "bun": ">=1.3.0"
+    },
+    "build": {
+        "appId": "io.github.nightcord.desktop",
+        "productName": "Nightcord Desktop",
+        "executableName": "nightcord-desktop",
+        "files": [
+            "!*",
+            "!node_modules",
+            "dist/js",
+            "static",
+            "package.json",
+            "LICENSE"
+        ],
+        "protocols": {
+            "name": "Discord",
+            "schemes": [
+                "discord"
+            ]
+        },
+        "beforePack": "scripts/build/beforePack.mjs",
+        "afterPack": "scripts/build/afterPack.mjs",
+        "toolsets": {
+            "appimage": "1.0.3"
+        },
+        "linux": {
+            "icon": "build/icon.svg",
+            "category": "Network",
+            "maintainer": "Nightcord",
+            "target": [
+                {
+                    "target": "deb",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                },
+                {
+                    "target": "tar.gz",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                },
+                {
+                    "target": "rpm",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                },
+                {
+                    "target": "AppImage",
+                    "arch": [
+                        "x64",
+                        "arm64"
+                    ]
+                }
+            ],
+            "desktop": {
+                "entry": {
+                    "Name": "Nightcord Desktop",
+                    "GenericName": "Internet Messenger",
+                    "Type": "Application",
+                    "Categories": "Network;InstantMessaging;Chat;",
+                    "Keywords": "discord;vencord;electron;chat;equibop",
+                    "MimeType": "x-scheme-handler/discord",
+                    "StartupWMClass": "nightcord-desktop"
+                }
+            }
+        },
+        "mac": {
+            "target": [
+                {
+                    "target": "default",
+                    "arch": "universal"
+                }
+            ],
+            "category": "public.app-category.social-networking",
+            "darkModeSupport": true,
+            "extendInfo": {
+                "NSMicrophoneUsageDescription": "This app needs access to the microphone",
+                "NSCameraUsageDescription": "This app needs access to the camera",
+                "com.apple.security.device.audio-input": true,
+                "com.apple.security.device.camera": true,
+                "CFBundleIconName": "Icon"
+            },
+            "notarize": true
+        },
+        "dmg": {
+            "background": "build/background.tiff",
+            "icon": "build/icon.icns",
+            "iconSize": 105,
+            "window": {
+                "width": 512,
+                "height": 340
+            },
+            "contents": [
+                {
+                    "x": 140,
+                    "y": 160
+                },
+                {
+                    "x": 372,
+                    "y": 160,
+                    "type": "link",
+                    "path": "/Applications"
+                }
+            ]
+        },
+        "nsis": {
+            "include": "build/installer.nsh",
+            "oneClick": false,
+            "artifactName": "NightcordDesktop-Setup-${version}.${ext}"
+        },
+        "win": {
+            "icon": "build/icon.ico",
+            "target": [
+                {
+                    "target": "nsis",
+                    "arch": [
+                        "x64"
+                    ]
+                }
+            ]
+        },
+        "publish": [
+            {
+                "provider": "generic",
+                "url": "https://github.com/1223321313333/Nightcord/releases/download/desktop"
+            }
+        ],
+        "rpm": {
+            "fpm": [
+                "--rpm-rpmbuild-define=_build_id_links none"
+            ]
+        },
+        "electronFuses": {
+            "runAsNode": false,
+            "enableCookieEncryption": false,
+            "enableNodeOptionsEnvironmentVariable": false,
+            "enableNodeCliInspectArguments": false,
+            "enableEmbeddedAsarIntegrityValidation": false,
+            "onlyLoadAppFromAsar": true,
+            "loadBrowserProcessSpecificV8Snapshot": false,
+            "grantFileProtocolExtraPrivileges": false
+        }
+    },
+    "trustedDependencies": [
+        "@vencord/venmic",
+        "electron",
+        "electron-winstaller",
+        "esbuild"
+    ]
+}

@@ -16,6 +16,16 @@ export interface ChangelogEntry {
 
 export const CHANGELOG_RU: ChangelogEntry[] = [
     {
+        id: "2026-10-01-desktop",
+        date: "1 октября 2026",
+        title: "Nightcord Desktop (бета)",
+        items: [
+            "Отдельное приложение вместо официального Discord, с Nightcord внутри: NightcordDesktopSetup.exe, ссылка на сайте.",
+            "Не запускает нативные модули Discord, по умолчанию не следит за запущенными программами и не ломается от обновлений Discord.",
+            "Приложение и Nightcord в нём обновляются сами, с той же проверкой подписи."
+        ]
+    },
+    {
         id: "2026-10-01-sync",
         date: "1 октября 2026",
         title: "Синхронизация через ваш Discord и галерея тем",

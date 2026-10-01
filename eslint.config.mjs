@@ -13,7 +13,8 @@ import unusedImports from "eslint-plugin-unused-imports";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-    { ignores: ["dist", "browser", "packages/nightcord-types", "misc/bundle", "misc/scripts"] },
+    // desktop/ is the Nightcord Desktop app (an Equibop fork) with its own lint setup
+    { ignores: ["dist", "browser", "desktop", "packages/nightcord-types", "misc/bundle", "misc/scripts"] },
     {
         files: ["src/**/*.{tsx,ts,mts,mjs,js,jsx}", "eslint.config.mjs"],
         settings: {

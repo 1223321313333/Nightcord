@@ -62,8 +62,10 @@ jobs:
                   mkdir -p dist/release
                   # desktop.asar is what the built-in updater downloads
                   cp dist/desktop.asar dist/plugins.json dist/release/
-                  # Checked by the updater and installers before they use desktop.asar (fallback for GitHub's own asset digest)
-                  (cd dist/release && sha256sum desktop.asar > desktop.asar.sha256)
+                  # equibop.asar: the same Nightcord for the Nightcord Desktop app (desktop/, an Equibop fork)
+                  cp dist/equibop.asar dist/release/
+                  # Checked by the updaters and installers before they use an asar (fallback for GitHub's own asset digest)
+                  (cd dist/release && sha256sum desktop.asar > desktop.asar.sha256 && sha256sum equibop.asar > equibop.asar.sha256)
                   # loose files keep older Nightcord installs (and the installer's local mode) working
                   cp dist/desktop/patcher.js dist/desktop/preload.js dist/desktop/renderer.js dist/desktop/renderer.css dist/release/
 
@@ -81,6 +83,7 @@ jobs:
               with:
                   subject-path: |
                       dist/release/desktop.asar
+                      dist/release/equibop.asar
                       dist/release/Nightcord.user.js
                       dist/release/extension-chrome.zip
                       dist/release/extension-firefox.zip
