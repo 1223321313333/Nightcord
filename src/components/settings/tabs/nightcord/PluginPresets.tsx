@@ -99,6 +99,42 @@ export const PRESETS: Preset[] = [
         note: "Only files over the limit leave Discord. They go to litterbox.catbox.moe, a free public file host: anyone with the link can open the file until it expires after 72 hours. Do not send private files this way."
     },
     {
+        id: "nonitro",
+        emoji: "🎁",
+        title: "Everything without Nitro",
+        description: "Custom and animated emoji, stickers and reactions, profile colours and a profile banner, higher stream quality and no Nitro ads — all without paying for Nitro.",
+        enable: () => ["FakeNitro", "FakeProfileThemes", "SuperReactionTweaks", "AlwaysAnimate", "ExpressionCloner", "NoNitroUpsell", "USRBG"],
+        disable: () => [],
+        note: "The profile banner (USRBG) is shown to other people and is loaded from the USRBG community server. Everything else works just for you."
+    },
+    {
+        id: "looks",
+        emoji: "🎨",
+        title: "Nicer look",
+        description: "A custom accent colour for the whole app, your own colour for any person, avatars in mentions, role colours everywhere, custom avatar decorations and nicer typing indicators. Ready-made themes are in the Themes tab.",
+        enable: () => ["ClientTheme", "CustomUserColors", "MentionAvatars", "RoleColorEverywhere", "TypingTweaks", "Decor"],
+        disable: () => [],
+        note: "Avatar decorations (Decor) are visible to other people and are loaded from the Decor community server."
+    },
+    {
+        id: "voice",
+        emoji: "🎧",
+        title: "Voice and streaming",
+        description: "Unlock screen-share resolution and FPS, remove the bitrate cap, make other people louder, enlarge stream previews, join voice with a double-click, download voice messages and turn them into text right on your computer.",
+        enable: () => ["LimitlessScreenshare", "WebScreenShareFixes", "VolumeBooster", "BiggerStreamPreview", "VoiceChatDoubleClick", "VoiceDownload", "VoiceMessageTranscriber", "PictureInPicture"],
+        disable: () => [],
+        note: "Voice-message transcription runs on your own computer (Whisper) and downloads a small model the first time."
+    },
+    {
+        id: "fun",
+        emoji: "🎉",
+        title: "Fun in chat",
+        description: "Fun slash commands, wiggly text, mention a random member, the moai sound, tone tags, confetti on pings and a little pet that follows your cursor.",
+        enable: () => ["MoreCommands", "WigglyText", "AtSomeone", "Moyai", "ToneIndicators", "PartyMode", "CursorBuddy"],
+        disable: () => [],
+        note: "Confetti (PartyMode) and the cursor pet are purely for fun and can use a little more CPU."
+    },
+    {
         id: "defaults",
         emoji: "↩️",
         title: "Nightcord defaults",

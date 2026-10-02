@@ -1083,6 +1083,20 @@ const RU: Record<string, string> = {
     "See what Discord collects about you and turn it off in one click.": "Посмотрите, что Discord собирает о вас, и выключите это в один клик.",
     "Get new versions right away (beta), not a day later": "Получать новые версии сразу (бета), а не через день",
 
+    // Plugin presets (crowd-pleasers)
+    "Everything without Nitro": "Всё без Nitro",
+    "Custom and animated emoji, stickers and reactions, profile colours and a profile banner, higher stream quality and no Nitro ads — all without paying for Nitro.": "Кастомные и анимированные эмодзи, стикеры и реакции, цвета профиля и баннер, качество стрима выше и без рекламы Nitro — всё без оплаты Nitro.",
+    "The profile banner (USRBG) is shown to other people and is loaded from the USRBG community server. Everything else works just for you.": "Баннер профиля (USRBG) видят другие люди, и он загружается с сервера сообщества USRBG. Всё остальное работает только у вас.",
+    "Nicer look": "Красивый вид",
+    "A custom accent colour for the whole app, your own colour for any person, avatars in mentions, role colours everywhere, custom avatar decorations and nicer typing indicators. Ready-made themes are in the Themes tab.": "Свой акцентный цвет для всего приложения, свой цвет для любого человека, аватарки в упоминаниях, цвета ролей повсюду, украшения аватара и аккуратный индикатор набора. Готовые темы — в разделе «Темы».",
+    "Avatar decorations (Decor) are visible to other people and are loaded from the Decor community server.": "Украшения аватара (Decor) видят другие люди, и они загружаются с сервера сообщества Decor.",
+    "Voice and streaming": "Голос и стрим",
+    "Unlock screen-share resolution and FPS, remove the bitrate cap, make other people louder, enlarge stream previews, join voice with a double-click, download voice messages and turn them into text right on your computer.": "Разблокировать разрешение и FPS демонстрации, убрать ограничение битрейта, делать собеседников громче, увеличивать превью стрима, входить в голосовой двойным кликом, скачивать голосовые и превращать их в текст прямо на вашем компьютере.",
+    "Voice-message transcription runs on your own computer (Whisper) and downloads a small model the first time.": "Расшифровка голосовых работает на вашем компьютере (Whisper) и в первый раз скачивает небольшую модель.",
+    "Fun in chat": "Фан в чате",
+    "Fun slash commands, wiggly text, mention a random member, the moai sound, tone tags, confetti on pings and a little pet that follows your cursor.": "Весёлые команды, «волнистый» текст, упоминание случайного участника, звук моаи, тон-теги, конфетти на пинги и маленький питомец, бегающий за курсором.",
+    "Confetti (PartyMode) and the cursor pet are purely for fun and can use a little more CPU.": "Конфетти (PartyMode) и питомец у курсора — чисто для веселья и могут чуть нагружать процессор.",
+
     // Setup wizard (first run)
     "Step": "Шаг",
     "Next": "Далее",
