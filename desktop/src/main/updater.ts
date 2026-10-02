@@ -18,22 +18,25 @@ import { loadView } from "./vesktopStatic";
 
 let updaterWindow: BrowserWindow | null = null;
 
+// Nightcord: updates install themselves. On launch the app checks, downloads the update quietly in the
+// background and installs it the next time the app is closed — no window, no clicking. The updater window is
+// only for the manual "check for updates" action, where the user installs (and restarts) right away.
+autoUpdater.autoDownload = false;
+autoUpdater.autoInstallOnAppQuit = true;
+autoUpdater.fullChangelog = true;
+
 autoUpdater.on("update-available", update => {
     if (State.store.updater?.ignoredVersion === update.version) return;
     if ((State.store.updater?.snoozeUntil ?? 0) > Date.now()) return;
 
-    openUpdater(update);
+    // Quiet background download; electron-updater installs it on the next quit (autoInstallOnAppQuit).
+    autoUpdater.downloadUpdate().catch(err => console.error("Nightcord: automatic update download failed", err));
 });
 
-autoUpdater.on("update-downloaded", () => setTimeout(() => autoUpdater.quitAndInstall(), 100));
 autoUpdater.on("download-progress", p =>
     updaterWindow?.webContents.send(UpdaterIpcEvents.DOWNLOAD_PROGRESS, p.percent)
 );
 autoUpdater.on("error", err => updaterWindow?.webContents.send(UpdaterIpcEvents.ERROR, err.message));
-
-autoUpdater.autoDownload = false;
-autoUpdater.autoInstallOnAppQuit = false;
-autoUpdater.fullChangelog = true;
 
 const isOutdated = autoUpdater.checkForUpdates().then(res => Boolean(res?.isUpdateAvailable));
 
@@ -62,7 +65,9 @@ function openUpdater(update: UpdateInfo) {
 
     handle(UpdaterIpcEvents.GET_DATA, () => ({ update, version: app.getVersion() }));
     handle(UpdaterIpcEvents.INSTALL, async () => {
+        // Manual install: download (or reuse the background download) and restart into it now.
         await autoUpdater.downloadUpdate();
+        setTimeout(() => autoUpdater.quitAndInstall(), 100);
     });
     handle(UpdaterIpcEvents.SNOOZE_UPDATE, () => {
         State.store.updater ??= {};
