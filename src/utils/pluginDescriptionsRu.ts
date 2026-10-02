@@ -391,6 +391,7 @@ export const PLUGIN_DESCRIPTIONS_RU: Record<string, [string, string]> = {
     "WhoReacted": ["a8jp83", "Аватары тех, кто поставил реакцию"],
     "WhosWatching": ["1l93vpg", "Наведите на значок демонстрации — увидите, кто смотрит ваш стрим"],
     "WigglyText": ["644zzc", "Новое форматирование: «волнистый» текст"],
+    "Wrapped": ["16xrx5e", "Личный «Год в Nightcord»: считает вашу активность локально и показывает её красивой карточкой-итогом. Открыть — командой /wrapped"],
     "WriteUpperCase": ["ggb63q", "Делает первую букву каждого предложения заглавной"],
     "XSOverlay": ["k9squm", "Пересылает уведомления Discord в XSOverlay для VR"],
     "YoutubeAdblock": ["vz8o96", "Блокирует рекламу во встроенном YouTube и Watch Together (AdGuard)"],
