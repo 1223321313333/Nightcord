@@ -1,4 +1,6 @@
 {
-    "_readme": "Nightcord badge holders. Only add people who asked for a badge: this file is public. Entry: \"<discord user id>\" or { \"id\": \"...\", \"tooltip\": \"custom text\" }.",
-    "users": []
+    "_readme": "Nightcord badge holders. Only add people who asked for a badge: this file is public. Entry: \"<discord user id>\" or { \"id\": \"...\", \"tooltip\": \"custom text\", \"dev\": true }. dev gives the gold creator badge.",
+    "users": [
+        { "id": "556674373684297738", "dev": true, "tooltip": "Создатель Nightcord" }
+    ]
 }
