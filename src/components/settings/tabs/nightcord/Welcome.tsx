@@ -27,18 +27,31 @@ const cardStyle: React.CSSProperties = {
 };
 const strong: React.CSSProperties = { fontWeight: 600, color: "var(--text-strong, var(--header-primary))" };
 
-function WelcomeModal(props: RenderModalProps) {
-    const settings = useSettings(["betaUpdates"]);
-    const presets = PRESETS.filter(p => p.id !== "defaults");
+const openPanel = (onClose: () => void, panel: string) => { onClose(); SettingsRouter.openUserSettings(panel); };
 
+function PrivacyStep() {
+    const points = [
+        t("The window can only reach Discord and the servers Nightcord needs — nothing can quietly send your data elsewhere."),
+        t("Location and camera details are stripped from the photos and videos you send."),
+        t("Discord's own tracking and crash reports are blocked."),
+        t("Tracking tags (utm, fbclid and the like) are cleaned from links you send and open."),
+        t("Links in messages that imitate Discord or Steam are flagged, so fake \"free Nitro\" sites cannot catch you.")
+    ];
     return (
-        <Modal
-            {...props}
-            size="md"
-            title={`🌙 ${t("Welcome to Nightcord")}`}
-            subtitle={t("Nightcord already works. Pick where to start, you can change everything later in the Nightcord settings.")}
-            actions={[{ text: t("Done"), variant: "primary", onClick: props.onClose }]}
-        >
+        <>
+            <Paragraph className={Margins.bottom8}>{t("The important things are on from the start. You do not have to do anything here.")}</Paragraph>
+            <ul style={{ margin: "0 0 0 18px", listStyle: "disc" }}>
+                {points.map(p => <li key={p} style={{ marginBottom: 6 }}><Paragraph size="sm">{p}</Paragraph></li>)}
+            </ul>
+        </>
+    );
+}
+
+function PresetStep() {
+    const presets = PRESETS.filter(p => p.id !== "defaults");
+    return (
+        <>
+            <Paragraph className={Margins.bottom8}>{t("Turn on a ready-made set of plugins in one click. You will see exactly what changes before anything happens, and can change it later in the Plugins tab.")}</Paragraph>
             <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
                 {presets.map(p => (
                     <div key={p.id} style={cardStyle}>
@@ -48,21 +61,70 @@ function WelcomeModal(props: RenderModalProps) {
                     </div>
                 ))}
             </div>
-            <div style={{ ...cardStyle, flexDirection: "row", alignItems: "center", marginTop: 12 }}>
-                <span style={{ fontSize: 18 }}>🛡️</span>
-                <div style={{ flex: 1 }}>
-                    <div style={strong}>{t("Account privacy checkup")}</div>
-                    <Paragraph size="sm">{t("See what Discord collects about you and turn it off in one click.")}</Paragraph>
-                </div>
-                <Button size={Button.Sizes.SMALL} onClick={() => { props.onClose(); SettingsRouter.openUserSettings("nightcord_main_panel"); }}>
-                    {t("Open")}
-                </Button>
+        </>
+    );
+}
+
+function FinishStep({ onClose }: { onClose: () => void; }) {
+    const tips: { emoji: string; title: string; text: string; panel?: string; }[] = [
+        { emoji: "🔒", title: t("Encrypted direct messages"), text: t("In a direct message, the lock button turns on encryption that only you and the other person can read. Both of you need Nightcord.") },
+        { emoji: "💾", title: t("Backup to your own Discord"), text: t("Keep an encrypted copy of your settings in a channel of your own server, and turn on a weekly automatic copy."), panel: "nightcord_backup_restore_panel" },
+        { emoji: "🛡️", title: t("Account privacy checkup"), text: t("See what Discord collects about you and turn it off in one click."), panel: "nightcord_main_panel" }
+    ];
+    return (
+        <>
+            <Paragraph className={Margins.bottom8}>{t("That's it. Everything can be changed later in the Nightcord settings. A few more things worth knowing:")}</Paragraph>
+            <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+                {tips.map(tip => (
+                    <div key={tip.title} style={{ ...cardStyle, flexDirection: "row", alignItems: "center" }}>
+                        <span style={{ fontSize: 18 }}>{tip.emoji}</span>
+                        <div style={{ flex: 1 }}>
+                            <div style={strong}>{tip.title}</div>
+                            <Paragraph size="sm">{tip.text}</Paragraph>
+                        </div>
+                        {tip.panel && (
+                            <Button size={Button.Sizes.SMALL} onClick={() => openPanel(onClose, tip.panel!)}>{t("Open")}</Button>
+                        )}
+                    </div>
+                ))}
             </div>
-            <div className={Margins.top16}>
-                <Checkbox value={settings.betaUpdates} onChange={(_: unknown, v: boolean) => { Settings.betaUpdates = v; }}>
-                    <Paragraph size="sm">{t("Get new versions right away (beta), not a day later")}</Paragraph>
-                </Checkbox>
-            </div>
+        </>
+    );
+}
+
+function WelcomeModal(props: RenderModalProps) {
+    const [step, setStep] = React.useState(0);
+    const settings = useSettings(["betaUpdates"]);
+
+    const steps = [
+        { title: `🌙 ${t("Welcome to Nightcord")}`, body: <Paragraph>{t("Nightcord is already working. This quick setup takes a minute, and you can change everything later in the Nightcord settings.")}</Paragraph> },
+        { title: `🛡️ ${t("Your privacy is already on")}`, body: <PrivacyStep /> },
+        { title: `😎 ${t("Pick a set to start with")}`, body: <PresetStep /> },
+        { title: `✅ ${t("Almost done")}`, body: <FinishStep onClose={props.onClose} /> }
+    ];
+    const last = step === steps.length - 1;
+
+    const actions = [
+        ...(step > 0 ? [{ text: t("Back"), variant: "secondary" as const, onClick: () => setStep(step - 1) }] : []),
+        { text: last ? t("Done") : t("Next"), variant: "primary" as const, onClick: () => last ? props.onClose() : setStep(step + 1) }
+    ];
+
+    return (
+        <Modal
+            {...props}
+            size="md"
+            title={steps[step].title}
+            subtitle={`${t("Step")} ${step + 1} / ${steps.length}`}
+            actions={actions}
+            actionBarInput={last
+                ? (
+                    <Checkbox value={settings.betaUpdates} onChange={(_: unknown, v: boolean) => { Settings.betaUpdates = v; }}>
+                        <Paragraph size="sm">{t("Get new versions right away (beta), not a day later")}</Paragraph>
+                    </Checkbox>
+                )
+                : undefined}
+        >
+            {steps[step].body}
         </Modal>
     );
 }

@@ -280,6 +280,7 @@ export const PLUGIN_DESCRIPTIONS_RU: Record<string, [string, string]> = {
     "RPCEditor": ["157vs96", "Изменяет тип и содержимое любого статуса активности"],
     "RussianNightcord": ["r3udl8", "Переводит на русский настройки Nightcord и описания плагинов. Названия плагинов остаются английскими"],
     "SaveFavoriteGIFs": ["vt41zp", "Экспорт ссылок избранных GIF"],
+    "ScamLinkGuard": ["19gts6d", "Предупреждает, когда ссылка в сообщении притворяется Discord или Steam — так работают поддельные сайты с «бесплатным Nitro» и подарками, которые воруют аккаунты"],
     "ScheduledMessages": ["a0squc", "Отложенная отправка сообщений на время или через задержку"],
     "ScreenRecorder": ["rjssgl", "Запись экрана с загрузкой записи в канал"],
     "SearchFix": ["1gtck7x", "Исправляет ошибку поиска «We dropped the magnifying glass!»"],

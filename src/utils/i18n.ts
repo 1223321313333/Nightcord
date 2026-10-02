@@ -1071,6 +1071,10 @@ const RU: Record<string, string> = {
     "Restart Discord to apply them.": "Перезапустите Discord, чтобы они применились.",
     "Discord did not create the server. Create one yourself with + in the server list, then pick its channel here.": "Discord не создал сервер. Создайте его сами кнопкой + в списке серверов и выберите здесь его канал.",
     "Something went wrong, see the console": "Что-то пошло не так, подробности в консоли",
+    "Save a copy automatically once a week": "Автоматически сохранять копию раз в неделю",
+    "Password for automatic backups": "Пароль для автоматических копий",
+    "The password is kept on this computer so the copy can be made on its own. Anyone with access to this computer could read it, but it is only ever used to protect the copy in Discord.": "Пароль хранится на этом компьютере, чтобы копия создавалась сама. Тот, у кого есть доступ к этому компьютеру, сможет его прочитать, но он нужен только для защиты копии в Discord.",
+    "Last copy:": "Последняя копия:",
 
     "Welcome to Nightcord": "Добро пожаловать в Nightcord",
     "Nightcord already works. Pick where to start, you can change everything later in the Nightcord settings.": "Nightcord уже работает. Выберите, с чего начать — всё можно поменять потом в настройках Nightcord.",
@@ -1078,6 +1082,27 @@ const RU: Record<string, string> = {
     "Open": "Открыть",
     "See what Discord collects about you and turn it off in one click.": "Посмотрите, что Discord собирает о вас, и выключите это в один клик.",
     "Get new versions right away (beta), not a day later": "Получать новые версии сразу (бета), а не через день",
+
+    // Setup wizard (first run)
+    "Step": "Шаг",
+    "Next": "Далее",
+    "Back": "Назад",
+    "Nightcord is already working. This quick setup takes a minute, and you can change everything later in the Nightcord settings.": "Nightcord уже работает. Эта быстрая настройка займёт минуту, и всё можно будет поменять потом в настройках Nightcord.",
+    "Your privacy is already on": "Приватность уже включена",
+    "The important things are on from the start. You do not have to do anything here.": "Самое важное включено сразу. Здесь ничего делать не нужно.",
+    "The window can only reach Discord and the servers Nightcord needs — nothing can quietly send your data elsewhere.": "Окно может подключаться только к Discord и к серверам, которые нужны Nightcord — ничто не отправит ваши данные куда-то ещё.",
+    "Location and camera details are stripped from the photos and videos you send.": "Из фото и видео, которые вы отправляете, убираются геопозиция и модель камеры.",
+    "Discord's own tracking and crash reports are blocked.": "Собственная слежка Discord и отчёты об ошибках заблокированы.",
+    "Tracking tags (utm, fbclid and the like) are cleaned from links you send and open.": "Из ссылок, которые вы отправляете и открываете, вычищаются метки слежки (utm, fbclid и подобные).",
+    "Links in messages that imitate Discord or Steam are flagged, so fake \"free Nitro\" sites cannot catch you.": "Ссылки в сообщениях, которые притворяются Discord или Steam, помечаются, чтобы поддельные сайты с «бесплатным Nitro» вас не поймали.",
+    "Pick a set to start with": "Выберите набор для начала",
+    "Turn on a ready-made set of plugins in one click. You will see exactly what changes before anything happens, and can change it later in the Plugins tab.": "Включите готовый набор плагинов в один клик. Вы увидите, что именно изменится, прежде чем что-то произойдёт, и сможете поменять это потом в разделе «Плагины».",
+    "Almost done": "Почти всё",
+    "That's it. Everything can be changed later in the Nightcord settings. A few more things worth knowing:": "Готово. Всё можно поменять потом в настройках Nightcord. Ещё несколько полезных вещей:",
+    "Encrypted direct messages": "Шифрованные личные сообщения",
+    "In a direct message, the lock button turns on encryption that only you and the other person can read. Both of you need Nightcord.": "В личных сообщениях кнопка-замок включает шифрование, которое прочитаете только вы двое. Nightcord нужен у обоих.",
+    "Backup to your own Discord": "Резервная копия в вашем Discord",
+    "Keep an encrypted copy of your settings in a channel of your own server, and turn on a weekly automatic copy.": "Храните зашифрованную копию настроек в канале своего сервера и включите автоматическую копию раз в неделю.",
     "What's new in Nightcord": "Что нового в Nightcord",
     "What's new": "Что нового",
     "Great": "Отлично",
@@ -1090,6 +1115,14 @@ const RU: Record<string, string> = {
     "Voice and video go only through Discord's servers, so other people in a call cannot see your IP address from a direct connection. May slightly lower call quality and is usually not needed, since Discord already relays most calls.": "Голос и видео идут только через серверы Discord, поэтому другие участники звонка не смогут увидеть ваш IP-адрес через прямое соединение. Может немного снизить качество связи и обычно не требуется, так как Discord и так проводит большинство звонков через свои серверы.",
     "Reload": "Перезагрузить",
     "On": "Вкл.",
+
+    // ScamLinkGuard
+    "Careful with this link": "Осторожно со ссылкой",
+    "looks almost like a real address but is misspelled — a trick used to disguise fake sites.": "почти как настоящий адрес, но с опечаткой — так маскируют поддельные сайты.",
+    "pretends to be Discord or Steam, but this is not their real address.": "выдаёт себя за Discord или Steam, но это не их настоящий адрес.",
+    "The link shows": "Ссылка показывает",
+    "but it actually goes to": "а на самом деле ведёт на",
+    "Do not enter your login, password or card details there. There is no free Nitro from links like this — this is how accounts are stolen.": "Не вводите там логин, пароль или данные карты. Бесплатного Nitro по таким ссылкам не бывает — так воруют аккаунты.",
 
     // Plugin tags
     "Accessibility": "Доступность",

@@ -13,19 +13,16 @@ import { Button } from "@components/Button";
 import { Flex } from "@components/Flex";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
-import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
-import { decryptBackup, encryptBackup, WrongPasswordError } from "@utils/syncCrypto";
-import { Alerts, CloudUploader, Constants, GuildChannelStore, GuildStore, Modal, openModal, React, RestAPI, Select, showToast, SnowflakeUtils, TextInput, Toasts, useEffect, UserStore, useState } from "@webpack/common";
+import { decryptBackup, WrongPasswordError } from "@utils/syncCrypto";
+import { Alerts, Checkbox, Constants, GuildChannelStore, GuildStore, Modal, openModal, React, RestAPI, Select, showToast, TextInput, Toasts, useEffect, UserStore, useState } from "@webpack/common";
+
+import { AUTO_AT_KEY, AUTO_KEY, AUTO_PW_KEY, backupNow, CHANNEL_KEY, FILE_NAME } from "./backup";
 
 const logger = new Logger("DiscordSync");
-const CHANNEL_KEY = "Nightcord_SyncChannel";
-const FILE_NAME = "nightcord-settings.ncsync";
-/** Nightcord's own user data that belongs in the backup. Not the SecretChat keys or saved deleted messages */
-const SYNCED_KEYS = ["Nightcord_Bookmarks", "Nightcord_ChannelNotes", "Nightcord_DisappearingTimers"];
 
 function ownTextChannels() {
     const me = UserStore.getCurrentUser()?.id;
@@ -82,37 +79,7 @@ function askPassword(title: string, confirmText: string, twice: boolean): Promis
 async function saveToDiscord(channelId: string) {
     const password = await askPassword(t("Password for the backup"), t("Save"), true);
     if (!password) return;
-
-    const dataStore: [string, unknown][] = [];
-    for (const key of SYNCED_KEYS) {
-        const value = await DataStore.get(key);
-        if (value !== undefined) dataStore.push([key, value]);
-    }
-    const json = JSON.stringify({
-        settings: NightcordNative.settings.get(),
-        quickCss: await NightcordNative.quickCss.get(),
-        dataStore
-    });
-    const file = await encryptBackup(json, password);
-
-    const upload = new CloudUploader({
-        file: new File([file], FILE_NAME, { type: "application/octet-stream" }),
-        isThumbnail: false,
-        platform: CloudUploadPlatform.WEB
-    }, channelId);
-    await new Promise<void>((resolve, reject) => {
-        upload.on("complete", () => resolve());
-        upload.on("error", () => reject(new Error("upload failed")));
-        upload.upload();
-    });
-    await RestAPI.post({
-        url: Constants.Endpoints.MESSAGES(channelId),
-        body: {
-            content: "🌙 Nightcord: " + t("encrypted settings backup"),
-            nonce: SnowflakeUtils.fromTimestamp(Date.now()),
-            attachments: [{ id: "0", filename: upload.filename, uploaded_filename: upload.uploadedFilename }]
-        }
-    });
+    await backupNow(channelId, password);
     showToast(t("Settings saved to your Discord server"), Toasts.Type.SUCCESS);
 }
 
@@ -160,12 +127,32 @@ async function createServer(): Promise<string | null> {
     }
 }
 
+async function enableAutoBackup(channelId: string): Promise<boolean> {
+    let password = await DataStore.get<string>(AUTO_PW_KEY);
+    if (!password) {
+        password = await askPassword(t("Password for automatic backups"), t("Save"), true) ?? undefined;
+        if (!password) return false;
+        await DataStore.set(AUTO_PW_KEY, password);
+    }
+    await DataStore.set(AUTO_KEY, true);
+    await backupNow(channelId, password);
+    await DataStore.set(AUTO_AT_KEY, Date.now());
+    showToast(t("Settings saved to your Discord server"), Toasts.Type.SUCCESS);
+    return true;
+}
+
 export function DiscordSync() {
     const [channelId, setChannelId] = useState<string | null>(null);
     const [busy, setBusy] = useState(false);
     const [options, setOptions] = useState(ownTextChannels);
+    const [auto, setAuto] = useState(false);
+    const [lastAt, setLastAt] = useState<number | null>(null);
 
-    useEffect(() => { DataStore.get<string>(CHANNEL_KEY).then(id => id && setChannelId(id)); }, []);
+    useEffect(() => {
+        DataStore.get<string>(CHANNEL_KEY).then(id => id && setChannelId(id));
+        DataStore.get<boolean>(AUTO_KEY).then(v => setAuto(!!v));
+        DataStore.get<number>(AUTO_AT_KEY).then(v => v && setLastAt(v));
+    }, []);
 
     const choose = (id: string) => {
         setChannelId(id);
@@ -220,6 +207,32 @@ export function DiscordSync() {
             <Paragraph size="sm" className={Margins.top8}>
                 {t("Use a server only you are in: members could download the file, though without the password it is useless.")}
             </Paragraph>
+
+            <div className={Margins.top16}>
+                <Checkbox
+                    value={auto}
+                    disabled={busy || !channelId}
+                    onChange={(_: unknown, v: boolean) => {
+                        if (v) {
+                            run(async () => {
+                                if (!await enableAutoBackup(channelId!)) return;
+                                setAuto(true);
+                                setLastAt(Date.now());
+                            })();
+                        } else {
+                            setAuto(false);
+                            void DataStore.set(AUTO_KEY, false);
+                            void DataStore.del(AUTO_PW_KEY);
+                        }
+                    }}
+                >
+                    <Paragraph size="sm">{t("Save a copy automatically once a week")}</Paragraph>
+                </Checkbox>
+                <Paragraph size="sm" className={Margins.top8} style={{ opacity: 0.7 }}>
+                    {t("The password is kept on this computer so the copy can be made on its own. Anyone with access to this computer could read it, but it is only ever used to protect the copy in Discord.")}
+                    {auto && lastAt ? " " + t("Last copy:") + " " + new Date(lastAt).toLocaleString() : ""}
+                </Paragraph>
+            </div>
         </section>
     );
 }

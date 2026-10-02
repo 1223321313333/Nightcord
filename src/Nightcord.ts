@@ -44,6 +44,7 @@ import { initPluginManager, PMLogger, startAllPlugins } from "./api/PluginManage
 import { PlainSettings, Settings, SettingsStore } from "./api/Settings";
 import { areLocalSettingsDirty, getCloudSettings, getCloudSyncDirection, markLocalSettingsDirty, putCloudSettings, shouldCloudSync } from "./api/SettingsSync/cloudSync";
 import { showStartupModals } from "./components/settings/tabs/nightcord/Welcome";
+import { scheduleAutoBackup } from "./utils/autoBackup";
 import { t } from "./utils/i18n";
 import { relaunch } from "./utils/native";
 import { leaveSafeMode, STARTUP } from "./utils/safeMode";
@@ -211,6 +212,9 @@ async function init() {
 
     // Nightcord: welcome window after installing, "what's new" after an update
     void showStartupModals();
+
+    // Nightcord: weekly encrypted settings backup to the user's own Discord, if they turned it on
+    void scheduleAutoBackup();
 
     // Nightcord safe mode: tell the user why their plugins are off and how to get them back
     if (STARTUP.safeMode) {
