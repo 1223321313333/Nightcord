@@ -56,6 +56,24 @@ export const PRESETS: Preset[] = [
         disable: () => []
     },
     {
+        id: "bigfiles",
+        emoji: "📦",
+        title: "Big files without Nitro",
+        description: "Files over Discord's upload limit are uploaded to Litterbox (up to 1 GB, kept for 72 hours) and the link is put in your message. Smaller files still go to Discord.",
+        enable: () => ["FileUpload"],
+        disable: () => [],
+        settings: {
+            FileUpload: {
+                serviceType: "litterbox",
+                litterboxExpiry: "72h",
+                bypassDiscordUpload: true,
+                bypassDiscordUploadOnlyOverLimit: true,
+                autoSend: true
+            }
+        },
+        note: "Only files over the limit leave Discord. They go to litterbox.catbox.moe, a free public file host: anyone with the link can open the file until it expires after 72 hours. Do not send private files this way."
+    },
+    {
         id: "privacy",
         emoji: "🕵️",
         title: "Maximum privacy",
@@ -79,24 +97,6 @@ export const PRESETS: Preset[] = [
         enable: () => ["NoTypingAnimation", "Nightcord"],
         disable: () => HEAVY_PLUGINS,
         disableThemes: true
-    },
-    {
-        id: "bigfiles",
-        emoji: "📦",
-        title: "Big files without Nitro",
-        description: "Files over Discord's upload limit are uploaded to Litterbox (up to 1 GB, kept for 72 hours) and the link is put in your message. Smaller files still go to Discord.",
-        enable: () => ["FileUpload"],
-        disable: () => [],
-        settings: {
-            FileUpload: {
-                serviceType: "litterbox",
-                litterboxExpiry: "72h",
-                bypassDiscordUpload: true,
-                bypassDiscordUploadOnlyOverLimit: true,
-                autoSend: true
-            }
-        },
-        note: "Only files over the limit leave Discord. They go to litterbox.catbox.moe, a free public file host: anyone with the link can open the file until it expires after 72 hours. Do not send private files this way."
     },
     {
         id: "nonitro",
