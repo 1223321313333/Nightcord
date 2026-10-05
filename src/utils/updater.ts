@@ -54,12 +54,12 @@ export async function checkForUpdates() {
 export async function update() {
     if (!isOutdated) return true;
 
-    const res = await Unwrap(NightcordNative.updater.update());
+    const res = await Unwrap(NightcordNative.updater.fetchUpdate());
 
     if (res) {
         isOutdated = false;
-        if (!await Unwrap(NightcordNative.updater.rebuild()))
-            throw new Error("The Build failed. Please try manually building the new update");
+        if (!await Unwrap(NightcordNative.updater.applyUpdate()))
+            throw new Error("Failed to apply the update.");
     }
 
     return res;

@@ -32,10 +32,12 @@ export const enum IpcEvents {
     SET_SETTINGS = "NightcordSetSettings",
     THEME_UPDATE = "NightcordThemeUpdate",
     OPEN_EXTERNAL = "NightcordOpenExternal",
-    GET_UPDATES = "NightcordGetUpdates",
-    GET_REPO = "NightcordGetRepo",
-    UPDATE = "NightcordUpdate",
-    BUILD = "NightcordBuild",
+
+    UPDATER_LIST_UPDATES = "NightcordListUpdates",
+    UPDATER_GET_REPO = "NightcordGetRepo",
+    UPDATER_FETCH_UPDATE = "NightcordFetchUpdate",
+    UPDATER_APPLY_UPDATE = "NightcordApplyUpdate",
+
     OPEN_MONACO_EDITOR = "NightcordOpenMonacoEditor",
     GET_MONACO_THEME = "NightcordGetMonacoTheme",
 
@@ -51,9 +53,5 @@ export const enum IpcEvents {
     RENDERER_CSS_UPDATE = "NightcordRendererCssUpdate",
     PRELOAD_GET_RENDERER_JS = "NightcordPreloadGetRendererJs",
 
-    SET_TRAY_UPDATE_STATE = "NightcordSetTrayUpdateState",
-    TRAY_REPAIR = "NightcordTrayRepair",
-    TRAY_CHECK_UPDATES = "NightcordTrayCheckUpdates",
-    TRAY_ABOUT = "NightcordTrayAbout",
     SUPPORTS_WINDOWS_MATERIAL = "NightcordSupportsWindowsMaterial",
 }

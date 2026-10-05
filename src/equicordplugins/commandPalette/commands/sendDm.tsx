@@ -7,7 +7,7 @@
 import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { openPrivateChannel, sendMessage } from "@utils/discord";
 import { sleep } from "@utils/misc";
-import { ChannelStore, CloudUploader, IconUtils, RelationshipStore, showToast, Toasts, UserStore } from "@webpack/common";
+import { ChannelStore, CloudUploader, IconUtils, RelationshipStore, showToast, UserStore } from "@webpack/common";
 
 import type { FormFieldOption, FormSubmitExtras, PaletteCommand } from "../api/types";
 import { fuzzyScore } from "../search/ranker";
@@ -82,7 +82,7 @@ export const sendDmCommand: PaletteCommand = {
                 });
 
                 const user = UserStore.getUser(values.recipient);
-                showToast(`Message sent to ${user.globalName || user.username}.`, Toasts.Type.SUCCESS);
+                showToast(`Message sent to ${user.globalName || user.username}.`, "success");
                 ctx.close();
             }
         }

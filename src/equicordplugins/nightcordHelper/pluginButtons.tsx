@@ -9,7 +9,7 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Message } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { isNightcordGuild, isNightcordSupport } from "@utils/misc";
-import { Button, showToast, Toasts } from "@webpack/common";
+import { Button, showToast } from "@webpack/common";
 import { JSX } from "react";
 
 import { toggleEnabled } from "./utils";
@@ -50,10 +50,10 @@ export const PluginButtons = ErrorBoundary.wrap(function PluginCards({ message }
                 onClick={async () => {
                     try {
                         const success = await toggleEnabled(matchedPlugin);
-                        if (success) showToast(`${label}`, Toasts.Type.SUCCESS);
+                        if (success) showToast(`${label}`, "success");
                     } catch (e) {
                         new Logger("NightcordHelper").error("Error while toggling:", e);
-                        showToast(`Failed to ${label.toLowerCase()}`, Toasts.Type.FAILURE);
+                        showToast(`Failed to ${label.toLowerCase()}`, "failure");
                     }
                 }}
             >

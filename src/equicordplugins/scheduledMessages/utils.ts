@@ -8,7 +8,7 @@ import * as DataStore from "@api/DataStore";
 import { Message } from "@nightcord/discord-types";
 import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { Logger } from "@utils/Logger";
-import { ChannelStore, CloudUploader, Constants, FluxDispatcher, GuildStore, IconUtils, MessageActions, MessageStore, RestAPI, showToast, SnowflakeUtils, Toasts, UserStore } from "@webpack/common";
+import { ChannelStore, CloudUploader, Constants, FluxDispatcher, GuildStore, IconUtils, MessageActions, MessageStore, RestAPI, showToast, SnowflakeUtils, UserStore } from "@webpack/common";
 
 import { settings } from ".";
 import { PhantomMessageData, ScheduledAttachment, ScheduledMessage, ScheduledReaction } from "./types";
@@ -374,11 +374,11 @@ async function sendScheduledMessage(msg: ScheduledMessage): Promise<boolean> {
         }
 
         if (settings.store.showNotifications) {
-            showToast(`Scheduled message sent to ${getChannelDisplayInfo(msg.channelId).name}`, Toasts.Type.SUCCESS);
+            showToast(`Scheduled message sent to ${getChannelDisplayInfo(msg.channelId).name}`, "success");
         }
         return true;
     } catch {
-        if (settings.store.showNotifications) showToast("Failed to send scheduled message", Toasts.Type.FAILURE);
+        if (settings.store.showNotifications) showToast("Failed to send scheduled message", "failure");
         return false;
     }
 }

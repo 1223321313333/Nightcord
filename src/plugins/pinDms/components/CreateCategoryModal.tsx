@@ -10,7 +10,7 @@ import { DEFAULT_COLOR, SWATCHES } from "@plugins/pinDms/constants";
 import { categoryLen, createCategory, getCategory } from "@plugins/pinDms/data";
 import { classNameFactory } from "@utils/css";
 import { extractAndLoadChunksLazy, findComponentByCodeLazy } from "@webpack";
-import { ColorPicker, Modal, openModalLazy, TextInput, Toasts, useMemo, useState } from "@webpack/common";
+import { ColorPicker, Modal, openModalLazy, TextInput, useMemo, useState } from "@webpack/common";
 
 interface ColorPickerWithSwatchesProps {
     className?: string;
@@ -41,7 +41,7 @@ function useCategory(categoryId: string | null, initalChannelId: string | null) 
             return getCategory(categoryId);
         } else if (initalChannelId) {
             return {
-                id: Toasts.genId(),
+                id: crypto.randomUUID(),
                 name: `Pin Category ${categoryLen() + 1}`,
                 color: DEFAULT_COLOR,
                 collapsed: false,
