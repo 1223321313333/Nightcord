@@ -38,6 +38,9 @@ overrides:
     fast-uri: "^3.1.7"
     postcss: "^8.5.23"
     "nanoid@^3.0.0": "^3.3.18"
+    "postcss-selector-parser@^7.0.0": "^7.1.6" # GHSA-rj75-hqrm-r3gf (via stylelint)
+    source-map-js: "^1.2.2" # GHSA-68fv-2mgg-jv7q (via stylelint)
+    # braces <=3.0.3 (GHSA via stylelint>micromatch) has no fixed release; dev-only, not bundled, patterns are ours.
     js-yaml: "^4.3.2"
     svgo: "^4.1.0"
     colord: "^2.9.4"
