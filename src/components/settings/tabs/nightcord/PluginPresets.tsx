@@ -11,7 +11,7 @@ import { Paragraph } from "@components/Paragraph";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
-import { Button, ConfirmModal, openModal, React, showToast, Toasts } from "@webpack/common";
+import { Button, ConfirmModal, openModal, React, showToast } from "@webpack/common";
 
 import { SENDS_DATA, VISIBLE_TO_OTHERS } from "../plugins/curation";
 
@@ -202,7 +202,7 @@ export function confirmPreset(preset: Preset) {
     const plan = planFor(preset);
     const nothing = !plan.toEnable.length && !plan.toDisable.length && !plan.themes.length && !plan.settingChanges.length && !plan.strict;
     if (nothing) {
-        showToast(t("Everything from this preset is already set up."), Toasts.Type.MESSAGE);
+        showToast(t("Everything from this preset is already set up."), "message");
         return;
     }
 
@@ -215,8 +215,8 @@ export function confirmPreset(preset: Preset) {
             variant="primary"
             onConfirm={() => {
                 const { restartNeeded, failed } = applyPlan(plan);
-                if (failed.length) showToast(`${t("Could not change")}: ${failed.join(", ")}`, Toasts.Type.FAILURE);
-                else showToast(t("Preset applied!"), Toasts.Type.SUCCESS);
+                if (failed.length) showToast(`${t("Could not change")}: ${failed.join(", ")}`, "failure");
+                else showToast(t("Preset applied!"), "success");
                 if (restartNeeded) askRestart();
             }}
         >

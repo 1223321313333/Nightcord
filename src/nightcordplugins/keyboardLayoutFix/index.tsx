@@ -9,7 +9,7 @@ import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { insertTextIntoChatInputBox } from "@utils/discord";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { Toasts } from "@webpack/common";
+import { showToast } from "@webpack/common";
 
 // Same physical keys on the US and Russian (ЙЦУКЕН) layouts, shifted symbols included
 const EN = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?@#$^&|";
@@ -120,7 +120,7 @@ function fixDraft() {
     }
 
     if (!text.trim()) {
-        Toasts.show({ message: "Нечего переводить", type: Toasts.Type.MESSAGE, id: Toasts.genId() });
+        showToast("Нечего переводить", "message");
         return;
     }
 
@@ -165,11 +165,7 @@ export default definePlugin({
         const original = msg.content;
         msg.content = fixed;
         if (settings.store.notifyOnFix) {
-            Toasts.show({
-                message: `Раскладка исправлена. Было: ${original.length > 60 ? original.slice(0, 60) + "…" : original}`,
-                type: Toasts.Type.MESSAGE,
-                id: Toasts.genId()
-            });
+            showToast(`Раскладка исправлена. Было: ${original.length > 60 ? original.slice(0, 60) + "…" : original}`, "message");
         }
     }
 });

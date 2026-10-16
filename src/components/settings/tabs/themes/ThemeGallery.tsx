@@ -17,7 +17,7 @@ import { Paragraph } from "@components/Paragraph";
 import { PRESETS } from "@nightcordplugins/nightcord/theme";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
-import { Alerts, React, showToast, Toasts } from "@webpack/common";
+import { Alerts, React, showToast } from "@webpack/common";
 
 interface CommunityTheme {
     name: string;
@@ -77,7 +77,7 @@ function endTrial(keep: boolean) {
     trial = null;
     popNotice();
     if (keep) {
-        showToast(t("Theme kept"), Toasts.Type.SUCCESS);
+        showToast(t("Theme kept"), "success");
         return;
     }
     Settings.enabledThemeLinks = Settings.enabledThemeLinks.filter(l => l !== url);

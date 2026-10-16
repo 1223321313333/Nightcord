@@ -20,6 +20,8 @@
 import "~plugins";
 import "./fixWeirdAppRegionBug.css";
 
+import nativeTitleBarStyles from "./nativeTitleBar.css?managed";
+
 export * as Api from "./api";
 export * as Plugins from "./api/PluginManager";
 export * as Components from "./components";
@@ -29,16 +31,14 @@ export * as Webpack from "./webpack";
 export * as WebpackPatcher from "./webpack/patchWebpack";
 export { PlainSettings, Settings };
 
-import { coreStyleRootNode, initStyles } from "@api/Styles";
+import { enableStyle, initStyles } from "@api/Styles";
 import { openSettingsTabModal, UpdaterTab } from "@components/settings";
 import { debounce } from "@shared/debounce";
-import { IS_WINDOWS } from "@utils/constants";
-import { createAndAppendStyle } from "@utils/css";
 import { StartAt } from "@utils/types";
 import { SettingsRouter } from "@webpack/common";
 
 import { get as dsGet } from "./api/DataStore";
-import { popNotice, showNotice } from "./api/Notices";
+import { showNotice } from "./api/Notices";
 import { NotificationData, showNotification } from "./api/Notifications";
 import { initPluginManager, PMLogger, startAllPlugins } from "./api/PluginManager";
 import { PlainSettings, Settings, SettingsStore } from "./api/Settings";
@@ -48,7 +48,7 @@ import { scheduleAutoBackup } from "./utils/autoBackup";
 import { t } from "./utils/i18n";
 import { relaunch } from "./utils/native";
 import { leaveSafeMode, STARTUP } from "./utils/safeMode";
-import { checkForUpdates, isOutdated as getIsOutdated, update, UpdateLogger } from "./utils/updater";
+import { checkForUpdates, update, UpdateLogger } from "./utils/updater";
 import { onceReady } from "./webpack";
 import { patches } from "./webpack/patchWebpack";
 
@@ -141,7 +141,6 @@ async function runUpdateCheck() {
 
     try {
         const isOutdated = await checkForUpdates();
-        if (IS_DISCORD_DESKTOP) NightcordNative.tray.setUpdateState(isOutdated);
         if (!isOutdated) return;
 
         if (Settings.autoUpdate) {
@@ -172,43 +171,11 @@ async function runUpdateCheck() {
     }
 }
 
-function initTrayIpc() {
-    if (IS_WEB || IS_UPDATER_DISABLED) return;
-
-    NightcordNative.tray.onCheckUpdates(async () => {
-        try {
-            const isOutdated = await checkForUpdates();
-            NightcordNative.tray.setUpdateState(isOutdated);
-
-            if (isOutdated) {
-                showNotice("A Nightcord update is available!", "View Update", () => openSettingsTabModal(UpdaterTab!));
-            } else {
-                showNotice("No updates available, you're on the latest version!", "OK", popNotice);
-            }
-        } catch (err) {
-            UpdateLogger.error("Failed to check for updates from tray", err);
-            showNotice("Failed to check for updates, check the console for more info", "OK", popNotice);
-        }
-    });
-
-    NightcordNative.tray.onRepair(async () => {
-        try {
-            await update();
-            relaunch();
-        } catch (err) {
-            UpdateLogger.error("Failed to repair Nightcord", err);
-        }
-    });
-
-    NightcordNative.tray.setUpdateState(getIsOutdated);
-}
-
 async function init() {
     await onceReady;
     startAllPlugins(StartAt.WebpackReady);
 
     syncSettings();
-    initTrayIpc();
 
     // Nightcord: welcome window after installing, "what's new" after an update
     void showStartupModals();
@@ -257,8 +224,7 @@ init();
 document.addEventListener("DOMContentLoaded", () => {
     startAllPlugins(StartAt.DOMContentLoaded);
 
-    // FIXME
-    if (IS_DISCORD_DESKTOP && Settings.winNativeTitleBar && IS_WINDOWS) {
-        createAndAppendStyle("nightcord-native-titlebar-style", coreStyleRootNode).textContent = "[class*=titleBar]{display: none!important}";
+    if (IS_DISCORD_DESKTOP && Settings.nativeTitleBar) {
+        enableStyle(nativeTitleBarStyles);
     }
 }, { once: true });

@@ -14,7 +14,7 @@ import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
 import definePlugin, { IconComponent } from "@utils/types";
-import { ChannelStore, GuildStore, Menu, Modal, NavigationRouter, openModal, React, TextInput, Toasts, useEffect, UserStore, useState } from "@webpack/common";
+import { ChannelStore, GuildStore, Menu, Modal, NavigationRouter, openModal, React, showToast, TextInput, useEffect, UserStore, useState } from "@webpack/common";
 
 import { markupToText } from "../_shared/messages";
 
@@ -54,8 +54,8 @@ async function change(updater: (list: Bookmark[]) => Bookmark[]) {
 
 const isBookmarked = (id: string) => cache.some(b => b.id === id);
 
-function toast(message: string, type = Toasts.Type.SUCCESS) {
-    Toasts.show({ message, type, id: Toasts.genId() });
+function toast(message: string, type: "message" | "success" | "failure" = "success") {
+    showToast(message, type);
 }
 
 function channelLabel(channelId: string) {
@@ -110,7 +110,7 @@ async function toggle(msg: Message) {
 
 function jumpTo(b: Bookmark) {
     if (!ChannelStore.getChannel(b.channelId)) {
-        toast("Этот канал больше недоступен: вы вышли с сервера или канал удалён", Toasts.Type.FAILURE);
+        toast("Этот канал больше недоступен: вы вышли с сервера или канал удалён", "failure");
         return false;
     }
     NavigationRouter.transitionTo(`/channels/${b.guildId ?? "@me"}/${b.channelId}/${b.id}`);

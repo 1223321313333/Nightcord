@@ -8,7 +8,7 @@ import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
-import { Toasts } from "@webpack/common";
+import { showToast } from "@webpack/common";
 
 const logger = new Logger("PrivacyGuard");
 
@@ -40,11 +40,7 @@ async function enforce() {
     lastRevoke = Date.now();
     try {
         await ConsentActions.setConsents([], turnedOn);
-        Toasts.show({
-            message: `🛡️ Discord снова включил ${turnedOn.map(t => GUARDED[t]).join(" и ")} — выключено обратно`,
-            type: Toasts.Type.SUCCESS,
-            id: Toasts.genId()
-        });
+        showToast(`🛡️ Discord снова включил ${turnedOn.map(t => GUARDED[t]).join(" и ")} — выключено обратно`, "success");
         logger.info("Revoked", turnedOn);
     } catch (err) {
         logger.warn("Could not revoke consents", err);

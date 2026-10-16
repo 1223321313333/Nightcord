@@ -11,7 +11,7 @@ import { Devs } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { IconComponent } from "@utils/types";
-import { Alerts, ChannelStore, ContextMenuApi, Menu, Parser, React, Toasts, UserStore } from "@webpack/common";
+import { Alerts, ChannelStore, ContextMenuApi, Menu, Parser, React, showToast, UserStore } from "@webpack/common";
 
 import {
     decryptMessage, deriveChatKey, encryptMessage, exportPublicKey, findEncrypted, findPublicKey,
@@ -44,7 +44,7 @@ const chatKeys = new Map<string, Promise<CryptoKey>>();
 const decrypted = new Map<string, Promise<string>>();
 const listeners = new Set<() => void>();
 
-const toast = (message: string, type = Toasts.Type.MESSAGE) => Toasts.show({ message, type, id: Toasts.genId() });
+const toast = (message: string, type: "message" | "success" | "failure" = "message") => showToast(message, type);
 const me = () => UserStore.getCurrentUser()?.id;
 
 async function save() {
@@ -148,7 +148,7 @@ export async function acceptChangedKey(peerId: string) {
     peer.key = peer.changedTo;
     delete peer.changedTo;
     await save();
-    toast("Новый ключ собеседника принят. Сверьте код безопасности", Toasts.Type.SUCCESS);
+    toast("Новый ключ собеседника принят. Сверьте код безопасности", "success");
 }
 
 const LockIcon: IconComponent = ({ height = 20, width = 20, className }) => (
@@ -306,15 +306,15 @@ export async function encryptOutgoing(channelId: string, msg: { content: string;
         const peerId = peerOf(channel);
         const peer = peerId ? state.peers[peerId] : undefined;
         if (!peerId || !peer) {
-            toast("Собеседник ещё не прислал ключ, сообщение не отправлено. Выключите шифрование, чтобы писать обычным текстом", Toasts.Type.FAILURE);
+            toast("Собеседник ещё не прислал ключ, сообщение не отправлено. Выключите шифрование, чтобы писать обычным текстом", "failure");
             return { cancel: true };
         }
         if (peer.changedTo) {
-            toast("Ключ собеседника изменился: сверьте код безопасности и примите новый ключ под его сообщением", Toasts.Type.FAILURE);
+            toast("Ключ собеседника изменился: сверьте код безопасности и примите новый ключ под его сообщением", "failure");
             return { cancel: true };
         }
         if (!fitsInOneMessage(msg.content)) {
-            toast("Слишком длинно для одного зашифрованного сообщения, разбейте на части", Toasts.Type.FAILURE);
+            toast("Слишком длинно для одного зашифрованного сообщения, разбейте на части", "failure");
             return { cancel: true };
         }
 
@@ -322,7 +322,7 @@ export async function encryptOutgoing(channelId: string, msg: { content: string;
         msg.content = await encryptMessage(key, msg.content, channelId, me()!);
     } catch (err) {
         logger.error("Could not encrypt, message not sent", err);
-        toast("Не получилось зашифровать, сообщение не отправлено", Toasts.Type.FAILURE);
+        toast("Не получилось зашифровать, сообщение не отправлено", "failure");
         return { cancel: true };
     }
 }

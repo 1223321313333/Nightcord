@@ -19,7 +19,7 @@ import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { getStylusWebStoreUrl } from "@utils/web";
-import { React, Select, showToast, TextInput, Toasts, useEffect, useMemo, useRef, useState } from "@webpack/common";
+import { React, Select, showToast, TextInput, useEffect, useMemo, useRef, useState } from "@webpack/common";
 import { SyntheticEvent } from "react";
 
 import { OnlineThemesSection } from "./OnlineThemes";
@@ -265,9 +265,9 @@ function ThemesTab() {
             setOnlineThemes(prev =>
                 prev?.map(t => t.link === link ? updatedTheme : t) ?? null
             );
-            showToast("Theme refreshed!", Toasts.Type.SUCCESS);
+            showToast("Theme refreshed!", "success");
         } catch {
-            showToast("Failed to refresh theme", Toasts.Type.FAILURE);
+            showToast("Failed to refresh theme", "failure");
         }
     }
 
@@ -290,7 +290,7 @@ function ThemesTab() {
                 URL.revokeObjectURL(url);
             }
         } catch {
-            showToast("Failed to download theme", Toasts.Type.FAILURE);
+            showToast("Failed to download theme", "failure");
         }
     }
 

@@ -6,7 +6,7 @@
 
 import { ProfilePreset } from "@nightcord/discord-types";
 import { isNonNullish } from "@utils/guards";
-import { showToast, Toasts, UserProfileSettingsStore } from "@webpack/common";
+import { showToast, UserProfileSettingsStore } from "@webpack/common";
 
 import { getCurrentProfile } from "./profile";
 import { addPreset, movePresetInArray, presets, PresetSection, type ProfilePresetEx, removePreset, replaceAllPresets, savePresetsData, updatePreset } from "./storage";
@@ -133,7 +133,7 @@ export async function importPresets(
             await savePresetsData(section);
             forceUpdate();
         } catch {
-            showToast("Failed to import presets. The file might be invalid.", Toasts.Type.FAILURE);
+            showToast("Failed to import presets. The file might be invalid.", "failure");
         }
     };
     input.click();

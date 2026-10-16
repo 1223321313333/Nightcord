@@ -11,7 +11,7 @@ import { Channel, Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { IconComponent } from "@utils/types";
-import { Alerts, Constants, ContextMenuApi, Menu, React, RestAPI, SnowflakeUtils, Toasts, UserStore } from "@webpack/common";
+import { Alerts, Constants, ContextMenuApi, Menu, React, RestAPI, showToast, SnowflakeUtils, UserStore } from "@webpack/common";
 
 import { fetchHistory, MAX_HISTORY } from "../_shared/messages";
 
@@ -42,7 +42,7 @@ let bulk: { channelId: string; cancelled: boolean; } | null = null;
 const listeners = new Set<() => void>();
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
-const toast = (message: string, type = Toasts.Type.MESSAGE) => Toasts.show({ message, type, id: Toasts.genId() });
+const toast = (message: string, type: "message" | "success" | "failure" = "message") => showToast(message, type);
 
 function label(ms: number) {
     return OPTIONS.find(o => o.ms === ms)?.label ?? `${Math.round(ms / HOUR)} ч`;
@@ -110,7 +110,7 @@ async function enqueue(message: Message) {
 /** Deletes your messages among the last `scan` messages of a channel, slowly */
 async function deleteMine(channel: Channel, scan: number) {
     if (bulk) {
-        toast("Удаление уже идёт в другом чате", Toasts.Type.FAILURE);
+        toast("Удаление уже идёт в другом чате", "failure");
         return;
     }
     const me = UserStore.getCurrentUser().id;
@@ -129,10 +129,10 @@ async function deleteMine(channel: Channel, scan: number) {
             if (deleted && deleted % 25 === 0) toast(`🧹 Удалено ${deleted} из ${mine.length}`);
             await sleep(DELETE_GAP);
         }
-        toast(bulk.cancelled ? `Остановлено. Удалено: ${deleted}` : `✅ Готово, удалено сообщений: ${deleted}`, Toasts.Type.SUCCESS);
+        toast(bulk.cancelled ? `Остановлено. Удалено: ${deleted}` : `✅ Готово, удалено сообщений: ${deleted}`, "success");
     } catch (err) {
         logger.error("Bulk delete failed", err);
-        toast(`Не удалось закончить удаление (удалено ${deleted})`, Toasts.Type.FAILURE);
+        toast(`Не удалось закончить удаление (удалено ${deleted})`, "failure");
     } finally {
         bulk = null;
         listeners.forEach(l => l());

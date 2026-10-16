@@ -18,7 +18,7 @@ import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
 import { decryptBackup, WrongPasswordError } from "@utils/syncCrypto";
-import { Alerts, Checkbox, Constants, GuildChannelStore, GuildStore, Modal, openModal, React, RestAPI, Select, showToast, TextInput, Toasts, useEffect, UserStore, useState } from "@webpack/common";
+import { Alerts, Checkbox, Constants, GuildChannelStore, GuildStore, Modal, openModal, React, RestAPI, Select, showToast, TextInput, useEffect, UserStore, useState } from "@webpack/common";
 
 import { AUTO_AT_KEY, AUTO_KEY, AUTO_PW_KEY, backupNow, CHANNEL_KEY, FILE_NAME } from "./backup";
 
@@ -80,7 +80,7 @@ async function saveToDiscord(channelId: string) {
     const password = await askPassword(t("Password for the backup"), t("Save"), true);
     if (!password) return;
     await backupNow(channelId, password);
-    showToast(t("Settings saved to your Discord server"), Toasts.Type.SUCCESS);
+    showToast(t("Settings saved to your Discord server"), "success");
 }
 
 async function loadFromDiscord(channelId: string) {
@@ -89,7 +89,7 @@ async function loadFromDiscord(channelId: string) {
     const message = (body as any[]).find(m => m.author?.id === me && m.attachments?.some((a: any) => a.filename === FILE_NAME));
     const attachment = message?.attachments.find((a: any) => a.filename === FILE_NAME);
     if (!attachment) {
-        showToast(t("No Nightcord backup in this channel yet"), Toasts.Type.FAILURE);
+        showToast(t("No Nightcord backup in this channel yet"), "failure");
         return;
     }
 
@@ -101,7 +101,7 @@ async function loadFromDiscord(channelId: string) {
     try {
         json = await decryptBackup(bytes, password);
     } catch (err) {
-        showToast(err instanceof WrongPasswordError ? t("Wrong password") : t("This file is not a Nightcord backup"), Toasts.Type.FAILURE);
+        showToast(err instanceof WrongPasswordError ? t("Wrong password") : t("This file is not a Nightcord backup"), "failure");
         return;
     }
 
@@ -122,7 +122,7 @@ async function createServer(): Promise<string | null> {
         return (channels as any[]).find(c => c.type === 0)?.id ?? null;
     } catch (err) {
         logger.error("Could not create the server", err);
-        showToast(t("Discord did not create the server. Create one yourself with + in the server list, then pick its channel here."), Toasts.Type.FAILURE);
+        showToast(t("Discord did not create the server. Create one yourself with + in the server list, then pick its channel here."), "failure");
         return null;
     }
 }
@@ -137,7 +137,7 @@ async function enableAutoBackup(channelId: string): Promise<boolean> {
     await DataStore.set(AUTO_KEY, true);
     await backupNow(channelId, password);
     await DataStore.set(AUTO_AT_KEY, Date.now());
-    showToast(t("Settings saved to your Discord server"), Toasts.Type.SUCCESS);
+    showToast(t("Settings saved to your Discord server"), "success");
     return true;
 }
 
@@ -165,7 +165,7 @@ export function DiscordSync() {
             await fn();
         } catch (err) {
             logger.error(err);
-            showToast(t("Something went wrong, see the console"), Toasts.Type.FAILURE);
+            showToast(t("Something went wrong, see the console"), "failure");
         } finally {
             setBusy(false);
         }

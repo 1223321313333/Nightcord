@@ -9,7 +9,7 @@ import { CloudUpload } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Toasts } from "@webpack/common";
+import { showToast } from "@webpack/common";
 
 import { Removed, stripMetadata } from "./strip";
 
@@ -35,11 +35,7 @@ const settings = definePluginSettings({
 
 function notifyRemoved(removed: Set<Removed>, fileName: string) {
     if (!settings.store.notify || !removed.has("location")) return;
-    Toasts.show({
-        message: `📍 Из «${fileName}» удалены координаты места съёмки`,
-        type: Toasts.Type.SUCCESS,
-        id: Toasts.genId()
-    });
+    showToast(`📍 Из «${fileName}» удалены координаты места съёмки`, "success");
 }
 
 /**

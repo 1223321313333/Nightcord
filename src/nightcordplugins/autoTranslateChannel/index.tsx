@@ -10,7 +10,7 @@ import { Channel, Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
-import { Menu, React, Toasts, UserStore } from "@webpack/common";
+import { Menu, React, showToast, UserStore } from "@webpack/common";
 
 import { translate, TranslationValue } from "../../plugins/translate/utils";
 import { isTranslatable } from "./detect";
@@ -27,11 +27,7 @@ async function toggle(id: string) {
     if (channels.has(id)) channels.delete(id);
     else channels.add(id);
     await DataStore.set(KEY, [...channels]);
-    Toasts.show({
-        message: channels.has(id) ? "🌐 Этот чат будет переводиться автоматически" : "Автоперевод в этом чате выключен",
-        type: Toasts.Type.MESSAGE,
-        id: Toasts.genId()
-    });
+    showToast(channels.has(id) ? "🌐 Этот чат будет переводиться автоматически" : "Автоперевод в этом чате выключен", "message");
 }
 
 function Translation({ id, content }: { id: string; content: string; }) {

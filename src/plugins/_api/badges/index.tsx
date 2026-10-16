@@ -28,7 +28,7 @@ import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { shouldShowContributorBadge, shouldShowNightcordContributorBadge } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { ContextMenuApi, Menu, Toasts, UserStore } from "@webpack/common";
+import { ContextMenuApi, Menu, showToast, UserStore } from "@webpack/common";
 
 import Plugins, { PluginMeta } from "~plugins";
 
@@ -212,19 +212,11 @@ export default definePlugin({
     toolboxActions: {
         async "Refetch Badges"() {
             if (!settings.store.donorBadges) {
-                Toasts.show({
-                    id: Toasts.genId(),
-                    message: "Donor badges are turned off in BadgeAPI settings",
-                    type: Toasts.Type.MESSAGE
-                });
+                showToast("Donor badges are turned off in BadgeAPI settings", "message");
                 return;
             }
             await loadAllBadges(true);
-            Toasts.show({
-                id: Toasts.genId(),
-                message: "Successfully refetched badges!",
-                type: Toasts.Type.SUCCESS
-            });
+            showToast("Successfully refetched badges!", "success");
         }
     },
 

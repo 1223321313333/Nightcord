@@ -9,10 +9,11 @@ import { definePluginSettings } from "@api/Settings";
 import { HeadingSecondary } from "@components/Heading";
 import { OpenExternalIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
+import { ToastPosition } from "@nightcord/discord-types/enums";
 import { copyToClipboard } from "@utils/clipboard";
 import { classNameFactory } from "@utils/css";
 import { OptionType } from "@utils/types";
-import { Button, Toasts } from "@webpack/common";
+import { Button, showToast } from "@webpack/common";
 
 import { authorizeUser, deauthorizeUser } from "./auth";
 
@@ -32,27 +33,17 @@ export const settings = definePluginSettings({
             const handleClick = async () => {
                 const token = await DataStore.get("ThemeLibrary_uniqueToken");
 
-                if (!token) return Toasts.show({
-                    message: "No token to copy, try authorizing first!",
-                    id: Toasts.genId(),
-                    type: Toasts.Type.FAILURE,
-                    options: {
+                if (!token) return showToast("No token to copy, try authorizing first!", "failure", {
                         duration: 2.5e3,
-                        position: Toasts.Position.BOTTOM
-                    }
-                });
+                        position: ToastPosition.BOTTOM
+                    });
 
                 copyToClipboard(token);
 
-                Toasts.show({
-                    message: "Copied to Clipboard!",
-                    id: Toasts.genId(),
-                    type: Toasts.Type.SUCCESS,
-                    options: {
+                showToast("Copied to Clipboard!", "success", {
                         duration: 2.5e3,
-                        position: Toasts.Position.BOTTOM
-                    }
-                });
+                        position: ToastPosition.BOTTOM
+                    });
             };
 
             return (

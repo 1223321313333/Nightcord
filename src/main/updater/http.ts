@@ -18,16 +18,15 @@
 
 import { RendererSettings } from "@main/settings";
 import { fetchBuffer, fetchJson } from "@main/utils/http";
-import { IpcEvents } from "@shared/IpcEvents";
 import { NIGHTCORD_USER_AGENT } from "@shared/nightcordUserAgent";
 import { createHash } from "crypto";
-import { ipcMain } from "electron";
 import { writeFileSync } from "original-fs";
 
 import gitHash from "~git-hash";
 import gitRemote from "~git-remote";
 
-import { ASAR_FILE, serializeErrors } from "./common";
+import { Updater } from ".";
+import { ASAR_FILE } from "./common";
 import { checkProvenance } from "./provenance";
 
 const API_BASE = `https://api.github.com/repos/${gitRemote}`;
@@ -48,8 +47,8 @@ async function githubGet<T = any>(endpoint: string) {
     });
 }
 
-async function calculateGitChanges() {
-    const isOutdated = await fetchUpdates();
+async function listUpdates() {
+    const isOutdated = await fetchUpdate();
     if (!isOutdated) return [];
 
     try {
@@ -67,7 +66,7 @@ async function calculateGitChanges() {
     }
 }
 
-async function fetchUpdates() {
+async function fetchUpdate() {
     // Nightcord: the stable release is GitHub's "latest"; beta testers take every build from the devbuild release
     const data = await githubGet(RendererSettings.store.betaUpdates ? "/releases/tags/devbuild" : "/releases/latest");
 
@@ -96,7 +95,7 @@ async function getExpectedDigest(url: string) {
     return digest.toLowerCase();
 }
 
-async function applyUpdates() {
+async function applyUpdate() {
     if (!PendingUpdate) return true;
 
     // The update replaces the running asar; a folder install (local build) has nothing to replace
@@ -120,7 +119,11 @@ async function applyUpdates() {
     return true;
 }
 
-ipcMain.handle(IpcEvents.GET_REPO, serializeErrors(() => `https://github.com/${gitRemote}`));
-ipcMain.handle(IpcEvents.GET_UPDATES, serializeErrors(calculateGitChanges));
-ipcMain.handle(IpcEvents.UPDATE, serializeErrors(fetchUpdates));
-ipcMain.handle(IpcEvents.BUILD, serializeErrors(applyUpdates));
+const HttpUpdater: Updater = {
+    getRepo: async () => `https://github.com/${gitRemote}`,
+    listUpdates,
+    fetchUpdate,
+    applyUpdate
+};
+
+export default HttpUpdater;

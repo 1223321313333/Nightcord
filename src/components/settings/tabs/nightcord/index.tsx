@@ -44,7 +44,7 @@ type KeysOfType<Object, Type> = {
 }[keyof Object];
 
 function Switches() {
-    const settings = useSettings(["useQuickCss", "enableReactDevtools", "mainWindowFrameless", "frameless", "winNativeTitleBar", "transparent", "winCtrlQ", "disableMinSize"]);
+    const settings = useSettings(["useQuickCss", "enableReactDevtools", "mainWindowFrameless", "frameless", "nativeTitleBar", "transparent", "winCtrlQ", "disableMinSize"]);
 
     const Switches = [
         {
@@ -66,7 +66,7 @@ function Switches() {
                 restartRequired: true,
             }
             : {
-                key: "winNativeTitleBar",
+                key: "nativeTitleBar",
                 title: t("Use Windows' native title bar instead of Discord's custom one"),
                 description: t("Replace Discord's custom title bar with the standard Windows title bar. This may improve compatibility with some window management tools."),
                 restartRequired: true,

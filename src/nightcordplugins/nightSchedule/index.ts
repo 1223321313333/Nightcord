@@ -7,7 +7,7 @@
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Toasts } from "@webpack/common";
+import { showToast } from "@webpack/common";
 
 import style from "./style.css?managed";
 
@@ -72,11 +72,7 @@ function toggleNow() {
     const on = !document.documentElement.classList.contains(CLASS);
     manual = { on, scheduledWhenSet: scheduled() };
     update();
-    Toasts.show({
-        message: on ? "Ночной режим включён до утра по расписанию" : "Ночной режим выключен до следующего вечера",
-        type: Toasts.Type.MESSAGE,
-        id: Toasts.genId()
-    });
+    showToast(on ? "Ночной режим включён до утра по расписанию" : "Ночной режим выключен до следующего вечера", "message");
 }
 
 export default definePlugin({

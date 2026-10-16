@@ -17,7 +17,7 @@
 */
 
 import { translateUi } from "@api/UiTranslation";
-import type * as t from "@nightcord/discord-types";
+import * as t from "@nightcord/discord-types";
 import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "@webpack";
 import type * as TSPattern from "ts-pattern";
 
@@ -71,23 +71,6 @@ waitFor("parseTopic", m => Parser = m);
 export let Alerts: t.Alerts;
 waitFor(["show", "close"], m => Alerts = m);
 
-const ToastType = {
-    MESSAGE: "message",
-    SUCCESS: "success",
-    FAILURE: "failure",
-    CUSTOM: "custom",
-    CLIP: "clip",
-    LINK: "link",
-    FORWARD: "forward",
-    BOOKMARK: "bookmark",
-    CLOCK: "clock"
-};
-
-const ToastPosition = {
-    TOP: 0,
-    BOTTOM: 1
-};
-
 export interface ToastData {
     message: string,
     id: string,
@@ -107,40 +90,25 @@ export interface ToastOptions {
     duration?: number;
 }
 
-interface ToastsExports {
-    showToast: (data: ToastData) => void;
-    popToast(): void;
-}
-
-const ToastsExports = mapMangledModuleLazy(".currentToastMap.has(", {
-    showToast: filters.byCode(".currentToastMap.has("),
-    popToast: filters.byCode(".delete(")
+export const Toasts: t.Toasts = mapMangledModuleLazy(".currentToastMap.has(", {
+    show: filters.byCode(".currentToastMap.has("),
+    pop: filters.byCode(".delete(")
 });
 
-export function createToast(message: string, type: string, options?: ToastOptions): ToastData {
-    return {
-        message,
-        id: Toasts.genId(),
-        type,
-        options
-    };
-}
-
-export const Toasts = {
-    Type: ToastType,
-    Position: ToastPosition,
-    genId: () => (Math.random() || Math.random()).toString(36).slice(2),
-
-    show: ToastsExports.showToast,
-    pop: ToastsExports.popToast,
-    create: createToast,
-};
+export const createToast: t.createToast = findByCodeLazy('variant:"default",icon:', ".duration");
 
 /**
  * Show a simple toast. If you need more options, use Toasts.show manually
  */
-export function showToast(message: string, type = ToastType.MESSAGE, options?: ToastOptions) {
-    Toasts.show(Toasts.create(translateUi(message), type, options));
+export function showToast(message: string, type: t.ToastType = "message", options?: ToastOptions) {
+    // Nightcord: translateUi localizes the toast text. Upstream's try/catch guards Discord's changing API.
+    const text = translateUi(message);
+    try {
+        Toasts.show(createToast(text, type, options));
+    } catch {
+        // @ts-ignore
+        Toasts.show({ text, variant: type });
+    }
 }
 
 export const UserUtils = {
@@ -166,12 +134,13 @@ export const NavigationRouter: t.NavigationRouter = mapMangledModuleLazy("transi
     forward: filters.byCode("goForward()"),
 });
 export const ChannelRouter: t.ChannelRouter = mapMangledModuleLazy('"Thread must have a parent ID."', {
-    transitionToChannel: filters.byCode(".preload"),
+    transitionToChannel: filters.byCode(".openTextInVoiceIfVoiceChannel"),
     transitionToThread: filters.byCode('"Thread must have a parent ID."')
 });
 
-export let SettingsRouter: any;
-waitFor(["openUserSettings", "USER_SETTINGS_MODAL_KEY"], m => SettingsRouter = m);
+export const SettingsRouter: t.SettingsRouter = mapMangledModuleLazy('type:"USER_SETTINGS_MODAL_OPEN"', {
+    openUserSettings: filters.byCode('type:"USER_SETTINGS_MODAL_OPEN"')
+});
 
 export const PermissionsBits: t.PermissionsBits = findLazy(m => typeof m.ADMINISTRATOR === "bigint");
 
@@ -185,7 +154,7 @@ export const { zustandPersist } = mapMangledModuleLazy(".onRehydrateStorage)?", 
 
 export const MessageActions = findByPropsLazy("editMessage", "sendMessage");
 export const MessageCache = findByPropsLazy("clearCache", "_channelMessages");
-export const UserProfileActions = findByPropsLazy("openUserProfileModal", "closeUserProfileModal");
+export const openUserProfileModal: t.OpenUserProfileModal = findByCodeLazy('type:"USER_PROFILE_MODAL_OPEN"');
 export const InviteActions = findByPropsLazy("resolveInvite");
 export const ChannelActionCreators = findByPropsLazy("openPrivateChannel");
 

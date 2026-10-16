@@ -15,7 +15,7 @@ import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
-import { Alerts, Button, Checkbox, React, showToast, Toasts, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
+import { Alerts, Button, Checkbox, React, showToast, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
 
 const logger = new Logger("PrivacyCheckup");
 
@@ -268,10 +268,10 @@ export function PrivacyCheckup() {
         try {
             await applyPrivate(toApply);
             setChosen({});
-            showToast(t("Privacy settings updated"), Toasts.Type.SUCCESS);
+            showToast(t("Privacy settings updated"), "success");
         } catch (err) {
             logger.error("Failed to update privacy settings", err);
-            showToast(t("Discord did not accept the change, try again later"), Toasts.Type.FAILURE);
+            showToast(t("Discord did not accept the change, try again later"), "failure");
         } finally {
             setBusy(false);
         }

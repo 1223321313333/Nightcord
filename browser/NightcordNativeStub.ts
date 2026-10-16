@@ -76,8 +76,8 @@ window.NightcordNative = {
     updater: {
         getRepo: async () => ({ ok: true, value: "https://github.com/Equicord/Equicord" }),
         getUpdates: async () => ({ ok: true, value: [] }),
-        update: async () => ({ ok: true, value: false }),
-        rebuild: async () => ({ ok: true, value: true }),
+        fetchUpdate: async () => ({ ok: true, value: false }),
+        applyUpdate: async () => ({ ok: true, value: true }),
     },
 
     quickCss: {
@@ -126,7 +126,8 @@ window.NightcordNative = {
     settings: {
         get: () => {
             try {
-                return JSON.parse(localStorage.getItem("NightcordSettings") || "{}");
+                const settings = JSON.parse(localStorage.getItem("NightcordSettings") || "{}");
+                return typeof settings === "string" ? JSON.parse(settings) : settings;
             } catch (e) {
                 console.error("Failed to parse settings from localStorage: ", e);
                 return {};
@@ -139,9 +140,4 @@ window.NightcordNative = {
 
     pluginHelpers: {} as any,
     csp: {} as any,
-    tray: {
-        setUpdateState: NOOP,
-        onCheckUpdates: NOOP,
-        onRepair: NOOP,
-    },
 };

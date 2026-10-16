@@ -48,7 +48,7 @@ export const SENDS_DATA: Record<string, { what: string; automatic: boolean; }> =
     FriendshipRanks: { what: "Your IP address, to equicord.org, which hosts the rank pictures shown on friends' profiles", automatic: true },
     Translate: { what: "Text you choose to translate, to Google, DeepL or Kagi", automatic: false },
     FileUpload: { what: "Files you upload with it, to the chosen file host", automatic: false },
-    TenorGifSearch: { what: "Your GIF searches, to Tenor (Google)", automatic: false }
+    GifProviderSwitcher: { what: "Your GIF searches, to Tenor or Giphy", automatic: false }
 };
 
 /**
