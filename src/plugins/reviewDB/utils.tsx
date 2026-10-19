@@ -16,8 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { ToastType } from "@nightcord/discord-types";
-import { ToastPosition } from "@nightcord/discord-types/enums";
+import * as t from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import { showToast as originalShowToast, UserStore } from "@webpack/common";
 
@@ -44,8 +43,7 @@ export function canReportReview(review: Review) {
     return review.sender.discordID !== UserStore.getCurrentUser().id;
 }
 
-export function showToast(message: string, type: ToastType = "message") {
-    originalShowToast(message, type, {
-        position: ToastPosition.BOTTOM
-    });
-}
+export const showToast: t.showToast = function (options) {
+    options.position = options.position ?? "bottom";
+    return originalShowToast(options);
+};

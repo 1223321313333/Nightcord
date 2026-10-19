@@ -9,8 +9,7 @@ import "./style.css";
 import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatch } from "@api/ContextMenu";
 import { DataStore } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
-import { CustomEmoji, ToastType, UnicodeEmoji } from "@nightcord/discord-types";
-import { ToastPosition } from "@nightcord/discord-types/enums";
+import { CustomEmoji, ToastVariant, UnicodeEmoji } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { chooseFile, saveFile } from "@utils/web";
@@ -74,9 +73,9 @@ function buildSaveData(item: ContextMenuEmoji): SavedEmoji {
     return saveData;
 }
 
-function showToast(message: string, type: ToastType = "success") {
+function showToast(text: string, variant: ToastVariant = "success") {
     if (settings.store.disableToasts) return;
-    originalShowToast(message, type, { duration: 3000, position: ToastPosition.BOTTOM });
+    originalShowToast({ text, variant, duration: 3000, position: "bottom" });
 }
 
 function addBulkToAllowedList(items: ContextMenuEmoji[]) {
@@ -100,7 +99,7 @@ function removeBulkFromAllowedList(items: ContextMenuEmoji[]) {
 function addToAllowedList(item: ContextMenuEmoji) {
     return withWriteLock(async () => {
         if (itemAlreadyInList(item)) {
-            showToast(`"${item.name}" is already in the list`, "failure");
+            showToast(`"${item.name}" is already in the list`, "critical");
             return;
         }
 
@@ -112,7 +111,7 @@ function addToAllowedList(item: ContextMenuEmoji) {
 function removeFromAllowedList(item: ContextMenuEmoji) {
     return withWriteLock(async () => {
         if (!itemAlreadyInList(item)) {
-            showToast(`"${item.name}" is not in the list`, "failure");
+            showToast(`"${item.name}" is not in the list`, "critical");
             return;
         }
 
@@ -319,10 +318,10 @@ const importEmojis = (data: string) => withWriteLock(async () => {
             await setAllowedList(parsed.emojis);
             showToast("Successfully imported emojis");
         } else {
-            showToast("Invalid JSON data", "failure");
+            showToast("Invalid JSON data", "critical");
         }
     } catch (err) {
-        showToast(`Failed to import emojis: ${err}`, "failure");
+        showToast(`Failed to import emojis: ${err}`, "critical");
     }
 });
 

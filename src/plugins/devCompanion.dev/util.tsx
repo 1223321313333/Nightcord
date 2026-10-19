@@ -7,7 +7,6 @@
 import { showNotice } from "@api/Notices";
 import { plugins, startDependenciesRecursive, startPlugin, stopPlugin } from "@api/PluginManager";
 import { Settings } from "@api/Settings";
-import { ToastPosition } from "@nightcord/discord-types/enums";
 import { Module } from "@nightcord/discord-types/webpack";
 import { canonicalizeMatch } from "@utils/patches";
 import { CodeFilter, FilterFn, stringMatches, wreq } from "@webpack";
@@ -108,9 +107,11 @@ export function mkRegexFind(idOrSearch: string): RegExp[] {
 }
 // the next two functions are copied from components/pluginSettings
 function showErrorToast(message: string) {
-    showToast(message, "failure", {
-            position: ToastPosition.BOTTOM
-        });
+    showToast({
+        text: message,
+        variant: "critical",
+        position: "bottom"
+    });
 }
 
 export function toggleEnabled(name: string, beforeReload: (error?: string) => void) {
@@ -124,10 +125,11 @@ export function toggleEnabled(name: string, beforeReload: (error?: string) => vo
                 beforeReload();
                 window.location.reload();
             }
-            showToast("Reload Needed", "message", {
-                    duration: 5000,
-                    position: ToastPosition.TOP
-                });
+            showToast({
+                text: "Reload Needed",
+                duration: 5000,
+                position: "top"
+            });
         }
     }
     const plugin = plugins[name];

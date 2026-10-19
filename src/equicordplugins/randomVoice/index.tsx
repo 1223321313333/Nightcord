@@ -11,8 +11,7 @@ import { UserAreaButton, UserAreaRenderProps } from "@api/UserArea";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Switch } from "@components/Switch";
-import type { Channel, ToastType, VoiceState } from "@nightcord/discord-types";
-import { ToastPosition } from "@nightcord/discord-types/enums";
+import type { Channel, ToastVariant, VoiceState } from "@nightcord/discord-types";
 import { debounce } from "@shared/debounce";
 import { Devs, IS_MAC,NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
@@ -373,8 +372,8 @@ const settings = definePluginSettings({
     },
 });
 
-function showToast(message: string, type: ToastType) {
-    originalShowToast(message, type, { position: ToastPosition.BOTTOM });
+function showToast(text: string, variant?: ToastVariant) {
+    originalShowToast({ text, variant, position: "bottom" });
 }
 
 function RandomVoiceIcon({ className }: { className?: string; }) {
@@ -590,13 +589,13 @@ function runAfterVoiceJoin(channelId: string, callbacks: PostJoinAction[]) {
 async function joinRandomVoice() {
     const channelId = pickRandomChannel();
     if (!channelId) {
-        showToast("Failed to find a voice channel.", "message");
+        showToast("Failed to find a voice channel.");
         return;
     }
 
     const channel = ChannelStore.getChannel(channelId);
     if (!channel) {
-        showToast("Voice channel is unavailable.", "failure");
+        showToast("Voice channel is unavailable.", "critical");
         return;
     }
 

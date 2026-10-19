@@ -8,7 +8,6 @@ import { findGroupChildrenByChildId } from "@api/ContextMenu";
 import { updateMessage } from "@api/MessageUpdater";
 import { ImageInvisible, ImageVisible } from "@components/Icons";
 import { Message } from "@nightcord/discord-types";
-import { ToastPosition } from "@nightcord/discord-types/enums";
 import { NightcordDevs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import { parseUrl } from "@utils/misc";
@@ -190,7 +189,7 @@ function removeEmbed(url: string, message: Message) {
 }
 
 function showFailureToast(message: string) {
-    showToast(message, "failure", { position: ToastPosition.BOTTOM });
+    showToast({ text: message, variant: "critical", position: "bottom" });
 }
 
 export default definePlugin({

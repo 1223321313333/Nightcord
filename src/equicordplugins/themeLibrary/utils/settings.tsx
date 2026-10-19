@@ -9,7 +9,6 @@ import { definePluginSettings } from "@api/Settings";
 import { HeadingSecondary } from "@components/Heading";
 import { OpenExternalIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
-import { ToastPosition } from "@nightcord/discord-types/enums";
 import { copyToClipboard } from "@utils/clipboard";
 import { classNameFactory } from "@utils/css";
 import { OptionType } from "@utils/types";
@@ -33,17 +32,21 @@ export const settings = definePluginSettings({
             const handleClick = async () => {
                 const token = await DataStore.get("ThemeLibrary_uniqueToken");
 
-                if (!token) return showToast("No token to copy, try authorizing first!", "failure", {
-                        duration: 2.5e3,
-                        position: ToastPosition.BOTTOM
-                    });
+                if (!token) return showToast({
+                    text: "No token to copy, try authorizing first!",
+                    variant: "critical",
+                    duration: 2.5e3,
+                    position: "bottom"
+                });
 
                 copyToClipboard(token);
 
-                showToast("Copied to Clipboard!", "success", {
-                        duration: 2.5e3,
-                        position: ToastPosition.BOTTOM
-                    });
+                showToast({
+                    text: "Copied to Clipboard!",
+                    variant: "success",
+                    duration: 2.5e3,
+                    position: "bottom"
+                });
             };
 
             return (
