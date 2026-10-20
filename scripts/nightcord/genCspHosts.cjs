@@ -25,20 +25,27 @@ function* files(dir) {
     }
 }
 
+/** The non-skipped web hosts mentioned in a file's text, as a Set. Pure, so it can be unit tested. */
+function extractHosts(text) {
+    const hosts = new Set();
+    for (const m of text.matchAll(/https?:\/\/([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+)/g)) {
+        const host = m[1].toLowerCase();
+        if (!SKIP.some(re => re.test(host))) hosts.add(host);
+    }
+    return hosts;
+}
+
 function collectHosts() {
     const hosts = new Set();
     for (const dir of DIRS) {
         for (const file of files(path.join(ROOT, dir))) {
-            for (const m of fs.readFileSync(file, "utf8").matchAll(/https?:\/\/([a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+)/g)) {
-                const host = m[1].toLowerCase();
-                if (!SKIP.some(re => re.test(host))) hosts.add(host);
-            }
+            for (const host of extractHosts(fs.readFileSync(file, "utf8"))) hosts.add(host);
         }
     }
     return [...hosts].sort();
 }
 
-module.exports = { collectHosts, DIRS };
+module.exports = { collectHosts, extractHosts, DIRS };
 
 if (require.main === module) {
     const list = collectHosts();
