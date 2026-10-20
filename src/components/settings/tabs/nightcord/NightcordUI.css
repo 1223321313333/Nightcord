@@ -1,0 +1,125 @@
+/* Nightcord: shared, theme-aware UI primitives for the custom settings surfaces.
+   Uses Discord's own theme variables so everything adapts to any theme and light/dark. */
+
+/* Card grids */
+.vc-nc-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.vc-nc-grid-sm {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.vc-nc-grid-md {
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+}
+
+/* Surface card */
+.vc-nc-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--background-surface-high, var(--background-secondary));
+    border: 1px solid var(--border-subtle, transparent);
+}
+
+.vc-nc-card-row {
+    flex-direction: row;
+    align-items: center;
+}
+
+.vc-nc-card-interactive {
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.vc-nc-card-interactive:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--elevation-high, 0 8px 24px rgb(0 0 0 / 28%));
+    border-color: var(--brand-500, #a78bfa);
+}
+
+/* Compact row card (dense lists: connections, privacy checks) */
+.vc-nc-row-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: var(--background-surface-high, var(--background-secondary));
+    border: 1px solid var(--border-subtle, transparent);
+}
+
+/* Emoji / icon badge */
+.vc-nc-badge {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    font-size: 19px;
+    line-height: 1;
+    background: var(--background-mod-subtle, rgb(255 255 255 / 6%));
+}
+
+/* Text */
+.vc-nc-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-strong, var(--header-primary));
+}
+
+.vc-nc-desc {
+    color: var(--text-muted, var(--text-default));
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.vc-nc-grow {
+    flex: 1;
+    min-width: 0;
+}
+
+/* Stat tile (big number + label) */
+.vc-nc-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: var(--background-surface-high, var(--background-secondary));
+    border: 1px solid var(--border-subtle, transparent);
+    transition: transform 0.18s ease, border-color 0.18s ease;
+}
+
+.vc-nc-stat:hover {
+    transform: translateY(-1px);
+    border-color: var(--brand-500, #a78bfa);
+}
+
+.vc-nc-stat-value {
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--text-strong, var(--header-primary));
+}
+
+.vc-nc-stat-label {
+    font-size: 12px;
+    color: var(--text-muted, var(--text-default));
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vc-nc-card-interactive,
+    .vc-nc-stat {
+        transition: none;
+    }
+
+    .vc-nc-card-interactive:hover,
+    .vc-nc-stat:hover {
+        transform: none;
+    }
+}

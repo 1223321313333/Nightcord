@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import "./NightcordUI.css";
+
 import * as DataStore from "@api/DataStore";
 import { isPluginEnabled, plugins, startPlugin, stopPlugin } from "@api/PluginManager";
 import { Settings, useSettings } from "@api/Settings";
@@ -234,10 +236,6 @@ export function LocalTraces() {
     );
 }
 
-const rowStyle: React.CSSProperties = {
-    display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 10,
-    background: "var(--background-surface-high, var(--background-secondary))"
-};
 const titleStyle: React.CSSProperties = { fontWeight: 600, color: "var(--text-strong, var(--header-primary))" };
 // Discord's Checkbox grows to fill the row and squeezes the text next to it
 export const checkboxStyle: React.CSSProperties = { flex: "none" };
@@ -289,7 +287,7 @@ export function PrivacyCheckup() {
                     if (state === null) return null;
                     if (state === "loading") {
                         return (
-                            <div key={item.id} style={rowStyle}>
+                            <div key={item.id} className="vc-nc-row-card">
                                 <span style={{ fontSize: 18 }}>⏳</span>
                                 <div style={{ flex: 1, minWidth: 0 }}>
                                     <div style={titleStyle}>{t(item.title)}</div>
@@ -299,7 +297,7 @@ export function PrivacyCheckup() {
                         );
                     }
                     return (
-                        <div key={item.id} style={rowStyle}>
+                        <div key={item.id} className="vc-nc-row-card">
                             <span style={{ fontSize: 18 }}>{state ? "✅" : "⚠️"}</span>
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={titleStyle}>{t(item.title)}</div>
@@ -331,7 +329,7 @@ export function PrivacyCheckup() {
                     {exposed.length ? t("You can switch any of these back in Discord's settings (Data & Privacy).") : t("Everything here is already private.")}
                 </Paragraph>
             </div>
-            <div style={{ ...rowStyle, marginTop: 12 }}>
+            <div className="vc-nc-row-card" style={{ marginTop: 12 }}>
                 <span style={{ fontSize: 18 }}>🛡️</span>
                 <div style={{ flex: 1, minWidth: 0 }}>
                     <div style={titleStyle}>{t("Keep data use off")}</div>

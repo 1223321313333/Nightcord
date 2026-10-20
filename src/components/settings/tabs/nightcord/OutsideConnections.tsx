@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import "./NightcordUI.css";
+
 import { Settings, useSettings } from "@api/Settings";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
@@ -41,10 +43,6 @@ const KIND_NAMES: Record<string, string> = {
     audio: "audio"
 };
 
-const rowStyle: React.CSSProperties = {
-    display: "flex", alignItems: "center", gap: 12, padding: "10px 14px", borderRadius: 10,
-    background: "var(--background-surface-high, var(--background-secondary))"
-};
 const titleStyle: React.CSSProperties = { fontWeight: 600, color: "var(--text-strong, var(--header-primary))", overflowWrap: "anywhere" };
 
 function explain(host: string) {
@@ -71,14 +69,14 @@ export function OutsideConnections() {
                 {t("Servers other than Discord's that this window has contacted since Discord started. Pictures and links from messages are loaded through Discord's own servers, so they are not listed.")}
             </Paragraph>
             <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-                <div style={rowStyle}>
+                <div className="vc-nc-row-card">
                     <span style={{ fontSize: 18 }}>🔄</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={titleStyle}>api.github.com</div>
                         <Paragraph size="sm">{t("Nightcord checks GitHub for updates when Discord starts. This runs outside the window, so it is not counted below.")}</Paragraph>
                     </div>
                 </div>
-                <div style={rowStyle}>
+                <div className="vc-nc-row-card">
                     <span style={{ fontSize: 18 }}>🎖️</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={titleStyle}>{t("Vencord and Equicord donor badges")}</div>
@@ -90,7 +88,7 @@ export function OutsideConnections() {
                         </Checkbox>
                     </div>
                 </div>
-                <div style={rowStyle}>
+                <div className="vc-nc-row-card">
                     <span style={{ fontSize: 18 }}>🔒</span>
                     <div style={{ flex: 1, minWidth: 0 }}>
                         <div style={titleStyle}>{t("Strict connections")}</div>
@@ -108,7 +106,7 @@ export function OutsideConnections() {
                     </div>
                 </div>
                 {!IS_WEB && (
-                    <div style={rowStyle}>
+                    <div className="vc-nc-row-card">
                         <span style={{ fontSize: 18 }}>📞</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={titleStyle}>{t("Hide my IP in calls")}</div>
@@ -124,13 +122,13 @@ export function OutsideConnections() {
                     </div>
                 )}
                 {hosts.length === 0 && (
-                    <div style={rowStyle}>
+                    <div className="vc-nc-row-card">
                         <span style={{ fontSize: 18 }}>✅</span>
                         <Paragraph size="sm">{t("Nothing yet: since the start this window has only talked to Discord.")}</Paragraph>
                     </div>
                 )}
                 {blocked.map(([host, count]) => (
-                    <div key={"blocked-" + host} style={rowStyle}>
+                    <div key={"blocked-" + host} className="vc-nc-row-card">
                         <span style={{ fontSize: 18 }}>⛔</span>
                         <div style={{ flex: 1, minWidth: 0 }}>
                             <div style={titleStyle}>{host} <span style={{ fontWeight: 400, opacity: 0.7 }}>×{count}</span></div>
@@ -142,7 +140,7 @@ export function OutsideConnections() {
                     const why = explain(h.host);
                     const kinds = [...new Set([...h.kinds].map(k => t(KIND_NAMES[k] ?? "other")))].join(", ");
                     return (
-                        <div key={h.host} style={rowStyle}>
+                        <div key={h.host} className="vc-nc-row-card">
                             <span style={{ fontSize: 18 }}>{why ? "🌐" : "❔"}</span>
                             <div style={{ flex: 1, minWidth: 0 }}>
                                 <div style={titleStyle}>{h.host} <span style={{ fontWeight: 400, opacity: 0.7 }}>×{h.count}</span></div>

@@ -8,6 +8,8 @@
 // screenshots from some image host, "Try" turns a theme on for 30 seconds right here, then puts things back unless
 // the user keeps it.
 
+import "@components/settings/tabs/nightcord/NightcordUI.css";
+
 import { popNotice, showNotice } from "@api/Notices";
 import { isPluginEnabled, plugins, startPlugin } from "@api/PluginManager";
 import { Settings, useSettings } from "@api/Settings";
@@ -132,11 +134,7 @@ function choosePalette(id: string) {
     });
 }
 
-const card: React.CSSProperties = {
-    display: "flex", flexDirection: "column", gap: 8, padding: 12, borderRadius: 10,
-    background: "var(--background-surface-high, var(--background-secondary))",
-    border: "1px solid var(--border-subtle, transparent)"
-};
+const activeOutline = { outline: "2px solid var(--brand-500, #5865f2)", outlineOffset: -1 } as const;
 
 function Swatches({ colors }: { colors: string[]; }) {
     return (
@@ -157,14 +155,14 @@ export function ThemeGallery() {
                 {t("Nightcord's own palettes are built in and light. Community themes load from GitHub; press Try to see one on your Discord for 30 seconds.")}
             </Paragraph>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(190px, 1fr))", gap: 10 }}>
+            <div className="vc-nc-grid vc-nc-grid-sm">
                 {Object.entries(PRESETS).map(([id, p]) => {
                     const active = nightcordOn && preset === id && !otherThemes;
                     return (
-                        <div key={id} style={{ ...card, outline: active ? "2px solid var(--brand-500, #5865f2)" : undefined }}>
+                        <div key={id} className="vc-nc-card vc-nc-card-interactive" style={active ? activeOutline : undefined}>
                             <Swatches colors={[...p.surfaces.slice(0, 4), p.accent]} />
-                            <div style={{ fontWeight: 600, color: "var(--text-strong, var(--header-primary))" }}>🌙 {p.label}</div>
-                            <Paragraph size="sm">{t("Built into Nightcord")}</Paragraph>
+                            <div className="vc-nc-title">🌙 {p.label}</div>
+                            <Paragraph size="sm" className="vc-nc-desc vc-nc-grow">{t("Built into Nightcord")}</Paragraph>
                             <Button size="small" variant={active ? "secondary" : "primary"} disabled={active} onClick={() => choosePalette(id)}>
                                 {active ? t("On") : t("Turn on")}
                             </Button>
@@ -175,10 +173,10 @@ export function ThemeGallery() {
                 {COMMUNITY.map(theme => {
                     const on = links.includes(theme.url);
                     return (
-                        <div key={theme.url} style={{ ...card, outline: on ? "2px solid var(--brand-500, #5865f2)" : undefined }}>
+                        <div key={theme.url} className="vc-nc-card vc-nc-card-interactive" style={on ? activeOutline : undefined}>
                             <Swatches colors={theme.colors} />
-                            <div style={{ fontWeight: 600, color: "var(--text-strong, var(--header-primary))" }}>{theme.name}</div>
-                            <Paragraph size="sm" style={{ flex: 1 }}>{t(theme.description)} · {theme.author}</Paragraph>
+                            <div className="vc-nc-title">{theme.name}</div>
+                            <Paragraph size="sm" className="vc-nc-desc vc-nc-grow">{t(theme.description)} · {theme.author}</Paragraph>
                             <div style={{ display: "flex", gap: 6 }}>
                                 {on ? (
                                     <Button size="small" variant="secondary" onClick={() => {

@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import "./NightcordUI.css";
+
 import * as DataStore from "@api/DataStore";
 import { Settings, useSettings } from "@api/Settings";
 import { Paragraph } from "@components/Paragraph";
@@ -20,11 +22,6 @@ import { confirmPreset, PRESETS } from "./PluginPresets";
 const LAST_SEEN_KEY = "Nightcord_LastSeenChangelog";
 const logger = new Logger("Welcome");
 
-const cardStyle: React.CSSProperties = {
-    display: "flex", flexDirection: "column", gap: 6, padding: 12, borderRadius: 10,
-    background: "var(--background-surface-high, var(--background-secondary))",
-    border: "1px solid var(--border-subtle, transparent)"
-};
 const strong: React.CSSProperties = { fontWeight: 600, color: "var(--text-strong, var(--header-primary))" };
 
 const openPanel = (onClose: () => void, panel: string) => { onClose(); SettingsRouter.openUserSettings(panel); };
@@ -79,11 +76,11 @@ function FinishStep({ onClose }: { onClose: () => void; }) {
             <Paragraph className={Margins.bottom8}>{t("That's it. Everything can be changed later in the Nightcord settings. A few more things worth knowing:")}</Paragraph>
             <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
                 {tips.map(tip => (
-                    <div key={tip.title} style={{ ...cardStyle, flexDirection: "row", alignItems: "center" }}>
-                        <span style={{ fontSize: 18 }}>{tip.emoji}</span>
-                        <div style={{ flex: 1 }}>
-                            <div style={strong}>{tip.title}</div>
-                            <Paragraph size="sm">{tip.text}</Paragraph>
+                    <div key={tip.title} className="vc-nc-card vc-nc-card-row vc-nc-card-interactive">
+                        <span className="vc-nc-badge" aria-hidden="true">{tip.emoji}</span>
+                        <div className="vc-nc-grow">
+                            <div className="vc-nc-title">{tip.title}</div>
+                            <Paragraph size="sm" className="vc-nc-desc">{tip.text}</Paragraph>
                         </div>
                         {tip.panel && (
                             <Button size={Button.Sizes.SMALL} onClick={() => openPanel(onClose, tip.panel!)}>{t("Open")}</Button>

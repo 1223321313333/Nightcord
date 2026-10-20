@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import "@components/settings/tabs/nightcord/NightcordUI.css";
+
 import { RenderModalProps } from "@nightcord/discord-types";
 import { Alerts, ChannelStore, GuildStore, Modal, openModal, React, UserStore } from "@webpack/common";
 
@@ -27,23 +29,20 @@ function channelLabel(id: string): string {
 
 const nf = (n: number) => Math.round(n).toLocaleString("ru-RU");
 
-const card: React.CSSProperties = {
-    display: "flex", flexDirection: "column", gap: 2, padding: "12px 14px", borderRadius: 12,
-    background: "var(--background-surface-high, var(--background-secondary))",
-    border: "1px solid var(--border-subtle, transparent)"
-};
-const big: React.CSSProperties = { fontSize: 24, fontWeight: 700, color: "var(--text-strong, var(--header-primary))", lineHeight: 1.1 };
-const label: React.CSSProperties = { fontSize: 12, opacity: 0.7 };
-
 function Stat({ value, title }: { value: React.ReactNode; title: string; }) {
-    return <div style={card}><div style={big}>{value}</div><div style={label}>{title}</div></div>;
+    return (
+        <div className="vc-nc-stat">
+            <div className="vc-nc-stat-value">{value}</div>
+            <div className="vc-nc-stat-label">{title}</div>
+        </div>
+    );
 }
 
 function HoursChart({ hours }: { hours: number[]; }) {
     const max = Math.max(...hours, 1);
     return (
-        <div style={{ ...card, gap: 8 }}>
-            <div style={label}>Когда вы пишете (по часам, 0–23)</div>
+        <div className="vc-nc-card" style={{ gap: 8 }}>
+            <div className="vc-nc-stat-label">Когда вы пишете (по часам, 0–23)</div>
             <div style={{ display: "flex", alignItems: "flex-end", gap: 2, height: 56 }}>
                 {hours.map((v, i) => (
                     <div
@@ -66,7 +65,7 @@ function Body({ s }: { s: WrappedSummary; }) {
         <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div style={{ opacity: 0.75, fontSize: 13 }}>С {since} по сегодня · {nf(s.spanDays)} дн.</div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))", gap: 10 }}>
+            <div className="vc-nc-grid vc-nc-grid-sm">
                 <Stat value={nf(s.total)} title="сообщений отправлено" />
                 <Stat value={nf(s.activeDays)} title="дней вы были активны" />
                 <Stat value={s.perActiveDay.toLocaleString("ru-RU", { maximumFractionDigits: 1 })} title="в среднем за активный день" />
@@ -82,12 +81,12 @@ function Body({ s }: { s: WrappedSummary; }) {
             <HoursChart hours={s.hours} />
 
             {s.topChannels.length > 0 && (
-                <div style={{ ...card, gap: 6 }}>
-                    <div style={label}>Где вы пишете больше всего</div>
+                <div className="vc-nc-card" style={{ gap: 6 }}>
+                    <div className="vc-nc-stat-label">Где вы пишете больше всего</div>
                     {s.topChannels.map((c, i) => (
                         <div key={c.id} style={{ display: "flex", justifyContent: "space-between", gap: 8 }}>
                             <span style={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{i + 1}. {channelLabel(c.id)}</span>
-                            <span style={{ opacity: 0.7, whiteSpace: "nowrap" }}>{nf(c.count)} · {c.share}%</span>
+                            <span style={{ color: "var(--text-muted, var(--text-default))", whiteSpace: "nowrap" }}>{nf(c.count)} · {c.share}%</span>
                         </div>
                     ))}
                 </div>
