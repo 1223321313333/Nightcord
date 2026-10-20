@@ -71,44 +71,20 @@ waitFor("parseTopic", m => Parser = m);
 export let Alerts: t.Alerts;
 waitFor(["show", "close"], m => Alerts = m);
 
-export interface ToastData {
-    message: string,
-    id: string,
-    /**
-     * Toasts.Type
-     */
-    type: string,
-    options?: ToastOptions;
-}
+const toastVariant: Record<string, t.ToastVariant> = {
+    message: "default", success: "success", failure: "critical", default: "default", critical: "critical"
+};
 
-export interface ToastOptions {
-    /**
-     * Toasts.Position
-     */
-    position?: number;
-    component?: React.ReactNode,
-    duration?: number;
-}
-
-export const Toasts: t.Toasts = mapMangledModuleLazy(".currentToastMap.has(", {
-    show: filters.byCode(".currentToastMap.has("),
-    pop: filters.byCode(".delete(")
-});
-
-export const createToast: t.createToast = findByCodeLazy('variant:"default",icon:', ".duration");
+// Discord's native toast dispatcher (upstream's finder); takes a ToastData object.
+const dispatchToast: t.showToast = findByCodeLazy(".currentToastMap.has(");
 
 /**
- * Show a simple toast. If you need more options, use Toasts.show manually
+ * Show a toast. Accepts both Discord's ToastData object form (used across the codebase) and Nightcord's
+ * (message, type) form, localizing the text and mapping legacy type names to Discord's current variants.
  */
-export function showToast(message: string, type: t.ToastType = "message", options?: ToastOptions) {
-    // Nightcord: translateUi localizes the toast text. Upstream's try/catch guards Discord's changing API.
-    const text = translateUi(message);
-    try {
-        Toasts.show(createToast(text, type, options));
-    } catch {
-        // @ts-ignore
-        Toasts.show({ text, variant: type });
-    }
+export function showToast(message: string | t.ToastData, type?: string, options?: Partial<t.ToastData>) {
+    if (typeof message !== "string") return dispatchToast(message);
+    dispatchToast({ text: translateUi(message), variant: toastVariant[type ?? ""] ?? "default", ...options });
 }
 
 export const UserUtils = {

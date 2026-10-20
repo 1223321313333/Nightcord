@@ -5,7 +5,6 @@
  */
 
 import { User } from "@nightcord/discord-types";
-import { ToastPosition } from "@nightcord/discord-types/enums";
 import { copyToClipboard } from "@utils/clipboard";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
@@ -45,14 +44,18 @@ export default definePlugin({
                     throw new Error("button_urls does not contain index");
                 }
                 copyToClipboard(button_urls[index]);
-                showToast("Copied URL", "success", {
-                        position: ToastPosition.TOP
-                    });
+                showToast({
+                    text: "Copied URL",
+                    variant: "success",
+                    position: "top"
+                });
             } catch (e) {
                 console.error(e);
-                showToast("Error copying URL, check console for more info", "failure", {
-                        position: ToastPosition.TOP
-                    });
+                showToast({
+                    text: "Error copying URL, check console for more info",
+                    variant: "critical",
+                    position: "top"
+                });
             }
         };
     }

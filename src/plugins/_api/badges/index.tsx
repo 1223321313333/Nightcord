@@ -216,7 +216,7 @@ export default definePlugin({
                 return;
             }
             await loadAllBadges(true);
-            showToast("Successfully refetched badges!", "success");
+            showToast({ text: "Successfully refetched badges!", variant: "success" });
         }
     },
 

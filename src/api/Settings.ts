@@ -101,7 +101,6 @@ export interface Settings {
         settingsSyncVersion: number;
     };
 
-    ignoreResetWarning: boolean;
     /** Nightcord: leave out the "any server" CSP rule, so the Discord window only reaches known servers */
     strictConnections: boolean;
     /** Nightcord: take every new build (the devbuild release) instead of the stable one, which follows a day later */
@@ -153,7 +152,6 @@ const DefaultSettings: Settings = {
         settingsSyncVersion: 0
     },
 
-    ignoreResetWarning: false,
     strictConnections: true,
     betaUpdates: false,
     hideIpInCalls: false,

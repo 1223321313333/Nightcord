@@ -183,7 +183,7 @@
   "FakeProfileThemes": {
     "nitroFirst": ["Default color source if both are present","Приоритет цветов","Какие цвета показывать, если есть и те, и другие",{"Nitro colors":"Цвета Nitro","Fake colors":"Поддельные цвета"}]
   },
-  "FavouriteAnything": {
+  "FavoriteAnything": {
     "localThumbnails": ["Generate file thumbnails locally instead of using an external service (placeholder.nin0.dev). Not compatible with mobile. Toggling this option will not affect existing favourites.","Превью на компьютере","Делать превью файлов у себя, а не через внешний сервис (placeholder.nin0.dev). Не работает на телефоне; уже добавленное не изменится"]
   },
   "FileUpload": {

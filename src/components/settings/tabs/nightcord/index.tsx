@@ -25,7 +25,8 @@ import { classNameFactory } from "@utils/css";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
-import { Alerts, GuildMemberStore, React } from "@webpack/common";
+import { promptToRestart } from "@utils/promptToRestart";
+import { GuildMemberStore, React } from "@webpack/common";
 
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
@@ -136,12 +137,11 @@ function Switches() {
                     settings[key] = v;
 
                     if (restartRequired) {
-                        Alerts.show({
+                        promptToRestart("relaunch", {
                             title: t("Restart Required"),
-                            body: "A restart is required to apply this change",
+                            subtitle: t("A restart is required to apply this change"),
                             confirmText: t("Restart now"),
-                            cancelText: t("Later!"),
-                            onConfirm: relaunch
+                            cancelText: t("Later!")
                         });
                     }
                 }}

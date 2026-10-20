@@ -11,7 +11,6 @@ import { Flex } from "@components/Flex";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
-import { ToastPosition } from "@nightcord/discord-types/enums";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
@@ -92,9 +91,8 @@ export function Updatable(props: CommonProps) {
                         } else {
                             setUpdates([]);
 
-                            showToast("No updates found!", "message", {
-                                position: ToastPosition.BOTTOM
-                            });
+                            showToast({ text: "No updates found!", position: "bottom" });
+
                         }
                     })}
                 >

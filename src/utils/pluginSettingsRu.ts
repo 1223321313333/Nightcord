@@ -191,7 +191,7 @@ export const PLUGIN_SETTINGS_RU: Record<string, Record<string, [string, string, 
     "FakeProfileThemes": {
         "nitroFirst": ["1yhn8q9", "Приоритет цветов", "Какие цвета показывать, если есть и те, и другие", { "Nitro colors": "Цвета Nitro", "Fake colors": "Поддельные цвета" }],
     },
-    "FavouriteAnything": {
+    "FavoriteAnything": {
         "localThumbnails": ["1kvb6ih", "Превью на компьютере", "Делать превью файлов у себя, а не через внешний сервис (placeholder.nin0.dev). Не работает на телефоне; уже добавленное не изменится"],
     },
     "FileUpload": {

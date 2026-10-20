@@ -22,7 +22,7 @@ export const DEV_TOOLS = new Set(["ConcatenatedModules", "ConsoleJanitor", "Cons
 /** Equicord plugins that are shown alongside the curated ones */
 export const CURATED_EQUICORD = new Set([
     "AlwaysExpandProfiles", "BetterBlockedUsers", "BetterInvites", "BlockKeywords", "ChannelTabs", "ClientSideBlock",
-    "CommandPalette", "CustomUserColors", "Declutter", "FavouriteAnything", "FileUpload", "FriendTags", "GlobalBadges",
+    "CommandPalette", "CustomUserColors", "Declutter", "FavoriteAnything", "FileUpload", "FriendTags", "GlobalBadges",
     "HideServers", "IgnoreCalls", "InRole", "JumpTo", "LastActive", "MarkdownTables", "MessageLinkTooltip",
     "MessageLoggerEnhanced", "MessagePeek", "MessageTranslate", "MusicControls", "NeverPausePreviews", "NoNitroUpsell",
     "PinIcon", "Questify", "RecentDMSwitcher", "ReplyPingControl", "ScheduledMessages", "ServerSearch",
