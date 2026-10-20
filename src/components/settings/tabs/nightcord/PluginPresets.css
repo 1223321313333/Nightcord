@@ -1,0 +1,69 @@
+/* Nightcord: polished, theme-aware card system for the plugin presets (also reused by the setup wizard). */
+
+.vc-nc-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+    gap: 12px;
+}
+
+.vc-nc-preset-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border-radius: 14px;
+    background: var(--background-surface-high, var(--background-secondary));
+    border: 1px solid var(--border-subtle, transparent);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.vc-nc-preset-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--elevation-high, 0 8px 24px rgb(0 0 0 / 28%));
+    border-color: var(--brand-500, #a78bfa);
+}
+
+.vc-nc-preset-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.vc-nc-preset-emoji {
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    width: 38px;
+    height: 38px;
+    border-radius: 11px;
+    font-size: 19px;
+    line-height: 1;
+    background: var(--background-mod-subtle, rgb(255 255 255 / 6%));
+}
+
+.vc-nc-preset-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-strong, var(--header-primary));
+}
+
+.vc-nc-preset-desc {
+    flex: 1;
+    color: var(--text-muted, var(--text-default));
+    font-size: 13px;
+    line-height: 1.45;
+}
+
+.vc-nc-preset-card button {
+    align-self: flex-start;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .vc-nc-preset-card {
+        transition: none;
+    }
+
+    .vc-nc-preset-card:hover {
+        transform: none;
+    }
+}

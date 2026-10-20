@@ -52,11 +52,14 @@ function PresetStep() {
     return (
         <>
             <Paragraph className={Margins.bottom8}>{t("Turn on a ready-made set of plugins in one click. You will see exactly what changes before anything happens, and can change it later in the Plugins tab.")}</Paragraph>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))", gap: 10 }}>
+            <div className="vc-nc-preset-grid">
                 {presets.map(p => (
-                    <div key={p.id} style={cardStyle}>
-                        <div style={strong}>{p.emoji} {t(p.title)}</div>
-                        <Paragraph size="sm" style={{ flex: 1 }}>{t(p.description)}</Paragraph>
+                    <div key={p.id} className="vc-nc-preset-card">
+                        <div className="vc-nc-preset-head">
+                            <span className="vc-nc-preset-emoji" aria-hidden="true">{p.emoji}</span>
+                            <span className="vc-nc-preset-title">{t(p.title)}</span>
+                        </div>
+                        <Paragraph size="sm" className="vc-nc-preset-desc">{t(p.description)}</Paragraph>
                         <Button size={Button.Sizes.SMALL} onClick={() => confirmPreset(p)}>{t("Apply")}</Button>
                     </div>
                 ))}

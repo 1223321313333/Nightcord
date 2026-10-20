@@ -4,6 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
+import "./PluginPresets.css";
+
 import { isPluginEnabled, pluginRequiresRestart, plugins, startDependenciesRecursive, startPlugin, stopPlugin } from "@api/PluginManager";
 import { Settings } from "@api/Settings";
 import { Heading } from "@components/Heading";
@@ -275,20 +277,14 @@ export function PluginPresets() {
             <Paragraph className={Margins.bottom16}>
                 {t("Set up many plugins in one click. You will see exactly what changes before anything happens.")}
             </Paragraph>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 12 }}>
+            <div className="vc-nc-preset-grid">
                 {PRESETS.map(p => (
-                    <div
-                        key={p.id}
-                        style={{
-                            display: "flex", flexDirection: "column", gap: 8, padding: 14, borderRadius: 12,
-                            background: "var(--background-surface-high, var(--background-secondary))",
-                            border: "1px solid var(--border-subtle, transparent)"
-                        }}
-                    >
-                        <div style={{ fontSize: 16, fontWeight: 600, color: "var(--text-strong, var(--header-primary))" }}>
-                            {p.emoji} {t(p.title)}
+                    <div key={p.id} className="vc-nc-preset-card">
+                        <div className="vc-nc-preset-head">
+                            <span className="vc-nc-preset-emoji" aria-hidden="true">{p.emoji}</span>
+                            <span className="vc-nc-preset-title">{t(p.title)}</span>
                         </div>
-                        <Paragraph style={{ flex: 1 }}>{t(p.description)}</Paragraph>
+                        <Paragraph className="vc-nc-preset-desc">{t(p.description)}</Paragraph>
                         <Button size={Button.Sizes.SMALL} onClick={() => confirmPreset(p)}>
                             {t("Apply")}
                         </Button>
