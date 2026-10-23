@@ -22,10 +22,10 @@ import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/Co
 import { plugins } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import { openPluginModal } from "@components/settings";
-import { Channel } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
+import { Channel } from "@nightcord/discord-types";
 import { ChannelStore, FluxDispatcher, Menu, MessageStore, React, SelectedChannelStore, useEffect, UserStore } from "@webpack/common";
 
 const rerenderListeners = new Set<() => void>();
@@ -456,7 +456,7 @@ export default definePlugin({
         {
             find: ",{avatarCutoutX",
             replacement: {
-                match: /isTyping:(\i)=!1(,typingIndicatorRef:\i,isSpeaking:)/,
+                match: /isTyping:(\i)=!1(,typingIndicatorRef:\i,avatarContentRef:)/,
                 replace: "silentTypingIsTyping:$1=$self.shouldHideMembersListTypingIndicators()?false:(arguments[0].isTyping??false)$2"
             }
         },

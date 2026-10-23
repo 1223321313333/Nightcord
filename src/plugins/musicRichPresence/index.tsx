@@ -22,12 +22,12 @@ import { Card } from "@components/Card";
 import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
 import { Paragraph } from "@components/Paragraph";
-import { Activity, ActivityAssets, ActivityButton } from "@nightcord/discord-types";
-import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "@nightcord/discord-types/enums";
 import { Devs } from "@utils/constants";
 import { promptToRestart } from "@utils/promptToRestart";
 import { useAwaiter, useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
+import { Activity, ActivityAssets, ActivityButton } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityStatusDisplayType, ActivityType } from "@nightcord/discord-types/enums";
 import { ApplicationAssetUtils, AuthenticationStore, FluxDispatcher, PresenceStore } from "@webpack/common";
 
 import { LastFMScrobbler } from "./lastfm";

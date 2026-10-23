@@ -14,11 +14,11 @@ import { Heart } from "@components/Heart";
 import { PencilIcon } from "@components/Icons";
 import { Margins } from "@components/margins";
 import { Notice } from "@components/Notice";
-import { User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { openInviteModal } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
+import { User } from "@nightcord/discord-types";
 import { extractAndLoadChunksLazy } from "@webpack";
 import { IconUtils, Menu, openModal, UserStore } from "@webpack/common";
 
@@ -64,7 +64,7 @@ const settings = definePluginSettings({
 
 export default definePlugin({
     name: "UserPFP",
-    description: "Allows you to use an animated avatar without Nitro",
+    description: "Allows you to set local static or animated avatars for yourself and other users",
     tags: ["Appearance", "Customisation", "Servers"],
     authors: [NightcordDevs.nexpid, Devs.thororen, NightcordDevs.soapphia, NightcordDevs.sketchmyname],
     settings,

@@ -19,8 +19,8 @@
 import { Button } from "@components/Button";
 import { Heart } from "@components/Heart";
 import { OpenExternalIcon } from "@components/Icons";
-import { ButtonProps } from "@nightcord/discord-types";
 import { openInviteModal } from "@utils/discord";
+import { ButtonProps } from "@nightcord/discord-types";
 import { showToast } from "@webpack/common";
 
 export function DonateButton({
