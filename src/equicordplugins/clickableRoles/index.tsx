@@ -7,13 +7,13 @@
 import "./style.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import type { Role } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { openUserProfile } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
 import { Logger } from "@utils/Logger";
 import definePlugin from "@utils/types";
+import type { Role } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { Constants, GuildRoleStore, IconUtils, Popout, RestAPI, ScrollerThin, useEffect, useRef, UserStore, useState, useStateFromStores } from "@webpack/common";
 
@@ -160,22 +160,20 @@ export default definePlugin({
         {
             find: 'tutorialId:"whos-online"',
             replacement: {
-                match: /\((function\(\i\)\{let\{id:.*?#{intl::CHANNEL_MEMBERS_A11Y_LABEL}.*?\}\))\}\)/,
-                replace: "($self.wrapRoleGroup($1}))",
+                match: /(\i\.\i),\{(?=\.\.\.\i,key:`section-)/g,
+                replace: "$self.RoleGroup,{Original:$1,",
             },
         },
     ],
 
-    wrapRoleGroup(originalFn: (props: { id: string; guildId: string; }) => React.ReactNode) {
-        return (props: { id: string; guildId: string; }) => {
-            const result = originalFn(props);
-            if (!GuildRoleStore.getRole(props.guildId, props.id)) return result;
-            return (
-                <WrappedClickableRole roleId={props.id} guildId={props.guildId}>
-                    {result}
-                </WrappedClickableRole>
-            );
-        };
+    RoleGroup({ Original, ...props }: { Original: React.ComponentType<{ id: string; guildId: string; }>; id: string; guildId: string; }) {
+        const result = <Original {...props} />;
+        if (!GuildRoleStore.getRole(props.guildId, props.id)) return result;
+        return (
+            <WrappedClickableRole roleId={props.id} guildId={props.guildId}>
+                {result}
+            </WrappedClickableRole>
+        );
     },
 
     wrapRolePill(props: { role: Role; guildId: string; }, renderOriginal: () => React.ReactNode) {

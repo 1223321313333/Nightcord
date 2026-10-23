@@ -8,9 +8,9 @@ import { playAudio } from "@api/AudioPlayer";
 import { addServerListElement, removeServerListElement, ServerListRenderPosition } from "@api/ServerList";
 import { PlainSettings, Settings } from "@api/Settings";
 import { ErrorBoundary } from "@components/index";
-import type { Quest, QuestUserStatus } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { StartAt } from "@utils/types";
+import type { Quest, QuestUserStatus } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, onceReady } from "@webpack";
 import { QuestStore } from "@webpack/common";
 import type { JSX } from "react";
@@ -394,7 +394,7 @@ export default definePlugin({
         },
         {
             // Keeps Questify completion progress visible when Discord marks the native Quest bar dismissed.
-            find: "prevIsQuestAccepted:",
+            find: "handleGameSheetOpened:",
             predicate: () => !getQuestifySettings().disableQuestsEverything && !getQuestifySettings().disableAccountPanelQuestProgress,
             replacement: {
                 match: /(?<=isLoading:\i}=\(0,\i\.\i\)\(\),\i=\i\.useContext\(\i\.\i\),\i=\i\|\|\i&&)(\i)/,

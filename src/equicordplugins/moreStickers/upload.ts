@@ -6,8 +6,8 @@
 
 import { getMimeFromExtension } from "@equicordplugins/fileUpload/utils/getMediaUrl";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
-import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { insertTextIntoChatInputBox, MessageOptions } from "@utils/discord";
+import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { ChannelStore, CloudUploader, Constants, DraftStore, FluxDispatcher, MessageActions, PendingReplyStore, RestAPI, showToast, SnowflakeUtils, UploadHandler } from "@webpack/common";
 
 import { settings } from ".";
