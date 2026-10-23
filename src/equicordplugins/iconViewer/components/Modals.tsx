@@ -10,10 +10,10 @@ import { Flex } from "@components/Flex";
 import { HeadingSecondary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { TooltipContainer } from "@components/TooltipContainer";
+import { Icon, RenderModalProps } from "@nightcord/discord-types";
 import { copyWithToast, getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { saveFile } from "@utils/web";
-import { Icon, RenderModalProps } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import {
     Clickable,

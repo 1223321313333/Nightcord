@@ -6,9 +6,9 @@
 
 import { playAudio } from "@api/AudioPlayer";
 import { showNotification } from "@api/Notifications";
+import type { Quest } from "@nightcord/discord-types";
 import { sleep } from "@utils/misc";
 import type { PluginNative } from "@utils/types";
-import type { Quest } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { QuestStore, RestAPI } from "@webpack/common";
 import { NavigationRouter } from "@webpack/common/utils";

@@ -7,11 +7,11 @@
 import "./style.css";
 
 import { InfoIcon } from "@components/Icons";
+import { Guild } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { openUserProfile } from "@utils/discord";
 import { classes } from "@utils/misc";
 import definePlugin, { StartAt } from "@utils/types";
-import { Guild } from "@nightcord/discord-types";
 import { findByPropsLazy, findCssClassesLazy } from "@webpack";
 import { Parser, Tooltip, UserStore } from "@webpack/common";
 

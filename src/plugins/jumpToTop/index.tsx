@@ -6,10 +6,10 @@
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { UpArrowIcon } from "@components/Icons";
+import type { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import definePlugin from "@utils/types";
-import type { Channel } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { MessageActions } from "@webpack/common";
 

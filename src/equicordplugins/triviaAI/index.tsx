@@ -6,9 +6,9 @@
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { RobotIcon } from "@components/Icons";
+import { Message } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { ChannelStore, Menu } from "@webpack/common";
 
 import { settings } from "./settings";

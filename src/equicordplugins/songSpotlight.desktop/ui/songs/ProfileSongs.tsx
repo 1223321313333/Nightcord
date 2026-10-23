@@ -20,10 +20,10 @@ import {
     Spinner,
 } from "@equicordplugins/songSpotlight.desktop/ui/common";
 import { openSettingsModal } from "@equicordplugins/songSpotlight.desktop/ui/settings";
+import { User } from "@nightcord/discord-types";
 import { sid } from "@song-spotlight/api/util";
 import { copyWithToast } from "@utils/discord";
 import { classes } from "@utils/misc";
-import { User } from "@nightcord/discord-types";
 import {
     ContextMenuApi,
     FluxDispatcher,

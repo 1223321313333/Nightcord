@@ -7,9 +7,9 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { Notice } from "@components/Notice";
+import { Channel, User, VoiceState } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, User, VoiceState } from "@nightcord/discord-types";
 import { findByPropsLazy } from "@webpack";
 import { Menu, React, RelationshipStore, UserStore, VoiceStateStore } from "@webpack/common";
 

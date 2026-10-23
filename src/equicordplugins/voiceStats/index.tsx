@@ -9,10 +9,10 @@ import "./styles.css";
 import { get, set } from "@api/DataStore";
 import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { VoiceState } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { useTimer } from "@utils/react";
 import definePlugin from "@utils/types";
-import { VoiceState } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { SelectedChannelStore, UserStore, VoiceStateStore } from "@webpack/common";
 

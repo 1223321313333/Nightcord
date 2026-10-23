@@ -7,10 +7,10 @@
 import * as DataStore from "@api/DataStore";
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
+import { User } from "@nightcord/discord-types";
 import usrbg from "@plugins/usrbg";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@nightcord/discord-types";
 import { UserProfileStore } from "@webpack/common";
 
 import style from "./style.css?managed";

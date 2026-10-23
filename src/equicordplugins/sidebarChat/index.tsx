@@ -7,12 +7,12 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { HeaderBarButton } from "@api/HeaderBar";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Channel, Guild, User } from "@nightcord/discord-types";
+import { ChannelType } from "@nightcord/discord-types/enums";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { Channel, Guild, User } from "@nightcord/discord-types";
-import { ChannelType } from "@nightcord/discord-types/enums";
 import {
     extractAndLoadChunksLazy,
     findByPropsLazy,

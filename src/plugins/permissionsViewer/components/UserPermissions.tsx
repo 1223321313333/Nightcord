@@ -19,11 +19,11 @@
 import { BaseText } from "@components/BaseText";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { HeadingTertiary } from "@components/Heading";
+import type { Guild, GuildMember, RoleOrUserPermission } from "@nightcord/discord-types";
+import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { cl, getGuildPermissionSpecMap, getSortedRolesForMember, sortUserRoles } from "@plugins/permissionsViewer/utils";
 import { getIntlMessage } from "@utils/discord";
 import { classes } from "@utils/misc";
-import type { Guild, GuildMember, RoleOrUserPermission } from "@nightcord/discord-types";
-import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { findCssClassesLazy } from "@webpack";
 import { PermissionsBits, Tooltip, useMemo, UserStore } from "@webpack/common";
 

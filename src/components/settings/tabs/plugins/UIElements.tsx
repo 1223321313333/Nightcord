@@ -14,12 +14,12 @@ import { Card } from "@components/Card";
 import { PlaceholderIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
 import { Switch } from "@components/Switch";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { IconComponent } from "@utils/types";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { Clickable, Modal, openModal } from "@webpack/common";
 
 const cl = classNameFactory("vc-plugin-ui-elements-");

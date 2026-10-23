@@ -6,8 +6,8 @@
 
 import * as DataStore from "@api/DataStore";
 import { HeadingSecondary } from "@components/Heading";
-import { Margins } from "@utils/margins";
 import { RenderModalProps } from "@nightcord/discord-types";
+import { Margins } from "@utils/margins";
 import { Modal, SearchableSelect, useEffect, useMemo, useState } from "@webpack/common";
 
 import { DATASTORE_KEY, getSystemTimezone, resolveUserTimezone, settings, timezones } from ".";

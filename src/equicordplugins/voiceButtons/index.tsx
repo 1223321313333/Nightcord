@@ -5,9 +5,9 @@
  */
 
 import { Flex } from "@components/Flex";
+import { User } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { User } from "@nightcord/discord-types";
 import { React } from "@webpack/common";
 
 import { settings } from "./settings";

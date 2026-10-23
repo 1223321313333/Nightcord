@@ -7,8 +7,8 @@
 import { BaseText } from "@components/BaseText";
 import { Flex } from "@components/Flex";
 import { Heading } from "@components/Heading";
-import { copyToClipboard } from "@utils/clipboard";
 import { RenderModalProps } from "@nightcord/discord-types";
+import { copyToClipboard } from "@utils/clipboard";
 import { Modal, useEffect, useRef, useState } from "@webpack/common";
 
 import { settings } from "../settings";

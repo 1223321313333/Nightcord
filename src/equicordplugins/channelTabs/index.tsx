@@ -9,9 +9,9 @@ import "./style.css";
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { LinkIcon } from "@components/Icons";
+import { Channel, Message } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Channel, Message } from "@nightcord/discord-types";
 import { ChannelStore, Menu } from "@webpack/common";
 import { JSX } from "react";
 
