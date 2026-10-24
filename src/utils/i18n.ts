@@ -11,6 +11,15 @@ import { PLUGIN_SETTINGS_RU } from "./pluginSettingsRu";
 
 /** Russian strings for Nightcord's own UI, keyed by the English original. */
 const RU: Record<string, string> = {
+    // Crypto tip jar
+    "Support Nightcord": "Поддержать Nightcord",
+    "Send only USDT on the TON network to this address. Sending another coin or network will lose the funds.":
+        "Отправляйте на этот адрес только USDT в сети TON. Другая монета или сеть — деньги потеряются.",
+    "Copy address": "Скопировать адрес",
+    "Address copied": "Адрес скопирован",
+    "Open in wallet": "Открыть в кошельке",
+    "Scan to donate": "Отсканируйте, чтобы задонатить",
+
     // Settings sidebar
     "Nightcord Settings": "Настройки Nightcord",
     "Plugins": "Плагины",

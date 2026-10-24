@@ -57,6 +57,7 @@
         "monaco-editor": "^0.55.1",
         "nanoid": "^6.0.2",
         "native-file-system-adapter": "^3.0.1",
+        "qrcode-generator": "^2.0.4",
         "virtual-merge": "^1.0.2",
         "yaml-js": "^0.3.1"
     },

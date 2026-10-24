@@ -29,6 +29,7 @@ import { relaunch } from "@utils/native";
 import { promptToRestart } from "@utils/promptToRestart";
 import { GuildMemberStore, React } from "@webpack/common";
 
+import { CryptoDonate } from "./CryptoDonate";
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
 import { OutsideConnections } from "./OutsideConnections";
@@ -178,6 +179,8 @@ function NightcordSettings() {
                 buttonTitle={t("Open repository on GitHub")}
                 buttonOnClick={() => NightcordNative.native.openExternal("https://github.com/" + gitRemote)}
             />
+
+            <CryptoDonate />
 
             <Heading className={Margins.top16}>{t("Quick Actions")}</Heading>
             <Paragraph className={Margins.bottom16}>

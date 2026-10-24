@@ -44,6 +44,7 @@ export const ALLOWED_PROTOCOLS = [
     "itunes:",
     "vrcx:",
     "tg:",
+    "ton:", // TON wallet deep links (ton://transfer/...), used by the donate card
 ];
 
 export const IS_VANILLA = /* @__PURE__ */ process.argv.includes("--vanilla");

@@ -20,6 +20,7 @@ import { Button } from "@components/Button";
 import { Heart } from "@components/Heart";
 import { OpenExternalIcon } from "@components/Icons";
 import { ButtonProps } from "@nightcord/discord-types";
+import { gitRemote } from "@shared/nightcordUserAgent";
 import { openInviteModal } from "@utils/discord";
 import { showToast } from "@webpack/common";
 
@@ -28,7 +29,9 @@ export function DonateButton({
     className,
     ...props
 }: Partial<ButtonProps> & { nightcord?: boolean; }) {
-    const link = nightcord ? "https://github.com/sponsors/thororen1234" : "https://github.com/sponsors/Vendicated";
+    // Nightcord: send Donate to the project's own repository instead of Equicord's maintainer.
+    // Actual tips go through the crypto card in the Nightcord settings tab.
+    const link = nightcord ? "https://github.com/" + gitRemote : "https://github.com/sponsors/Vendicated";
     return (
         <Button
             {...props}
