@@ -21,6 +21,22 @@ export const AUTO_AT_KEY = "Nightcord_AutoBackupAt";
 export const FILE_NAME = "nightcord-settings.ncsync";
 export const WEEK = 7 * 24 * 60 * 60 * 1000;
 
+/**
+ * Whether the weekly automatic backup should run now: it is turned on, a channel and password are set, and
+ * at least `interval` ms have passed since the last one. Pure, so autoBackup.ts can be tested.
+ */
+export function isAutoBackupDue(opts: {
+    enabled: boolean;
+    channelId?: string | null;
+    password?: string | null;
+    lastAt: number;
+    now: number;
+    interval?: number;
+}): boolean {
+    const { enabled, channelId, password, lastAt, now, interval = WEEK } = opts;
+    return enabled && !!channelId && !!password && now - lastAt >= interval;
+}
+
 /** Nightcord's own user data that belongs in the backup. Not the SecretChat keys or saved deleted messages. */
 const SYNCED_KEYS = ["Nightcord_Bookmarks", "Nightcord_ChannelNotes", "Nightcord_DisappearingTimers"];
 
