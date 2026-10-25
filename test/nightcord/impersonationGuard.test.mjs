@@ -59,3 +59,22 @@ describe("ImpersonationGuard", () => {
         assert.equal(findImpersonation(["coolnick", "Sasha", "s_a_s_h_a"], "stranger", null, map)?.friend, "Sasha");
     });
 });
+
+describe("impersonationGuard buildFriendMap", () => {
+    it("indexes each friend by their name and every alias", () => {
+        const f = { id: "f1", name: "Никита", aliases: ["nikita_real"] };
+        const map = buildFriendMap([f]);
+        assert.equal(map.get(normalizeName("Никита")), f);
+        assert.equal(map.get("nikita_real"), f);
+    });
+
+    it("normalizes the keys so look-alike spellings collapse", () => {
+        const map = buildFriendMap([{ id: "f2", name: "Sa SHA" }]);
+        assert.equal(map.get("sasha")?.id, "f2");
+    });
+
+    it("skips friends whose normalized name is empty", () => {
+        const map = buildFriendMap([{ id: "x", name: "   " }]);
+        assert.equal(map.size, 0);
+    });
+});
