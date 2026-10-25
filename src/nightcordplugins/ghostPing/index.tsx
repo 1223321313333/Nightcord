@@ -39,6 +39,7 @@ function where(channelId: string, guildId?: string): string {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "GhostPing",
     description: "Tells you when someone pinged or replied to you and then quickly deleted the message, so you do not miss it",
     tags: ["Notifications", "Chat"],

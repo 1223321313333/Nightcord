@@ -244,6 +244,7 @@ function KeyOffer({ message, channel }: { message: Message; channel: Channel; })
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "SecretChat",
     description: "End-to-end encryption in DMs with other Nightcord users: Discord only sees a spoiler with ciphertext. Turn it on with the lock button in a DM",
     tags: ["Privacy", "Chat"],

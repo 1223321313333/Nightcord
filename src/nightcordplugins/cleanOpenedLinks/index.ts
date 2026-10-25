@@ -14,6 +14,7 @@ import definePlugin from "@utils/types";
  * clicked link into the URL it opens, with the same ClearURLs rules.
  */
 export default definePlugin({
+    nightcordLocked: true,
     name: "CleanOpenedLinks",
     description: "Removes tracking parameters (utm, fbclid, si= and others) from links other people send before you open them, using the ClearURLs rules",
     tags: ["Privacy", "Utility"],

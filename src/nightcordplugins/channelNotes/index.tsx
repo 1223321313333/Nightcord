@@ -157,6 +157,7 @@ const NoteButton: ChatBarButtonFactory = ({ isMainChat, channel }) => {
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "ChannelNotes",
     description: "Private notes for any channel or server, shown in a banner when you open it",
     tags: ["Utility", "Organisation"],

@@ -38,6 +38,7 @@ function exportInfo(channel: Channel): ExportInfo {
 const fileSafe = (s: string) => s.replace(/[^\p{L}\p{N}_-]+/gu, "_").replace(/^_+|_+$/g, "").slice(0, 60) || "chat";
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "ChatExport",
     description: "/export saves a channel's history (up to 5000 messages) to an HTML, TXT or JSON file",
     tags: ["Chat", "Commands", "Utility"],

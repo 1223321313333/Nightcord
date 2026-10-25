@@ -221,6 +221,7 @@ const TimerButton: ChatBarButtonFactory = ({ isMainChat, channel }) => {
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "DisappearingMessages",
     description: "Deletes your messages in chosen chats after 1 hour, 1 day or 7 days, and can delete your messages in a chat. Set it from a chat's right-click menu.",
     tags: ["Privacy", "Chat"],

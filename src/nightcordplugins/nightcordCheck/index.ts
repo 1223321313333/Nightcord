@@ -110,6 +110,7 @@ async function notifyIfBroken() {
 let timer: ReturnType<typeof setTimeout> | undefined;
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "NightcordCheck",
     description: "/check shows which plugins broke after a Discord update; also notifies you automatically",
     tags: ["Utility", "Developers"],

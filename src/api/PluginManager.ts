@@ -60,8 +60,9 @@ export function isPluginEnabled(p: string) {
     return (
         Plugins[p]?.required ||
         Plugins[p]?.isDependency ||
-        // Nightcord: in safe mode only required plugins run, without touching the saved settings
-        (!STARTUP.safeMode && Settings.plugins[p]?.enabled)
+        // Nightcord: locked plugins are always on (no toggle), but still respect safe mode so a crash loop
+        // can recover; in safe mode only required/dependency plugins run, without touching the saved settings
+        (!STARTUP.safeMode && (Plugins[p]?.nightcordLocked || Settings.plugins[p]?.enabled))
     ) ?? false;
 }
 export function isPluginRequired(p: string) {

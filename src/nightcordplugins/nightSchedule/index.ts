@@ -69,6 +69,7 @@ function toggleNow() {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "NightSchedule",
     description: "Gently dims and warms Discord at night on a schedule (23:00–07:00 by default). Can be switched by hand from the Nightcord toolbox.",
     tags: ["Appearance"],

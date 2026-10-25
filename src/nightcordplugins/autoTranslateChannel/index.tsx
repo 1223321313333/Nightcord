@@ -66,6 +66,7 @@ const channelMenu: NavContextMenuPatchCallback = (children, { channel }: { chann
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "AutoTranslateChannel",
     description: "Turns on a chat to translate every incoming message on the fly, using the Translate plugin. Right-click a chat to toggle it. Messages are sent to the translation service, so turn it on only where you want that",
     tags: ["Chat", "Utility"],

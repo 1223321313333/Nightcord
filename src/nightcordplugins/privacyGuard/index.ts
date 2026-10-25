@@ -50,6 +50,7 @@ async function enforce() {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "PrivacyGuard",
     description: "Keeps Discord's data-use consents (improving Discord, personalisation) off: when Discord turns them back on, they are switched off again",
     tags: ["Privacy"],

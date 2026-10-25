@@ -102,6 +102,7 @@ function findKeyword(content: string | undefined, re = matcher) {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "KeywordHighlight",
     description: "Highlights messages containing your keywords and notifies you about new ones",
     tags: ["Chat", "Notifications"],

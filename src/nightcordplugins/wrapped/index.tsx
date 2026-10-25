@@ -24,6 +24,7 @@ function messageTime(message: Message): number {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "Wrapped",
     description: "A personal \"year in review\": counts your own activity locally and shows it as a shareable recap card. Open it with /wrapped",
     tags: ["Chat", "Utility"],

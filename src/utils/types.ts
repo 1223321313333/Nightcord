@@ -162,6 +162,11 @@ export interface PluginDef {
      */
     enabledByDefault?: boolean;
     /**
+     * Nightcord: a built-in Nightcord feature that is always on and cannot be turned off by the user (no
+     * toggle). Unlike `required`, it still respects safe mode, so a crash loop can recover (see isPluginEnabled).
+     */
+    nightcordLocked?: boolean;
+    /**
      * Whether enabling or disabling this plugin requires a restart. Defaults to true if the plugin has patches.
      */
     requiresRestart?: boolean;

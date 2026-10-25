@@ -58,6 +58,7 @@ export async function stripForUpload<T extends Blob>(file: T, fileName = (file a
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "StripMetadata",
     description: "Removes GPS location, camera model and other metadata from photos and videos before they are uploaded",
     tags: ["Privacy", "Media"],

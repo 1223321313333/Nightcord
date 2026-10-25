@@ -41,6 +41,7 @@ const box: React.CSSProperties = {
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "ImpersonationGuard",
     description: "Warns you when someone copies the name (or avatar) of one of your friends but is a different account — the fake-friend scam",
     tags: ["Privacy", "Chat"],

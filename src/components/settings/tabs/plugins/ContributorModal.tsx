@@ -114,7 +114,7 @@ function ContributorModal({ user, modalProps }: { user: User; modalProps: Render
                             <PluginCard
                                 key={p.name}
                                 plugin={p}
-                                disabled={p.required ?? false}
+                                disabled={(p.required || p.nightcordLocked) ?? false}
                                 onRestartNeeded={() => showToast({ text: "Restart to apply changes!" })}
                             />
                         )}

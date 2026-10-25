@@ -63,6 +63,7 @@ function ScamWarning({ hits }: { hits: ScamHit[]; }) {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "ScamLinkGuard",
     description: "Warns you when a link in a message imitates Discord or Steam — the fake \"free Nitro\" and gift sites that steal accounts",
     tags: ["Privacy", "Chat"],

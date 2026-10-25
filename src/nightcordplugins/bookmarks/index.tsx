@@ -219,6 +219,7 @@ const messageContextMenu: NavContextMenuPatchCallback = (children, { message }: 
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "Bookmarks",
     description: "Save messages to a private bookmark list (bookmark button on hover or right-click). Open it with /bookmarks or from the Nightcord toolbox.",
     tags: ["Chat", "Utility"],

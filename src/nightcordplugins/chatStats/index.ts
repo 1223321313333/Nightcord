@@ -94,6 +94,7 @@ export function buildStats(messages: RawMessage[]) {
 const running = new Set<string>();
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "ChatStats",
     description: "/stats shows who writes the most in a channel, when it is active, and counts of links, images and reactions",
     tags: ["Chat", "Commands", "Utility"],

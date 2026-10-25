@@ -30,6 +30,7 @@ function toIndexed(message: Message): IndexedMsg | null {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "LocalSearch",
     description: "Builds a private local index of the messages you see and searches all of them instantly, even offline, with /find. Nothing leaves your computer",
     tags: ["Chat", "Utility"],

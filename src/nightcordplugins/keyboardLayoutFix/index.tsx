@@ -145,6 +145,7 @@ const LayoutButton: ChatBarButtonFactory = ({ isMainChat }) => {
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "KeyboardLayoutFix",
     description: "Fixes text typed in the wrong keyboard layout (ghbdtn → привет). Chat bar button plus optional auto-fix on send.",
     tags: ["Chat", "Utility"],

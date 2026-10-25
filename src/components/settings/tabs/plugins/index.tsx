@@ -297,12 +297,14 @@ export default function PluginSettings() {
 
             if (!pluginFilter(p, newPluginsSet)) continue;
 
-            const isRequired = p.required || p.isDependency || depMap[p.name]?.some(d => settings.plugins[d].enabled);
+            const isRequired = p.nightcordLocked || p.required || p.isDependency || depMap[p.name]?.some(d => settings.plugins[d].enabled);
 
             if (isRequired) {
-                const tooltipText = p.required || !depMap[p.name]
-                    ? "This plugin is required for Nightcord to function."
-                    : <PluginDependencyList deps={depMap[p.name]?.filter(d => settings.plugins[d].enabled)} />;
+                const tooltipText = p.nightcordLocked
+                    ? "This is a built-in Nightcord feature and is always on."
+                    : p.required || !depMap[p.name]
+                        ? "This plugin is required for Nightcord to function."
+                        : <PluginDependencyList deps={depMap[p.name]?.filter(d => settings.plugins[d].enabled)} />;
 
                 requiredPlugins.push(
                     <Tooltip text={tooltipText} key={p.name}>

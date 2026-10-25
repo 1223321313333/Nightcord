@@ -111,6 +111,7 @@ function ThemeStatus() {
 }
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "Nightcord",
     description: "The Nightcord theme: 4 palettes, your accent colour, rounded corners and fonts. Lightweight and built on Discord's own variables. Also the /nightcord command",
     authors: [Devs.Nightcord],

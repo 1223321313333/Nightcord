@@ -85,6 +85,7 @@ const badge: ProfileBadge = {
 };
 
 export default definePlugin({
+    nightcordLocked: true,
     name: "NightcordBadge",
     description: "Shows a moon badge on the profiles of Nightcord users who opted in (visible to other Nightcord users). /nightcord-badge explains how to get one",
     tags: ["Appearance", "Fun"],
