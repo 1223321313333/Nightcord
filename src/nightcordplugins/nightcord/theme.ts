@@ -69,9 +69,9 @@ function toRgb(color: string): [number, number, number] {
     return [m[0], m[1], m[2]];
 }
 
-/** Any CSS colour → [h, s, l] */
-export function toHsl(color: string): [number, number, number] {
-    const [r, g, b] = toRgb(color).map(v => v / 255);
+/** [r, g, b] (each 0-255) → [h, s, l]. Pure (no canvas), so it can be tested. */
+export function rgbToHsl(r: number, g: number, b: number): [number, number, number] {
+    r /= 255; g /= 255; b /= 255;
     const max = Math.max(r, g, b), min = Math.min(r, g, b);
     const l = (max + min) / 2;
     let h = 0, s = 0;
@@ -82,6 +82,11 @@ export function toHsl(color: string): [number, number, number] {
         h *= 60;
     }
     return [+h.toFixed(1), +(s * 100).toFixed(1), +(l * 100).toFixed(1)];
+}
+
+/** Any CSS colour → [h, s, l] */
+export function toHsl(color: string): [number, number, number] {
+    return rgbToHsl(...toRgb(color));
 }
 
 function accentVars(color: string) {
