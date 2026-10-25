@@ -78,3 +78,16 @@ describe("impersonationGuard buildFriendMap", () => {
         assert.equal(map.size, 0);
     });
 });
+
+describe("impersonationGuard findImpersonation edges", () => {
+    it("flags a name match even when the avatar differs or is absent, with sameAvatar false", () => {
+        const map = buildFriendMap(friends);
+        assert.deepEqual(findImpersonation(["Никита"], "stranger", "other_avatar", map), { friend: "Никита", sameAvatar: false });
+        assert.deepEqual(findImpersonation(["Никита"], "stranger", null, map), { friend: "Никита", sameAvatar: false });
+    });
+
+    it("skips empty candidate names and still finds a later match", () => {
+        const map = buildFriendMap(friends);
+        assert.equal(findImpersonation([null, "", "   ", "Sasha"], "stranger", null, map)?.friend, "Sasha");
+    });
+});
