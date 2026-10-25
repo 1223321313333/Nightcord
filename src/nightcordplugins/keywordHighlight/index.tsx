@@ -11,6 +11,7 @@ import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { ChannelStore, GuildStore, NavigationRouter, React, RelationshipStore, SelectedChannelStore, useLayoutEffect, useRef, UserStore } from "@webpack/common";
 
+import { buildMatcher, parseKeywords } from "./match";
 import style from "./style.css?managed";
 
 const COLOR_STYLE_ID = "nc-keyword-color";
@@ -58,18 +59,8 @@ let matcher: RegExp | null = null;
 /** Notifications: only the keywords you typed in */
 let notifyMatcher: RegExp | null = null;
 
-const escape = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-// Unicode-aware "whole word" check so Russian words match too
-function buildMatcher(words: string[]) {
-    const unique = [...new Set(words.filter(w => w && w.length >= 2))];
-    return unique.length
-        ? new RegExp(`(?<![\\p{L}\\p{N}])(${unique.map(escape).join("|")})(?![\\p{L}\\p{N}])`, "iu")
-        : null;
-}
-
 function rebuild() {
-    const keywords = settings.store.keywords.split(",").map(w => w.trim()).filter(Boolean);
+    const keywords = parseKeywords(settings.store.keywords);
     const names: string[] = [];
 
     if (settings.store.includeMyName) {
