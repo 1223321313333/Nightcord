@@ -88,6 +88,43 @@ describe("markupToHtml", () => {
         assert.ok(!html.includes("<script>"), html);
         assert.ok(html.includes("&lt;script&gt;"), html);
     });
+
+    it("renders every inline style, including nested bold+italic", () => {
+        assert.match(m.markupToHtml("***hi***"), /<b><i>hi<\/i><\/b>/);
+        assert.match(m.markupToHtml("__u__"), /<u>u<\/u>/);
+        assert.match(m.markupToHtml("*it*"), /<i>it<\/i>/);
+        assert.match(m.markupToHtml("_it_"), /<i>it<\/i>/);
+        assert.match(m.markupToHtml("~~s~~"), /<s>s<\/s>/);
+    });
+
+    it("renders block elements at the start of a line", () => {
+        assert.match(m.markupToHtml("# Title"), /<div class="h">Title<\/div>/);
+        assert.match(m.markupToHtml("### Title"), /<div class="h">Title<\/div>/);
+        assert.match(m.markupToHtml("-# small print"), /<div class="sub">small print<\/div>/);
+        assert.match(m.markupToHtml("> quoted"), /<div class="quote">quoted<\/div>/);
+    });
+
+    it("renders a fenced code block with the language stripped and the body escaped", () => {
+        const html = m.markupToHtml("```js\nconst x = \"<b>\";\n```");
+        assert.ok(html.includes("<pre><code>const x = &quot;&lt;b&gt;&quot;;\n</code></pre>"), html);
+        assert.ok(!html.includes("js\n"), "the language tag must not appear in the output");
+    });
+
+    it("does not format or unescape the inside of inline code", () => {
+        const html = m.markupToHtml("`**x** <b>`");
+        assert.ok(html.includes("<code>**x** &lt;b&gt;</code>"), html);
+        assert.ok(!html.includes("<b>x</b>"), "markdown inside code must stay literal");
+    });
+
+    it("links a masked http(s) link but refuses a javascript: one", () => {
+        assert.match(m.markupToHtml("see [here](https://example.com/p)"), /<a href="https:\/\/example\.com\/p" rel="noreferrer">here<\/a>/);
+        const evil = m.markupToHtml("[click](javascript:alert(1))");
+        assert.ok(!/href="javascript:/i.test(evil), evil);
+    });
+
+    it("turns a bare http(s) link into an anchor", () => {
+        assert.match(m.markupToHtml("visit https://example.com/x"), /<a href="https:\/\/example\.com\/x" rel="noreferrer">https:\/\/example\.com\/x<\/a>/);
+    });
 });
 
 describe("mentionNames", () => {
