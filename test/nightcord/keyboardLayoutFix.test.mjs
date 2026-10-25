@@ -11,8 +11,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let fixMessage, switchLayout;
-before(async () => ({ fixMessage, switchLayout } = await load("src/nightcordplugins/keyboardLayoutFix/index.tsx")));
+let fixMessage, switchLayout, looksLikeWrongLayout;
+before(async () => ({ fixMessage, switchLayout, looksLikeWrongLayout } = await load("src/nightcordplugins/keyboardLayoutFix/index.tsx")));
 
 describe("switchLayout", () => {
     it("switches both ways", () => {
@@ -44,4 +44,20 @@ describe("fixMessage", () => {
     for (const input of leftAlone) {
         it(`leaves ${JSON.stringify(input)} alone`, () => assert.equal(fixMessage(input), null));
     }
+});
+
+describe("looksLikeWrongLayout", () => {
+    it("recognises Latin text that is really Russian on the EN layout", () => {
+        assert.equal(looksLikeWrongLayout(["ghbdtn"]), true);            // привет
+        assert.equal(looksLikeWrongLayout(["nfr", "b", "cltkfq"]), true); // так и сделай
+    });
+
+    it("leaves real English, Cyrillic, slang, laughter and consonant words alone", () => {
+        assert.equal(looksLikeWrongLayout(["привет"]), false);                // already Cyrillic
+        assert.equal(looksLikeWrongLayout(["hello", "how", "are", "you"]), false); // normal English
+        assert.equal(looksLikeWrongLayout(["gg", "wp"]), false);              // too short
+        assert.equal(looksLikeWrongLayout(["xDDDDD"]), false);                // long run
+        assert.equal(looksLikeWrongLayout(["hmmmmm"]), false);                // long run
+        assert.equal(looksLikeWrongLayout(["rhythm", "crypt", "lynx"]), false); // vowel-less English
+    });
 });
