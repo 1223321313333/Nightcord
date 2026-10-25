@@ -7,8 +7,9 @@
 import { existsSync, lstatSync, mkdirSync, readdirSync, renameSync, rmdirSync, statSync, unlinkSync, writeFileSync } from "original-fs";
 import { basename, dirname, join } from "path";
 
+import { isNewer, VERSION_PREFIX } from "./hostPatchVersion";
+
 const STUB_PACKAGE = JSON.stringify({ name: "discord", main: "index.js" });
-const VERSION_PREFIX = "app-";
 
 const makeStubIndex = (patcherPath: string) =>
     `require(${JSON.stringify(patcherPath)});`;
@@ -66,21 +67,6 @@ export const patchResourcesDir = (resources: string, patcherJsPath: string): boo
         }
         throw err;
     }
-};
-
-const parsePart = (s: string) => parseInt(s, 10) || 0;
-
-const isNewer = ($new: string, old: string): boolean => {
-    const newParts = $new.slice(VERSION_PREFIX.length).split(".").map(parsePart);
-    const oldParts = old.slice(VERSION_PREFIX.length).split(".").map(parsePart);
-    const len = Math.max(newParts.length, oldParts.length);
-    for (let i = 0; i < len; i++) {
-        const n = newParts[i] ?? 0;
-        const o = oldParts[i] ?? 0;
-        if (n > o) return true;
-        if (n < o) return false;
-    }
-    return false;
 };
 
 /**
