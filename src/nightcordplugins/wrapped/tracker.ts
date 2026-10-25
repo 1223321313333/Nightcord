@@ -20,7 +20,12 @@ interface Stored extends WrappedRaw {
     curStreak: number;
 }
 
-let data: Stored = { ...emptyRaw(), lastDayNum: null, curStreak: 0 };
+/** A fresh tracker state. Pure, shared with the tests. */
+export function emptyStored(): Stored {
+    return { ...emptyRaw(), lastDayNum: null, curStreak: 0 };
+}
+
+let data: Stored = emptyStored();
 let loaded = false;
 let dirty = false;
 let saveTimer: ReturnType<typeof setTimeout> | undefined;
@@ -41,7 +46,7 @@ export function snapshot(): WrappedRaw {
 }
 
 export async function reset() {
-    data = { ...emptyRaw(), lastDayNum: null, curStreak: 0 };
+    data = emptyStored();
     await DataStore.set(KEY, data);
 }
 
@@ -61,18 +66,16 @@ function scheduleSave() {
     saveTimer = setTimeout(() => void flush(), SAVE_DELAY);
 }
 
-function markDay(ts: number) {
-    const dayNum = Math.floor(new Date(ts).setHours(0, 0, 0, 0) / DAY);
-    const { streak, isNewDay } = streakStep(data.lastDayNum, data.curStreak, dayNum);
-    if (!isNewDay) return;
-    data.lastDayNum = dayNum;
-    data.curStreak = streak;
-    data.activeDays++;
-    if (streak > data.bestStreak) data.bestStreak = streak;
+export interface WrappedMessage {
+    ts: number;
+    channelId: string;
+    content: string;
+    attachments: number;
+    isImage: boolean;
 }
 
-export function recordMessage(msg: { ts: number; channelId: string; content: string; attachments: number; isImage: boolean; }) {
-    if (!loaded) return;
+/** Fold one of your messages into the running counters, including the daily streak. Pure, so it can be tested. */
+export function applyMessage(data: Stored, msg: WrappedMessage) {
     const d = new Date(msg.ts);
     data.total++;
     data.hours[d.getHours()]++;
@@ -82,12 +85,30 @@ export function recordMessage(msg: { ts: number; channelId: string; content: str
     data.links += msg.content.match(/https?:\/\/\S+/g)?.length ?? 0;
     if (msg.isImage) data.images++;
     data.files += msg.attachments;
-    markDay(msg.ts);
+
+    const dayNum = Math.floor(new Date(msg.ts).setHours(0, 0, 0, 0) / DAY);
+    const { streak, isNewDay } = streakStep(data.lastDayNum, data.curStreak, dayNum);
+    if (isNewDay) {
+        data.lastDayNum = dayNum;
+        data.curStreak = streak;
+        data.activeDays++;
+        if (streak > data.bestStreak) data.bestStreak = streak;
+    }
+}
+
+/** Count one reaction you gave. Pure, so it can be tested. */
+export function applyReaction(data: Stored) {
+    data.reactionsGiven++;
+}
+
+export function recordMessage(msg: WrappedMessage) {
+    if (!loaded) return;
+    applyMessage(data, msg);
     scheduleSave();
 }
 
 export function recordReaction() {
     if (!loaded) return;
-    data.reactionsGiven++;
+    applyReaction(data);
     scheduleSave();
 }
