@@ -79,4 +79,16 @@ describe("ChatStats buildStats", () => {
         assert.equal(spark?.length, 24, "sparkline must have one bar per hour");
         assert.ok([...spark].every(c => "▁▂▃▄▅▆▇█".includes(c)), `unexpected glyph in ${spark}`);
     });
+
+    it("counts only image attachments and image/gifv embeds as pictures", () => {
+        const out = buildStats([
+            msg(alice, "", { attachments: [{ content_type: "image/gif" }] }), // image
+            msg(alice, "", { embeds: [{ type: "image" }] }),                   // image
+            msg(bob, "", { embeds: [{ type: "gifv" }] }),                      // image
+            msg(bob, "", { attachments: [{ content_type: "video/mp4" }] }),    // not an image
+            msg(alice, "", { embeds: [{ type: "video" }] }),                   // not an image
+            msg(bob, "", { embeds: [{ type: "rich" }] })                       // not an image
+        ]);
+        assert.ok(out.includes("с картинками: **3**"), out);
+    });
 });
