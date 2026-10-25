@@ -13,8 +13,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile, parseRemoteUrl, parseGitChanges;
-before(async () => ({ parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile, parseRemoteUrl, parseGitChanges } =
+let parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile, parseRemoteUrl, parseGitChanges, requireReleaseName, pickAsarAsset;
+before(async () => ({ parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile, parseRemoteUrl, parseGitChanges, requireReleaseName, pickAsarAsset } =
     await load("src/main/updater/parse.ts")));
 
 const HEX7 = "abc1234";
@@ -82,6 +82,44 @@ describe("updater: parseRemoteUrl", () => {
 
     it("leaves a plain https remote as-is (trimmed)", () => {
         assert.equal(parseRemoteUrl("  https://github.com/user/repo\n"), "https://github.com/user/repo");
+    });
+});
+
+describe("updater: requireReleaseName", () => {
+    it("returns the release name", () => {
+        assert.equal(requireReleaseName({ name: "Nightcord Devbuild abc1234" }), "Nightcord Devbuild abc1234");
+    });
+
+    it("throws a clear error when the response has no usable name", () => {
+        for (const bad of [undefined, null, {}, { name: 123 }, { name: null }]) {
+            assert.throws(() => requireReleaseName(bad), /no name to read the version/);
+        }
+    });
+});
+
+describe("updater: pickAsarAsset", () => {
+    const asar = "desktop.asar";
+
+    it("returns the asar's download URL and parsed digest", () => {
+        const data = {
+            assets: [
+                { name: "other.txt", browser_download_url: "https://x/other" },
+                { name: asar, browser_download_url: "https://x/desktop.asar", digest: "sha256:" + HEX64.toUpperCase() }
+            ]
+        };
+        assert.deepEqual(pickAsarAsset(data, asar), { url: "https://x/desktop.asar", digest: HEX64 });
+    });
+
+    it("leaves the digest null when the asset has none", () => {
+        const data = { assets: [{ name: asar, browser_download_url: "https://x/desktop.asar" }] };
+        assert.deepEqual(pickAsarAsset(data, asar), { url: "https://x/desktop.asar", digest: null });
+    });
+
+    it("throws when the asar asset is missing, assets is absent, or the url is missing", () => {
+        assert.throws(() => pickAsarAsset({ assets: [{ name: "other", browser_download_url: "https://x" }] }, asar), /has no desktop\.asar/);
+        assert.throws(() => pickAsarAsset({}, asar), /has no desktop\.asar/);
+        assert.throws(() => pickAsarAsset({ assets: "nope" }, asar), /has no desktop\.asar/);
+        assert.throws(() => pickAsarAsset({ assets: [{ name: asar }] }, asar), /has no desktop\.asar/);
     });
 });
 

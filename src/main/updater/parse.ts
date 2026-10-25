@@ -38,6 +38,25 @@ export function parseAssetDigest(digest: unknown): string | null {
         : null;
 }
 
+/** A release's `name` (the version lives at the end of it), or a clear error if the response has none. */
+export function requireReleaseName(data: any): string {
+    if (!data || typeof data.name !== "string") throw new Error("The release response has no name to read the version from");
+    return data.name;
+}
+
+export interface AsarAsset {
+    url: string;
+    digest: string | null;
+}
+
+/** The release's asar asset (its download URL and expected sha256), or a clear error if it is missing. */
+export function pickAsarAsset(data: any, asarFile: string): AsarAsset {
+    const assets = Array.isArray(data?.assets) ? data.assets : [];
+    const asset = assets.find((a: any) => a?.name === asarFile);
+    if (!asset || typeof asset.browser_download_url !== "string") throw new Error(`The latest release has no ${asarFile}`);
+    return { url: asset.browser_download_url, digest: parseAssetDigest(asset.digest) };
+}
+
 /** The first 64-hex sha256 in a `.sha256` checksum file, lower-cased, or null if the file has none. */
 export function parseChecksumFile(text: string): string | null {
     return text.match(/\b[a-f0-9]{64}\b/i)?.[0]?.toLowerCase() ?? null;

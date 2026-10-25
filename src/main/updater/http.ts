@@ -27,7 +27,7 @@ import gitRemote from "~git-remote";
 
 import { Updater } from ".";
 import { ASAR_FILE } from "./common";
-import { parseAssetDigest, parseChecksumFile, parsePendingHash, parseReleaseHash } from "./parse";
+import { parseChecksumFile, parsePendingHash, parseReleaseHash, pickAsarAsset, requireReleaseName } from "./parse";
 import { checkProvenance } from "./provenance";
 
 const API_BASE = `https://api.github.com/repos/${gitRemote}`;
@@ -71,15 +71,14 @@ async function fetchUpdate() {
     // Nightcord: the stable release is GitHub's "latest"; beta testers take every build from the devbuild release
     const data = await githubGet(RendererSettings.store.betaUpdates ? "/releases/tags/devbuild" : "/releases/latest");
 
-    const hash = parseReleaseHash(data.name);
+    const hash = parseReleaseHash(requireReleaseName(data));
     if (hash === gitHash)
         return false;
     PendingHash = parsePendingHash(hash);
 
-    const asset = data.assets.find(a => a.name === ASAR_FILE);
-    if (!asset) throw new Error(`The latest release has no ${ASAR_FILE}`);
-    PendingUpdate = asset.browser_download_url;
-    PendingUpdateDigest = parseAssetDigest(asset.digest);
+    const asset = pickAsarAsset(data, ASAR_FILE);
+    PendingUpdate = asset.url;
+    PendingUpdateDigest = asset.digest;
 
     return true;
 }
