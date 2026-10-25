@@ -13,8 +13,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile;
-before(async () => ({ parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile } =
+let parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile, parseRemoteUrl, parseGitChanges;
+before(async () => ({ parseReleaseHash, parsePendingHash, parseAssetDigest, parseChecksumFile, parseRemoteUrl, parseGitChanges } =
     await load("src/main/updater/parse.ts")));
 
 const HEX7 = "abc1234";
@@ -68,5 +68,39 @@ describe("updater: parseChecksumFile", () => {
         assert.equal(parseChecksumFile("no checksum here"), null);
         assert.equal(parseChecksumFile("deadbeef desktop.asar"), null);
         assert.equal(parseChecksumFile(""), null);
+    });
+});
+
+describe("updater: parseRemoteUrl", () => {
+    it("turns an scp-form git remote into an https URL without the .git suffix", () => {
+        assert.equal(parseRemoteUrl("git@github.com:user/repo.git\n"), "https://github.com/user/repo");
+    });
+
+    it("strips a trailing .git from an https remote", () => {
+        assert.equal(parseRemoteUrl("https://github.com/user/repo.git"), "https://github.com/user/repo");
+    });
+
+    it("leaves a plain https remote as-is (trimmed)", () => {
+        assert.equal(parseRemoteUrl("  https://github.com/user/repo\n"), "https://github.com/user/repo");
+    });
+});
+
+describe("updater: parseGitChanges", () => {
+    it("returns [] for empty or whitespace output", () => {
+        assert.deepEqual(parseGitChanges(""), []);
+        assert.deepEqual(parseGitChanges("   \n  "), []);
+    });
+
+    it("parses author/hash/subject lines", () => {
+        assert.deepEqual(parseGitChanges("Alice/abc1234/Fix a crash\nBob/def5678/Add feature"), [
+            { author: "Alice", hash: "abc1234", message: "Fix a crash" },
+            { author: "Bob", hash: "def5678", message: "Add feature" }
+        ]);
+    });
+
+    it("keeps slashes that belong to the commit subject", () => {
+        assert.deepEqual(parseGitChanges("Carol/0a0a0a0/Fix the a/b/c path"), [
+            { author: "Carol", hash: "0a0a0a0", message: "Fix the a/b/c path" }
+        ]);
     });
 });

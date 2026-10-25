@@ -21,6 +21,7 @@ import { join } from "path";
 import { promisify } from "util";
 
 import { Updater } from ".";
+import { parseGitChanges, parseRemoteUrl } from "./parse";
 
 const NIGHTCORD_SRC_DIR = join(__dirname, "..");
 const NIGHTCORD_DIR = join(__dirname, "../../");
@@ -40,9 +41,7 @@ function git(...args: string[]) {
 
 async function getRepo() {
     const res = await git("remote", "get-url", "origin");
-    return res.stdout.trim()
-        .replace(/git@(.+):/, "https://$1/")
-        .replace(/\.git$/, "");
+    return parseRemoteUrl(res.stdout);
 }
 
 async function calculateGitChanges() {
@@ -55,14 +54,7 @@ async function calculateGitChanges() {
 
     const res = await git("log", `HEAD...origin/${branch}`, "--pretty=format:%an/%h/%s");
 
-    const commits = res.stdout.trim();
-    return commits ? commits.split("\n").map(line => {
-        const [author, hash, ...rest] = line.split("/");
-        return {
-            hash, author,
-            message: rest.join("/").split("\n")[0]
-        };
-    }) : [];
+    return parseGitChanges(res.stdout);
 }
 
 async function pull() {

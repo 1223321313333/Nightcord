@@ -16,10 +16,10 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-// Pure parsing for the HTTP updater, with no network or filesystem dependencies, so it can be unit
-// tested. These decide which commit an update is and what sha256 it must match before it replaces the
-// running install, so getting them wrong is a security problem — hence the tests. The wiring (fetching
-// releases, downloading the asar, hashing and writing it) lives in http.ts.
+// Pure parsing for the updater, with no network, git or filesystem dependencies, so it can be unit
+// tested. The HTTP ones decide which commit an update is and what sha256 it must match before it
+// replaces the running install, so getting them wrong is a security problem — hence the tests. The
+// wiring (fetching releases, running git, downloading, hashing and writing) lives in http.ts and git.ts.
 
 /** The commit hash a GitHub release encodes in its name, which is the text after the last space. */
 export function parseReleaseHash(releaseName: string): string {
@@ -41,4 +41,34 @@ export function parseAssetDigest(digest: unknown): string | null {
 /** The first 64-hex sha256 in a `.sha256` checksum file, lower-cased, or null if the file has none. */
 export function parseChecksumFile(text: string): string | null {
     return text.match(/\b[a-f0-9]{64}\b/i)?.[0]?.toLowerCase() ?? null;
+}
+
+// --- git updater (local clone installs) ---
+
+/** `git remote get-url origin` output turned into an https repo URL (scp-form to https, no .git suffix). */
+export function parseRemoteUrl(stdout: string): string {
+    return stdout.trim()
+        .replace(/git@(.+):/, "https://$1/")
+        .replace(/\.git$/, "");
+}
+
+export interface GitChange {
+    hash: string;
+    author: string;
+    message: string;
+}
+
+/** `git log --pretty=format:%an/%h/%s` output parsed into one entry per commit; [] when there are none. */
+export function parseGitChanges(stdout: string): GitChange[] {
+    const commits = stdout.trim();
+    if (!commits) return [];
+
+    return commits.split("\n").map(line => {
+        const [author, hash, ...rest] = line.split("/");
+        return {
+            hash,
+            author,
+            message: rest.join("/").split("\n")[0]
+        };
+    });
 }
