@@ -9,6 +9,7 @@ import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { showToast } from "@webpack/common";
 
+import { isNight } from "./schedule";
 import style from "./style.css?managed";
 
 const CLASS = "nc-night";
@@ -45,14 +46,6 @@ let timer: ReturnType<typeof setInterval> | undefined;
 
 /** Set from the toolbox; lasts until the schedule itself switches next time */
 let manual: { on: boolean; scheduledWhenSet: boolean; } | null = null;
-
-export function isNight(hour: number, start: number, end: number) {
-    start = Math.round(start);
-    end = Math.round(end);
-    if (start === end) return false;
-    // e.g. 23 → 7 wraps past midnight
-    return start < end ? hour >= start && hour < end : hour >= start || hour < end;
-}
 
 function scheduled() {
     return isNight(new Date().getHours(), settings.store.startHour, settings.store.endHour);
