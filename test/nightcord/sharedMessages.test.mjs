@@ -127,6 +127,21 @@ describe("markupToHtml", () => {
     });
 });
 
+describe("clampHistoryLimit", () => {
+    it("keeps a whole number within 1..MAX_HISTORY", () => {
+        assert.equal(m.clampHistoryLimit(1), 1);
+        assert.equal(m.clampHistoryLimit(500), 500);
+        assert.equal(m.clampHistoryLimit(m.MAX_HISTORY), m.MAX_HISTORY);
+    });
+
+    it("clamps below 1 up and above MAX_HISTORY down, and floors fractions", () => {
+        assert.equal(m.clampHistoryLimit(0), 1);
+        assert.equal(m.clampHistoryLimit(-5), 1);
+        assert.equal(m.clampHistoryLimit(m.MAX_HISTORY + 10_000), m.MAX_HISTORY);
+        assert.equal(m.clampHistoryLimit(100.9), 100);
+    });
+});
+
 describe("mentionNames", () => {
     it("maps mentioned user ids to their display names", () => {
         const map = m.mentionNames({ mentions: [{ id: "1", global_name: "Al" }, { id: "2", username: "bob" }] });

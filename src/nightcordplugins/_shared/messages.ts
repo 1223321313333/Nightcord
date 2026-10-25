@@ -68,12 +68,17 @@ const PAGE_DELAY = 800;
 
 const sleep = (ms: number) => new Promise(r => setTimeout(r, ms));
 
+/** A requested history size clamped to a whole number between 1 and MAX_HISTORY. */
+export function clampHistoryLimit(n: number): number {
+    return Math.max(1, Math.min(MAX_HISTORY, Math.floor(n)));
+}
+
 /**
  * Loads up to `limit` of the latest messages of a channel, oldest first.
  * Pages through the history like scrolling up does, at a gentle pace.
  */
 export async function fetchHistory(channelId: string, limit: number, onProgress?: (loaded: number) => void): Promise<RawMessage[]> {
-    limit = Math.max(1, Math.min(MAX_HISTORY, Math.floor(limit)));
+    limit = clampHistoryLimit(limit);
     const out: RawMessage[] = [];
     let before: string | undefined;
 
