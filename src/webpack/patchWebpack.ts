@@ -552,7 +552,9 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
     let patchedSource = patchedCode;
     let patchedFactory = originalFactory;
 
-    const patchedBy = new Set<string>();
+    // Nightcord: created only once a patch actually matches this module. Most of Discord's ~15k module
+    // factories match nothing, so allocating this up front for every one of them is wasted work at startup.
+    let patchedBy: Set<string> | undefined;
 
     for (let i = 0; i < patches.length; i++) {
         const patch = patches[i];
@@ -573,6 +575,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
             continue;
         }
         matchedPatches.add(patch);
+        patchedBy ??= new Set();
 
         // Save the result from the previous patch so we can restore it in case a patch group fails.
         const previousPatchedCode = patchedCode;
@@ -720,7 +723,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
 
     if (IS_DEV && patchedFactory !== originalFactory) {
         originalFactory[SYM_PATCHED_SOURCE] = patchedSource;
-        originalFactory[SYM_PATCHED_BY] = patchedBy;
+        originalFactory[SYM_PATCHED_BY] = patchedBy ?? new Set();
     }
 
     return patchedFactory as PatchedModuleFactory;
