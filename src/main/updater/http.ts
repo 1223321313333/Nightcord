@@ -27,6 +27,7 @@ import gitRemote from "~git-remote";
 
 import { Updater } from ".";
 import { ASAR_FILE } from "./common";
+import { parseAssetDigest, parseChecksumFile, parsePendingHash, parseReleaseHash } from "./parse";
 import { checkProvenance } from "./provenance";
 
 const API_BASE = `https://api.github.com/repos/${gitRemote}`;
@@ -70,17 +71,15 @@ async function fetchUpdate() {
     // Nightcord: the stable release is GitHub's "latest"; beta testers take every build from the devbuild release
     const data = await githubGet(RendererSettings.store.betaUpdates ? "/releases/tags/devbuild" : "/releases/latest");
 
-    const hash = data.name.slice(data.name.lastIndexOf(" ") + 1);
+    const hash = parseReleaseHash(data.name);
     if (hash === gitHash)
         return false;
-    PendingHash = /^[0-9a-f]{7,40}$/.test(hash) ? hash : null;
+    PendingHash = parsePendingHash(hash);
 
     const asset = data.assets.find(a => a.name === ASAR_FILE);
     if (!asset) throw new Error(`The latest release has no ${ASAR_FILE}`);
     PendingUpdate = asset.browser_download_url;
-    PendingUpdateDigest = typeof asset.digest === "string" && asset.digest.startsWith("sha256:")
-        ? asset.digest.slice("sha256:".length).toLowerCase()
-        : null;
+    PendingUpdateDigest = parseAssetDigest(asset.digest);
 
     return true;
 }
@@ -90,9 +89,9 @@ async function getExpectedDigest(url: string) {
     if (PendingUpdateDigest) return PendingUpdateDigest;
 
     const text = (await fetchBuffer(url + ".sha256")).toString("utf8");
-    const digest = text.match(/\b[a-f0-9]{64}\b/i)?.[0];
+    const digest = parseChecksumFile(text);
     if (!digest) throw new Error("Could not get the checksum of the update, not installing it");
-    return digest.toLowerCase();
+    return digest;
 }
 
 async function applyUpdate() {
