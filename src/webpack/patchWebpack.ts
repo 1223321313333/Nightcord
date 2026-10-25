@@ -547,9 +547,10 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
     const buildNumber = getBuildNumber();
     const shouldCheckBuildNumber = buildNumber !== -1;
 
-    // 0, prefix to turn it into an expression: 0,function(){} would be invalid syntax without the 0,
-    let patchedCode = "0," + (!isArrowFunction ? "function" : "") + originalFactoryCode.slice(originalFactoryCode.indexOf("("));
-    let patchedSource = patchedCode;
+    // Built lazily on the first matching patch (see below), so a factory that matches nothing never copies
+    // its whole source.
+    let patchedCode: string | undefined;
+    let patchedSource: string | undefined;
     let patchedFactory = originalFactory;
 
     // Nightcord: created only once a patch actually matches this module. Most of Discord's ~15k module
@@ -577,6 +578,11 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
         matchedPatches.add(patch);
         patchedBy ??= new Set();
 
+        // Nightcord: build the working copy of the source only now that a patch matches. The 0, prefix makes
+        // it an expression (0,function(){} would be invalid syntax without it).
+        patchedCode ??= "0," + (!isArrowFunction ? "function" : "") + originalFactoryCode.slice(originalFactoryCode.indexOf("("));
+        patchedSource ??= patchedCode;
+
         // Save the result from the previous patch so we can restore it in case a patch group fails.
         const previousPatchedCode = patchedCode;
         const previousPatchedSource = patchedSource;
@@ -592,7 +598,8 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
                 match.lastIndex = 0;
             }
 
-            return patchedCode.replace(match, replace);
+            // patchedCode is built before this closure is ever created or called (see the match handler above)
+            return patchedCode!.replace(match, replace);
         });
 
         // We change all patch.replacement to array in PluginManager
@@ -722,7 +729,7 @@ function patchFactory(moduleId: PropertyKey, originalFactory: AnyModuleFactory):
     patchedFactory[SYM_ORIGINAL_FACTORY] = originalFactory;
 
     if (IS_DEV && patchedFactory !== originalFactory) {
-        originalFactory[SYM_PATCHED_SOURCE] = patchedSource;
+        originalFactory[SYM_PATCHED_SOURCE] = patchedSource ?? "";
         originalFactory[SYM_PATCHED_BY] = patchedBy ?? new Set();
     }
 
