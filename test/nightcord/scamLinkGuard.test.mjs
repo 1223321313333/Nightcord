@@ -107,3 +107,22 @@ describe("ScamLinkGuard", () => {
         assert.deepEqual(reasons("смотри тут https://discord-gift.ru."), ["discord-gift.ru:impersonation"]);
     });
 });
+
+describe("scamLinkGuard hostOf", () => {
+    it("lower-cases the host and drops www. and a trailing dot", () => {
+        assert.equal(hostOf("https://DISCORD.COM/PATH"), "discord.com");
+        assert.equal(hostOf("https://www.discord.com"), "discord.com");
+        assert.equal(hostOf("https://discord.com."), "discord.com");
+    });
+
+    it("keeps subdomains and ignores port, path and query", () => {
+        assert.equal(hostOf("https://sub.discord.com:443/x?y=1"), "sub.discord.com");
+    });
+
+    it("returns null for IPs, single-label hosts, IPv6 and junk", () => {
+        assert.equal(hostOf("https://127.0.0.1/x"), null);
+        assert.equal(hostOf("http://localhost:3000"), null);
+        assert.equal(hostOf("https://[::1]/x"), null);
+        assert.equal(hostOf("not a url"), null);
+    });
+});
