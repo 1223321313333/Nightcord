@@ -120,6 +120,23 @@ export function validateCspOverride(url: string, directives: string[]): boolean 
     return true;
 }
 
+/**
+ * Whether `url`'s host is already allowed for every one of `directives` by the curated allowlist or the
+ * user's own overrides (see csp/manager.ts). False when the URL does not parse or the host has no rule.
+ */
+export function isDomainAllowedBy(url: string, directives: string[], policies: PolicyMap, customCspRules: PolicyMap): boolean {
+    try {
+        const { host } = new URL(url);
+
+        const ruleForDomain = policies[host] ?? customCspRules[host];
+        if (!ruleForDomain) return false;
+
+        return directives.every(d => ruleForDomain.includes(d));
+    } catch {
+        return false;
+    }
+}
+
 export interface BuildCspOptions {
     /** Strict connections: leave out the "*" rule so the window can only reach the listed servers */
     strict: boolean;

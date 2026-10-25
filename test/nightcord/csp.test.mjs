@@ -12,8 +12,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride;
-before(async () => ({ buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride } = await load("src/main/csp/policy.ts")));
+let buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride, isDomainAllowedBy;
+before(async () => ({ buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride, isDomainAllowedBy } = await load("src/main/csp/policy.ts")));
 
 describe("CSP parse/stringify", () => {
     it("parses directives and their values", () => {
@@ -98,5 +98,30 @@ describe("validateCspOverride", () => {
         assert.equal(validateCspOverride("https://example.com", ["script-src"]), false);
         assert.equal(validateCspOverride("https://example.com", ["connect-src", "script-src"]), false);
         assert.equal(validateCspOverride("https://example.com", ["worker-src"]), false);
+    });
+});
+
+describe("isDomainAllowedBy", () => {
+    const policies = { "api.example.com": ["connect-src"], "cdn.example.com": ["img-src", "style-src"] };
+    const custom = { "my.host": ["connect-src", "img-src"] };
+
+    it("allows a host listed in the curated policies for the requested directives", () => {
+        assert.equal(isDomainAllowedBy("https://api.example.com/x", ["connect-src"], policies, custom), true);
+        assert.equal(isDomainAllowedBy("https://cdn.example.com", ["img-src"], policies, custom), true);
+    });
+
+    it("allows a host listed only in the user's own overrides", () => {
+        assert.equal(isDomainAllowedBy("https://my.host", ["connect-src"], policies, custom), true);
+        assert.equal(isDomainAllowedBy("https://my.host", ["connect-src", "img-src"], policies, custom), true);
+    });
+
+    it("requires every requested directive to be covered", () => {
+        assert.equal(isDomainAllowedBy("https://api.example.com", ["connect-src", "img-src"], policies, custom), false);
+        assert.equal(isDomainAllowedBy("https://cdn.example.com", ["connect-src"], policies, custom), false);
+    });
+
+    it("rejects an unknown host and an unparseable URL", () => {
+        assert.equal(isDomainAllowedBy("https://unknown.example", ["connect-src"], policies, custom), false);
+        assert.equal(isDomainAllowedBy("not a url", ["connect-src"], policies, custom), false);
     });
 });

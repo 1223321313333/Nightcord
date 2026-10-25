@@ -8,7 +8,7 @@ import { NativeSettings } from "@main/settings";
 import { IpcEvents } from "@shared/IpcEvents";
 import { dialog, ipcMain, IpcMainInvokeEvent } from "electron";
 
-import { CspPolicies, validateCspOverride } from ".";
+import { CspPolicies, isDomainAllowedBy, validateCspOverride } from ".";
 
 export type CspRequestResult = "invalid" | "cancelled" | "unchecked" | "ok" | "conflict";
 
@@ -97,14 +97,5 @@ function removeCspRule(_: IpcMainInvokeEvent, domain: string) {
 }
 
 function isDomainAllowed(_: IpcMainInvokeEvent, url: string, directives: string[]) {
-    try {
-        const domain = new URL(url).host;
-
-        const ruleForDomain = CspPolicies[domain] ?? NativeSettings.store.customCspRules[domain];
-        if (!ruleForDomain) return false;
-
-        return directives.every(d => ruleForDomain.includes(d));
-    } catch (e) {
-        return false;
-    }
+    return isDomainAllowedBy(url, directives, CspPolicies, NativeSettings.store.customCspRules);
 }
