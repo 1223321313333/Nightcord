@@ -14,15 +14,14 @@ import { ipcMain } from "electron";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "fs";
 import { join } from "path";
 
+import { countStart, isSafeMode, parseFailedStarts } from "./safeModeState";
 import { SETTINGS_DIR, SETTINGS_FILE } from "./utils/constants";
 
 const STATE_FILE = join(SETTINGS_DIR, "startup.json");
-const FAILED_STARTS_FOR_SAFE_MODE = 3;
 
 function read(): number {
     try {
-        const n = JSON.parse(readFileSync(STATE_FILE, "utf8")).failedStarts;
-        return Number.isInteger(n) && n >= 0 ? n : 0;
+        return parseFailedStarts(JSON.parse(readFileSync(STATE_FILE, "utf8")).failedStarts);
     } catch {
         return 0;
     }
@@ -40,10 +39,10 @@ function write(failedStarts: number) {
 // No settings yet: Nightcord was just installed (this module loads before anything writes them)
 const firstRun = !existsSync(SETTINGS_FILE);
 const failedStarts = read();
-const safeMode = failedStarts >= FAILED_STARTS_FOR_SAFE_MODE || process.argv.includes("--nightcord-safe-mode");
+const safeMode = isSafeMode(failedStarts, process.argv.includes("--nightcord-safe-mode"));
 
 // this start counts as failed until the window says otherwise
-write(failedStarts + 1);
+write(countStart(failedStarts));
 if (safeMode) console.warn(`[Nightcord] Safe mode: ${failedStarts} starts in a row did not finish, plugins stay off`);
 
 ipcMain.on(IpcEvents.GET_STARTUP_STATE, e => {
