@@ -109,6 +109,14 @@ describe("TXT and JSON export", () => {
         assert.equal(json.messageCount, 5);
         assert.equal(json.messages.length, 5);
     });
+    it("JSON records the channel info, exporter and raw messages", () => {
+        assert.equal(json.exporter, "Nightcord ChatExport");
+        assert.deepEqual(json.channel, { id: "c", guildId: "g", title: "Тест — #общий" });
+        assert.ok(typeof json.exportedAt === "string" && !Number.isNaN(Date.parse(json.exportedAt)), "exportedAt is an ISO date");
+        assert.equal(json.messages[0].id, "10");
+        assert.equal(json.messages[0].author.username, "alice");
+        assert.ok(json.messages[0].content.includes("<@42>"), "raw content is kept unresolved in JSON");
+    });
 });
 
 describe("/stats", () => {
