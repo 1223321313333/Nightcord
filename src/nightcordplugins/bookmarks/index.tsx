@@ -16,7 +16,7 @@ import { copyWithToast } from "@utils/discord";
 import definePlugin, { IconComponent } from "@utils/types";
 import { ChannelStore, GuildStore, Menu, Modal, NavigationRouter, openModal, React, showToast, TextInput, useEffect, UserStore, useState } from "@webpack/common";
 
-import { markupToText } from "../_shared/messages";
+import { describeBookmark } from "./describe";
 
 const KEY = "Nightcord_Bookmarks";
 
@@ -69,19 +69,6 @@ function channelLabel(channelId: string) {
     return names.length ? `ЛС: ${names.join(", ")}` : "ЛС";
 }
 
-function describe(msg: Message, guildId: string | null) {
-    const text = markupToText(msg.content ?? "", { guildId }).trim();
-    if (text) return text;
-    const files = msg.attachments?.map(a => a.filename);
-    if (files?.length) return `📎 ${files.join(", ")}`;
-    const embed = msg.embeds?.[0] as any;
-    const embedText = embed?.rawTitle ?? embed?.title ?? embed?.rawDescription ?? embed?.description;
-    if (embedText) return `▌ ${embedText}`;
-    const sticker = (msg as any).stickerItems?.[0]?.name;
-    if (sticker) return `🏷️ стикер «${sticker}»`;
-    return "(без текста)";
-}
-
 async function toggle(msg: Message) {
     await ready;
     if (isBookmarked(msg.id)) {
@@ -98,7 +85,7 @@ async function toggle(msg: Message) {
         guildId,
         author: (msg.author as any).globalName ?? msg.author.username,
         avatar: msg.author.getAvatarURL?.(undefined, 64) ?? "",
-        content: describe(msg, guildId),
+        content: describeBookmark(msg, guildId),
         timestamp: new Date(msg.timestamp as any).getTime(),
         savedAt: Date.now(),
         channelName: channelLabel(msg.channel_id),
