@@ -10,8 +10,7 @@
  * Requests made by the desktop app's main process (like the update check) are not part of it.
  */
 
-const DISCORD_HOST = /(^|\.)(discord\.com|discordapp\.com|discordapp\.net|discord\.gg|discord\.media|discordcdn\.com|discordstatus\.com)$/;
-const LOCAL_HOST = /^(localhost|127\.\d+\.\d+\.\d+|\[::1\])$/;
+import { DISCORD_HOST, outsideHost } from "./networkHosts";
 
 export interface OutsideHost {
     host: string;
@@ -31,15 +30,8 @@ let notifyQueued = false;
 function record(entries: PerformanceEntryList) {
     let changed = false;
     for (const entry of entries as PerformanceResourceTiming[]) {
-        let url: URL;
-        try {
-            url = new URL(entry.name);
-        } catch {
-            continue;
-        }
-        if (url.protocol !== "https:" && url.protocol !== "http:") continue;
-        const { hostname } = url;
-        if (DISCORD_HOST.test(hostname) || LOCAL_HOST.test(hostname) || hostname === location.hostname) continue;
+        const hostname = outsideHost(entry.name, location.hostname);
+        if (!hostname) continue;
 
         let stat = hosts.get(hostname);
         if (!stat) hosts.set(hostname, stat = { host: hostname, count: 0, firstAt: entry.startTime, kinds: new Set() });
