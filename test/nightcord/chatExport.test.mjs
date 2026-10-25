@@ -105,6 +105,12 @@ describe("TXT and JSON export", () => {
         for (const p of ["@Кеша", ":pepe:", "(ответ Алиса)", "📎 cat.png"]) assert.ok(txt.includes(p), p);
         assert.ok(!txt.includes("<@42>"));
     });
+    it("TXT renders system messages, stickers and embeds", () => {
+        assert.ok(txt.includes("присоединился к серверу"), "system message text");
+        assert.ok(/→ newbie /.test(txt), "system messages use the → marker");
+        assert.ok(txt.includes("🏷️ стикер «Котик»"), "sticker line");
+        assert.ok(txt.includes("▌ Заголовок"), "embed title/description line");
+    });
     it("JSON has every message", () => {
         assert.equal(json.messageCount, 5);
         assert.equal(json.messages.length, 5);
