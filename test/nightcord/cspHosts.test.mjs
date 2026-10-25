@@ -12,7 +12,7 @@ import { describe, it } from "node:test";
 
 import genCspHosts from "../../scripts/nightcord/genCspHosts.cjs";
 
-const { extractHosts } = genCspHosts;
+const { extractHosts, collectHosts } = genCspHosts;
 const hosts = text => [...extractHosts(text)].sort();
 
 describe("genCspHosts.extractHosts", () => {
@@ -42,5 +42,25 @@ describe("genCspHosts.extractHosts", () => {
 
     it("keeps a real third-party API host", () => {
         assert.deepEqual(hosts('const API = "https://decor.fieryflames.dev/api";'), ["decor.fieryflames.dev"]);
+    });
+});
+
+describe("genCspHosts.collectHosts (real source tree)", () => {
+    const list = collectHosts();
+
+    it("returns a non-empty list of hosts", () => {
+        assert.ok(Array.isArray(list) && list.length > 0, `got ${list?.length} hosts`);
+    });
+
+    it("is sorted, unique and lower-cased", () => {
+        assert.deepEqual(list, [...list].sort(), "must be sorted");
+        assert.equal(new Set(list).size, list.length, "must be unique");
+        assert.ok(list.every(h => h === h.toLowerCase()), "must be lower-cased");
+    });
+
+    it("only contains dotted hosts and never Discord's own", () => {
+        assert.ok(list.every(h => h.includes(".")), "every host must be dotted");
+        const discord = /(^|\.)(discord\.com|discordapp\.com|discordapp\.net|discord\.gg|discord\.media)$/;
+        assert.deepEqual(list.filter(h => discord.test(h)), [], "Discord hosts are covered by Discord's own CSP");
     });
 });
