@@ -8,7 +8,7 @@ import { NativeSettings } from "@main/settings";
 import { IpcEvents } from "@shared/IpcEvents";
 import { dialog, ipcMain, IpcMainInvokeEvent } from "electron";
 
-import { CspPolicies, ImageAndCssSrc } from ".";
+import { CspPolicies, validateCspOverride } from ".";
 
 export type CspRequestResult = "invalid" | "cancelled" | "unchecked" | "ok" | "conflict";
 
@@ -16,21 +16,6 @@ export function registerCspIpcHandlers() {
     ipcMain.handle(IpcEvents.CSP_REMOVE_OVERRIDE, removeCspRule);
     ipcMain.handle(IpcEvents.CSP_REQUEST_ADD_OVERRIDE, addCspRule);
     ipcMain.handle(IpcEvents.CSP_IS_DOMAIN_ALLOWED, isDomainAllowed);
-}
-
-function validate(url: string, directives: string[]) {
-    try {
-        const { host } = new URL(url);
-
-        if (/[;'"\\]/.test(host)) return false;
-    } catch {
-        return false;
-    }
-
-    if (directives.length === 0) return false;
-    if (directives.some(d => !ImageAndCssSrc.includes(d))) return false;
-
-    return true;
 }
 
 function getMessage(url: string, directives: string[], callerName: string) {
@@ -69,7 +54,7 @@ function getMessage(url: string, directives: string[], callerName: string) {
 }
 
 async function addCspRule(_: IpcMainInvokeEvent, url: string, directives: string[], callerName: string): Promise<CspRequestResult> {
-    if (!validate(url, directives)) {
+    if (!validateCspOverride(url, directives)) {
         return "invalid";
     }
 

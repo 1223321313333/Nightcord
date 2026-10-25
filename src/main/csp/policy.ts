@@ -99,6 +99,27 @@ export const stringifyPolicy = (policy: PolicyMap): string =>
         .map(directive => directive.flat().join(" "))
         .join("; ");
 
+/**
+ * Whether a user-requested CSP override is safe to add (see csp/manager.ts). The URL must parse and its host
+ * must not contain characters that could break out of the policy string, and the directives must be a
+ * non-empty subset of the image/css/font/connect sources — never script-src, so an override can load media
+ * but never run code.
+ */
+export function validateCspOverride(url: string, directives: string[]): boolean {
+    try {
+        const { host } = new URL(url);
+
+        if (/[;'"\\]/.test(host)) return false;
+    } catch {
+        return false;
+    }
+
+    if (directives.length === 0) return false;
+    if (directives.some(d => !ImageAndCssSrc.includes(d))) return false;
+
+    return true;
+}
+
 export interface BuildCspOptions {
     /** Strict connections: leave out the "*" rule so the window can only reach the listed servers */
     strict: boolean;

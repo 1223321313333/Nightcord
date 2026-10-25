@@ -12,8 +12,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let buildCsp, parsePolicy, stringifyPolicy, CspPolicies;
-before(async () => ({ buildCsp, parsePolicy, stringifyPolicy, CspPolicies } = await load("src/main/csp/policy.ts")));
+let buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride;
+before(async () => ({ buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride } = await load("src/main/csp/policy.ts")));
 
 describe("CSP parse/stringify", () => {
     it("parses directives and their values", () => {
@@ -73,5 +73,30 @@ describe("CSP buildCsp", () => {
             const csp = buildCsp(base(), opts(strict, { customCspRules: { "my.host": ["connect-src"] } }));
             assert.ok(csp["connect-src"].includes("my.host"), `override applied when strict=${strict}`);
         }
+    });
+});
+
+describe("validateCspOverride", () => {
+    it("accepts a real URL with image/css/font/connect directives", () => {
+        assert.equal(validateCspOverride("https://example.com", ["connect-src"]), true);
+        assert.equal(validateCspOverride("https://cdn.example.com/x", ["img-src", "style-src", "font-src"]), true);
+    });
+
+    it("rejects a host with characters that could break out of the policy string", () => {
+        // these characters survive in URL.host and could inject into the policy string
+        for (const url of ["https://evil.com;x", "https://e'il.com", "https://ev%22il.com"]) {
+            assert.equal(validateCspOverride(url, ["connect-src"]), false, `${url} must be rejected`);
+        }
+    });
+
+    it("rejects an unparseable URL and an empty directive list", () => {
+        assert.equal(validateCspOverride("not a url", ["connect-src"]), false);
+        assert.equal(validateCspOverride("https://example.com", []), false);
+    });
+
+    it("never allows directives outside image/css/font/connect (no script-src)", () => {
+        assert.equal(validateCspOverride("https://example.com", ["script-src"]), false);
+        assert.equal(validateCspOverride("https://example.com", ["connect-src", "script-src"]), false);
+        assert.equal(validateCspOverride("https://example.com", ["worker-src"]), false);
     });
 });
