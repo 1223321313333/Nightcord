@@ -7,12 +7,12 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { HeaderBarButton } from "@api/HeaderBar";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Channel, Guild, User } from "@nightcord/discord-types";
+import { ChannelType } from "@nightcord/discord-types/enums";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { Channel, Guild, User } from "@nightcord/discord-types";
-import { ChannelType } from "@nightcord/discord-types/enums";
 import {
     extractAndLoadChunksLazy,
     findByPropsLazy,
@@ -336,11 +336,11 @@ export default definePlugin({
             group: true,
             replacement: [
                 {
-                    match: /truncateTop\(\i\)\{(?=.{0,100}?this\._array\.length-\i;return)/,
+                    match: /truncateTop\(\i\)\{/,
                     replace: "$&if($self.hasMultipleChatViews(this.channelId))return this;"
                 },
                 {
-                    match: /truncateBottom\(\i\)\{(?=.{0,100}?return this\._array\.length<=\i\?this:this\.mutate\()/,
+                    match: /truncateBottom\(\i\)\{/,
                     replace: "$&if($self.hasMultipleChatViews(this.channelId))return this;"
                 }
             ]

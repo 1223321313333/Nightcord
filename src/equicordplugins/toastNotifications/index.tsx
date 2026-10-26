@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
-import { NightcordDevs } from "@utils/constants";
-import definePlugin, { makeRange, OptionType } from "@utils/types";
 import { Channel, Message } from "@nightcord/discord-types";
 import { UserNotificationSetting } from "@nightcord/discord-types/enums";
+import { NightcordDevs } from "@utils/constants";
+import definePlugin, { makeRange, OptionType } from "@utils/types";
 import { findByPropsLazy } from "@webpack";
 import { ChannelStore, IconUtils, MessageStore, NavigationRouter, PresenceStore, RelationshipStore, SelectedChannelStore, StreamerModeStore, UserGuildSettingsStore, UserStore } from "@webpack/common";
 

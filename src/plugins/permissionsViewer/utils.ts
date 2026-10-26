@@ -16,9 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { classNameFactory } from "@utils/css";
 import { Guild, GuildMember, Role } from "@nightcord/discord-types";
 import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
+import { classNameFactory } from "@utils/css";
 import { extractAndLoadChunksLazy, findByPropsLazy } from "@webpack";
 import { GuildRoleStore } from "@webpack/common";
 

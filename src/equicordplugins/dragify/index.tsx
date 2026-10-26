@@ -7,12 +7,12 @@
 import "./style.css";
 
 import { definePluginSettings } from "@api/Settings";
+import type { Channel } from "@nightcord/discord-types";
+import { ChannelType } from "@nightcord/discord-types/enums";
 import { NightcordDevs } from "@utils/constants";
 import { getGuildAcronym, insertTextIntoChatInputBox } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Channel } from "@nightcord/discord-types";
-import { ChannelType } from "@nightcord/discord-types/enums";
 import { ChannelStore, GuildStore, IconUtils, RelationshipStore, SelectedChannelStore, showToast, UserStore } from "@webpack/common";
 
 import { beginDrag as beginSessionDrag, clearDragState, getLastDropAt, hasActiveDrag, isGuildDragActive, isInputDragSource, isUserDragActive, markDrop, markInputDragSource, scheduleGuildCleanup, shouldIgnoreDrop, startDragWatchdog, stopDragState, touchDrag } from "./dragState";
@@ -167,7 +167,7 @@ export default definePlugin({
             replacement: [
                 // Voice channel rows (guild sidebar)
                 {
-                    match: /(?<=this.getTooltipText\(\),.{0,100})iconClassName:/,
+                    match: /(?<=ref:this.channelItemRef,.{0,100})iconClassName:/,
                     replace: "draggable:!0,onDragStart:e=>$self.onChannelDragStart(e,{id:this?.props?.channel?.id,guild_id:this?.props?.channel?.guild_id}),$&"
                 },
                 // Voice channel rows (guild sidebar fallback - li wrapper)

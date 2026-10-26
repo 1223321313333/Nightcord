@@ -22,12 +22,12 @@ import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { definePluginSettings } from "@api/Settings";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getTheme, insertTextIntoChatInputBox, Theme } from "@utils/discord";
 import { Margins } from "@utils/margins";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, openModal, Parser, Select, useMemo, useState } from "@webpack/common";
 
 const settings = definePluginSettings({
@@ -41,13 +41,13 @@ const settings = definePluginSettings({
 function parseTime(time: string) {
     const cleanTime = time.slice(1, -1).replace(/(\d)(AM|PM)$/i, "$1 $2");
 
-    let ms = new Date(`${new Date().toDateString()} ${cleanTime}`).getTime() / 1000;
-    if (isNaN(ms)) return time;
+    const date = new Date(`${new Date().toDateString()} ${cleanTime}`);
+    if (Number.isNaN(date.getTime())) return time;
 
-    // add 24h if time is in the past
-    if (Date.now() / 1000 > ms) ms += 86400;
+    // tomorrow can be 23 or 25 hours away across dst changes
+    if (Date.now() > date.getTime()) date.setDate(date.getDate() + 1);
 
-    return `<t:${Math.round(ms)}:t>`;
+    return `<t:${Math.round(date.getTime() / 1000)}:t>`;
 }
 
 const Formats = ["", "t", "T", "d", "D", "f", "F", "s", "S", "R"] as const;

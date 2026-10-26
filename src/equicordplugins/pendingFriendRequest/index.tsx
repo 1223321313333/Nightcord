@@ -5,9 +5,9 @@
  */
 
 import type { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { RelationshipType } from "@nightcord/discord-types/enums";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { RelationshipType } from "@nightcord/discord-types/enums";
 import { findByPropsLazy } from "@webpack";
 import { Menu, RelationshipStore } from "@webpack/common";
 

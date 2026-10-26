@@ -22,11 +22,11 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { OpenExternalIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
+import { Guild, User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
 import definePlugin from "@utils/types";
-import { Guild, User } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { Clickable, ConfirmModal, IconUtils, Menu, openModal, Parser } from "@webpack/common";
 

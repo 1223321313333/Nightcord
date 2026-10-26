@@ -10,10 +10,10 @@ import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { Channel } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { FluxDispatcher, Menu, React, Tooltip, UserStore } from "@webpack/common";
 

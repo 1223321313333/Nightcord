@@ -5,9 +5,9 @@
  */
 
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { ChannelType } from "@nightcord/discord-types/enums";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { ChannelType } from "@nightcord/discord-types/enums";
 import { findByPropsLazy } from "@webpack";
 import { ApplicationStore, ChannelStore, Menu, RelationshipStore, SelectedChannelStore, UserStore, VoiceStateStore } from "@webpack/common";
 

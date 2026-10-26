@@ -5,9 +5,9 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { MessageJSON } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { MessageJSON } from "@nightcord/discord-types";
 import { MessageStore, UserStore } from "@webpack/common";
 
 export const settings = definePluginSettings({

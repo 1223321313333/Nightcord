@@ -17,12 +17,12 @@
 */
 
 import { BaseText } from "@components/BaseText";
+import * as t from "@nightcord/discord-types";
 import { Auth } from "@plugins/reviewDB/auth";
 import { ReviewType } from "@plugins/reviewDB/entities";
 import { REVIEWS_PER_PAGE, UserReviewsData } from "@plugins/reviewDB/reviewDbApi";
 import { cl } from "@plugins/reviewDB/utils";
 import { useForceUpdater } from "@utils/react";
-import * as t from "@nightcord/discord-types";
 import { DefaultExtractAndLoadChunksRegex, extractAndLoadChunksLazy, findComponentByCodeLazy } from "@webpack";
 import { Modal, openModalLazy, useRef, useState } from "@webpack/common";
 import { ComponentProps } from "react";
