@@ -33,6 +33,12 @@ describe("SecretChat encryption", () => {
         assert.equal(await c.decryptMessage(aliceKey, payload, DM, A), "Привет! Встречаемся в 7 🙂");
     });
 
+    it("rejects a truncated payload before trying to decrypt it", async () => {
+        // shorter than one IV (12) + GCM tag (16): can't be a real message, must be refused cleanly
+        await assert.rejects(c.decryptMessage(aliceKey, c.toBase64(new Uint8Array(10)), DM, A), /too short/);
+        await assert.rejects(c.decryptMessage(aliceKey, c.toBase64(new Uint8Array(0)), DM, A), /too short/);
+    });
+
     it("the same text encrypts differently every time", async () => {
         const [x, y] = await Promise.all([c.encryptMessage(aliceKey, "да", DM, A), c.encryptMessage(aliceKey, "да", DM, A)]);
         assert.notEqual(x, y);
