@@ -25,3 +25,16 @@ export const isNewer = ($new: string, old: string): boolean => {
     }
     return false;
 };
+
+/**
+ * The newest "app-x.y.z" sibling in `names` that is newer than `currentVersion`, or null when none is (so the
+ * running version is already the newest). Non app- names are ignored. Pure; the caller supplies the directory
+ * listing (see applyHostPatch.ts findStaleSibling).
+ */
+export const pickNewestVersion = (names: readonly string[], currentVersion: string): string | null => {
+    let latest = currentVersion;
+    for (const name of names) {
+        if (name.startsWith(VERSION_PREFIX) && isNewer(name, latest)) latest = name;
+    }
+    return latest === currentVersion ? null : latest;
+};

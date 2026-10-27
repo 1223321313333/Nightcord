@@ -13,8 +13,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let isNewer;
-before(async () => ({ isNewer } = await load("src/main/hostPatchVersion.ts")));
+let isNewer, pickNewestVersion;
+before(async () => ({ isNewer, pickNewestVersion } = await load("src/main/hostPatchVersion.ts")));
 
 describe("applyHostPatch isNewer", () => {
     it("compares patch versions numerically", () => {
@@ -35,5 +35,23 @@ describe("applyHostPatch isNewer", () => {
     it("treats a missing trailing part as zero", () => {
         assert.equal(isNewer("app-1.0.9044.1", "app-1.0.9044"), true);
         assert.equal(isNewer("app-1.0.9044", "app-1.0.9044.1"), false);
+    });
+});
+
+describe("applyHostPatch pickNewestVersion", () => {
+    it("returns the newest sibling that is newer than the current version", () => {
+        assert.equal(pickNewestVersion(["app-1.0.9044", "app-1.0.9045"], "app-1.0.9044"), "app-1.0.9045");
+        assert.equal(pickNewestVersion(["app-1.0.9045", "app-1.10.0", "app-1.9.0"], "app-1.0.9044"), "app-1.10.0");
+    });
+
+    it("returns null when the current version is already the newest", () => {
+        assert.equal(pickNewestVersion(["app-1.0.9043", "app-1.0.9044"], "app-1.0.9044"), null);
+        assert.equal(pickNewestVersion(["app-1.0.9044"], "app-1.0.9044"), null);
+        assert.equal(pickNewestVersion([], "app-1.0.9044"), null);
+    });
+
+    it("ignores entries that are not app- versions", () => {
+        assert.equal(pickNewestVersion(["modules", "app-1.0.9045", "Update.exe"], "app-1.0.9044"), "app-1.0.9045");
+        assert.equal(pickNewestVersion(["modules", "Update.exe"], "app-1.0.9044"), null);
     });
 });

@@ -7,7 +7,7 @@
 import { existsSync, lstatSync, mkdirSync, readdirSync, renameSync, rmdirSync, statSync, unlinkSync, writeFileSync } from "original-fs";
 import { basename, dirname, join } from "path";
 
-import { isNewer, VERSION_PREFIX } from "./hostPatchVersion";
+import { pickNewestVersion, VERSION_PREFIX } from "./hostPatchVersion";
 
 const STUB_PACKAGE = JSON.stringify({ name: "discord", main: "index.js" });
 
@@ -81,25 +81,22 @@ export const findStaleSibling = (currentExeDir: string): string | null => {
     const discordPath = dirname(currentExeDir);
     const currentVersion = basename(currentExeDir);
 
-    let latest = currentVersion;
+    let siblings: string[];
     try {
-        for (const name of readdirSync(discordPath)) {
-            if (!name.startsWith(VERSION_PREFIX)) continue;
-            let isDir = false;
+        siblings = readdirSync(discordPath).filter(name => {
+            if (!name.startsWith(VERSION_PREFIX)) return false;
             try {
-                isDir = statSync(join(discordPath, name)).isDirectory();
+                return statSync(join(discordPath, name)).isDirectory();
             } catch (statErr) {
                 console.error("[Nightcord] Skipping unreadable sibling", name, statErr);
-                continue;
+                return false;
             }
-            if (!isDir) continue;
-            if (isNewer(name, latest)) latest = name;
-        }
+        });
     } catch (err) {
         console.error("[Nightcord] Failed to scan for sibling versions", err);
         return null;
     }
 
-    if (latest === currentVersion) return null;
-    return join(discordPath, latest, "resources");
+    const latest = pickNewestVersion(siblings, currentVersion);
+    return latest ? join(discordPath, latest, "resources") : null;
 };
