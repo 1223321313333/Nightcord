@@ -12,8 +12,8 @@ import { before, describe, it } from "node:test";
 
 import { load } from "./helpers.mjs";
 
-let buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride, isDomainAllowedBy;
-before(async () => ({ buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride, isDomainAllowedBy } = await load("src/main/csp/policy.ts")));
+let buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride, isDomainAllowedBy, findHeader;
+before(async () => ({ buildCsp, parsePolicy, stringifyPolicy, CspPolicies, validateCspOverride, isDomainAllowedBy, findHeader } = await load("src/main/csp/policy.ts")));
 
 describe("CSP parse/stringify", () => {
     it("parses directives and their values", () => {
@@ -46,6 +46,19 @@ describe("CSP parse/stringify", () => {
         assert.deepEqual(parsePolicy(""), {});
         assert.equal(stringifyPolicy({}), "");
         assert.equal(stringifyPolicy({ "connect-src": [] }), "");
+    });
+});
+
+describe("findHeader", () => {
+    it("finds a header regardless of its casing and returns the actual key", () => {
+        assert.equal(findHeader({ "Content-Security-Policy": ["x"] }, "content-security-policy"), "Content-Security-Policy");
+        assert.equal(findHeader({ "CONTENT-TYPE": ["y"] }, "content-type"), "CONTENT-TYPE");
+        assert.equal(findHeader({ "content-type": ["y"] }, "content-type"), "content-type");
+    });
+
+    it("returns undefined when no header matches", () => {
+        assert.equal(findHeader({ "x-foo": ["1"] }, "content-security-policy"), undefined);
+        assert.equal(findHeader({}, "content-type"), undefined);
     });
 });
 
