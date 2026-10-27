@@ -45,6 +45,17 @@ describe("Wrapped summary", () => {
         assert.equal(empty.perActiveDay, 0);
         assert.equal(empty.total, 0);
     });
+
+    it("sanitizes a corrupt stored total (clamps negative, floors fractional)", () => {
+        // the raw stats come from DataStore and could be corrupt/tampered; a bad total must not leak out
+        const neg = summarize({ ...emptyRaw(0), total: -5, chars: 100 }, 5, DAY);
+        assert.equal(neg.total, 0, "negative total clamps to 0");
+        assert.equal(neg.avgLength, 0, "no division by a bad total");
+        assert.ok(!Number.isNaN(neg.avgLength) && !Number.isNaN(neg.perActiveDay));
+
+        const frac = summarize({ ...emptyRaw(0), total: 5.9 }, 5, DAY);
+        assert.equal(frac.total, 5, "fractional total is floored");
+    });
 });
 
 describe("Wrapped streaks", () => {
