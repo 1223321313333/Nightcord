@@ -53,6 +53,15 @@ describe("ScamLinkGuard", () => {
         }
     });
 
+    it("does not flag a domain more than one edit away from a brand (no false positive)", () => {
+        // two edits from a brand, so beyond within1's distance of 1, and no brand substring in the host:
+        // dlsc0rd = discord with two non-adjacent substitutions; steancomunity = steamcommunity with a
+        // substitution plus a deletion
+        for (const host of ["dlsc0rd.com", "steancomunity.com"]) {
+            assert.deepEqual(scanForScams(`free nitro https://${host}/claim`), [], host);
+        }
+    });
+
     it("flags a real second-level label on a wrong top-level domain", () => {
         for (const host of ["discord.ru", "discord.xyz", "discord.gq", "discordapp.io", "steamcommunity.net"]) {
             assert.equal(scanForScams(`https://${host}/x`)[0]?.reason, "impersonation", host);
