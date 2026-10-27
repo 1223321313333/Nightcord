@@ -26,6 +26,14 @@ const corpus = [
 const ids = res => res.map(r => r.id);
 
 describe("LocalSearch", () => {
+    it("handles bare from:, multiple from:, casing and nullish input", () => {
+        // "from:" with nothing after it is a normal search term, not an empty author filter
+        assert.deepEqual(parseQuery("from: hi"), { terms: ["from:", "hi"], from: [] });
+        assert.deepEqual(parseQuery("from:a from:b word"), { terms: ["word"], from: ["a", "b"] });
+        assert.deepEqual(parseQuery("From:Nikita PIZZA"), { terms: ["pizza"], from: ["nikita"] });
+        assert.deepEqual(parseQuery(undefined), { terms: [], from: [] });
+    });
+
     it("parses words, phrases and from: filters", () => {
         assert.deepEqual(parseQuery("pizza from:nikita party"), { terms: ["pizza", "party"], from: ["nikita"] });
         assert.deepEqual(parseQuery("   "), { terms: [], from: [] });
