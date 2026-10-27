@@ -55,6 +55,12 @@ describe("describeFetchError", () => {
         assert.match(m.describeFetchError({}), /нет связи с Discord/);
         assert.match(m.describeFetchError({ status: 500 }), /ошибкой 500/);
     });
+
+    it("reads the status nested in err.body when there is no top-level status", () => {
+        assert.match(m.describeFetchError({ body: { status: 403 } }), /нет доступа/);
+        assert.match(m.describeFetchError({ body: { status: 429 } }), /слишком много запросов/);
+        assert.match(m.describeFetchError({ body: { status: 500 } }), /ошибкой 500/);
+    });
 });
 
 describe("escapeHtml", () => {
