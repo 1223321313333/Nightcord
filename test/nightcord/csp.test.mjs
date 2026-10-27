@@ -30,6 +30,23 @@ describe("CSP parse/stringify", () => {
     it("round-trips and drops empty directives", () => {
         assert.equal(stringifyPolicy({ "connect-src": ["a", "b"], "img-src": [] }), "connect-src a b");
     });
+
+    it("parses a value-less directive as an empty list", () => {
+        assert.deepEqual(parsePolicy("upgrade-insecure-requests"), { "upgrade-insecure-requests": [] });
+    });
+
+    it("tolerates stray semicolons and extra whitespace", () => {
+        const p = parsePolicy("  connect-src   a   b ; ; img-src c ;");
+        assert.deepEqual(p["connect-src"], ["a", "b"]);
+        assert.deepEqual(p["img-src"], ["c"]);
+        assert.ok(!("" in p), "empty segments must not create a blank directive");
+    });
+
+    it("parses an empty policy to an empty object, and stringifies it back to an empty string", () => {
+        assert.deepEqual(parsePolicy(""), {});
+        assert.equal(stringifyPolicy({}), "");
+        assert.equal(stringifyPolicy({ "connect-src": [] }), "");
+    });
 });
 
 describe("CSP buildCsp", () => {
