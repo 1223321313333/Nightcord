@@ -78,6 +78,14 @@ describe("CSP buildCsp", () => {
         }
     });
 
+    it("works on a policy with no default-src: directives start empty, still get schemes and hosts", () => {
+        const csp = buildCsp({}, opts(true));
+        assert.ok(!csp["connect-src"].includes("'self'"), "nothing to inherit when there is no default-src");
+        assert.ok(csp["connect-src"].includes("data:"), "schemes are still added");
+        assert.ok(csp["connect-src"].includes("api.github.com"), "curated hosts are still added");
+        assert.ok(csp["style-src"].includes("'unsafe-inline'"));
+    });
+
     it("lets a newly added directive inherit default-src", () => {
         assert.ok(buildCsp(base(), opts(true))["connect-src"].includes("'self'"));
     });
