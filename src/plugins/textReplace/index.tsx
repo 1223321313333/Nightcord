@@ -26,12 +26,12 @@ import { HeadingSecondary } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
 import { TooltipContainer } from "@components/TooltipContainer";
+import { Message } from "@nightcord/discord-types";
 import { Devs, NightcordDevs, SUPPORT_CHANNEL_IDS } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
 import { chooseFile, saveFile } from "@utils/web";
-import { Message } from "@nightcord/discord-types";
 import { React, Select, showToast, TextInput, UserStore, useState } from "@webpack/common";
 
 const cl = classNameFactory("vc-textReplace-");

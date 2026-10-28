@@ -5,9 +5,9 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { ChannelMessages } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { ChannelMessages } from "@nightcord/discord-types";
 
 interface GuardedMessages extends ChannelMessages {
     readonly betterBackreadingTrimGuard?: boolean;

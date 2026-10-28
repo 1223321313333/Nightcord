@@ -156,6 +156,7 @@ function toDirectoryBadge(b: ProfileBadge, userId: string): DirectoryBadge {
         hidden: false,
         tiers: []
     };
+}
 
 export function BadgeContextMenu({ badge }: { badge: Omit<ProfileBadge, "id"> & BadgeUserArgs; }) {
     return (
