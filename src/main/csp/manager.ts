@@ -4,11 +4,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { NativeSettings } from "@main/settings";
+import { NativeSettings, RendererSettings } from "@main/settings";
 import { IpcEvents } from "@shared/IpcEvents";
 import { dialog, ipcMain, IpcMainInvokeEvent } from "electron";
 
-import { CspPolicies, isDomainAllowedBy, validateCspOverride } from ".";
+import { ImageAndCssSrc, isHostAllowed } from ".";
 
 export type CspRequestResult = "invalid" | "cancelled" | "unchecked" | "ok" | "conflict";
 
@@ -18,10 +18,25 @@ export function registerCspIpcHandlers() {
     ipcMain.handle(IpcEvents.CSP_IS_DOMAIN_ALLOWED, isDomainAllowed);
 }
 
-function getMessage(url: string, directives: string[], callerName: string) {
-    const domain = new URL(url).host;
+function validate(url: string, directives: string[]) {
+    try {
+        const { host } = new URL(url);
 
-    const message = `${callerName} wants to allow connections to ${domain}`;
+        if (!/^(\*\.)?[\w-]+(\.[\w-]+)*(:\d+)?$/.test(host)) return false;
+    } catch {
+        return false;
+    }
+
+    if (directives.length === 0) return false;
+    if (directives.some(d => !ImageAndCssSrc.includes(d))) return false;
+
+    return true;
+}
+
+function getMessage(domain: string, directives: string[], isPlugin: boolean, callerName: string) {
+    const message = isPlugin
+        ? `The ${callerName} plugin wants to allow connections to ${domain}`
+        : `An unknown source wants to allow connections to ${domain}`;
 
     let detail =
         `Unless you recognise and fully trust ${domain}, you should cancel this request!\n\n` +
@@ -53,20 +68,23 @@ function getMessage(url: string, directives: string[], callerName: string) {
     return { message, detail };
 }
 
-async function addCspRule(_: IpcMainInvokeEvent, url: string, directives: string[], callerName: string): Promise<CspRequestResult> {
-    if (!validateCspOverride(url, directives)) {
+async function addCspRule(_: IpcMainInvokeEvent, url: string | string[], directives: string[], callerName: string): Promise<CspRequestResult> {
+    const urls = [url].flat();
+    if (!urls.length || urls.some(u => !validate(u, directives))) {
         return "invalid";
     }
 
-    const domain = new URL(url).host;
-
-    if (domain in NativeSettings.store.customCspRules) {
+    const domains = [...new Set(urls.map(u => new URL(u).host))].filter(d => !(d in NativeSettings.store.customCspRules));
+    if (!domains.length) {
         return "conflict";
     }
 
+    const domain = domains.join(", ");
+
+    const isPlugin = !!RendererSettings.store.plugins?.[callerName]?.enabled;
     const { checkboxChecked, response } = await dialog.showMessageBox({
-        ...getMessage(url, directives, callerName),
-        type: callerName ? "info" : "warning",
+        ...getMessage(domain, directives, isPlugin, callerName),
+        type: isPlugin ? "info" : "warning",
         title: "Nightcord Host Permissions",
         buttons: ["Cancel", "Allow"],
         defaultId: 0,
@@ -83,7 +101,7 @@ async function addCspRule(_: IpcMainInvokeEvent, url: string, directives: string
         return "unchecked";
     }
 
-    NativeSettings.store.customCspRules[domain] = directives;
+    for (const d of domains) NativeSettings.store.customCspRules[d] = directives;
     return "ok";
 }
 
@@ -97,5 +115,6 @@ function removeCspRule(_: IpcMainInvokeEvent, domain: string) {
 }
 
 function isDomainAllowed(_: IpcMainInvokeEvent, url: string, directives: string[]) {
-    return isDomainAllowedBy(url, directives, CspPolicies, NativeSettings.store.customCspRules);
+    const domain = URL.parse(url)?.host;
+    return !!domain && isHostAllowed(domain, directives);
 }

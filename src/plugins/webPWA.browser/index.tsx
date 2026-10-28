@@ -125,8 +125,8 @@ export default definePlugin({
             // keybinds
             this.ctrl.abort();
             this.ctrl = new AbortController();
-            window.addEventListener("message", ({ data }) => {
-                if (data?.type === "nightcord:keybinds" && _keybinds) {
+            window.addEventListener("message", ({ data, source }) => {
+                if (source === window && data?.type === "nightcord:keybinds" && _keybinds) {
                     const { meta } = data;
                     if (meta in _keybinds) _keybinds[meta].onTrigger();
                 }
