@@ -10,8 +10,9 @@ import { Channel, Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
+import { showToast } from "@utils/translatedToast";
 import definePlugin, { IconComponent } from "@utils/types";
-import { Alerts, ChannelStore, ContextMenuApi, Menu, Parser, React, showToast, UserStore } from "@webpack/common";
+import { Alerts, ChannelStore, ContextMenuApi, Menu, Parser, React, UserStore } from "@webpack/common";
 
 import {
     decryptMessage, deriveChatKey, encryptMessage, exportPublicKey, findEncrypted, findPublicKey,

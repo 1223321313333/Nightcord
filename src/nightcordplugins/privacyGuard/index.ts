@@ -6,9 +6,9 @@
 
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
+import { showToast } from "@utils/translatedToast";
 import definePlugin from "@utils/types";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
-import { showToast } from "@webpack/common";
 
 const logger = new Logger("PrivacyGuard");
 

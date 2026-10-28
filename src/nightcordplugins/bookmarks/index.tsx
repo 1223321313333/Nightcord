@@ -13,8 +13,9 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
+import { showToast } from "@utils/translatedToast";
 import definePlugin, { IconComponent } from "@utils/types";
-import { ChannelStore, GuildStore, Menu, Modal, NavigationRouter, openModal, React, showToast, TextInput, useEffect, UserStore, useState } from "@webpack/common";
+import { ChannelStore, GuildStore, Menu, Modal, NavigationRouter, openModal, React, TextInput, useEffect, UserStore, useState } from "@webpack/common";
 
 import { describeBookmark } from "./describe";
 

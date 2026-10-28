@@ -18,7 +18,8 @@ import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
 import { decryptBackup, WrongPasswordError } from "@utils/syncCrypto";
-import { Alerts, Checkbox, Constants, GuildChannelStore, GuildStore, Modal, openModal, React, RestAPI, Select, showToast, TextInput, useEffect, UserStore, useState } from "@webpack/common";
+import { showToast } from "@utils/translatedToast";
+import { Alerts, Checkbox, Constants, GuildChannelStore, GuildStore, Modal, openModal, React, RestAPI, Select, TextInput, useEffect, UserStore, useState } from "@webpack/common";
 
 import { AUTO_AT_KEY, AUTO_KEY, AUTO_PW_KEY, backupNow, CHANNEL_KEY, FILE_NAME } from "./backup";
 

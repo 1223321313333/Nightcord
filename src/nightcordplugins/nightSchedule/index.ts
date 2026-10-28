@@ -6,8 +6,8 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
+import { showToast } from "@utils/translatedToast";
 import definePlugin, { OptionType } from "@utils/types";
-import { showToast } from "@webpack/common";
 
 import { isNight } from "./schedule";
 import style from "./style.css?managed";

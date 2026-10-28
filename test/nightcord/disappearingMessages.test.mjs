@@ -22,7 +22,6 @@ const stubs = {
         export const useState = v => [v, () => {}]; export const useEffect = () => {};
         export const Menu = { MenuItem: "MenuItem", MenuRadioItem: "MenuRadioItem", MenuSeparator: "MenuSeparator", MenuGroup: "MenuGroup", Menu: "Menu" };
         export const Toasts = { show: t => globalThis.__toasts.push(t.message), Type: {}, genId: () => 1 };
-        export const showToast = m => globalThis.__toasts.push(m);
         export const Alerts = { show: a => { globalThis.__alert = a; } };
         export const ContextMenuApi = {};
         export const UserStore = { getCurrentUser: () => ({ id: "me" }) };
@@ -32,7 +31,8 @@ const stubs = {
             del: async ({ url }) => { globalThis.__deleted.push(url); if (url.endsWith("/gone")) throw { status: 404 }; },
             get: async ({ query }) => ({ body: query.before ? [] : globalThis.__history })
         };
-        export const GuildRoleStore = {}; export const ChannelStore = {};`
+        export const GuildRoleStore = {}; export const ChannelStore = {};`,
+    "@utils/translatedToast": "export const showToast = m => globalThis.__toasts.push(m);"
 };
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));

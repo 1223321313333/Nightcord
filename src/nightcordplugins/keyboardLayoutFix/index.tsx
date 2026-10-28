@@ -8,8 +8,8 @@ import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { definePluginSettings } from "@api/Settings";
 import { Devs } from "@utils/constants";
 import { insertTextIntoChatInputBox } from "@utils/discord";
+import { showToast } from "@utils/translatedToast";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { showToast } from "@webpack/common";
 
 // Same physical keys on the US and Russian (ЙЦУКЕН) layouts, shifted symbols included
 const EN = "`qwertyuiop[]asdfghjkl;'zxcvbnm,./~QWERTYUIOP{}ASDFGHJKL:\"ZXCVBNM<>?@#$^&|";

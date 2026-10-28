@@ -22,7 +22,8 @@ const equicordList = { 2: [{ tooltip: "Equicord Donor", badge: "e.png" }] };
 
 const stubs = {
     "@utils/types": "export const OptionType = { BOOLEAN: 'BOOLEAN' };",
-    "@utils/Logger": "export class Logger { warn(msg) { globalThis.__donorWarnings.push(msg); } }"
+    "@utils/Logger": "export class Logger { warn(msg) { globalThis.__donorWarnings.push(msg); } }",
+    "@utils/translatedToast": "export const showToast = (...args) => globalThis.__donorToasts.push(args);"
 };
 
 const flush = () => new Promise(r => setTimeout(r, 0));
@@ -30,6 +31,7 @@ const flush = () => new Promise(r => setTimeout(r, 0));
 /** A fresh module, a fake download that answers from `responses` (an Error rejects) and a record of what it applied */
 async function setup(responses = { [VENCORD]: vencordList, [EQUICORD]: equicordList }) {
     globalThis.__donorWarnings = [];
+    globalThis.__donorToasts = [];
     const mod = await load("src/plugins/_api/badges/donorBadges.ts", stubs);
     const requests = [];
     const applied = [];
@@ -118,6 +120,12 @@ describe("donor badges", () => {
         await flush();
         assert.equal(s.requests.length, 2, "turning it off must not download anything");
         assert.deepEqual(s.applied.at(-1), [{}, {}]);
+    });
+
+    it("say why a refetch does nothing while off", async () => {
+        const s = await setup();
+        s.showDonorBadgesOff();
+        assert.deepEqual(globalThis.__donorToasts, [["Donor badges are turned off in BadgeAPI settings", "message"]]);
     });
 
     it("explain the privacy cost, with the exact English text the Russian translation was made from", async () => {

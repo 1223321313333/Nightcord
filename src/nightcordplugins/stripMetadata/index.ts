@@ -8,8 +8,8 @@ import { definePluginSettings, Settings } from "@api/Settings";
 import { CloudUpload } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
+import { showToast } from "@utils/translatedToast";
 import definePlugin, { OptionType } from "@utils/types";
-import { showToast } from "@webpack/common";
 
 import { Removed, stripMetadata } from "./strip";
 

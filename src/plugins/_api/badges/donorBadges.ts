@@ -6,6 +6,7 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Logger } from "@utils/Logger";
+import { showToast } from "@utils/translatedToast";
 import { OptionType } from "@utils/types";
 
 // Nightcord: the donor lists come from Vencord's and Equicord's servers, which then see the user's IP address every
@@ -24,6 +25,9 @@ export const donorBadgeSettings = definePluginSettings({
         onChange: () => void reload?.()
     }
 });
+
+/** Why "Refetch Badges" does nothing while donor badges are off */
+export const showDonorBadgesOff = () => showToast("Donor badges are turned off in BadgeAPI settings", "message");
 
 /**
  * Downloads both donor lists with `load` and hands them to `apply`. While donor badges are off it makes no request

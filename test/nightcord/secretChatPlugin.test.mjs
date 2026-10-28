@@ -18,11 +18,11 @@ const stubs = {
         export const Menu = {}; export const ContextMenuApi = {}; export const Parser = { parse: t => t };
         export const Alerts = { show: () => {} };
         export const Toasts = { show: t => globalThis.__toasts.push(t.message), Type: {}, genId: () => 1 };
-        export const showToast = (message, type) => globalThis.__toasts.push(message);
         export const UserStore = { getCurrentUser: () => ({ id: "me" }) };
         const dm = id => ({ id, isDM: () => true, getRecipientId: () => "friend" });
         export const ChannelStore = { getChannel: id => id === "group" ? { id, isDM: () => false } : dm(id) };`,
-    "@utils/discord": `export const sendMessage = async (c, m) => globalThis.__sent.push(m.content);`
+    "@utils/discord": `export const sendMessage = async (c, m) => globalThis.__sent.push(m.content);`,
+    "@utils/translatedToast": "export const showToast = (message, type) => globalThis.__toasts.push(message);"
 };
 
 let plugin, sc, crypto, friend;

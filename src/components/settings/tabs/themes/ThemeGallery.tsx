@@ -19,7 +19,8 @@ import { Paragraph } from "@components/Paragraph";
 import { PRESETS } from "@nightcordplugins/nightcord/theme";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
-import { Alerts, React, showToast } from "@webpack/common";
+import { showToast } from "@utils/translatedToast";
+import { Alerts, React } from "@webpack/common";
 
 interface CommunityTheme {
     name: string;

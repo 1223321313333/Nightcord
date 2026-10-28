@@ -9,8 +9,9 @@ import * as DataStore from "@api/DataStore";
 import { Channel, Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
+import { showToast } from "@utils/translatedToast";
 import definePlugin from "@utils/types";
-import { Menu, React, showToast, UserStore } from "@webpack/common";
+import { Menu, React, UserStore } from "@webpack/common";
 
 import { translate, TranslationValue } from "../../plugins/translate/utils";
 import { isTranslatable } from "./detect";

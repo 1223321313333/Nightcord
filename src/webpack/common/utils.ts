@@ -16,7 +16,6 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { translateUi } from "@api/UiTranslation";
 import * as t from "@nightcord/discord-types";
 import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "@webpack";
 import type * as TSPattern from "ts-pattern";
@@ -71,21 +70,7 @@ waitFor("parseTopic", m => Parser = m);
 export let Alerts: t.Alerts;
 waitFor(["show", "close"], m => Alerts = m);
 
-const toastVariant: Record<string, t.ToastVariant> = {
-    message: "default", success: "success", failure: "critical", default: "default", critical: "critical"
-};
-
-// Discord's native toast dispatcher (upstream's finder); takes a ToastData object.
-const dispatchToast: t.showToast = findByCodeLazy(".currentToastMap.has(");
-
-/**
- * Show a toast. Accepts both Discord's ToastData object form (used across the codebase) and Nightcord's
- * (message, type) form, localizing the text and mapping legacy type names to Discord's current variants.
- */
-export function showToast(message: string | t.ToastData, type?: string, options?: Partial<t.ToastData>) {
-    if (typeof message !== "string") return dispatchToast(message);
-    dispatchToast({ text: translateUi(message), variant: toastVariant[type ?? ""] ?? "default", ...options });
-}
+export const showToast: t.showToast = findByCodeLazy(".currentToastMap.has(");
 
 export const UserUtils = {
     getUser: findByCodeLazy(".USER(")

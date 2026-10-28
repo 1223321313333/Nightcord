@@ -10,8 +10,9 @@ import * as DataStore from "@api/DataStore";
 import { Channel, Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
+import { showToast } from "@utils/translatedToast";
 import definePlugin, { IconComponent } from "@utils/types";
-import { Alerts, Constants, ContextMenuApi, Menu, React, RestAPI, showToast, SnowflakeUtils, UserStore } from "@webpack/common";
+import { Alerts, Constants, ContextMenuApi, Menu, React, RestAPI, SnowflakeUtils, UserStore } from "@webpack/common";
 
 import { fetchHistory, MAX_HISTORY } from "../_shared/messages";
 

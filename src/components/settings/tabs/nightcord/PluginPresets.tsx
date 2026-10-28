@@ -13,7 +13,8 @@ import { Paragraph } from "@components/Paragraph";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
-import { Button, ConfirmModal, openModal, React, showToast } from "@webpack/common";
+import { showToast } from "@utils/translatedToast";
+import { Button, ConfirmModal, openModal, React } from "@webpack/common";
 
 import { SENDS_DATA, VISIBLE_TO_OTHERS } from "../plugins/curation";
 

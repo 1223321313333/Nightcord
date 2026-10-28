@@ -31,7 +31,7 @@ import { ContextMenuApi, Menu, showToast, UserStore } from "@webpack/common";
 
 import Plugins, { PluginMeta } from "~plugins";
 
-import { donorBadgeSettings, loadDonorBadges } from "./donorBadges";
+import { donorBadgeSettings, loadDonorBadges, showDonorBadgesOff } from "./donorBadges";
 import { EquicordDonorModal, NightcordTranslatorModal, VencordDonorModal } from "./modals";
 
 const ContributorBadge: ProfileBadge = {
@@ -224,7 +224,7 @@ export default definePlugin({
 
     toolboxActions: {
         async "Refetch Badges"() {
-            if (!donorBadgeSettings.store.donorBadges) return showToast("Donor badges are turned off in BadgeAPI settings", "message");
+            if (!donorBadgeSettings.store.donorBadges) return showDonorBadgesOff();
             await loadAllBadges(true);
             showToast({ text: "Successfully refetched badges!", variant: "success" });
         }

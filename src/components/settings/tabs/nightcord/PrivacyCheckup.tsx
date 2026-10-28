@@ -16,8 +16,9 @@ import { DB_NAME as MLE_DB_NAME } from "@equicordplugins/messageLoggerEnhanced/u
 import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
+import { showToast } from "@utils/translatedToast";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
-import { Alerts, Button, Checkbox, React, showToast, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
+import { Alerts, Button, Checkbox, React, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
 
 const logger = new Logger("PrivacyCheckup");
 
