@@ -24,8 +24,6 @@ import { Card } from "@components/Card";
 import { ClockIcon, Microphone } from "@components/Icons";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
-import { RenderModalProps } from "@nightcord/discord-types";
-import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { lastState as silentMessageEnabled } from "@plugins/silentMessageToggle";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
@@ -33,6 +31,8 @@ import { Margins } from "@utils/margins";
 import { useAwaiter } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
 import { chooseFile } from "@utils/web";
+import { RenderModalProps } from "@nightcord/discord-types";
+import { CloudUploadPlatform } from "@nightcord/discord-types/enums";
 import { Button, CloudUploader, Constants, FluxDispatcher, Forms, lodash, Menu, MessageActions, Modal, openModal, PendingReplyStore, PermissionsBits, PermissionStore, RestAPI, SelectedChannelStore, showToast, SnowflakeUtils, useEffect, useState } from "@webpack/common";
 import { ComponentType } from "react";
 

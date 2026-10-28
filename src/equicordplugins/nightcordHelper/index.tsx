@@ -5,7 +5,7 @@
  */
 
 import { Settings } from "@api/Settings";
-import { Devs, GUILD_ID, NightcordDevs, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
+import { Devs, NightcordDevs, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
 import { isAnyPluginDev } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { Alerts, NavigationRouter, UserStore } from "@webpack/common";

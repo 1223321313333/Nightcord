@@ -5,9 +5,9 @@
  */
 
 import { sendBotMessage } from "@api/Commands";
-import { Message } from "@nightcord/discord-types";
 import { insertTextIntoChatInputBox, sendMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
+import { Message } from "@nightcord/discord-types";
 import { MessageStore, showToast, UserStore } from "@webpack/common";
 
 import { settings } from "./settings";
@@ -139,9 +139,9 @@ export function parseMessageContent(message: Message): ContentPayload | null {
 
     message.embeds.forEach(embed => {
         const potentialUrls = [
-            embed.image?.url,
-            embed.thumbnail?.url,
-            ...(embed.images?.map(img => img.url) ?? [])
+            embed.image?.proxyURL ?? embed.image?.url,
+            embed.thumbnail?.proxyURL ?? embed.thumbnail?.url,
+            ...(embed.images?.map(img => img.proxyURL ?? img.url) ?? [])
         ];
 
         potentialUrls.forEach(url => {

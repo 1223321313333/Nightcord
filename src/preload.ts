@@ -22,10 +22,9 @@ import { contextBridge, webFrame } from "electron/renderer";
 
 import NightcordNative, { invoke, sendSync } from "./NightcordNative";
 
-contextBridge.exposeInMainWorld("NightcordNative", NightcordNative);
-
 // Discord
 if (location.protocol !== "data:") {
+    contextBridge.exposeInMainWorld("NightcordNative", NightcordNative);
     invoke(IpcEvents.INIT_FILE_WATCHERS);
 
     if (IS_DISCORD_DESKTOP) {

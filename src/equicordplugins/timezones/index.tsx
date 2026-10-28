@@ -11,13 +11,13 @@ import * as DataStore from "@api/DataStore";
 import { showNotification } from "@api/Notifications";
 import { definePluginSettings, migratePluginSetting } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Message, User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
+import { Message, User } from "@nightcord/discord-types";
 import { findByPropsLazy, findCssClassesLazy } from "@webpack";
 import { Button, ChannelStore, Menu, openModal, showToast, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
 
-import { deleteTimezone, getTimezone, loadDatabaseTimezones, setUserDatabaseTimezone } from "./database";
+import { DatabaseUrlNotice, deleteTimezone, getTimezone, loadDatabaseTimezones, setUserDatabaseTimezone } from "./database";
 import { SetTimezoneModal } from "./TimezoneModal";
 
 export let timezones: Record<string, string | null> = {};
@@ -102,6 +102,11 @@ export const settings = definePluginSettings({
         type: OptionType.STRING,
         description: "Database URL for timezone storage",
         default: "https://timezone.creations.works"
+    },
+
+    databaseUrlPermission: {
+        type: OptionType.COMPONENT,
+        component: () => <DatabaseUrlNotice />
     },
 
     setDatabaseTimezone: {

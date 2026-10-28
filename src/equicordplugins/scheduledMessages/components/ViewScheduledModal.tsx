@@ -6,8 +6,8 @@
 
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { ChannelStore, closeModal, Modal, openModal, showToast, useState } from "@webpack/common";
 
 import { clearAllScheduledMessages, getChannelDisplayInfo, getScheduledMessages, removeScheduledMessage } from "../utils";
