@@ -4,6 +4,7 @@
  *  - package.json: take Equicord's version, keep Nightcord's name, description, links and author, and the
  *    dependencies Nightcord added that Equicord does not have
  *  - pnpm-lock.yaml: take ours; the workflow regenerates it with `pnpm install` afterwards
+ *  - README.md: take ours; Nightcord's replaces Equicord's
  * Anything else is left for a human. Exits with code 1 and prints the files in that case.
  *
  * Usage (inside a repo with a merge in progress): node scripts/nightcord/resolve-sync.cjs
@@ -75,6 +76,10 @@ if (require.main === module) {
             git("checkout", "--ours", "--", file);
             git("add", "--", file);
             console.log("pnpm-lock.yaml: kept ours, regenerate with pnpm install");
+        } else if (file === "README.md") {
+            git("checkout", "--ours", "--", file);
+            git("add", "--", file);
+            console.log("README.md: kept ours");
         } else {
             left.push(`${code} ${file}`);
         }

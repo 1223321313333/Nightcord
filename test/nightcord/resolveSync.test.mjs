@@ -9,9 +9,14 @@
 // automatic sync failed to build. These tests lock which side wins for each kind of entry.
 
 import assert from "node:assert/strict";
+import { execFileSync, spawnSync } from "node:child_process";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { describe, it } from "node:test";
 
 import resolveSync from "../../scripts/nightcord/resolve-sync.cjs";
+import { ROOT } from "./helpers.mjs";
 
 const { mergePackageJson } = resolveSync;
 
@@ -103,5 +108,85 @@ describe("resolve-sync mergePackageJson", () => {
         assert.equal(merged.dependencies["qrcode-generator"], "^2.0.4");
         assert.deepEqual(merged.devDependencies, theirs.devDependencies);
         assert.deepEqual(Object.keys(merged.devDependencies), Object.keys(theirs.devDependencies));
+    });
+});
+
+// The script itself, run on a real merge: it reads the conflict stages from git and stages its resolutions.
+describe("resolve-sync on a merge in progress", () => {
+    const json = value => JSON.stringify(value, null, 4) + "\n";
+
+    /** A repository in the middle of merging `theirs` into `ours`, both made from `base` (null deletes a file) */
+    function conflictedMerge(t, base, ours, theirs) {
+        const dir = mkdtempSync(join(tmpdir(), "nightcord-sync-"));
+        t.after(() => rmSync(dir, { recursive: true, force: true }));
+        const git = (...args) => execFileSync("git", args, { cwd: dir, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
+        const commit = (files, message) => {
+            for (const [file, content] of Object.entries(files)) {
+                if (content === null) rmSync(join(dir, file));
+                else writeFileSync(join(dir, file), content);
+            }
+            git("add", "-A");
+            git("commit", "-q", "-m", message);
+        };
+
+        git("init", "-q", "-b", "ours");
+        for (const [key, value] of [["user.name", "test"], ["user.email", "test@example.invalid"], ["core.autocrlf", "false"]]) git("config", key, value);
+        commit(base, "base");
+        git("checkout", "-q", "-b", "theirs");
+        commit(theirs, "theirs");
+        git("checkout", "-q", "ours");
+        commit(ours, "ours");
+        spawnSync("git", ["merge", "--no-edit", "theirs"], { cwd: dir });
+
+        return {
+            run: () => spawnSync(process.execPath, [join(ROOT, "scripts/nightcord/resolve-sync.cjs")], { cwd: dir, encoding: "utf8" }),
+            unmerged: () => git("diff", "--name-only", "--diff-filter=U").split("\n").filter(Boolean),
+            read: file => readFileSync(join(dir, file), "utf8"),
+            exists: file => existsSync(join(dir, file))
+        };
+    }
+
+    const base = {
+        "README.md": "# Equicord\n",
+        "package.json": json({ name: "equicord", version: "1.0.0", dependencies: { a: "1.0.0" } }),
+        "pnpm-lock.yaml": "lock: base\n",
+        "ISSUE_TEMPLATE.md": "template\n"
+    };
+    const ours = {
+        "README.md": "# Nightcord\n",
+        "package.json": json({ name: "nightcord", version: "1.0.0", dependencies: { a: "1.0.0", q: "2.0.0" } }),
+        "pnpm-lock.yaml": "lock: ours\n",
+        "ISSUE_TEMPLATE.md": null
+    };
+    const theirs = {
+        "README.md": "# Equicord 2\n",
+        "package.json": json({ name: "equicord", version: "1.1.0", dependencies: { a: "1.1.0" } }),
+        "pnpm-lock.yaml": "lock: theirs\n",
+        "ISSUE_TEMPLATE.md": "template 2\n"
+    };
+
+    it("resolves the conflicts every sync has", t => {
+        const merge = conflictedMerge(t, base, ours, theirs);
+        assert.deepEqual(merge.unmerged().sort(), ["ISSUE_TEMPLATE.md", "README.md", "package.json", "pnpm-lock.yaml"], "the fixture must conflict");
+
+        const result = merge.run();
+        assert.equal(result.status, 0, result.stdout + result.stderr);
+        assert.match(result.stdout, /All conflicts resolved/);
+        assert.deepEqual(merge.unmerged(), []);
+
+        assert.equal(merge.read("README.md"), "# Nightcord\n");
+        assert.equal(merge.read("pnpm-lock.yaml"), "lock: ours\n");
+        assert.equal(merge.exists("ISSUE_TEMPLATE.md"), false, "a file Nightcord deleted stays deleted");
+        assert.equal(merge.read("package.json"), json({ name: "nightcord", version: "1.1.0", dependencies: { a: "1.1.0", q: "2.0.0" } }));
+    });
+
+    it("leaves other conflicts to a human and says which", t => {
+        const merge = conflictedMerge(t, { ...base, "code.ts": "x = 1\n" }, { ...ours, "code.ts": "x = 2\n" }, { ...theirs, "code.ts": "x = 3\n" });
+
+        const result = merge.run();
+        assert.equal(result.status, 1);
+        assert.match(result.stdout, /Needs a human:\n {2}UU code\.ts/);
+        assert.deepEqual(merge.unmerged(), ["code.ts"], "the known conflicts are still resolved");
+        assert.equal(merge.read("README.md"), "# Nightcord\n");
     });
 });
