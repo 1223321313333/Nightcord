@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { mergeDefaults } from "@utils/mergeDefaults";
 import { CommandArgument, Message } from "@nightcord/discord-types";
+import { mergeDefaults } from "@utils/mergeDefaults";
 import { findByCodeLazy } from "@webpack";
 import { MessageActions, SnowflakeUtils } from "@webpack/common";
 import type { PartialDeep } from "type-fest";

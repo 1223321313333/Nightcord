@@ -9,10 +9,10 @@ import "./styles.css";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { PinIcon } from "@components/Icons";
+import { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType, StartAt } from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, findCssClassesLazy, findStoreLazy } from "@webpack";
 import { ChannelStore, Clickable, ContextMenuApi, FluxDispatcher, Menu, PrivateChannelSortStore, React, RelationshipStore, SelectedChannelStore, useStateFromStores } from "@webpack/common";
 

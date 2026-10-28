@@ -9,9 +9,9 @@ import { Button } from "@components/Button";
 import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
 import { Notice } from "@components/Notice";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { useCspPermission } from "@utils/csp";
 import { classNameFactory } from "@utils/css";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { IconUtils, Modal, React, showToast,TextInput, UserStore, useState } from "@webpack/common";
 
 import { data, KEY_DATASTORE } from ".";

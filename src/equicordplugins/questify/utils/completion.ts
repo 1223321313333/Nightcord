@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import type { PluginNative } from "@utils/types";
 import type { Quest, User } from "@nightcord/discord-types";
 import { QuestTargetedContent, QuestTaskJoinOperator, QuestTaskType } from "@nightcord/discord-types/enums";
+import type { PluginNative } from "@utils/types";
 import { findByCodeLazy, findLazy } from "@webpack";
 import { FluxDispatcher, QuestStore, RestAPI, showToast, SnowflakeUtils, UserStore } from "@webpack/common";
 

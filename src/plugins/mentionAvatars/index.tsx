@@ -9,10 +9,10 @@ import "./styles.css";
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { User } from "@nightcord/discord-types";
 import showMeYourName from "@plugins/showMeYourName";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@nightcord/discord-types";
 import { GuildRoleStore, SelectedGuildStore, useState } from "@webpack/common";
 import { JSX } from "react";
 

@@ -7,11 +7,11 @@
 import "./styles.css";
 
 import { migratePluginToSettings } from "@api/Settings";
+import { Channel, Message, User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel, getIntlMessage } from "@utils/discord";
 import definePlugin from "@utils/types";
-import { Channel, Message, User } from "@nightcord/discord-types";
 import { ChannelStore, GuildStore, PermissionsBits, SelectedChannelStore, UserStore } from "@webpack/common";
 
 import { computePermissions, Tag, tags } from "./consts";
