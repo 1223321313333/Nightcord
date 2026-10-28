@@ -43,11 +43,8 @@ import { NotificationData, showNotification } from "./api/Notifications";
 import { initPluginManager, PMLogger, startAllPlugins } from "./api/PluginManager";
 import { PlainSettings, Settings, SettingsStore } from "./api/Settings";
 import { areLocalSettingsDirty, getCloudSettings, getCloudSyncDirection, markLocalSettingsDirty, putCloudSettings, shouldCloudSync } from "./api/SettingsSync/cloudSync";
-import { showStartupModals } from "./components/settings/tabs/nightcord/Welcome";
-import { scheduleAutoBackup } from "./utils/autoBackup";
-import { t } from "./utils/i18n";
 import { relaunch } from "./utils/native";
-import { leaveSafeMode, STARTUP } from "./utils/safeMode";
+import { runNightcordStartup } from "./utils/nightcordStartup";
 import { checkForUpdates, update, UpdateLogger } from "./utils/updater";
 import { onceReady } from "./webpack";
 import { patches } from "./webpack/patchWebpack";
@@ -176,22 +173,7 @@ async function init() {
     startAllPlugins(StartAt.WebpackReady);
 
     syncSettings();
-
-    // Nightcord: welcome window after installing, "what's new" after an update
-    void showStartupModals();
-
-    // Nightcord: weekly encrypted settings backup to the user's own Discord, if they turned it on
-    void scheduleAutoBackup();
-
-    // Nightcord safe mode: tell the user why their plugins are off and how to get them back
-    if (STARTUP.safeMode) {
-        setTimeout(() => showNotice(
-            // t() and not the UI translator: RussianNightcord is a plugin, so it is off too
-            t("Discord did not start properly several times in a row, so Nightcord started without plugins. If a plugin was the cause, turn it off in Nightcord settings before turning plugins back on."),
-            t("Turn plugins back on"),
-            () => leaveSafeMode()
-        ), 3000);
-    }
+    runNightcordStartup();
 
     if (!IS_DEV && !IS_WEB && !IS_UPDATER_DISABLED) {
         runUpdateCheck();
