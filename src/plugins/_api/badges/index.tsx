@@ -19,7 +19,6 @@
 import "./fixDiscordBadgePadding.css";
 
 import { _getBadges, BadgePosition, BadgeRarity, BadgeUserArgs, DirectoryBadge, ProfileBadge } from "@api/Badges";
-import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { CopyIcon, LinkIcon } from "@components/Icons";
 import { openContributorModal } from "@components/settings/tabs";
@@ -27,11 +26,12 @@ import { Devs } from "@utils/constants";
 import { copyWithToast } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { shouldShowContributorBadge, shouldShowNightcordContributorBadge } from "@utils/misc";
-import definePlugin, { OptionType } from "@utils/types";
+import definePlugin from "@utils/types";
 import { ContextMenuApi, Menu, showToast, UserStore } from "@webpack/common";
 
 import Plugins, { PluginMeta } from "~plugins";
 
+import { donorBadgeSettings, loadDonorBadges } from "./donorBadges";
 import { EquicordDonorModal, NightcordTranslatorModal, VencordDonorModal } from "./modals";
 
 const ContributorBadge: ProfileBadge = {
@@ -101,43 +101,13 @@ async function loadBadges(url: string, noCache = false) {
 }
 
 async function loadAllBadges(noCache = false) {
-    // Load both lists independently: where one host is blocked or down, the other should still work,
-    // and a failed fetch should not end up as an uncaught error in the console.
-    const [vencordBadges, equicordBadges] = await Promise.allSettled([
-        loadBadges("https://badges.vencord.dev/badges.json", noCache),
-        loadBadges("https://badge.equicord.org/badges.json", noCache)
-    ]);
-
-    if (vencordBadges.status === "fulfilled") DonorBadges = vencordBadges.value;
-    if (equicordBadges.status === "fulfilled") NightcordDonorBadges = equicordBadges.value;
-
-    const failed = [vencordBadges.status === "rejected" && "Vencord", equicordBadges.status === "rejected" && "Equicord"].filter(Boolean);
-    if (failed.length) new Logger("BadgeAPI").warn(`Could not load ${failed.join(" and ")} donor badges (network or host unavailable)`);
+    await loadDonorBadges(loadBadges, (vencordBadges, equicordBadges) => {
+        if (vencordBadges) DonorBadges = vencordBadges;
+        if (equicordBadges) NightcordDonorBadges = equicordBadges;
+    }, noCache);
 }
 
 let intervalId: any;
-
-// Nightcord: the donor lists come from Vencord's and Equicord's servers, which then see the user's IP address
-// every 30 minutes. Off unless the user asks for them.
-const settings = definePluginSettings({
-    donorBadges: {
-        type: OptionType.BOOLEAN,
-        description: "Show Vencord and Equicord donor badges. The lists are downloaded from badges.vencord.dev and badge.equicord.org every 30 minutes, so those servers see your IP address",
-        default: false,
-        onChange: () => void startDonorBadges()
-    }
-});
-
-async function startDonorBadges() {
-    clearInterval(intervalId);
-    if (!settings.store.donorBadges) {
-        DonorBadges = {};
-        NightcordDonorBadges = {};
-        return;
-    }
-    await loadAllBadges();
-    intervalId = setInterval(loadAllBadges, 1000 * 60 * 30); // 30 minutes
-}
 
 function toDirectoryBadge(b: ProfileBadge, userId: string): DirectoryBadge {
     const id = `vc-${userId}-${b.id}`;
@@ -190,7 +160,7 @@ export default definePlugin({
     description: "API to add badges to users",
     authors: [Devs.Megu, Devs.Ven, Devs.TheSun, Devs.kaxtusik],
     required: true,
-    settings,
+    settings: donorBadgeSettings,
     patches: [
         {
             find: "#{intl::PROFILE_USER_BADGES}",
@@ -254,10 +224,7 @@ export default definePlugin({
 
     toolboxActions: {
         async "Refetch Badges"() {
-            if (!settings.store.donorBadges) {
-                showToast("Donor badges are turned off in BadgeAPI settings", "message");
-                return;
-            }
+            if (!donorBadgeSettings.store.donorBadges) return showToast("Donor badges are turned off in BadgeAPI settings", "message");
             await loadAllBadges(true);
             showToast({ text: "Successfully refetched badges!", variant: "success" });
         }
@@ -266,7 +233,9 @@ export default definePlugin({
     userProfileBadges: [ContributorBadge, NightcordContributorBadge, UserPluginContributorBadge],
 
     async start() {
-        await startDonorBadges();
+        await loadAllBadges();
+        clearInterval(intervalId);
+        intervalId = setInterval(loadAllBadges, 1000 * 60 * 30); // 30 minutes
     },
 
     async stop() {
