@@ -293,11 +293,19 @@ jobs:
 
             - name: Close issues about Equicord versions main already has
               run: |
-                  gh issue list --state open --author app/github-actions --limit 100 --json number,title \
-                      --jq '.[] | select(.title | test("^Equicord [0-9a-f]{9}[: ]")) | "\(.number) \(.title[9:18])"' |
+                  # the REST list, since `gh issue list --author` does not match the Actions bot
+                  open=$(gh api "repos/$GH_REPO/issues?state=open&per_page=100" --jq '.[]
+                      | select(.user.login == "github-actions[bot]" and .pull_request == null)
+                      | select(.title | test("^Equicord [0-9a-f]{9}[: ]"))
+                      | "\(.number) \(.title[9:18])"')
+                  echo "Open sync issues (number, Equicord commit): ${open:-none}"
+
                   while read -r number sha; do
+                      [ -n "$number" ] || continue
                       if git merge-base --is-ancestor "$sha" origin/main 2>/dev/null; then
                           gh issue close "$number" --comment "Nightcord's main now has Equicord $sha, so this is done."
                           echo "Closed #$number: main has Equicord $sha" >> "$GITHUB_STEP_SUMMARY"
+                      else
+                          echo "Keeping #$number: main does not have Equicord $sha yet"
                       fi
-                  done
+                  done <<< "$open"
