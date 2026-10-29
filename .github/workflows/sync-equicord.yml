@@ -2,7 +2,7 @@ name: Sync with Equicord
 # Pulls new Equicord commits (their dev branch, where fixes for Discord updates land first) into Nightcord once a week.
 #
 # Two jobs, so Equicord's code never runs with write access to this repository:
-#  - prepare (read-only, no credentials): rebrand the new Equicord version with scripts/nightcord/rebrand.cjs,
+#  - prepare (read-only, no credentials): rebrand the new Equicord version with scripts/nightcord/prepare-upstream.cjs,
 #    merge it into a sync branch made from main (known conflicts are resolved by scripts/nightcord/resolve-sync.cjs),
 #    then install, build, type-check and lint. The result is handed over as a git bundle.
 #  - publish (write access, runs only git and gh): checks the bundle really is main + that Equicord version,
@@ -82,27 +82,9 @@ jobs:
 
             - name: Rebrand the new Equicord version
               if: steps.check.outputs.changed == 'true'
-              run: |
-                  git worktree add --detach /tmp/upstream equicord/dev
-                  node scripts/nightcord/rebrand.cjs /tmp/upstream
-                  # Same import order as Nightcord after the rename, otherwise every import change conflicts
-                  ln -s "$GITHUB_WORKSPACE/node_modules" /tmp/upstream/node_modules
-                  (cd /tmp/upstream && ./node_modules/.bin/eslint --fix src scripts) || true
-                  rm /tmp/upstream/node_modules
-
-                  # The workflow token may not push changes to workflow files, and Nightcord has its own CI anyway:
-                  # keep Equicord's workflows as they were at the last sync
-                  if git cat-file -e origin/upstream-nightcord:.github/workflows 2>/dev/null; then
-                      rm -rf /tmp/upstream/.github/workflows
-                      git -C /tmp/upstream checkout origin/upstream-nightcord -- .github/workflows
-                  fi
-
-                  git -C /tmp/upstream add -A
-                  tree=$(git -C /tmp/upstream write-tree)
-                  commit=$(git commit-tree "$tree" -p origin/upstream-nightcord -p equicord/dev \
-                      -m "Equicord ${{ steps.check.outputs.short }} rebranded to Nightcord" \
-                      -m "Upstream: ${{ steps.check.outputs.new }}")
-                  git branch -f nc-upstream "$commit"
+              # rebrand.cjs, imports sorted again, Equicord's workflows kept as at the last sync; a sync by hand runs
+              # the same script, so both build the same commit
+              run: node scripts/nightcord/prepare-upstream.cjs equicord/dev origin/upstream-nightcord nc-upstream
 
             - name: Merge into a sync branch
               id: merge
