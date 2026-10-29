@@ -40,7 +40,8 @@ const exists = (rev, file) => {
 const commit = git(["rev-parse", "--verify", `${target}^{commit}`]);
 const baseCommit = git(["rev-parse", "--verify", `${base}^{commit}`]);
 
-const exclude = path.join(git(["rev-parse", "--git-common-dir"]), "info", "exclude");
+// --git-common-dir is relative (".git") in the main checkout
+const exclude = path.join(path.resolve(ROOT, git(["rev-parse", "--git-common-dir"])), "info", "exclude");
 const excludeLine = "/.upstream-work/";
 const excluded = fs.existsSync(exclude) ? fs.readFileSync(exclude, "utf8") : "";
 if (!excluded.split(/\r?\n/).includes(excludeLine)) {
