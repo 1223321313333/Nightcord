@@ -20,7 +20,8 @@ const { execFileSync } = require("child_process");
 const fs = require("fs");
 const path = require("path");
 
-const ROOT = path.join(__dirname, "..", "..");
+// NIGHTCORD_PREPARE_ROOT: another repository to work in (tests use a scratch one)
+const ROOT = process.env.NIGHTCORD_PREPARE_ROOT ?? path.join(__dirname, "..", "..");
 // Inside the checkout, so that Node finds its node_modules (eslint and the plugins Equicord's config imports)
 const WORK = path.join(ROOT, ".upstream-work");
 
