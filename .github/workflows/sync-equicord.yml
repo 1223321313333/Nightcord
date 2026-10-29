@@ -274,3 +274,30 @@ jobs:
 
                   gh issue create --title "$title" --body "$body"
                   echo "$title" >> "$GITHUB_STEP_SUMMARY"
+
+    tidy:
+        # Close the issues earlier syncs opened once main has their Equicord version, whether a later sync or a merge
+        # by hand brought it. Only issues this workflow opened, and only their number and commit are used.
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            issues: write
+        env:
+            GH_TOKEN: ${{ github.token }}
+            GH_REPO: ${{ github.repository }}
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  fetch-depth: 0
+                  persist-credentials: false
+
+            - name: Close issues about Equicord versions main already has
+              run: |
+                  gh issue list --state open --author app/github-actions --limit 100 --json number,title \
+                      --jq '.[] | select(.title | test("^Equicord [0-9a-f]{9}[: ]")) | "\(.number) \(.title[9:18])"' |
+                  while read -r number sha; do
+                      if git merge-base --is-ancestor "$sha" origin/main 2>/dev/null; then
+                          gh issue close "$number" --comment "Nightcord's main now has Equicord $sha, so this is done."
+                          echo "Closed #$number: main has Equicord $sha" >> "$GITHUB_STEP_SUMMARY"
+                      fi
+                  done
