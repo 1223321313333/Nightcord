@@ -60,6 +60,8 @@ const PROTECT = [
     /\b(?:VencordInstallerCli|EquilotlCli)[\w.-]*/g,                  // installer binaries
     /\b(?:VENCORD|EQUICORD)_(?:USER_DATA_DIR|DEV_INSTALL|DIRECTORY)\b/g, // installer env contract
     /\b(?:vencord|equicord):\/\//g,                                   // protocol schemes
+    /\blabel: "(?:Vencord",\s*value: "vencord|Equicord",\s*value: "equicord)"/g, // options naming the clients
+    /\b(?:vencord: "Vencord"|equicord: "Equicord")/g,                 // client names keyed by their id
     /(["'`])(?:--)?(?:vencord|equicord):?\1/g,                        // exact lowercase ids, CLI flags, CSP schemes
     /^(\s*)(?:vencord|equicord)(?=:\s)/gm,                            // object keys like `vencord: devs`
     /\bSearchStatus\.(?:VENCORD|EQUICORD)\b/g,
@@ -70,6 +72,9 @@ const PROTECT = [
     /(?:Vencord|Equicord) (?:[Dd]onors?|[Cc]ontributors?|users|Server|Support|Translator|Cloud)\b/g,
     /\((?:Not|not) (?:Vencord|Equicord)\)/g,
     /\b(?:Vencord|Equicord)['’]s\b/g,
+    /\b(?:fork of|merged into|externally updated|officially supported version of) (?:Vencord|Equicord)\b/g,
+    /\bdevelopment of (?:Vencord|Equicord) by becoming a donor\b/g,
+    /\b(?:Vencord|Equicord) plugin that is modified for extra features in (?:Vencord|Equicord)\b/g,
     /src\/equicordplugins/g,
 ];
 
