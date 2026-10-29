@@ -60,8 +60,11 @@ try {
     // Same import order as Nightcord after the rename, otherwise every renamed import conflicts
     try {
         execFileSync(process.execPath, [path.join(ROOT, "node_modules", "eslint", "bin", "eslint.js"), "--fix", "src", "scripts"], { cwd: WORK, stdio: "inherit" });
-    } catch {
-        // what --fix cannot fix is Equicord's code under Nightcord's lint setup, and does not matter here
+    } catch (e) {
+        // 1: what --fix cannot fix, Equicord's code under Nightcord's lint setup, which does not matter here.
+        // 2: eslint did not run at all (say Equicord's config needs a plugin this checkout lacks), so nothing was sorted.
+        if (/** @type {{ status?: number }} */ (e).status !== 1)
+            console.log("::warning::eslint --fix did not run on the rebranded upstream, so its imports are not sorted; expect import-order conflicts");
     }
 
     // The workflow token may not push changes to workflow files, and Nightcord has its own CI anyway:
