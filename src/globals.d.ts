@@ -46,6 +46,7 @@ declare global {
     export var IS_EQUIBOP: boolean;
     export var VERSION: string;
     export var BUILD_TIMESTAMP: number;
+    export var DESKTOP_MONACO_EDITOR_URL: string;
 
     export var NightcordNative: typeof import("./NightcordNative").default;
     export var Nightcord: typeof import("./Nightcord");

@@ -39,6 +39,8 @@ const setCssDebounced = debounce((css: string) => NightcordNative.quickCss.set(c
 
 const themeStore = DataStore.createStore("NightcordThemes", "NightcordThemeData");
 
+let win: Window;
+
 // probably should make this less cursed at some point
 window.NightcordNative = {
     themes: {
@@ -98,7 +100,10 @@ window.NightcordNative = {
             }
 
             const features = `popup,width=${Math.min(window.innerWidth, 1000)},height=${Math.min(window.innerHeight, 1000)}`;
-            const win = open("about:blank", "NightcordQuickCss", features);
+
+            win?.close();
+
+            win = open("about:blank", "NightcordQuickCss", features)!;
             if (!win) {
                 alert("Failed to open QuickCSS popup. Make sure to allow popups!");
                 return;

@@ -5,11 +5,12 @@
  */
 
 import { isPluginEnabled, plugins } from "@api/PluginManager";
+import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Message } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { isNightcordGuild, isNightcordSupport } from "@utils/misc";
-import { Button, showToast } from "@webpack/common";
+import { showToast } from "@webpack/common";
 import { JSX } from "react";
 
 import { toggleEnabled } from "./utils";
@@ -44,9 +45,9 @@ export const PluginButtons = ErrorBoundary.wrap(function PluginCards({ message }
         pluginButtons.push(
             <Button
                 key="vc-plugin-toggle"
-                color={disabled ? Button.Colors.PRIMARY : (isEnabled ? Button.Colors.RED : Button.Colors.GREEN)}
+                variant={disabled ? "secondary" : (isEnabled ? "dangerPrimary" : "positive")}
                 disabled={disabled}
-                size={Button.Sizes.SMALL}
+                size="small"
                 onClick={async () => {
                     try {
                         const success = await toggleEnabled(matchedPlugin);

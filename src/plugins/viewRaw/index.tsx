@@ -22,12 +22,13 @@ import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/Co
 import { definePluginSettings, migratePluginSettings } from "@api/Settings";
 import { CodeBlock } from "@components/CodeBlock";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { HeadingSecondary } from "@components/Heading";
+import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
 import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { copyWithToast, getCurrentGuild, getIntlMessage } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
+import { classes } from "@utils/misc";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
 import { GuildRoleStore, Menu, Modal, openModal, UserProfileStore } from "@webpack/common";
 import { MouseEventHandler } from "react";
@@ -121,9 +122,9 @@ function openViewRawModal(data: object, type: string, msgContent?: string) {
             >
                 {!!msgContent && (
                     <>
-                        <HeadingSecondary>Message Content</HeadingSecondary>
+                        <Heading className={Margins.bottom8}>Message Content</Heading>
                         <CodeBlock className="vc-viewRaw-codeBlock" content={msgContent} lang="" />
-                        <HeadingSecondary className={Margins.top16}>Message Data</HeadingSecondary>
+                        <Heading className={classes(Margins.top16, Margins.bottom8)}>Message Data</Heading>
                     </>
                 )}
                 <CodeBlock className="vc-viewRaw-codeBlock" content={json} lang="json" />

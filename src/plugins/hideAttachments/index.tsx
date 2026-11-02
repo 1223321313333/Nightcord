@@ -22,7 +22,7 @@ import { get, set } from "@api/DataStore";
 import { updateMessage } from "@api/MessageUpdater";
 import { migratePluginSettings } from "@api/Settings";
 import { ImageInvisible, ImageVisible } from "@components/Icons";
-import { Message } from "@nightcord/discord-types";
+import { BasicMessage } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin from "@utils/types";
@@ -41,7 +41,7 @@ const saveHiddenMessages = (ids: Set<string>) => set(KEY, [...ids]);
 
 migratePluginSettings("HideMedia", "HideAttachments");
 
-const hasMedia = (msg: Message) => msg.attachments.length > 0 || msg.embeds.length > 0 || msg.stickerItems.length > 0 || msg.components.length > 0;
+const hasMedia = (msg: BasicMessage) => msg.attachments.length > 0 || msg.embeds.length > 0 || msg.stickerItems.length > 0 || msg.components.length > 0;
 
 async function toggleHide(channelId: string, messageId: string) {
     const ids = await getHiddenMessages();

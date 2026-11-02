@@ -57,7 +57,7 @@ export function VencordDonorModal() {
                             This Badge is a special perk for Vencord Donors
                         </Paragraph>
                         <Paragraph className={Margins.top20}>
-                            Please consider supporting the development of Nightcord by becoming a donor. It would mean a lot!!
+                            Please consider supporting the development of Vencord by becoming a donor. It would mean a lot!!
                         </Paragraph>
                     </div>
                 </div>
@@ -115,7 +115,7 @@ export function EquicordDonorModal() {
                             This Badge is a special perk for Nightcord (Not Vencord) Donors
                         </Paragraph>
                         <Paragraph className={Margins.top20}>
-                            Please consider supporting the development of Nightcord by becoming a donor. It would mean a lot! :3
+                            Please consider supporting the development of Equicord by becoming a donor. It would mean a lot! :3
                         </Paragraph>
                     </div>
                 </div>

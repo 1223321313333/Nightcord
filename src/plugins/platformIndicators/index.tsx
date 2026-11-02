@@ -181,7 +181,7 @@ const settings = definePluginSettings({
         restartNeeded: true,
         options: [
             {
-                label: "Nightcord",
+                label: "Equicord",
                 value: "equicord",
                 default: true
             },
@@ -190,7 +190,7 @@ const settings = definePluginSettings({
                 value: "suncord",
             },
             {
-                label: "Nightcord",
+                label: "Vencord",
                 value: "vencord",
             },
         ],
