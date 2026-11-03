@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Nightcord QuickCSS Editor</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: system-ui, sans-serif;
+        }
+
+        #notice {
+            padding: 8px 12px;
+            font-size: 13px;
+            background: #3b2f10;
+            color: #f5d58a;
+        }
+
+        #plain {
+            flex: 1;
+            border: none;
+            outline: none;
+            resize: none;
+            padding: 12px;
+            font: 14px/1.5 Consolas, "Cascadia Code", monospace;
+            tab-size: 4;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="notice">Простой редактор: полный редактор (Monaco) не загрузился с CDN. CSS всё равно сохраняется и применяется, пока вы печатаете.</div>
+    <textarea id="plain" spellcheck="false"></textarea>
+
+    <script>
+        const area = document.getElementById("plain");
+        const dark = getTheme() !== "vs-light";
+        area.style.background = dark ? "#1e1e1e" : "#ffffff";
+        area.style.color = dark ? "#d4d4d4" : "#1e1e1e";
+
+        area.addEventListener("keydown", e => {
+            if (e.key !== "Tab") return;
+            e.preventDefault();
+            area.setRangeText("    ", area.selectionStart, area.selectionEnd, "end");
+            setCss(area.value);
+        });
+        area.addEventListener("input", () => setCss(area.value));
+
+        getCurrentCss().then(css => {
+            area.value = css;
+            area.focus();
+        });
+    </script>
+</body>
+
+</html>

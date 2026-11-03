@@ -23,6 +23,7 @@ import "./settings";
 
 import { debounce } from "@shared/debounce";
 import { IpcEvents } from "@shared/IpcEvents";
+import { QUICK_CSS_EDITOR_ARG } from "@shared/quickCssEditor";
 import { app, BrowserWindow, dialog, ipcMain, nativeTheme, shell, systemPreferences } from "electron";
 import { FSWatcher, mkdirSync, readFileSync, watch, writeFileSync } from "fs";
 import { open, readdir, readFile, unlink } from "fs/promises";
@@ -30,6 +31,7 @@ import { release } from "os";
 import { join } from "path";
 
 import { registerCspIpcHandlers } from "./csp/manager";
+import { loadQuickCssEditor } from "./quickCssEditor";
 import { getThemeInfo, stripBOM, UserThemeHeader } from "./themes";
 import { ALLOWED_PROTOCOLS, QUICK_CSS_PATH, SETTINGS_DIR, THEMES_DIR } from "./utils/constants";
 import { ensureSafePath } from "./utils/ensureSafePath";
@@ -166,6 +168,7 @@ ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async () => {
         backgroundColor: nativeTheme.shouldUseDarkColors ? "#1e1e1e" : "white",
         webPreferences: {
             preload: join(__dirname, "preload.js"),
+            additionalArguments: [QUICK_CSS_EDITOR_ARG],
             contextIsolation: true,
             nodeIntegration: false,
             sandbox: false
@@ -177,7 +180,7 @@ ipcMain.handle(IpcEvents.OPEN_MONACO_EDITOR, async () => {
     makeLinksOpenExternally(monacoWin);
     monacoWin.webContents.on("will-navigate", e => e.preventDefault());
 
-    await monacoWin.loadURL(DESKTOP_MONACO_EDITOR_URL);
+    await loadQuickCssEditor(monacoWin);
 });
 
 app.on("before-quit", async event => {

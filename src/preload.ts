@@ -18,12 +18,13 @@
 
 import { debounce } from "@shared/debounce";
 import { IpcEvents } from "@shared/IpcEvents";
+import { QUICK_CSS_EDITOR_ARG } from "@shared/quickCssEditor";
 import { contextBridge, webFrame } from "electron/renderer";
 
 import NightcordNative, { invoke, sendSync } from "./NightcordNative";
 
 // Monaco popout
-if (location.href === DESKTOP_MONACO_EDITOR_URL) {
+if (process.argv.includes(QUICK_CSS_EDITOR_ARG)) {
     contextBridge.exposeInMainWorld("setCss", debounce(NightcordNative.quickCss.set));
     contextBridge.exposeInMainWorld("getCurrentCss", NightcordNative.quickCss.get);
     contextBridge.exposeInMainWorld("getTheme", NightcordNative.quickCss.getEditorTheme);
