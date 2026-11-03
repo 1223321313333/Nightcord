@@ -25,6 +25,8 @@ pnpm inject
 
 On Windows, `pnpm inject` / `pnpm uninject` use Nightcord's own installer with your local `dist` folder. Every push to `main` is built by GitHub Actions and published to the `devbuild` release (beta). Once a day a build that is at least 20 hours old and passed CI is copied to the `stable` release, which is what the installer and the updater use unless *Beta versions* is on.
 
+Dependencies update themselves. Once a week `.github/workflows/update-deps.yml` moves the lockfiles to the newest versions the manifests allow, at least 7 days old, and ships them if the checks pass. New majors and exact pins arrive with the weekly Equicord sync, and the actions pinned in the workflows as a monthly Dependabot pull request.
+
 ## Licence
 
 GPL-3.0-or-later. See [LICENSE](LICENSE). Source-file headers keep the original Vencord and Equicord copyright notices, as the licence requires.

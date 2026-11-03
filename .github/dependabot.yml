@@ -1,0 +1,14 @@
+# Only the actions pinned in the workflows: update-deps.yml takes care of every other dependency, but the token a workflow
+# gets may not change workflow files. They come as one pull request a month, to merge by hand.
+version: 2
+updates:
+    - package-ecosystem: github-actions
+      directory: /
+      schedule:
+          interval: monthly
+      cooldown:
+          default-days: 7
+      groups:
+          actions:
+              patterns:
+                  - "*"
