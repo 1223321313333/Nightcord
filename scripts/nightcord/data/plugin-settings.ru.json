@@ -166,6 +166,11 @@
     "removeAudioMenus": ["Remove menus next to mute and deafen buttons.","Без меню у микрофона","Убрать меню рядом с кнопками микрофона и звука"],
     "removeButtonTooltips": ["Remove button tooltips.","Без подсказок","Убрать всплывающие подсказки у кнопок"]
   },
+  "ExpressionManager": {
+    "editAndDelete": ["Add \"Edit\" and \"Delete\" options to the expression picker context menu","Изменить и удалить","Пункты «Изменить» и «Удалить» в контекстном меню панели эмодзи и стикеров"],
+    "stickerCopyAndOpen": ["Add \"Copy Sticker Link\" and \"Open Sticker Link\" options to the sticker context menu","Ссылка на стикер","Пункты «Копировать ссылку на стикер» и «Открыть ссылку на стикер» в контекстном меню стикера"],
+    "recents": ["Add \"Remove from Recents\" option to the context menu of frequently used expressions","Удалить из недавних","Пункт «Удалить из недавних» в контекстном меню часто используемых эмодзи и стикеров"]
+  },
   "FakeNitro": {
     "enableEmojiBypass": ["Allows sending fake emojis (also bypasses missing permission to use custom emojis)","Эмодзи без Nitro","Отправлять эмодзи без Nitro (и без права на чужие эмодзи)"],
     "emojiSize": ["Size of the emojis when sending","Размер эмодзи","Размер отправляемых эмодзи"],

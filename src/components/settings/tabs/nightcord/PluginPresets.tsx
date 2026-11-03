@@ -8,13 +8,14 @@ import "./PluginPresets.css";
 
 import { isPluginEnabled, pluginRequiresRestart, plugins, startDependenciesRecursive, startPlugin, stopPlugin } from "@api/PluginManager";
 import { Settings } from "@api/Settings";
+import { Button } from "@components/Button";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
 import { showToast } from "@utils/translatedToast";
-import { Button, ConfirmModal, openModal, React } from "@webpack/common";
+import { ConfirmModal, openModal, React } from "@webpack/common";
 
 import { SENDS_DATA, VISIBLE_TO_OTHERS } from "../plugins/curation";
 
@@ -106,7 +107,7 @@ export const PRESETS: Preset[] = [
         emoji: "🎁",
         title: "Everything without Nitro",
         description: "Custom and animated emoji, stickers and reactions, profile colours and a profile banner, higher stream quality and no Nitro ads — all without paying for Nitro.",
-        enable: () => ["FakeNitro", "FakeProfileThemes", "SuperReactionTweaks", "AlwaysAnimate", "ExpressionCloner", "NoNitroUpsell", "USRBG"],
+        enable: () => ["FakeNitro", "FakeProfileThemes", "SuperReactionTweaks", "AlwaysAnimate", "ExpressionManager", "NoNitroUpsell", "USRBG"],
         disable: () => [],
         note: "The profile banner (USRBG) is shown to other people and is loaded from the USRBG community server. Everything else works just for you."
     },
@@ -286,7 +287,7 @@ export function PluginPresets() {
                             <span className="vc-nc-preset-title">{t(p.title)}</span>
                         </div>
                         <Paragraph className="vc-nc-preset-desc">{t(p.description)}</Paragraph>
-                        <Button size={Button.Sizes.SMALL} onClick={() => confirmPreset(p)}>
+                        <Button size="small" onClick={() => confirmPreset(p)}>
                             {t("Apply")}
                         </Button>
                     </div>

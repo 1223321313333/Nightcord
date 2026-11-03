@@ -20,7 +20,7 @@ export function MacOSVibrancySettings() {
 
     return (
         <ErrorBoundary noop>
-            <Heading tag="h5">{t("MacOS Window vibrancy style (requires restart)")}</Heading>
+            <Heading className={Margins.bottom8}>{t("MacOS Window vibrancy style (requires restart)")}</Heading>
             <Select
                 className={Margins.bottom20}
                 placeholder={t("Window vibrancy style")}

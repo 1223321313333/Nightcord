@@ -16,10 +16,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { Button } from "@components/Button";
+import { Button, ButtonProps } from "@components/Button";
 import { Heart } from "@components/Heart";
 import { OpenExternalIcon } from "@components/Icons";
-import { ButtonProps } from "@nightcord/discord-types";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { openInviteModal } from "@utils/discord";
 import { showToast } from "@webpack/common";

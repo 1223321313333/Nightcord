@@ -20,7 +20,7 @@ export function WindowsMaterialSettings() {
 
     return (
         <ErrorBoundary noop>
-            <Heading tag="h5">{t("Background Material")}</Heading>
+            <Heading className={Margins.bottom8}>{t("Background Material")}</Heading>
             <Paragraph className={Margins.bottom8}>
                 {t("Windows transparent background effects. You need a theme that supports transparency or this will do nothing. A restart is required after changing this setting.")}
             </Paragraph>

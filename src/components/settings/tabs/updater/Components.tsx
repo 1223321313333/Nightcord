@@ -13,9 +13,9 @@ import { Paragraph } from "@components/Paragraph";
 import { Span } from "@components/Span";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
-import { relaunch } from "@utils/native";
+import { promptToRestart } from "@utils/promptToRestart";
 import { changes, checkForUpdates, update, updateError } from "@utils/updater";
-import { ConfirmModal, openModal, React, showToast, useState } from "@webpack/common";
+import { React, showToast, useState } from "@webpack/common";
 
 import { runWithDispatch } from "./runWithDispatch";
 
@@ -107,22 +107,11 @@ export function Updatable(props: CommonProps) {
                             if (await update()) {
                                 setUpdates([]);
 
-                                await new Promise<void>(r => {
-                                    openModal(props => (
-                                        <ConfirmModal
-                                            {...props}
-                                            title={t("Update Success!")}
-                                            subtitle={t("Successfully updated. Restart now to apply the changes?")}
-                                            confirmText={t("Restart")}
-                                            cancelText={t("Not now!")}
-                                            variant="primary"
-                                            onConfirm={() => {
-                                                relaunch();
-                                                r();
-                                            }}
-                                            onCancel={r}
-                                        />
-                                    ));
+                                promptToRestart("relaunch", {
+                                    title: t("Update Success!"),
+                                    subtitle: t("Successfully updated. Restart now to apply the changes?"),
+                                    confirmText: t("Restart"),
+                                    cancelText: t("Not now!")
                                 });
                             }
                         })}

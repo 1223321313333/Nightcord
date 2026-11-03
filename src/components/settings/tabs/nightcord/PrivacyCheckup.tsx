@@ -9,6 +9,7 @@ import "./NightcordUI.css";
 import * as DataStore from "@api/DataStore";
 import { isPluginEnabled, plugins, startPlugin, stopPlugin } from "@api/PluginManager";
 import { Settings, useSettings } from "@api/Settings";
+import { Button } from "@components/Button";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { clearLogs } from "@equicordplugins/messageLoggerEnhanced";
@@ -18,7 +19,7 @@ import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { showToast } from "@utils/translatedToast";
 import { filters, findStoreLazy, mapMangledModuleLazy } from "@webpack";
-import { Alerts, Button, Checkbox, React, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
+import { Alerts, Checkbox, React, useEffect, UserSettingsActionCreators, UserStore, useState, useStateFromStores } from "@webpack/common";
 
 const logger = new Logger("PrivacyCheckup");
 
@@ -230,7 +231,7 @@ export function LocalTraces() {
             <Paragraph className={Margins.bottom16}>
                 {t("Nightcord keeps bookmarks, notes, the notification log and saved deleted messages on this computer. Anyone with access to it could read them.")}
             </Paragraph>
-            <Button size={Button.Sizes.SMALL} color={Button.Colors.RED} onClick={confirmWipe}>
+            <Button size="small" variant="dangerPrimary" onClick={confirmWipe}>
                 {t("Erase Nightcord data…")}
             </Button>
         </section>
@@ -323,7 +324,7 @@ export function PrivacyCheckup() {
                 })}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: 12, marginTop: 12 }}>
-                <Button size={Button.Sizes.SMALL} disabled={busy || !toApply.length} onClick={apply}>
+                <Button size="small" disabled={busy || !toApply.length} onClick={apply}>
                     {toApply.length ? `${t("Apply")} (${toApply.length})` : t("Apply")}
                 </Button>
                 <Paragraph size="sm">

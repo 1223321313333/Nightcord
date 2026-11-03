@@ -7,9 +7,11 @@
 import { ApplicationCommandInputType, sendBotMessage } from "@api/Commands";
 import { isPluginEnabled, plugins } from "@api/PluginManager";
 import { definePluginSettings, Settings, SettingsStore, useSettings } from "@api/Settings";
+import { Button } from "@components/Button";
+import { Paragraph } from "@components/Paragraph";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Button, Forms, React } from "@webpack/common";
+import { React } from "@webpack/common";
 
 import { buildThemeCss, FontId, FONTS, PresetId,PRESETS } from "./theme";
 
@@ -89,16 +91,16 @@ function ThemeStatus() {
     const others = otherThemes();
     const mode = settings.use(["palette"]).palette;
 
-    if (mode === "never") return <Forms.FormText>Тема Nightcord выключена.</Forms.FormText>;
-    if (!others.length || mode === "always") return <Forms.FormText>Тема Nightcord включена.</Forms.FormText>;
+    if (mode === "never") return <Paragraph>Тема Nightcord выключена.</Paragraph>;
+    if (!others.length || mode === "always") return <Paragraph>Тема Nightcord включена.</Paragraph>;
 
     return (
         <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
-            <Forms.FormText>
+            <Paragraph>
                 Сейчас включена другая тема ({others.join(", ")}), поэтому тема Nightcord не применяется.
-            </Forms.FormText>
+            </Paragraph>
             <Button
-                size={Button.Sizes.SMALL}
+                size="small"
                 onClick={() => {
                     Settings.enabledThemes = [];
                     Settings.themeLinks = [];

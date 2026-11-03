@@ -7,12 +7,13 @@
 import "./NightcordUI.css";
 
 import { Settings, useSettings } from "@api/Settings";
+import { Button } from "@components/Button";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { getBlockedHosts, getOutsideHosts, subscribeOutsideHosts } from "@utils/networkLog";
-import { Button, Checkbox, React, useEffect, useState } from "@webpack/common";
+import { Checkbox, React, useEffect, useState } from "@webpack/common";
 
 import { checkboxStyle } from "./PrivacyCheckup";
 
@@ -97,7 +98,7 @@ export function OutsideConnections() {
                         </Paragraph>
                     </div>
                     {settings.strictConnections !== strictAtStart && (
-                        <Button size={Button.Sizes.SMALL} onClick={() => location.reload()}>{t("Reload")}</Button>
+                        <Button size="small" onClick={() => location.reload()}>{t("Reload")}</Button>
                     )}
                     <div style={checkboxStyle}>
                         <Checkbox value={settings.strictConnections} onChange={(_: unknown, value: boolean) => { Settings.strictConnections = value; }}>

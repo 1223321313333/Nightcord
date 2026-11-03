@@ -8,6 +8,7 @@ import "./NightcordUI.css";
 
 import * as DataStore from "@api/DataStore";
 import { Settings, useSettings } from "@api/Settings";
+import { Button } from "@components/Button";
 import { Paragraph } from "@components/Paragraph";
 import { RenderModalProps } from "@nightcord/discord-types";
 import { CHANGELOG_RU, ChangelogEntry } from "@utils/changelogRu";
@@ -15,7 +16,7 @@ import { t } from "@utils/i18n";
 import { Logger } from "@utils/Logger";
 import { Margins } from "@utils/margins";
 import { STARTUP } from "@utils/safeMode";
-import { Button, Checkbox, Modal, openModal, React, SettingsRouter, UserStore } from "@webpack/common";
+import { Checkbox, Modal, openModal, React, SettingsRouter, UserStore } from "@webpack/common";
 
 import { confirmPreset, PRESETS } from "./PluginPresets";
 
@@ -57,7 +58,7 @@ function PresetStep() {
                             <span className="vc-nc-preset-title">{t(p.title)}</span>
                         </div>
                         <Paragraph size="sm" className="vc-nc-preset-desc">{t(p.description)}</Paragraph>
-                        <Button size={Button.Sizes.SMALL} onClick={() => confirmPreset(p)}>{t("Apply")}</Button>
+                        <Button size="small" onClick={() => confirmPreset(p)}>{t("Apply")}</Button>
                     </div>
                 ))}
             </div>
@@ -83,7 +84,7 @@ function FinishStep({ onClose }: { onClose: () => void; }) {
                             <Paragraph size="sm" className="vc-nc-desc">{tip.text}</Paragraph>
                         </div>
                         {tip.panel && (
-                            <Button size={Button.Sizes.SMALL} onClick={() => openPanel(onClose, tip.panel!)}>{t("Open")}</Button>
+                            <Button size="small" onClick={() => openPanel(onClose, tip.panel!)}>{t("Open")}</Button>
                         )}
                     </div>
                 ))}

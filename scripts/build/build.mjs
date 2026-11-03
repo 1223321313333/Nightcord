@@ -26,7 +26,7 @@ import { createRequire } from "module";
 import { fileURLToPath } from "url";
 
 import { getPluginTarget } from "../utils.mjs";
-import { BUILD_TIMESTAMP, commonOpts, exists, globPlugins, IS_DEV, IS_REPORTER, IS_COMPANION_TEST, IS_STANDALONE, IS_UPDATER_DISABLED, resolvePluginName, VERSION, commonRendererPlugins, watch, buildOrWatchAll, stringifyValues, IS_ANTI_CRASH_TEST } from "./common.mjs";
+import { BUILD_TIMESTAMP, commonOpts, exists, globPlugins, IS_DEV, IS_REPORTER, IS_COMPANION_TEST, IS_STANDALONE, IS_UPDATER_DISABLED, resolvePluginName, VERSION, commonRendererPlugins, watch, buildOrWatchAll, stringifyValues, IS_ANTI_CRASH_TEST, getMonacoEditorCdnUrl } from "./common.mjs";
 
 const defines = stringifyValues({
     IS_STANDALONE,
@@ -39,7 +39,8 @@ const defines = stringifyValues({
     IS_EXTENSION: false,
     IS_USERSCRIPT: false,
     VERSION,
-    BUILD_TIMESTAMP
+    BUILD_TIMESTAMP,
+    DESKTOP_MONACO_EDITOR_URL: await getMonacoEditorCdnUrl(),
 });
 
 if (defines.IS_STANDALONE === "false") {
