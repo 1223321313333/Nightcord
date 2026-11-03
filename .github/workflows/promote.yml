@@ -44,7 +44,8 @@ jobs:
 
                   if [ -n "$stable" ] && [ "${stable##* }" = "$hash" ]; then
                       echo "Stable already has $hash." | tee -a "$GITHUB_STEP_SUMMARY"
-                      echo "promote=false" >> "$GITHUB_OUTPUT"; exit 0
+                      echo "promote=false" >> "$GITHUB_OUTPUT"
+                      echo "move_tag=true" >> "$GITHUB_OUTPUT"; exit 0
                   fi
 
                   committed=$(gh api "repos/$GH_REPO/commits/$hash" --jq .commit.committer.date)
@@ -69,6 +70,7 @@ jobs:
 
                   echo "Promoting $hash: $reason." | tee -a "$GITHUB_STEP_SUMMARY"
                   echo "promote=true" >> "$GITHUB_OUTPUT"
+                  echo "move_tag=true" >> "$GITHUB_OUTPUT"
 
             - name: Copy the beta to stable
               if: steps.decide.outputs.promote == 'true'
@@ -84,10 +86,25 @@ jobs:
                   if gh release view stable >/dev/null 2>&1; then
                       gh release upload stable --clobber /tmp/assets/*
                       gh release edit stable --title "Stable $hash" --notes "$notes" --prerelease=false --latest
-                      gh api -X PATCH "repos/$GH_REPO/git/refs/tags/stable" -f sha="$hash" -F force=true > /dev/null
                   else
                       gh release create stable /tmp/assets/* --target "$hash" --title "Stable $hash" --notes "$notes" --latest
                   fi
 
                   # beta stays available to beta testers, but is no longer what "latest" points at
                   gh release edit devbuild --prerelease --latest=false
+
+            - name: Point the stable tag at the build
+              # The installer and the updater go by the release, not by the tag, so a tag that cannot move is a warning
+              # and not a failed promotion. Also runs when stable already has the build, which corrects a tag an earlier
+              # run left behind (on 2026-10-30 this step failed after the build had gone out, and nothing retried it).
+              if: steps.decide.outputs.move_tag == 'true'
+              run: |
+                  hash="${{ steps.decide.outputs.hash }}"
+                  current=$(gh api "repos/$GH_REPO/git/ref/tags/stable" --jq .object.sha)
+                  if [ "$current" = "$hash" ]; then
+                      echo "The stable tag is on $hash."
+                  elif output=$(gh api -X PATCH "repos/$GH_REPO/git/refs/tags/stable" -f sha="$hash" -F force=true 2>&1); then
+                      echo "Moved the stable tag from $current to $hash." | tee -a "$GITHUB_STEP_SUMMARY"
+                  else
+                      echo "::warning::Could not move the stable tag from $current to $hash: $(echo "$output" | tr '\n' ' ')"
+                  fi
