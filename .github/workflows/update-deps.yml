@@ -95,6 +95,7 @@ jobs:
             - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
               with:
                   node-version: 24
+                  package-manager-cache: false
 
             - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
               with:
@@ -190,6 +191,7 @@ jobs:
                       echo "::error::The app stopped by itself with exit code $code: $(tail -n 8 /tmp/app.log | tr '\n' ' ')"
                       exit 1
                   fi
+                  echo "::notice::The app was still running after 30 seconds: $(tail -n 3 /tmp/app.log | tr '\n' ' ')"
 
     publish:
         needs: [resolve, check-root, check-desktop]
@@ -275,7 +277,7 @@ jobs:
                   APP_CHANGED: ${{ needs.check-desktop.outputs.app_changed }}
               run: |
                   if [ "$(git rev-parse HEAD)" = "$BASE" ]; then
-                      echo "Nothing to ship." | tee -a "$GITHUB_STEP_SUMMARY"
+                      echo "::notice::Nothing to ship."
                       exit 0
                   fi
 
@@ -284,11 +286,11 @@ jobs:
                   [ "$ROOT_SHIPS" = true ] && [ "$CLIENT_CHANGED" = true ] && release=true
                   release_desktop=false
                   [ "$DESKTOP_SHIPS" = true ] && { [ "$APP_CHANGED" = true ] || [ "$electron_changed" = true ]; } && release_desktop=true
-                  echo "Would ship $(git rev-list --count "$BASE..HEAD") commit(s). New Nightcord build: $release. New Nightcord Desktop build: $release_desktop." | tee -a "$GITHUB_STEP_SUMMARY"
+                  plan="$(git rev-list --count "$BASE..HEAD") commit(s), new Nightcord build: $release, new Nightcord Desktop build: $release_desktop"
                   git log --format=%B "$BASE..HEAD"
 
                   if [ "$DRY_RUN" = true ]; then
-                      echo "This is only a try: nothing was pushed." | tee -a "$GITHUB_STEP_SUMMARY"
+                      echo "::notice::Only a try, nothing was pushed. It would ship $plan."
                       exit 0
                   fi
 
@@ -302,6 +304,7 @@ jobs:
                   gh workflow run test.yml --ref main
                   if [ "$release" = true ]; then gh workflow run build.yml --ref main; fi
                   if [ "$release_desktop" = true ]; then gh workflow run desktop.yml --ref main; fi
+                  echo "::notice::Shipped $plan."
 
             - name: Tell a person, or stop telling them
               env:
