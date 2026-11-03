@@ -56,6 +56,9 @@ const PROTECT = [
     /^\s*\*?\s*Vencord, a (?:Discord client mod|modification for Discord's desktop app)/gm, // licence headers
     /https?:\/\/[^\s"'`)<>\]]+/g,                                     // URLs
     /[\w.-]*(?:vencord\.dev|equicord\.org)[\w./-]*/g,                 // bare domains
+    // npm packages of those projects. Only the workspace's own two get the new scope: nobody owns @nightcord/<name>
+    // on npm, so a renamed dependency would fail to install, or install whatever someone published under that name.
+    /@(?:vencord|equicord)\/(?!discord-types\b|types\b)[\w.-]+/g,
     /\b(?:Vendicated|Vencord|Equicord)\/[A-Z][\w.-]*/g,               // GitHub org/repo slugs
     /\b(?:VencordInstallerCli|EquilotlCli)[\w.-]*/g,                  // installer binaries
     /\b(?:VENCORD|EQUICORD)_(?:USER_DATA_DIR|DEV_INSTALL|DIRECTORY)\b/g, // installer env contract

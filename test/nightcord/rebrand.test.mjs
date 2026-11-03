@@ -28,14 +28,21 @@ const KEPT = [
     "    vencord: \"Vencord\",",
     "    equicord: \"Equicord\"",
     "Equicord Donor",
-    "fetch(\"https://equicord.org/badges.json\");"
+    "fetch(\"https://equicord.org/badges.json\");",
+    "        \"@vencord/monaco-editor\": \"catalog:\",",
+    "    await readFile(\"node_modules/@vencord/monaco-editor/package.json\");",
+    "    pnpx @equicord/publish-browser-extension@latest"
 ];
 
 const RENAMED = [
     ["            label: \"Equicord\",", "            label: \"Nightcord\","],
     ["    description=\"Please consider supporting the development of Equicord by donating!\"", "    description=\"Please consider supporting the development of Nightcord by donating!\""],
     ["Open Equicord settings", "Open Nightcord settings"],
-    ["You are using an Equicord update", "You are using a Nightcord update"]
+    ["You are using an Equicord update", "You are using a Nightcord update"],
+    // the two packages in Nightcord's own workspace
+    ["        \"@vencord/discord-types\": \"link:packages/discord-types\",", "        \"@nightcord/discord-types\": \"link:packages/discord-types\","],
+    ["        \"@vencord/discord-types\": \"workspace:@equicord/discord-types@^\",", "        \"@nightcord/discord-types\": \"workspace:@nightcord/discord-types@^\","],
+    ["    \"name\": \"@equicord/types\",", "    \"name\": \"@nightcord/types\","]
 ];
 
 // a select option naming another client, spread over two lines as in PlatformIndicators
