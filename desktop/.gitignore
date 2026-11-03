@@ -5,3 +5,5 @@ node_modules
 .idea/
 .zed
 resources
+# the repository's own .gitignore leaves lockfiles out, but this one keeps the app's versions fixed
+!/bun.lock

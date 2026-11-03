@@ -1,0 +1,333 @@
+name: Update dependencies
+# Once a week, with nobody having to start it, moves the lockfiles (pnpm-lock.yaml, desktop/bun.lock) to the newest
+# versions the manifests allow and ships them if nothing looks wrong. New majors and exact pins arrive with the Equicord
+# sync, and the actions pinned in these workflows with Dependabot (.github/dependabot.yml), because the token a workflow
+# gets may not change workflow files.
+#
+# Three kinds of jobs, so that a hijacked package cannot decide what gets published:
+#  - resolve (read-only): scripts/nightcord/update-deps.cjs makes the new lockfiles without running any dependency code.
+#    These exact files are what gets published.
+#  - check-root, check-desktop (read-only, no credentials): install the new versions, build and run the checks. All they
+#    pass on is whether that worked, and whether the code users run came out different.
+#  - publish (write access, runs only git and gh): commits what passed and pushes it to main. A new release only goes
+#    out when the code users run changed: Nightcord through the usual beta and stable, Nightcord Desktop straight away,
+#    which is why that job also starts the app first. Anything else gets one issue, updated every run and closed once
+#    it is over.
+#
+# A push of this workflow or its script tries all of it, so a broken update is noticed the same day, but changes nothing.
+on:
+    schedule:
+        - cron: "0 6 * * 4" # Thursdays 06:00 UTC, away from the Equicord sync on Mondays
+    workflow_dispatch:
+    push:
+        branches: [main]
+        paths:
+            - .github/workflows/update-deps.yml
+            - scripts/nightcord/update-deps.cjs
+
+permissions:
+    contents: read
+
+concurrency:
+    # the same group as the Equicord sync, the other workflow that pushes to main
+    group: sync-equicord
+
+jobs:
+    resolve:
+        runs-on: ubuntu-latest
+        outputs:
+            base: ${{ steps.update.outputs.base }}
+            root_changed: ${{ steps.update.outputs.root_changed }}
+            desktop_changed: ${{ steps.update.outputs.desktop_changed }}
+            root_lock_sha256: ${{ steps.update.outputs.root_lock_sha256 }}
+            desktop_lock_sha256: ${{ steps.update.outputs.desktop_lock_sha256 }}
+            report_sha256: ${{ steps.update.outputs.report_sha256 }}
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+            - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+              with:
+                  node-version: 24
+
+            - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+            - name: Update the lockfiles
+              id: update
+              run: |
+                  echo "base=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+                  node scripts/nightcord/update-deps.cjs /tmp/deps > /tmp/summary.md
+                  cat /tmp/summary.md | tee -a "$GITHUB_STEP_SUMMARY"
+
+            - name: List what the manifests hold back
+              run: |
+                  { echo; echo "## Beyond what the manifests allow"; echo; echo '```'; pnpm outdated -r || true; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
+
+            - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+              with:
+                  name: deps
+                  path: /tmp/deps
+                  retention-days: 14
+
+    check-root:
+        needs: resolve
+        if: needs.resolve.outputs.root_changed == 'true' || github.event_name == 'push'
+        runs-on: ubuntu-latest
+        outputs:
+            client_changed: ${{ steps.new.outputs.client_changed }}
+        env:
+            # so that two builds of the same code come out the same, byte for byte
+            SOURCE_DATE_EPOCH: 1
+            NIGHTCORD_HASH: "0000000000000000000000000000000000000000"
+            # not the userscript, whose header carries the time it was built
+            BUNDLES: dist/desktop/*.js dist/desktop/*.css dist/equibop/*.js dist/equibop/*.css dist/browser/browser.js dist/browser/browser.css dist/browser/extension.js dist/browser/extension.css
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+            # without the pnpm cache other jobs use: they have write access, and this job runs the code it is checking
+            - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+              with:
+                  node-version: 24
+                  package-manager-cache: false
+
+            - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+              with:
+                  name: deps
+                  path: /tmp/deps
+
+            - name: Build with the current versions
+              run: |
+                  pnpm install --frozen-lockfile
+                  pnpm buildStandalone
+                  pnpm buildWeb
+                  sha256sum $BUNDLES > /tmp/before.txt
+
+            - name: Build with the new versions
+              id: new
+              run: |
+                  cp /tmp/deps/pnpm-lock.yaml pnpm-lock.yaml
+                  pnpm install --frozen-lockfile
+                  pnpm buildStandalone
+                  pnpm buildWeb
+                  sha256sum $BUNDLES > /tmp/after.txt
+                  if cmp -s /tmp/before.txt /tmp/after.txt; then echo "client_changed=false" >> "$GITHUB_OUTPUT"; else echo "client_changed=true" >> "$GITHUB_OUTPUT"; fi
+
+            - name: Lint & Test if desktop version compiles
+              run: pnpm test
+
+            - name: Test if web version compiles
+              run: pnpm buildWeb
+
+            - name: Test if plugin structure is valid
+              run: pnpm generatePluginJson
+
+            - name: Nightcord unit tests
+              run: node --test "test/nightcord/*.test.mjs"
+
+            - name: Check the registry signatures of what was installed
+              run: pnpm audit signatures
+
+    check-desktop:
+        needs: resolve
+        if: needs.resolve.outputs.desktop_changed == 'true' || github.event_name == 'push'
+        runs-on: ubuntu-latest
+        outputs:
+            app_changed: ${{ steps.new.outputs.app_changed }}
+        defaults:
+            run:
+                working-directory: desktop
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  persist-credentials: false
+
+            - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+
+            - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+              with:
+                  name: deps
+                  path: /tmp/deps
+
+            # libvesktop's native tray (status notifier) needs GLib headers to build, starting the app needs a screen
+            - name: System dependencies
+              run: sudo apt-get update && sudo apt-get install -y libglib2.0-dev xvfb
+
+            - name: Build with the current versions
+              run: |
+                  bun install --frozen-lockfile
+                  bun run build
+                  sha256sum dist/js/*.js dist/js/*.css > /tmp/before.txt
+
+            - name: Build with the new versions
+              id: new
+              run: |
+                  cp /tmp/deps/bun.lock bun.lock
+                  bun install --frozen-lockfile
+                  bun run build
+                  sha256sum dist/js/*.js dist/js/*.css > /tmp/after.txt
+                  if cmp -s /tmp/before.txt /tmp/after.txt; then echo "app_changed=false" >> "$GITHUB_OUTPUT"; else echo "app_changed=true" >> "$GITHUB_OUTPUT"; fi
+
+            - name: Check
+              run: |
+                  bunx tsc --noEmit
+                  bunx eslint src
+
+            - name: Start the app
+              # A release reaches installed apps at once, there is no beta here, and an app that does not start cannot
+              # update itself out of it again. Still running after 30 seconds (exit code 124 from timeout) is a pass.
+              run: |
+                  set +e
+                  timeout 30 xvfb-run -a bunx electron . --no-sandbox > /tmp/app.log 2>&1
+                  code=$?
+                  set -e
+                  if [ "$code" != 124 ]; then
+                      echo "::error::The app stopped by itself with exit code $code: $(tail -n 8 /tmp/app.log | tr '\n' ' ')"
+                      exit 1
+                  fi
+                  echo "::notice::The app was still running after 30 seconds: $(tail -n 3 /tmp/app.log | tr '\n' ' ')"
+
+    publish:
+        needs: [resolve, check-root, check-desktop]
+        # also after a failed check, which a person has to hear about, and when nothing changed, to close an old issue
+        if: always() && needs.resolve.result == 'success'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: write
+            actions: write
+            issues: write
+        env:
+            GH_TOKEN: ${{ github.token }}
+            GH_REPO: ${{ github.repository }}
+            RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            DRY_RUN: ${{ github.event_name == 'push' }}
+            REPORT: /tmp/deps/report.json
+        steps:
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              with:
+                  ref: ${{ needs.resolve.outputs.base }}
+
+            - uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+              with:
+                  name: deps
+                  path: /tmp/deps
+
+            - name: Make sure these are the files resolve made
+              # the check jobs ran dependency code in this same run
+              env:
+                  ROOT_LOCK_SHA256: ${{ needs.resolve.outputs.root_lock_sha256 }}
+                  DESKTOP_LOCK_SHA256: ${{ needs.resolve.outputs.desktop_lock_sha256 }}
+                  REPORT_SHA256: ${{ needs.resolve.outputs.report_sha256 }}
+              run: |
+                  sha256sum --check --strict <<EOF
+                  $ROOT_LOCK_SHA256  /tmp/deps/pnpm-lock.yaml
+                  $DESKTOP_LOCK_SHA256  /tmp/deps/bun.lock
+                  $REPORT_SHA256  $REPORT
+                  EOF
+
+            - name: Commit what passed
+              id: commit
+              env:
+                  ROOT_CHANGED: ${{ needs.resolve.outputs.root_changed }}
+                  ROOT_CHECK: ${{ needs.check-root.result }}
+                  DESKTOP_CHANGED: ${{ needs.resolve.outputs.desktop_changed }}
+                  DESKTOP_CHECK: ${{ needs.check-desktop.result }}
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  : > /tmp/held.md
+
+                  # commit one part of the update, or write down why not
+                  settle() {
+                      local part=$1 title=$2 changed=$3 check=$4 from=$5 lockfile=$6
+                      local reasons
+                      reasons=$(jq -r ".$part.hold[]" "$REPORT")
+                      if [ "$changed" = true ] && [ "$check" != success ]; then
+                          reasons="The checks failed with the new versions: $RUN_URL"$'\n'"$reasons"
+                      fi
+
+                      if [ -n "$reasons" ]; then
+                          { echo "## $title"; echo; echo "$reasons"; echo; jq -r ".$part.lines[]" "$REPORT"; echo; } >> /tmp/held.md
+                      elif [ "$changed" = true ]; then
+                          cp "$from" "$lockfile"
+                          git add "$lockfile"
+                          jq -r ".$part.message" "$REPORT" | git commit -q -F -
+                          echo "${part}=true" >> "$GITHUB_OUTPUT"
+                      fi
+                  }
+                  settle root "Nightcord" "$ROOT_CHANGED" "$ROOT_CHECK" /tmp/deps/pnpm-lock.yaml pnpm-lock.yaml
+                  settle desktop "Nightcord Desktop" "$DESKTOP_CHANGED" "$DESKTOP_CHECK" /tmp/deps/bun.lock desktop/bun.lock
+
+                  if [ "$(jq '.advisories | length' "$REPORT")" != 0 ]; then
+                      { echo "## Serious advisories that updating did not fix"; echo; jq -r '.advisories[] | "- " + .' "$REPORT"; echo; } >> /tmp/held.md
+                  fi
+
+            - name: Ship it
+              env:
+                  BASE: ${{ needs.resolve.outputs.base }}
+                  ROOT_SHIPS: ${{ steps.commit.outputs.root }}
+                  DESKTOP_SHIPS: ${{ steps.commit.outputs.desktop }}
+                  CLIENT_CHANGED: ${{ needs.check-root.outputs.client_changed }}
+                  APP_CHANGED: ${{ needs.check-desktop.outputs.app_changed }}
+              run: |
+                  if [ "$(git rev-parse HEAD)" = "$BASE" ]; then
+                      echo "::notice::Nothing to ship."
+                      exit 0
+                  fi
+
+                  electron_changed=$(jq -r '.desktop.electronChanged' "$REPORT")
+                  release=false
+                  [ "$ROOT_SHIPS" = true ] && [ "$CLIENT_CHANGED" = true ] && release=true
+                  release_desktop=false
+                  [ "$DESKTOP_SHIPS" = true ] && { [ "$APP_CHANGED" = true ] || [ "$electron_changed" = true ]; } && release_desktop=true
+                  plan="$(git rev-list --count "$BASE..HEAD") commit(s), new Nightcord build: $release, new Nightcord Desktop build: $release_desktop"
+                  git log --format=%B "$BASE..HEAD"
+
+                  if [ "$DRY_RUN" = true ]; then
+                      echo "::notice::Only a try, nothing was pushed. It would ship $plan."
+                      exit 0
+                  fi
+
+                  if ! git push origin HEAD:main; then
+                      echo "::notice::main moved during this run, so nothing was pushed. The next run starts over."
+                      exit 0
+                  fi
+
+                  # Pushes made with this token don't trigger other workflows. promote.yml wants a passed test run for a
+                  # build it copies to stable.
+                  gh workflow run test.yml --ref main
+                  if [ "$release" = true ]; then gh workflow run build.yml --ref main; fi
+                  if [ "$release_desktop" = true ]; then gh workflow run desktop.yml --ref main; fi
+                  echo "::notice::Shipped $plan."
+
+            - name: Tell a person, or stop telling them
+              env:
+                  TITLE: Dependency update is waiting for a human
+              run: |
+                  if [ "$DRY_RUN" = true ]; then
+                      cat /tmp/held.md
+                      exit 0
+                  fi
+
+                  existing=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number,title --jq ".[] | select(.title == \"$TITLE\") | .number" | head -n 1)
+                  if [ -s /tmp/held.md ]; then
+                      {
+                          echo "The weekly dependency update found something it should not decide alone."
+                          echo
+                          cat /tmp/held.md
+                          echo "(This issue is updated every run and closed once it is over.)"
+                      } > /tmp/issue.md
+                      if [ -n "$existing" ]; then
+                          gh issue edit "$existing" --body-file /tmp/issue.md
+                      else
+                          gh issue create --title "$TITLE" --body-file /tmp/issue.md
+                      fi
+                  elif [ -n "$existing" ]; then
+                      gh issue close "$existing" --comment "The latest dependency update went through."
+                  fi

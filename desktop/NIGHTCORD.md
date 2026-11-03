@@ -15,6 +15,9 @@ game detection, the crash reporter, the host updater), and Discord updates canno
   the Windows installer (`NightcordDesktopSetup.exe` + `latest.yml`) and the Linux AppImage and `.deb`
   (`NightcordDesktop.AppImage` + `latest-linux.yml`). The app updates from those. No macOS build: it needs a paid
   Apple signing/notarization certificate.
+- `bun.lock` is kept up to date by `.github/workflows/update-deps.yml`: once a week it moves to the newest versions
+  `package.json` allows. A new build goes out when that changes the app's code or Electron; a change that only touches
+  build tools waits for the next build.
 
 ## Updating from Equibop
 
@@ -26,5 +29,5 @@ cd desktop && node nightcord-rebrand.mjs
 ```
 
 Then restore Nightcord's own changes that are not in the script (`git diff` shows them: the loader in
-`src/main/utils/vencordLoader.ts`, the icons in `build/` and `static/`), run `bun install`, `bunx tsc --noEmit`,
+`src/main/utils/vencordLoader.ts`, the icons in `build/` and `static/`, `bun.lock` in `.gitignore`), run `bun install`, `bunx tsc --noEmit`,
 `bunx eslint src` and `bun run build`, and note the new Equibop commit above.
