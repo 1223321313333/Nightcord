@@ -9,7 +9,7 @@
  *   git fetch equicord dev && git fetch origin
  *   node scripts/nightcord/prepare-upstream.cjs equicord/dev
  *   git switch -c nc-sync origin/main && git merge nc-upstream   (then resolve-sync.cjs and the checks)
- * and push nc-upstream to upstream-nightcord only together with the sync reaching main.
+ * and push nc-upstream to upstream-nightcord once the sync goes to main or to a review branch: the next sync builds on it.
  *
  * Usage: node scripts/nightcord/prepare-upstream.cjs <Equicord commit> [base, default origin/upstream-nightcord]
  *        [branch to point at the result, default nc-upstream]
