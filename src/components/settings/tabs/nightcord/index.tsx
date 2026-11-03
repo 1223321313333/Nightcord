@@ -89,8 +89,8 @@ function Switches() {
         ),
         IS_DISCORD_DESKTOP && {
             key: "noRoundCorners",
-            title: "Disable Rounded Window Corners",
-            description: "Makes the corners of the Discord window squared instead of rounded.",
+            title: t("Disable Rounded Window Corners"),
+            description: t("Makes the corners of the Discord window squared instead of rounded."),
             restartRequired: true
         },
         !IS_WEB && {

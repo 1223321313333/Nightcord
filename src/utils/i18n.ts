@@ -52,6 +52,8 @@ const RU: Record<string, string> = {
     "A theme that supports transparency is required or this will do nothing. Stops the window from being resizable as a side effect":
         "Нужна тема с поддержкой прозрачности, иначе ничего не изменится. Побочный эффект: окно нельзя будет растягивать",
     "Disable minimum window size": "Убрать минимальный размер окна",
+    "Disable Rounded Window Corners": "Убрать скругление углов окна",
+    "Makes the corners of the Discord window squared instead of rounded.": "Углы окна Discord станут прямыми, а не скруглёнными.",
     "Allows you to resize the window to any size, even smaller than Discord's minimum size": "Окно можно сделать любого размера, даже меньше минимального в Discord",
     "Register Ctrl+Q as shortcut to close Discord (Alternative to Alt+F4)": "Закрывать Discord по Ctrl+Q (вместо Alt+F4)",
     "Enable React Developer Tools": "Включить React Developer Tools",
