@@ -93,17 +93,23 @@ jobs:
                   # beta stays available to beta testers, but is no longer what "latest" points at
                   gh release edit devbuild --prerelease --latest=false
 
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+              if: steps.decide.outputs.move_tag == 'true'
+              with:
+                  ref: ${{ steps.decide.outputs.hash }}
+
             - name: Point the stable tag at the build
               # The installer and the updater go by the release, not by the tag, so a tag that cannot move is a warning
               # and not a failed promotion. Also runs when stable already has the build, which corrects a tag an earlier
-              # run left behind (on 2026-10-30 this step failed after the build had gone out, and nothing retried it).
+              # run left behind. With git push, as build.yml does for devbuild: the REST API answers this token with 403
+              # once the commits since the old tag include an Equicord sync (seen first on 2026-10-30).
               if: steps.decide.outputs.move_tag == 'true'
               run: |
                   hash="${{ steps.decide.outputs.hash }}"
                   current=$(gh api "repos/$GH_REPO/git/ref/tags/stable" --jq .object.sha)
                   if [ "$current" = "$hash" ]; then
                       echo "The stable tag is on $hash."
-                  elif output=$(gh api -X PATCH "repos/$GH_REPO/git/refs/tags/stable" -f sha="$hash" -F force=true 2>&1); then
+                  elif output=$(git push --force origin "HEAD:refs/tags/stable" 2>&1); then
                       echo "Moved the stable tag from $current to $hash." | tee -a "$GITHUB_STEP_SUMMARY"
                   else
                       echo "::warning::Could not move the stable tag from $current to $hash: $(echo "$output" | tr '\n' ' ')"
