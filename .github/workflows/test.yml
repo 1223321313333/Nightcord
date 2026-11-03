@@ -5,6 +5,8 @@ on:
         branches:
             - main
             - dev
+    # for workflows that push to main: their pushes don't trigger other workflows, and promote.yml wants this run
+    workflow_dispatch:
 
 permissions:
     contents: read

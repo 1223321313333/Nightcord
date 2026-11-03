@@ -226,8 +226,10 @@ jobs:
               if: needs.prepare.outputs.passed == 'true' && steps.sensitive.outputs.found == 'false' && env.AUTO_MERGE == 'true'
               run: |
                   git push origin "refs/bundle/nc-sync:refs/heads/main"
-                  # Pushes made with GITHUB_TOKEN don't trigger other workflows, so start the release build by hand
+                  # Pushes made with GITHUB_TOKEN don't trigger other workflows, so start the release build by hand, and
+                  # the tests, without which promote.yml would keep the build from stable
                   gh workflow run build.yml --ref main
+                  gh workflow run test.yml --ref main
                   echo "Merged Equicord $SHORT into main and started a DevBuild." >> "$GITHUB_STEP_SUMMARY"
 
             - name: Leave it for review
