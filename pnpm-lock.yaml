@@ -209,7 +209,7 @@ catalogs:
     '@vap/shiki':
       specifier: 0.10.5
       version: 0.10.5
-    '@nightcord/monaco-editor':
+    '@vencord/monaco-editor':
       specifier: 0.57.0-beta.4
       version: 0.57.0-beta.4
     diff:
@@ -343,7 +343,7 @@ importers:
       '@vap/shiki':
         specifier: 'catalog:'
         version: 0.10.5
-      '@nightcord/monaco-editor':
+      '@vencord/monaco-editor':
         specifier: 'catalog:'
         version: 0.57.0-beta.4
       fflate:
@@ -995,7 +995,7 @@ packages:
   '@vap/shiki@0.10.5':
     resolution: {integrity: sha512-5BHVGvQT8qonbLSASon5aQFQ18OZU4FxSl9tLSj6oJ0sap3KdMbYcfGq25M9zFZR1g1dJN7fgjmZXBIS5omIdw==}
 
-  '@nightcord/monaco-editor@0.57.0-beta.4':
+  '@vencord/monaco-editor@0.57.0-beta.4':
     resolution: {integrity: sha512-CCZAuwjYpgY+KdxqaPeqX8BX6VEdCMCLuQaYc2Guuxz6S2W4lSC1AnIRpgYkMxsEnMTZbl38UU2bK0zJSlc6rw==}
 
   acorn-jsx@5.3.2:
@@ -3000,7 +3000,7 @@ snapshots:
       vscode-oniguruma: 1.7.0
       vscode-textmate: 5.2.0
 
-  '@nightcord/monaco-editor@0.57.0-beta.4': {}
+  '@vencord/monaco-editor@0.57.0-beta.4': {}
 
   acorn-jsx@5.3.2(acorn@8.17.0):
     dependencies:

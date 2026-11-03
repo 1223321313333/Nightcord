@@ -60,7 +60,7 @@ export const banner = {
 };
 
 export async function getMonacoEditorCdnUrl() {
-    const manifest = await readFile(resolve(import.meta.dirname, "../../node_modules/@nightcord/monaco-editor/package.json"), "utf8");
+    const manifest = await readFile(resolve(import.meta.dirname, "../../node_modules/@vencord/monaco-editor/package.json"), "utf8");
     /**
      * @type {import("type-fest").PackageJson}
      */

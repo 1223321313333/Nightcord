@@ -49,7 +49,7 @@
         "@streamparser/json": "catalog:",
         "@vap/core": "catalog:",
         "@vap/shiki": "catalog:",
-        "@nightcord/monaco-editor": "catalog:",
+        "@vencord/monaco-editor": "catalog:",
         "fflate": "catalog:",
         "gifenc": "catalog:",
         "gifuct-js": "catalog:",

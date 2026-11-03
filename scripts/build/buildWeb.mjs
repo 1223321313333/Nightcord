@@ -127,7 +127,7 @@ async function buildExtension(target, files) {
     const entries = {
         "dist/Nightcord.js": await readFile("dist/browser/extension.js"),
         "dist/Nightcord.css": await readFile("dist/browser/extension.css"),
-        ...await loadDir("node_modules/@nightcord/monaco-editor/dist", "vendor/monaco"),
+        ...await loadDir("node_modules/@vencord/monaco-editor/dist", "vendor/monaco"),
         ...Object.fromEntries(await Promise.all(files.map(async f => {
             let content = await readFile(join("browser", f));
             if (f.startsWith("manifest")) {
