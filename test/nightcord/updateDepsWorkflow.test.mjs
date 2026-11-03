@@ -80,10 +80,10 @@ function runPublish({
             advisories
         }));
 
-        writeFileSync(`${bin}/gh`, `#!/bin/sh\necho "$*" >> "${dir}/gh.log"\ncase "$*" in "issue list"*) [ -n "$EXISTING_ISSUE" ] && echo "$EXISTING_ISSUE";; esac\nexit 0\n`);
+        writeFileSync(`${bin}/gh`, `#!/bin/sh\necho "$*" >> "${dir}/gh.log"\ncase "$*" in "issue list"*) [ -n "$EXISTING_ISSUE" ] && echo "$EXISTING_ISSUE";; esac\nexit 0\n`, { mode: 0o755 });
         if (!HAS_JQ) {
             writeFileSync(`${bin}/jq.js`, JQ_STUB);
-            writeFileSync(`${bin}/jq`, `#!/bin/sh\nexec node "${bin}/jq.js" "$@"\n`);
+            writeFileSync(`${bin}/jq`, `#!/bin/sh\nexec node "${bin}/jq.js" "$@"\n`, { mode: 0o755 });
         }
 
         const sha256 = file => spawnSync(BASH, ["-c", `sha256sum "${deps}/${file}"`], { encoding: "utf8" }).stdout.replace(/^\\/, "").split(" ")[0];
@@ -113,6 +113,9 @@ function runPublish({
             const env = {
                 ...process.env,
                 PATH: bin + delimiter + process.env.PATH,
+                // should the real gh ever get called, it can't reach anything
+                GH_TOKEN: "",
+                GITHUB_TOKEN: "",
                 DRY_RUN: String(dryRun),
                 REPORT: `${deps}/report.json`,
                 RUN_URL: "https://run.invalid/1",
