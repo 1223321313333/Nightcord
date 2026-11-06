@@ -17,13 +17,13 @@ export interface ChangelogEntry {
 export const CHANGELOG_RU: ChangelogEntry[] = [
     {
         id: "2026-11-03-discord-update",
-        date: "3 ноября 2026",
-        title: "Плагины снова работают после обновления Discord",
+        date: "7 ноября 2026",
+        title: "Плагины снова работают после обновлений Discord",
         items: [
-            "Discord поменял свой код, и часть плагинов перестала работать. Снова работают Decor, FakeProfileThemes, Dragify, MentionAvatars, FullUserInChatbox, ClipsEnhancements и Questify.",
+            "Discord дважды за неделю поменял то, как собирается его код, и многие плагины перестали работать, среди них Decor, FakeProfileThemes, Questify, CallTimer, CustomTimestamps и RoleColorEverywhere. Всё снова работает.",
             "ExpressionCloner теперь называется ExpressionManager: настройки перенесены сами. Он умеет ещё и изменять и удалять эмодзи и стикеры, убирать их из недавних, а копирование ссылок на стикеры (бывший CopyStickerLinks) теперь внутри него.",
             "Редактор QuickCSS обновился. Если CDN с ним заблокирован или не отвечает, через 10 секунд откроется простой редактор: CSS в нём сохраняется точно так же.",
-            "Новый плагин MutedServersActivityBadge и новая настройка «Убрать скругление углов окна»."
+            "Новые плагины MutedServersActivityBadge и BetterMutualServers (роли и даты вступления в списке общих серверов) и новая настройка «Убрать скругление углов окна»."
         ]
     },
     {
