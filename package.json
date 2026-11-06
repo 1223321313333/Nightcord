@@ -1,7 +1,7 @@
 {
     "name": "nightcord",
     "private": "true",
-    "version": "1.15.15.0",
+    "version": "1.15.16.0",
     "description": "Nightcord — a Discord client mod built on Equicord and Vencord",
     "homepage": "https://github.com/1223321313333/Nightcord#readme",
     "bugs": {
@@ -96,7 +96,7 @@
         "typescript-transform-paths": "catalog:",
         "zip-local": "catalog:"
     },
-    "packageManager": "pnpm@12.15.0",
+    "packageManager": "pnpm@12.16.1",
     "engines": {
         "node": ">=22"
     }

@@ -15,6 +15,7 @@ import { PluginNative } from "@utils/types";
 import { chooseFile } from "@utils/web";
 import { showToast } from "@webpack/common";
 
+import { NativeRequestBody } from "../types";
 import { convertApngToGif } from "./apngToGif";
 import { getExtensionFromBytes, getExtensionFromMime, getMimeFromExtension, getUrlExtension } from "./getMediaUrl";
 import { isS3Configured, uploadToS3 } from "./s3";
@@ -27,7 +28,7 @@ const Native = IS_WEB
 export const logger = new Logger("FileUpload", "#7cb7ff");
 
 function toProxyUrl(url: string): string {
-    const corsProxyUrl = normalizeCorsProxyUrl((settings.store as { corsProxyUrl?: string; }).corsProxyUrl);
+    const corsProxyUrl = normalizeCorsProxyUrl(settings.store.corsProxyUrl);
 
     if (!corsProxyUrl || url.startsWith(`${corsProxyUrl}?url=`)) {
         return url;
@@ -84,7 +85,7 @@ function isUploadCancelledError(error: unknown): boolean {
 }
 
 function getFallbackServices(): ServiceType[] {
-    const configuredOrder = (settings.store as { fallbackOrder?: string; }).fallbackOrder || fallbackServiceOrder.join(",");
+    const configuredOrder = settings.store.fallbackOrder || fallbackServiceOrder.join(",");
     const services = configuredOrder
         .split(/[\n,]/)
         .map(service => service.trim())
@@ -137,7 +138,7 @@ export function cancelCurrentUpload() {
 }
 
 function getUploadTimeoutMs(): number {
-    const value = (settings.store as { uploadTimeoutMs?: number; }).uploadTimeoutMs;
+    const value = settings.store.uploadTimeoutMs;
     if (!Number.isFinite(value) || !value) {
         return 300000;
     }
@@ -180,37 +181,25 @@ function getHeaderEntries(headers?: HeadersInit): [string, string][] {
 
 class XhrResponse {
     ok: boolean;
-    headers: Headers;
     status: number;
     statusText: string;
     url: string;
+    headers: Headers;
 
-    constructor(private xhr: XMLHttpRequest) {
-        this.status = xhr.status;
-        this.statusText = xhr.statusText;
-        this.url = xhr.responseURL;
-        this.ok = this.status >= 200 && this.status < 300;
-        this.headers = new Headers();
-
-        const rawHeaders = xhr.getAllResponseHeaders();
-        for (const line of rawHeaders.trim().split(/[\r\n]+/)) {
-            if (!line) continue;
-
-            const separatorIndex = line.indexOf(":");
-            if (separatorIndex < 0) continue;
-
-            this.headers.append(line.slice(0, separatorIndex).trim(), line.slice(separatorIndex + 1).trim());
-        }
+    constructor(private data: { status: number; statusText: string; url: string; headers: Headers; text: string; }) {
+        this.status = data.status;
+        this.statusText = data.statusText;
+        this.url = data.url;
+        this.headers = data.headers;
+        this.ok = data.status >= 200 && data.status < 300;
     }
 
     async text(): Promise<string> {
-        return typeof this.xhr.response === "string"
-            ? this.xhr.response
-            : this.xhr.responseText;
+        return this.data.text;
     }
 
     async json(): Promise<unknown> {
-        return JSON.parse(await this.text());
+        return JSON.parse(this.data.text);
     }
 }
 
@@ -236,22 +225,36 @@ function setXhrUploadProgress(event: ProgressEvent) {
     });
 }
 
-async function uploadRequestWithTimeout(url: string, options: RequestInit): Promise<XhrResponse> {
-    const requestUrl = toProxyUrl(url);
-
+async function xhrRequestWithTimeout(url: string, options: RequestInit): Promise<XhrResponse> {
     return new Promise((resolve, reject) => {
         const xhr = new XMLHttpRequest();
         activeXhr = xhr;
         const timeout = setTimeout(() => xhr.abort(), getUploadTimeoutMs());
 
-        xhr.open(options.method || "GET", requestUrl);
+        xhr.open(options.method || "GET", url);
 
         for (const [key, value] of getHeaderEntries(options.headers)) {
             xhr.setRequestHeader(key, value);
         }
 
         xhr.upload.onprogress = setXhrUploadProgress;
-        xhr.onload = () => resolve(new XhrResponse(xhr));
+        xhr.onload = () => {
+            const headers = new Headers();
+            for (const line of xhr.getAllResponseHeaders().trim().split(/[\r\n]+/)) {
+                const separatorIndex = line.indexOf(":");
+                if (separatorIndex > 0) {
+                    headers.append(line.slice(0, separatorIndex).trim(), line.slice(separatorIndex + 1).trim());
+                }
+            }
+
+            resolve(new XhrResponse({
+                status: xhr.status,
+                statusText: xhr.statusText,
+                url: xhr.responseURL,
+                headers,
+                text: xhr.responseText
+            }));
+        };
         xhr.onerror = () => reject(new Error("Upload failed"));
         xhr.onabort = () => reject(new Error(cancelRequested ? "Upload cancelled by user" : "Upload timed out"));
         xhr.onloadend = () => {
@@ -265,6 +268,76 @@ async function uploadRequestWithTimeout(url: string, options: RequestInit): Prom
         const { body } = options;
         xhr.send(body instanceof ReadableStream ? null : body as XMLHttpRequestBodyInit | null);
     });
+}
+
+async function nativeRequestWithTimeout(url: string, options: RequestInit): Promise<XhrResponse> {
+    if (!Native) throw new Error("Native uploads are only supported on the desktop client");
+
+    const headers = Object.fromEntries(getHeaderEntries(options.headers));
+    let body: NativeRequestBody | undefined;
+
+    const rawBody = options.body;
+    if (rawBody instanceof FormData) {
+        const fields: [string, string][] = [];
+        let file: Extract<NativeRequestBody, { type: "multipart"; }>["file"] | undefined;
+        let fileIndex: number | undefined;
+
+        for (const [key, value] of rawBody.entries()) {
+            if (typeof value === "string") {
+                fields.push([key, value]);
+            } else {
+                file = {
+                    field: key,
+                    filename: value.name,
+                    contentType: value.type || undefined,
+                    data: await value.arrayBuffer()
+                };
+                fileIndex = fields.length;
+            }
+        }
+
+        if (!file) throw new Error("Upload failed");
+
+        for (const key of Object.keys(headers)) {
+            if (key.toLowerCase() === "content-type") delete headers[key];
+        }
+
+        body = { type: "multipart", fields, file, fileIndex };
+    } else if (typeof rawBody === "string") {
+        body = { type: "text", text: rawBody };
+    } else if (rawBody instanceof Blob) {
+        body = { type: "raw", data: await rawBody.arrayBuffer(), contentType: rawBody.type || undefined };
+        if (rawBody.type && !Object.keys(headers).some(key => key.toLowerCase() === "content-type")) {
+            headers["Content-Type"] = rawBody.type;
+        }
+    }
+
+    const result = await Native.request({
+        url,
+        method: options.method || "GET",
+        headers,
+        body,
+        timeoutMs: getUploadTimeoutMs()
+    });
+    if (result.error) throw new Error(result.error);
+
+    const responseHeaders = new Headers();
+    for (const [key, value] of Object.entries(result.headers)) {
+        responseHeaders.append(key, value);
+    }
+
+    return new XhrResponse({
+        status: result.status,
+        statusText: result.statusText,
+        url,
+        headers: responseHeaders,
+        text: result.text
+    });
+}
+
+async function uploadRequestWithTimeout(url: string, options: RequestInit): Promise<XhrResponse> {
+    if (Native) return nativeRequestWithTimeout(url, options);
+    return xhrRequestWithTimeout(toProxyUrl(url), options);
 }
 
 function resolveShareXRequestValue(value: string | number | boolean, filename: string): string {
@@ -409,21 +482,6 @@ async function uploadToNest(fileBlob: Blob, filename: string): Promise<string> {
         throw new Error("Auth token is required");
     }
 
-    if (Native) {
-        const arrayBuffer = await fileBlob.arrayBuffer();
-        const result = await Native.uploadToNest(arrayBuffer, filename, nestToken);
-
-        if (!result.success) {
-            throw new Error(result.error || "Upload failed");
-        }
-
-        if (!result.url) {
-            throw new Error("No URL returned from upload");
-        }
-
-        return result.url;
-    }
-
     const formData = new FormData();
     formData.append("file", fileBlob, filename);
 
@@ -566,19 +624,14 @@ export function isConfigured(): boolean {
         serviceUrl,
         ziplineToken,
         nestToken
-    } = settings.store as {
-        serviceType: ServiceType;
-        serviceUrl?: string;
-        ziplineToken?: string;
-        nestToken?: string;
-    };
+    } = settings.store;
     switch (serviceType) {
         case ServiceType.NEST:
             return Boolean(nestToken);
         case ServiceType.EZHOST:
-            return Boolean((settings.store as { ezHostKey?: string; }).ezHostKey);
+            return Boolean(settings.store.ezHostKey);
         case ServiceType.ENCRYPTINGHOST:
-            return Boolean((settings.store as { encryptingHostKey?: string; }).encryptingHostKey);
+            return Boolean(settings.store.encryptingHostKey);
         case ServiceType.S3:
             return isS3Configured();
         case ServiceType.CATBOX:
@@ -594,9 +647,9 @@ export function isConfigured(): boolean {
         case ServiceType.PIXELDRAIN:
             return true;
         case ServiceType.PIXELVAULT:
-            return Boolean((settings.store as { pixelVaultKey?: string; }).pixelVaultKey);
+            return Boolean(settings.store.pixelVaultKey);
         case ServiceType.WEBDAV:
-            return Boolean((settings.store as { webdavUrl?: string; }).webdavUrl);
+            return Boolean(settings.store.webdavUrl);
         case ServiceType.SHAREX:
             try {
                 parseShareXConfigFromSettings();
@@ -611,24 +664,9 @@ export function isConfigured(): boolean {
 }
 
 async function uploadToEzHost(fileBlob: Blob, filename: string): Promise<string> {
-    const { ezHostKey } = (settings.store as { ezHostKey?: string; });
+    const { ezHostKey } = settings.store;
 
     if (!ezHostKey) throw new Error("E-Z Host API key is required");
-
-    if (Native) {
-        const arrayBuffer = await fileBlob.arrayBuffer();
-        const result = await Native.uploadToEzHost(arrayBuffer, filename, ezHostKey);
-
-        if (!result.success) {
-            throw new Error(result.error || "Upload failed");
-        }
-
-        if (!result.url) {
-            throw new Error("No URL returned from upload");
-        }
-
-        return result.url;
-    }
 
     const formData = new FormData();
     formData.append("file", fileBlob, filename);
@@ -659,12 +697,6 @@ async function uploadToEzHost(fileBlob: Blob, filename: string): Promise<string>
 async function uploadToCatbox(fileBlob: Blob, filename: string): Promise<string> {
     const { catboxUserhash } = settings.store;
 
-    if (Native) {
-        const result = await Native.uploadToCatbox(await fileBlob.arrayBuffer(), filename, catboxUserhash || undefined);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
-
     const formData = new FormData();
     formData.append("reqtype", "fileupload");
     if (catboxUserhash) formData.append("userhash", catboxUserhash);
@@ -682,32 +714,22 @@ async function uploadToCatbox(fileBlob: Blob, filename: string): Promise<string>
 }
 
 async function uploadTo0x0(fileBlob: Blob, filename: string): Promise<string> {
-    if (!Native) {
-        throw new Error("0x0.st uploads are only supported on the desktop client");
-    }
+    const formData = new FormData();
+    formData.append("file", fileBlob, filename);
 
-    const arrayBuffer = await fileBlob.arrayBuffer();
-    const result = await Native.uploadTo0x0(arrayBuffer, filename);
+    const response = await uploadRequestWithTimeout("https://0x0.st", {
+        method: "POST",
+        body: formData
+    });
 
-    if (!result.success) {
-        throw new Error(result.error || "Upload failed");
-    }
-
-    if (!result.url) {
-        throw new Error("No URL returned from upload");
-    }
-
-    return result.url;
+    if (!response.ok) throw new Error(`Upload failed: ${response.status} ${await response.text()}`);
+    const text = (await response.text()).trim();
+    if (!text) throw new Error("No URL returned from upload");
+    return text;
 }
 
 async function uploadToLitterbox(fileBlob: Blob, filename: string): Promise<string> {
     const expiry = settings.store.litterboxExpiry || "24h";
-
-    if (Native) {
-        const result = await Native.uploadToLitterbox(await fileBlob.arrayBuffer(), filename, expiry);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
 
     const formData = new FormData();
     formData.append("reqtype", "fileupload");
@@ -726,13 +748,7 @@ async function uploadToLitterbox(fileBlob: Blob, filename: string): Promise<stri
 }
 
 async function uploadToGofile(fileBlob: Blob, filename: string): Promise<string> {
-    const { gofileToken } = settings.store as { gofileToken?: string; };
-
-    if (Native) {
-        const result = await Native.uploadToGofile(await fileBlob.arrayBuffer(), filename, gofileToken || undefined);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
+    const { gofileToken } = settings.store;
 
     const formData = new FormData();
     if (gofileToken?.trim()) {
@@ -766,12 +782,6 @@ async function uploadToGofile(fileBlob: Blob, filename: string): Promise<string>
 }
 
 async function uploadToTmpfiles(fileBlob: Blob, filename: string): Promise<string> {
-    if (Native) {
-        const result = await Native.uploadToTmpfiles(await fileBlob.arrayBuffer(), filename);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
-
     const formData = new FormData();
     formData.append("file", fileBlob, filename);
 
@@ -797,12 +807,6 @@ async function uploadToTmpfiles(fileBlob: Blob, filename: string): Promise<strin
 }
 
 async function uploadToBuzzheavier(fileBlob: Blob, filename: string): Promise<string> {
-    if (Native) {
-        const result = await Native.uploadToBuzzheavier(await fileBlob.arrayBuffer(), filename);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
-
     const uploadUrl = `https://w.buzzheavier.com/${encodeURIComponent(filename)}`;
     const response = await uploadRequestWithTimeout(uploadUrl, {
         method: "PUT",
@@ -829,12 +833,6 @@ async function uploadToBuzzheavier(fileBlob: Blob, filename: string): Promise<st
 }
 
 async function uploadToTempSh(fileBlob: Blob, filename: string): Promise<string> {
-    if (Native) {
-        const result = await Native.uploadToTempSh(await fileBlob.arrayBuffer(), filename);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
-
     const formData = new FormData();
     formData.append("file", fileBlob, filename);
 
@@ -860,12 +858,6 @@ function makeRandomHex(length = 12): string {
 }
 
 async function uploadToFilebin(fileBlob: Blob, filename: string): Promise<string> {
-    if (Native) {
-        const result = await Native.uploadToFilebin(await fileBlob.arrayBuffer(), filename);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
-
     const binId = makeRandomHex(6);
     const uploadUrl = `https://filebin.net/${binId}/${encodeURIComponent(filename)}`;
     const formData = new FormData();
@@ -884,24 +876,10 @@ async function uploadToFilebin(fileBlob: Blob, filename: string): Promise<string
 }
 
 async function uploadToPixelVault(fileBlob: Blob, filename: string): Promise<string> {
-    const { pixelVaultKey } = settings.store as { pixelVaultKey?: string; };
+    const { pixelVaultKey } = settings.store;
 
     if (!pixelVaultKey?.trim()) {
         throw new Error("PixelVault upload key is required");
-    }
-
-    if (Native) {
-        const result = await Native.uploadToPixelVault(await fileBlob.arrayBuffer(), filename, pixelVaultKey.trim());
-
-        if (!result.success) {
-            throw new Error(result.error || "Upload failed");
-        }
-
-        if (!result.url) {
-            throw new Error("No URL returned from upload");
-        }
-
-        return result.url;
     }
 
     const formData = new FormData();
@@ -937,13 +915,7 @@ async function uploadToPixelVault(fileBlob: Blob, filename: string): Promise<str
 }
 
 async function uploadToPixelDrain(fileBlob: Blob, filename: string): Promise<string> {
-    const { pixelDrainKey } = settings.store as { pixelDrainKey?: string; };
-
-    if (Native) {
-        const result = await Native.uploadToPixelDrain(await fileBlob.arrayBuffer(), filename, pixelDrainKey?.trim() || undefined);
-        if (!result.success || !result.url) throw new Error(result.error || "No URL returned from upload");
-        return result.url;
-    }
+    const { pixelDrainKey } = settings.store;
 
     const headers: Record<string, string> = {};
     if (pixelDrainKey?.trim()) {
@@ -976,10 +948,7 @@ async function uploadToPixelDrain(fileBlob: Blob, filename: string): Promise<str
 }
 
 function buildWebdavAuthHeader(): string | null {
-    const { webdavUsername, webdavPassword } = settings.store as {
-        webdavUsername?: string;
-        webdavPassword?: string;
-    };
+    const { webdavUsername, webdavPassword } = settings.store;
     if (webdavUsername?.trim() && webdavPassword?.trim()) {
         return `Basic ${btoa(`${webdavUsername.trim()}:${webdavPassword.trim()}`)}`;
     }
@@ -987,10 +956,7 @@ function buildWebdavAuthHeader(): string | null {
 }
 
 async function createWebdavShare(relativePath: string, serverOrigin: string, filename: string): Promise<string> {
-    const { webdavServerType, webdavShareType } = settings.store as {
-        webdavServerType?: string;
-        webdavShareType?: string;
-    };
+    const { webdavServerType, webdavShareType } = settings.store;
 
     const ocsVersion = webdavServerType === "owncloud" ? "v1" : "v2";
     const ocsUrl = `${serverOrigin}/ocs/${ocsVersion}.php/apps/files_sharing/api/v1/shares?format=json`;
@@ -1010,52 +976,36 @@ async function createWebdavShare(relativePath: string, serverOrigin: string, fil
         permissions: "1"
     }).toString();
 
-    let shareToken: string;
-    let shareUrl: string | undefined;
+    const response = await uploadRequestWithTimeout(ocsUrl, {
+        method: "POST",
+        headers: ocsHeaders,
+        body
+    });
 
-    if (Native) {
-        const result = await Native.createWebdavShare(ocsUrl, ocsHeaders, body);
-        if (!result.success) {
-            throw new Error(result.error || "Failed to create public share");
-        }
-        shareToken = result.url || "";
-        if (!shareToken) {
-            throw new Error("No share token returned from server");
-        }
-    } else {
-        const response = await uploadRequestWithTimeout(ocsUrl, {
-            method: "POST",
-            headers: ocsHeaders,
-            body
-        });
+    const responseText = await response.text();
 
-        const responseText = await response.text();
+    if (!response.ok) {
+        throw new Error(`Failed to create public share: ${response.status} ${responseText}`);
+    }
 
-        if (!response.ok) {
-            throw new Error(`Failed to create public share: ${response.status} ${responseText}`);
-        }
+    let shareData: { ocs?: { data?: { url?: string; token?: string; }; meta?: Record<string, string>; }; };
+    try {
+        shareData = JSON.parse(responseText);
+    } catch {
+        throw new Error(`Failed to parse share response: ${responseText.slice(0, 200)}`);
+    }
 
-        let shareData: { ocs?: { data?: { url?: string; token?: string; }; meta?: Record<string, string>; }; };
-        try {
-            shareData = JSON.parse(responseText);
-        } catch {
-            throw new Error(`Failed to parse share response: ${responseText.slice(0, 200)}`);
-        }
+    const shareToken = shareData?.ocs?.data?.token ?? "";
 
-        shareToken = shareData?.ocs?.data?.token ?? "";
-
-        if (!shareToken) {
-            const meta = shareData?.ocs?.meta;
-            const description = meta ? `${meta.status || "unknown"} (${meta.statuscode || "?"})` : "no token in response";
-            throw new Error(`Failed to create public share: ${description}`);
-        }
-
-        shareUrl = shareData.ocs?.data?.url;
+    if (!shareToken) {
+        const meta = shareData?.ocs?.meta;
+        const description = meta ? `${meta.status || "unknown"} (${meta.statuscode || "?"})` : "no token in response";
+        throw new Error(`Failed to create public share: ${description}`);
     }
 
     const shareType = webdavShareType || "share-page";
 
-    const sharePageUrl = shareUrl || `${serverOrigin}/s/${shareToken}`;
+    const sharePageUrl = shareData.ocs?.data?.url || `${serverOrigin}/s/${shareToken}`;
     const directDownloadUrl = webdavServerType === "owncloud"
         ? `${serverOrigin}/remote.php/dav/public-files/${shareToken}`
         : `${serverOrigin}/public.php/dav/files/${shareToken}`;
@@ -1072,11 +1022,7 @@ async function createWebdavShare(relativePath: string, serverOrigin: string, fil
 }
 
 async function uploadToWebdav(fileBlob: Blob, filename: string): Promise<string> {
-    const { webdavUrl, webdavServerType, webdavDirectory } = settings.store as {
-        webdavUrl?: string;
-        webdavServerType?: string;
-        webdavDirectory?: string;
-    };
+    const { webdavUrl, webdavServerType, webdavDirectory } = settings.store;
 
     if (!webdavUrl) {
         throw new Error("WebDAV server URL is required");
@@ -1097,23 +1043,15 @@ async function uploadToWebdav(fileBlob: Blob, filename: string): Promise<string>
         requestHeaders.Authorization = authHeader;
     }
 
-    if (Native) {
-        const arrayBuffer = await fileBlob.arrayBuffer();
-        const result = await Native.uploadToWebdav(arrayBuffer, uploadUrl, requestHeaders);
-        if (!result.success) {
-            throw new Error(result.error || "Upload failed");
-        }
-    } else {
-        const response = await uploadRequestWithTimeout(uploadUrl, {
-            method: "PUT",
-            headers: requestHeaders,
-            body: fileBlob
-        });
+    const response = await uploadRequestWithTimeout(uploadUrl, {
+        method: "PUT",
+        headers: requestHeaders,
+        body: fileBlob
+    });
 
-        if (!response.ok) {
-            const errorText = await response.text();
-            throw new Error(`Upload failed: ${response.status} ${errorText}`);
-        }
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Upload failed: ${response.status} ${errorText}`);
     }
 
     if (serverType === "generic") {
@@ -1140,7 +1078,7 @@ async function uploadToService(serviceType: ServiceType, fileBlob: Blob, filenam
         case ServiceType.ENCRYPTINGHOST:
             return uploadToEncryptingHost(fileBlob, filename);
         case ServiceType.S3:
-            return uploadToS3(fileBlob, filename, Native, uploadRequestWithTimeout);
+            return uploadToS3(fileBlob, filename, uploadRequestWithTimeout);
         case ServiceType.CATBOX:
             return uploadToCatbox(fileBlob, filename);
         case ServiceType.ZEROX0:
@@ -1243,7 +1181,7 @@ function normalizePrimaryService(primary: ServiceType, fileName: string): Servic
 }
 
 function buildUploadOrder(primary: ServiceType, fileName: string): ServiceType[] {
-    const disableFallbacks = Boolean((settings.store as { disableFallbacks?: boolean; }).disableFallbacks);
+    const { disableFallbacks } = settings.store;
     const effectivePrimary = normalizePrimaryService(primary, fileName);
 
     const order: ServiceType[] = [effectivePrimary];
@@ -1275,7 +1213,7 @@ function finalizeUploadedUrl(url: string): string {
 }
 
 function getAllowedExtensions(): Set<string> | null {
-    const raw = (settings.store as { uploadAllowedFileTypes?: string; }).uploadAllowedFileTypes?.trim();
+    const raw = settings.store.uploadAllowedFileTypes?.trim();
     if (!raw) return null;
 
     const exts = raw.split(/[\s,;]+/).map(e => e.trim().toLowerCase()).filter(Boolean);
@@ -1286,11 +1224,8 @@ export function isFileTypeAllowed(file: File): boolean {
     const allowed = getAllowedExtensions();
     if (!allowed) return true;
 
-    const dotIndex = file.name.lastIndexOf(".");
-    if (dotIndex < 1 || dotIndex === file.name.length - 1) return false;
-
-    const ext = file.name.slice(dotIndex + 1).toLowerCase();
-    return allowed.has(ext);
+    const ext = getFilenameExtension(file.name);
+    return ext !== undefined && allowed.has(ext);
 }
 
 function getFilenameExtension(filename: string): string | undefined {
@@ -1319,8 +1254,8 @@ async function notifyUploadSuccess(finalUrl: string, forceSend?: boolean): Promi
         showToast({ text: "Upload successful", variant: "success" });
     }
 
-    const autoSend = forceSend || Boolean((settings.store as { autoSend?: boolean; }).autoSend);
-    const autoFormat = Boolean((settings.store as { autoFormat?: boolean; }).autoFormat);
+    const autoSend = forceSend || settings.store.autoSend;
+    const { autoFormat } = settings.store;
     if (autoSend) {
         insertTextIntoChatInputBox(autoFormat ? `<${finalUrl}>` : finalUrl);
     }
@@ -1463,6 +1398,25 @@ async function uploadPreparedBlob(blob: Blob, sourceUrl?: string, forceSend?: bo
     return finalUrl;
 }
 
+function reportUploadFailure(error: unknown, logLabel: string) {
+    const message = error instanceof Error ? error.message : "Unknown error";
+    if (isUploadCancelledError(error)) {
+        showToast({ text: "Upload cancelled" });
+        setUploadState({ phase: "cancelled", status: "Upload cancelled.", canCancel: false, percent: 0 });
+    } else {
+        showToast({ text: `Upload failed: ${message}`, variant: "critical" });
+        logger.error(logLabel, error);
+        setUploadState({ phase: "failed", status: `Upload failed: ${message}`, canCancel: false, percent: 0 });
+    }
+}
+
+function finishUpload() {
+    isUploading = false;
+    activeAbortController = null;
+    activeXhr = null;
+    setTimeout(() => resetUploadState(), 1800);
+}
+
 export async function uploadFile(url: string): Promise<void> {
     if (isUploading) {
         showToast({ text: "Upload already in progress" });
@@ -1527,20 +1481,9 @@ export async function uploadFile(url: string): Promise<void> {
 
         await uploadPreparedBlob(blob, url);
     } catch (error) {
-        const message = error instanceof Error ? error.message : "Unknown error";
-        if (isUploadCancelledError(error)) {
-            showToast({ text: "Upload cancelled" });
-            setUploadState({ phase: "cancelled", status: "Upload cancelled.", canCancel: false, percent: 0 });
-        } else {
-            showToast({ text: `Upload failed: ${message}`, variant: "critical" });
-            logger.error("Upload error", error);
-            setUploadState({ phase: "failed", status: `Upload failed: ${message}`, canCancel: false, percent: 0 });
-        }
+        reportUploadFailure(error, "Upload error");
     } finally {
-        isUploading = false;
-        activeAbortController = null;
-        activeXhr = null;
-        setTimeout(() => resetUploadState(), 1800);
+        finishUpload();
     }
 }
 
@@ -1596,19 +1539,8 @@ export async function uploadProvidedFiles(files: readonly File[], forceSend?: bo
             await uploadPreparedBlob(file, undefined, forceSend);
         }
     } catch (error) {
-        const message = error instanceof Error ? error.message : "Unknown error";
-        if (isUploadCancelledError(error)) {
-            showToast({ text: "Upload cancelled" });
-            setUploadState({ phase: "cancelled", status: "Upload cancelled.", canCancel: false, percent: 0 });
-        } else {
-            showToast({ text: `Upload failed: ${message}`, variant: "critical" });
-            logger.error("Manual upload error", error);
-            setUploadState({ phase: "failed", status: `Upload failed: ${message}`, canCancel: false, percent: 0 });
-        }
+        reportUploadFailure(error, "Manual upload error");
     } finally {
-        isUploading = false;
-        activeAbortController = null;
-        activeXhr = null;
-        setTimeout(() => resetUploadState(), 1800);
+        finishUpload();
     }
 }

@@ -13,10 +13,13 @@ import { Devs } from "@utils/constants";
 import { healthIssues } from "@utils/health";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { getBuildNumber, matchedPatches, patches } from "@webpack/patcher";
+import { matchedPatches, patches } from "@webpack/patcher";
 
 const KEY = "Nightcord_LastCheck";
 const CHECK_DELAY = 45_000;
+
+// -1 when Discord does not say; a number, as earlier versions stored it
+const getBuildNumber = () => Number(window.GLOBAL_ENV?.BUILD_NUMBER) || -1;
 
 const settings = definePluginSettings({
     notifyAfterUpdate: {
