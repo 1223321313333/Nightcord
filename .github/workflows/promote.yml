@@ -1,11 +1,13 @@
 name: Promote to stable
-# Once a day the beta build (the devbuild release, rebuilt on every push to main) is copied to the stable release,
+# Every six hours the beta build (the devbuild release, rebuilt on every push to main) is copied to the stable release,
 # if it is at least 20 hours old and its CI passed. The stable release is GitHub's "latest": the website, the
 # installer and the built-in updater use it unless "Beta versions" is on. Run it by hand with "now" to ship an urgent
 # fix right away.
 on:
     schedule:
-        - cron: "0 7 * * *" # daily, 07:00 UTC
+        # GitHub starts scheduled runs hours late (the 07:00 UTC run started between 14:00 and 17:00 UTC in
+        # November 2026). With one run a day, a build that turned 20 hours old just after it waited another whole day.
+        - cron: "0 1,7,13,19 * * *"
     workflow_dispatch:
         inputs:
             now:
