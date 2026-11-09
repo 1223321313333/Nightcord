@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { isNonNullish } from "@utils/guards";
 import definePlugin, { OptionType } from "@utils/types";
+import { Message } from "@nightcord/discord-types";
 import { AuthenticationStore, SnowflakeUtils, Tooltip } from "@webpack/common";
 
 type FillValue = ("status-danger" | "status-warning" | "status-positive" | "text-muted");
@@ -36,7 +36,8 @@ export default definePlugin({
         latency: {
             type: OptionType.NUMBER,
             description: "Threshold in seconds for latency indicator",
-            default: 2
+            default: 2,
+            min: 0
         },
         detectDiscordKotlin: {
             type: OptionType.BOOLEAN,

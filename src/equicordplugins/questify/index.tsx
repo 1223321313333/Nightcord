@@ -8,9 +8,9 @@ import { playAudio } from "@api/AudioPlayer";
 import { addServerListElement, removeServerListElement, ServerListRenderPosition } from "@api/ServerList";
 import { PlainSettings, Settings } from "@api/Settings";
 import { ErrorBoundary } from "@components/index";
-import type { Quest, QuestUserStatus } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { StartAt } from "@utils/types";
+import type { Quest, QuestUserStatus } from "@nightcord/discord-types";
 import { findComponentByCodeLazy, onceReady } from "@webpack";
 import { QuestStore } from "@webpack/common";
 import type { JSX } from "react";
@@ -275,7 +275,7 @@ export default definePlugin({
                 },
                 {
                     // QUESTS_FETCH_QUEST_TO_DELIVER_BEGIN
-                    match: /(?=let \i=Date.now\(\),\i=\i.recordQuestRequestAttempt.{0,50}QUESTS_FETCH_QUEST_TO_DELIVER_BEGIN)/,
+                    match: /(?=let [^;]+\.recordQuestRequestAttempt\()/,
                     replace: "return;"
                 }
             ]

@@ -9,7 +9,7 @@
  * Licensed under https://github.com/adryd325/oneko.js/blob/main/LICENSE
  */
 
-/* eslint-disable */
+ 
 
 export default function oneko(options = {}) {
     const {

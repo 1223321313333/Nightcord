@@ -8,10 +8,10 @@ import { DataStore } from "@api/index";
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
-import { SoundboardSound, VoiceState } from "@nightcord/discord-types";
 import showMeYourName from "@plugins/showMeYourName";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
+import { SoundboardSound, VoiceState } from "@nightcord/discord-types";
 import { ChannelStore, FluxDispatcher, GuildMemberStore, RelationshipStore, showToast, SoundboardStore, StreamerModeStore, UserStore, VoiceStateStore } from "@webpack/common";
 
 interface SoundboardSoundPayload {

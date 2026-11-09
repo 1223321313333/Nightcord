@@ -6,10 +6,10 @@
 
 import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { DEFAULT_COLOR, SWATCHES } from "@plugins/pinDms/constants";
 import { categoryLen, createCategory, getCategory } from "@plugins/pinDms/data";
 import { classNameFactory } from "@utils/css";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { extractAndLoadChunksLazy, findComponentByCodeLazy } from "@webpack";
 import { ColorPicker, Modal, openModalLazy, TextInput, useMemo, useState } from "@webpack/common";
 

@@ -4,8 +4,8 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ModuleFactory } from "@nightcord/discord-types/webpack";
 import { Logger } from "@utils/Logger";
+import { ModuleFactory } from "@nightcord/discord-types/webpack";
 import * as Webpack from "@webpack";
 import { wreq } from "@webpack";
 import { AnyModuleFactory } from "@webpack/types";
@@ -113,6 +113,7 @@ export async function loadLazyChunks() {
             return matches.sort((a, b) => a.index! - b.index!);
         }
 
+        // oxlint-disable-next-line no-unused-vars
         let foundCssDebuggingLoad = false;
 
         async function searchAndLoadLazyChunks(factoryCode: string) {

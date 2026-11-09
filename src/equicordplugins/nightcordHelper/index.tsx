@@ -5,7 +5,7 @@
  */
 
 import { Settings } from "@api/Settings";
-import { Devs, GUILD_ID, NightcordDevs, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
+import { Devs, NightcordDevs, GUILD_ID, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VC_SUPPORT_CHANNEL_IDS } from "@utils/constants";
 import { isAnyPluginDev } from "@utils/misc";
 import definePlugin from "@utils/types";
 import { Alerts, NavigationRouter, UserStore } from "@webpack/common";
@@ -69,6 +69,13 @@ export default definePlugin({
             replacement: {
                 match: /(?<=handleContextMenu.{0,350})(?=link:(\i)\.url)/,
                 replace: "...$1,"
+            }
+        },
+        {
+            find: 'id:"quiet-mode"',
+            replacement: {
+                match: /(\i)\?(\(0,\i\.jsxs\)\(\i\.Fragment,\{children:\[.{0,150}?id:"quiet-mode".{0,200}?badge:)/,
+                replace: "true?$2!$1?void 0:"
             }
         }
     ],

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BaseText } from "@components/index";
+import { Text } from "@components/Text";
 import { Native } from "@equicordplugins/songSpotlight.desktop/service";
 import {
     ContainerClasses,
@@ -13,11 +13,11 @@ import {
     ProfileCardClasses,
     Spinner,
 } from "@equicordplugins/songSpotlight.desktop/ui/common";
-import { User } from "@nightcord/discord-types";
 import { RenderSongInfo } from "@song-spotlight/api/handlers";
 import { UserData } from "@song-spotlight/api/structs";
 import { sid } from "@song-spotlight/api/util";
 import { classes } from "@utils/misc";
+import { User } from "@nightcord/discord-types";
 import {
     openUserProfileModal,
     SelectedChannelStore,
@@ -83,7 +83,7 @@ export default function CollapsedProfileSongs({ data, user, isSideBar, isRedesig
                         }}
                     >
                         <div className={classes(OverlayClasses.overlay, ContainerClasses.innerContainer, ProfileCardClasses.card)}>
-                            <BaseText size={isSideBar ? "sm" : "xs"} weight="medium">Song Spotlight</BaseText>
+                            <Text size={isSideBar ? "sm" : "xs"} weight="medium">Song Spotlight</Text>
                             <div className={ContainerClasses.icons}>
                                 {previews && data
                                     ? previews.map((song, i) => {
@@ -101,7 +101,7 @@ export default function CollapsedProfileSongs({ data, user, isSideBar, isRedesig
                                                 )}
                                                 {extra && (
                                                     <div className={ContainerClasses.displayCountText}>
-                                                        <BaseText size={isSideBar ? "sm" : "xs"} weight="medium">+{data.length - shownSongs}</BaseText>
+                                                        <Text size={isSideBar ? "sm" : "xs"} weight="medium">+{data.length - shownSongs}</Text>
                                                     </div>
                                                 )}
                                             </div>

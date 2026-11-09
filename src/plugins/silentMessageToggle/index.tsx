@@ -20,9 +20,9 @@ import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { addMessagePreSendListener, MessageSendListener, removeMessagePreSendListener } from "@api/MessageEvents";
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings, Settings } from "@api/Settings";
-import { MessageFlags } from "@nightcord/discord-types/enums";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
+import { MessageFlags } from "@nightcord/discord-types/enums";
 import { React, useEffect } from "@webpack/common";
 
 const SETTINGS_KEYS: "silent"[] = ["silent"];

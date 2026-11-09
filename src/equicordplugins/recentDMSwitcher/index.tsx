@@ -9,7 +9,7 @@ import "./styles.css";
 import * as DataStore from "@api/DataStore";
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
-import { IS_MAC,NightcordDevs } from "@utils/constants";
+import { NightcordDevs, IS_MAC } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
 import { ChannelRouter, ChannelStore, closeModal, IconUtils, openModal, React, RelationshipStore, SelectedChannelStore, showToast, UserStore } from "@webpack/common";

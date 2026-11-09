@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BaseText } from "@components/BaseText";
 import { Button } from "@components/Button";
 import { Card } from "@components/Card";
 import { Heading } from "@components/Heading";
 import { XSmallIcon } from "@components/Icons";
+import { Text } from "@components/Text";
 import { HiddenServersStore } from "@equicordplugins/hideServers/HiddenServersStore";
-import { Guild, RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import { getGuildAcronym } from "@utils/discord";
 import { classes } from "@utils/misc";
+import { Guild, RenderModalProps } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { closeModal, IconUtils, Modal, openModal, SortedGuildStore, useStateFromStores } from "@webpack/common";
 
@@ -73,9 +73,9 @@ function GuildRow({ guild }) {
                     </div>
                 )}
             </div>
-            <BaseText size="md" weight="medium" className={cl("name")}>
+            <Text size="md" weight="medium" className={cl("name")}>
                 {guild.name}
-            </BaseText>
+            </Text>
             <Button
                 variant="dangerSecondary"
                 size="iconOnly"
@@ -151,7 +151,7 @@ export function HiddenServersMenu({ guilds }: { guilds: Guild[]; }) {
             />
         ) : null}
 
-        {hiddenGuilds.length === 0 && <BaseText size="md" weight="medium">No hidden servers</BaseText>}
+        {hiddenGuilds.length === 0 && <Text size="md" weight="medium">No hidden servers</Text>}
     </div>;
 }
 

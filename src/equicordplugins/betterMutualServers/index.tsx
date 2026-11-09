@@ -8,11 +8,11 @@ import "./styles.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Text } from "@components/Text";
-import { Guild, User } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { humanFriendlyJoin } from "@utils/text";
 import definePlugin from "@utils/types";
+import { Guild, User } from "@nightcord/discord-types";
 import { FluxDispatcher, GuildMemberStore, GuildRoleStore, moment, Tooltip, useEffect, UserProfileStore, useStateFromStores } from "@webpack/common";
 
 const cl = classNameFactory("vc-bms-");

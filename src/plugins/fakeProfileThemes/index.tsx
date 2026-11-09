@@ -26,13 +26,13 @@ import { Flex } from "@components/Flex";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import { Text } from "@components/Text";
-import { User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { copyWithToast, fetchUserProfile } from "@utils/discord";
 import { Margins } from "@utils/margins";
 import { classes } from "@utils/misc";
 import { useAwaiter } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
+import { User } from "@nightcord/discord-types";
 import { findComponentByCodeLazy } from "@webpack";
 import { ColorPicker, React, UserProfileStore, UserStore, useState } from "@webpack/common";
 

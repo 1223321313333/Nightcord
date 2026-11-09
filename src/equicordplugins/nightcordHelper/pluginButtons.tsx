@@ -7,9 +7,9 @@
 import { isPluginEnabled, plugins } from "@api/PluginManager";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Message } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { isNightcordGuild, isNightcordSupport } from "@utils/misc";
+import { Message } from "@nightcord/discord-types";
 import { showToast } from "@webpack/common";
 import { JSX } from "react";
 

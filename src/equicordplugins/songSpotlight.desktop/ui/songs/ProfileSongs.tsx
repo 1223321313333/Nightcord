@@ -4,10 +4,10 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { BaseText } from "@components/BaseText";
 import { Flex } from "@components/Flex";
 import { LinkIcon, PencilIcon } from "@components/Icons";
 import { Link } from "@components/Link";
+import { Text } from "@components/Text";
 import { listData } from "@equicordplugins/songSpotlight.desktop/lib/api";
 import { useAuthorizationStore } from "@equicordplugins/songSpotlight.desktop/lib/stores/AuthorizationStore";
 import { useSongStore } from "@equicordplugins/songSpotlight.desktop/lib/stores/SongStore";
@@ -20,10 +20,10 @@ import {
     Spinner,
 } from "@equicordplugins/songSpotlight.desktop/ui/common";
 import { openSettingsModal } from "@equicordplugins/songSpotlight.desktop/ui/settings";
-import { User } from "@nightcord/discord-types";
 import { sid } from "@song-spotlight/api/util";
 import { copyWithToast } from "@utils/discord";
 import { classes } from "@utils/misc";
+import { User } from "@nightcord/discord-types";
 import {
     ContextMenuApi,
     FluxDispatcher,
@@ -89,9 +89,9 @@ export default function ProfileSongs({ user, isSideBar }: ProfileSongsProps) {
             key="song-spotlight-profile-songs"
         >
             <Flex justifyContent="space-between">
-                <BaseText size="xs" weight={isSideBar ? "semibold" : "medium"} className={cl("header")}>
+                <Text size="xs" weight={isSideBar ? "semibold" : "medium"} className={cl("header")}>
                     Song Spotlight
-                </BaseText>
+                </Text>
                 <Tooltip text="More">
                     {props => (
                         <MoreHorizontalIcon
@@ -135,9 +135,9 @@ export default function ProfileSongs({ user, isSideBar }: ProfileSongsProps) {
                 <Link
                     onClick={() => setClamped(false)}
                 >
-                    <BaseText size="sm" weight="medium" className={cl("sub")} style={{ textAlign: "center" }}>
+                    <Text size="sm" weight="medium" className={cl("sub")} style={{ textAlign: "center" }}>
                         Show {data.length - profileSongsLimit} more
-                    </BaseText>
+                    </Text>
                 </Link>
             )}
         </div>

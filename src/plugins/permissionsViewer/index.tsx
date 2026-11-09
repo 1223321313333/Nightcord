@@ -24,11 +24,11 @@ import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { SafetyIcon } from "@components/Icons";
 import { TooltipContainer } from "@components/TooltipContainer";
-import type { Guild, RoleOrUserPermission } from "@nightcord/discord-types";
-import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { Devs } from "@utils/constants";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
+import type { Guild, RoleOrUserPermission } from "@nightcord/discord-types";
+import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { findCssClassesLazy } from "@webpack";
 import { ChannelStore, Dialog, GuildMemberStore, GuildRoleStore, GuildStore, match, Menu, PermissionsBits, Popout, useEffect, useRef, UserStore } from "@webpack/common";
 

@@ -6,10 +6,9 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
-import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
-import { Logger } from "@utils/Logger";
 import definePlugin, { makeRange, OptionType, PluginNative, ReporterTestable } from "@utils/types";
+import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@nightcord/discord-types";
 import { findByCodeLazy, findLazy } from "@webpack";
 import { ChannelStore, GuildRoleStore, GuildStore, UserStore } from "@webpack/common";
 
@@ -91,13 +90,14 @@ interface NotificationObject {
 }
 
 const notificationsShouldNotify = findByCodeLazy(".SUPPRESS_NOTIFICATIONS))return!1");
-const logger = new Logger("XSOverlay");
 
 const settings = definePluginSettings({
     webSocketPort: {
         type: OptionType.NUMBER,
         description: "Websocket port",
         default: 42070,
+        min: 1,
+        max: 65535,
         async onChange() {
             await start();
         }
@@ -155,6 +155,7 @@ const settings = definePluginSettings({
         type: OptionType.NUMBER,
         description: "Notification duration (secs)",
         default: 3,
+        min: 0
     },
     lengthBasedTimeout: {
         type: OptionType.BOOLEAN,

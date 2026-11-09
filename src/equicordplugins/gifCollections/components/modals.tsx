@@ -8,8 +8,8 @@ import { Button } from "@components/Button";
 import { Flex } from "@components/Flex";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { classes } from "@utils/misc";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { FluxDispatcher, Modal, openModal, TextInput, useCallback, useState } from "@webpack/common";
 
 import { settings } from "../settings";

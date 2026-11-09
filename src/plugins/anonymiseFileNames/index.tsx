@@ -20,9 +20,9 @@ import { ApplicationCommandInputType, ApplicationCommandOptionType, findOption, 
 import { definePluginSettings, Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { reverseExtensionMap } from "@equicordplugins/fixFileExtensions";
-import { CloudUpload } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
+import { CloudUpload } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { useState } from "@webpack/common";
 
@@ -62,7 +62,8 @@ const settings = definePluginSettings({
     randomisedLength: {
         description: "Random characters length",
         type: OptionType.NUMBER,
-        default: 7
+        default: 7,
+        min: 1
     },
     consistent: {
         description: "Consistent filename",

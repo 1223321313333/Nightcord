@@ -6,8 +6,8 @@
 
 import { Button } from "@components/Button";
 import { Text } from "@components/Text";
-import { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
+import { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { findByPropsLazy, findComponentByCodeLazy } from "@webpack";
 import { Avatar, ChannelStore, MessageStore, Modal, React, UserStore } from "@webpack/common";
 

@@ -10,10 +10,10 @@ import { addContextMenuPatch, NavContextMenuPatchCallback, removeContextMenuPatc
 import { DataStore } from "@api/index";
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
-import { CustomEmoji, ToastVariant, UnicodeEmoji } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
 import { chooseFile, saveFile } from "@utils/web";
+import { CustomEmoji, ToastVariant, UnicodeEmoji } from "@nightcord/discord-types";
 import { Alerts, EmojiStore, GuildStore, IconUtils, Menu, showToast as originalShowToast, useEffect, useState } from "@webpack/common";
 import { JSX } from "react";
 

@@ -12,9 +12,9 @@ import { showNotification } from "@api/Notifications";
 import { definePluginSettings, migratePluginSetting } from "@api/Settings";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Message, User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
+import { Message, User } from "@nightcord/discord-types";
 import { findByPropsLazy, findCssClassesLazy } from "@webpack";
 import { ChannelStore, Menu, openModal, showToast, Tooltip, useEffect, UserStore, useState } from "@webpack/common";
 

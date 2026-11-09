@@ -9,10 +9,10 @@ import { CheckedTextInput } from "@components/CheckedTextInput";
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
-import { Activity } from "@nightcord/discord-types";
-import { ActivityFlags, ActivityType } from "@nightcord/discord-types/enums";
 import { Margins } from "@utils/margins";
 import { identity } from "@utils/misc";
+import { Activity } from "@nightcord/discord-types";
+import { ActivityFlags, ActivityType } from "@nightcord/discord-types/enums";
 import { PresenceStore, React, Select, SnowflakeUtils, TextInput, UserStore } from "@webpack/common";
 
 import { AppIdSetting, makeEmptyAppId } from ".";
@@ -39,7 +39,7 @@ export function ReplaceTutorial() {
                     : activities.map(activity => {
                         const isSpotify = (activity.flags & (ActivityFlags.SYNC | ActivityFlags.PLAY)) === (ActivityFlags.SYNC | ActivityFlags.PLAY);
                         return !isSpotify
-                            ? <Paragraph>{activity.name}: {activity.application_id}</Paragraph>
+                            ? <Paragraph key={activity.application_id}>{activity.name}: {activity.application_id}</Paragraph>
                             : null;
                     })
             }

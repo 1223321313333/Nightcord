@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { managedStyleRootNode } from "@api/Styles";
-import { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { createAndAppendStyle } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
+import { Channel } from "@nightcord/discord-types";
 
 let style: HTMLStyleElement;
 
@@ -18,6 +18,7 @@ const settings = definePluginSettings({
         type: OptionType.NUMBER,
         description: "Blur Amount (in pixels)",
         default: 10,
+        min: 0,
         onChange: setCss
     },
     blurAllChannels: {

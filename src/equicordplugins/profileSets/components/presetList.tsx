@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { ProfilePreset } from "@nightcord/discord-types";
 import { isNonNullish } from "@utils/guards";
 import { classes } from "@utils/misc";
+import { ProfilePreset } from "@nightcord/discord-types";
 import { ContextMenuApi, Menu, React, TextInput } from "@webpack/common";
 
 import { cl } from "..";
@@ -138,7 +138,6 @@ export function PresetList({
                                 className={cl("menu-icon")}
                                 onClick={e => {
                                     e.stopPropagation();
-                                    const target = e.currentTarget;
                                     ContextMenuApi.openContextMenu(e, () => (
                                         <Menu.Menu navId="preset-options" onClose={ContextMenuApi.closeContextMenu}>
                                             <Menu.MenuItem

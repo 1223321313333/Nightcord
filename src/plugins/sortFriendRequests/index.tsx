@@ -23,10 +23,10 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { Paragraph } from "@components/Paragraph";
 import { TooltipContainer } from "@components/TooltipContainer";
-import { User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
+import { User } from "@nightcord/discord-types";
 import { DateUtils, RelationshipStore } from "@webpack/common";
 import { PropsWithChildren } from "react";
 

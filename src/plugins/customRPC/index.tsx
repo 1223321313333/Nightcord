@@ -25,12 +25,12 @@ import { Flex } from "@components/Flex";
 import { Heading } from "@components/Heading";
 import { Link } from "@components/Link";
 import { Paragraph } from "@components/Paragraph";
-import { Activity } from "@nightcord/discord-types";
-import { ActivityType } from "@nightcord/discord-types/enums";
 import { Devs } from "@utils/constants";
 import { isTruthy } from "@utils/guards";
 import { useAwaiter } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
+import { Activity } from "@nightcord/discord-types";
+import { ActivityType } from "@nightcord/discord-types/enums";
 import { findByCodeLazy, findComponentByCodeLazy } from "@webpack";
 import { ApplicationAssetUtils, FluxDispatcher, Menu, React, UserStore } from "@webpack/common";
 
@@ -318,6 +318,12 @@ export default definePlugin({
                         <Flex flexDirection="column" gap=".5em" alignItems="flex-start">
                             <Heading tag="h4" weight="bold">Custom RPC disabled</Heading>
                             <Paragraph>The "Enable Presence" setting is disabled, so your presence won't show. If this was unintentional, enable it below.</Paragraph>
+                            <Button
+                                variant="overlayPrimary"
+                                onClick={() => settings.store.enablePresence = true}
+                            >
+                                Enable Presence
+                            </Button>
                         </Flex>
                     </Card>
                 )}

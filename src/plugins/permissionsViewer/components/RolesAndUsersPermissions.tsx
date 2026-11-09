@@ -20,16 +20,16 @@ import ErrorBoundary from "@components/ErrorBoundary";
 import { Flex } from "@components/Flex";
 import { CopyIdIcon, InfoIcon, OwnerCrownIcon } from "@components/Icons";
 import { Paragraph } from "@components/Paragraph";
-import { Guild, RenderModalProps, Role, RoleOrUserPermission, UnicodeEmoji, User } from "@nightcord/discord-types";
-import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { buildExtraRoleContextMenuItems } from "@plugins/betterRoleContext";
+import { settings } from "@plugins/permissionsViewer";
 import { cl, getGuildPermissionSpecMap, loadGetGuildPermissionSpecMap } from "@plugins/permissionsViewer/utils";
 import { copyToClipboard } from "@utils/clipboard";
 import { getIntlMessage, getUniqueUsername } from "@utils/discord";
+import { Guild, RenderModalProps, Role, RoleOrUserPermission, UnicodeEmoji, User } from "@nightcord/discord-types";
+import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
 import { findByCodeLazy } from "@webpack";
 import { ContextMenuApi, FluxDispatcher, GuildMemberStore, GuildRoleStore, i18n, Menu, Modal, openModalLazy, PermissionsBits, ScrollerThin, Tooltip, useEffect, useMemo, useRef, UserStore, useState, useStateFromStores } from "@webpack/common";
 
-import { settings } from "..";
 import { PermissionAllowedIcon, PermissionDeniedIcon } from "./icons";
 
 type GetRoleIconData = (role: Role, size: number) => { customIconSrc?: string; unicodeEmoji?: UnicodeEmoji; };

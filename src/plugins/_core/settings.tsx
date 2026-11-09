@@ -10,11 +10,11 @@ import {
     BackupAndRestoreTab,
     ChangelogTab,
     CloudTab,
-    NightcordTab,
     PatchHelperTab,
     PluginsTab,
     ThemesTab,
     UpdaterTab,
+    NightcordTab,
 } from "@components/settings";
 import { gitHashShort } from "@shared/nightcordUserAgent";
 import { Devs } from "@utils/constants";
@@ -54,12 +54,6 @@ let LayoutTypes = {
     CUSTOM: 19,
 };
 waitFor(["SECTION", "SIDEBAR_ITEM", "PANEL", "CUSTOM"], v => LayoutTypes = v);
-
-const enum SectionType {
-    HEADER = "HEADER",
-    DIVIDER = "DIVIDER",
-    CUSTOM = "CUSTOM"
-}
 
 type SettingsLocation =
     | "top"

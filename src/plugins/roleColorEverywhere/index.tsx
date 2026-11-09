@@ -19,11 +19,11 @@
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import customUserColors, { getCustomColorString } from "@equicordplugins/customUserColors";
-import { GuildMember, Role } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { hasGuildFeature } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
+import { GuildMember, Role } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { ChannelStore, GuildMemberStore, GuildRoleStore, GuildStore } from "@webpack/common";
 
@@ -45,7 +45,7 @@ function makeColorStyle(guildId: string, { colorString, colorStrings }: Pick<Gui
 
     return {
         color: primaryColor,
-        background: `linear-gradient(to right,${colors})`,
+        backgroundImage: `linear-gradient(to right,${colors})`,
         backgroundClip: "text",
         backgroundSize: "100px auto",
         WebkitTextFillColor: "transparent"

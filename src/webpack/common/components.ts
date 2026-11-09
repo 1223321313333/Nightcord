@@ -17,8 +17,8 @@
 */
 
 import { TooltipFallback } from "@components/TooltipFallback";
-import * as t from "@nightcord/discord-types";
 import { LazyComponent } from "@utils/lazyReact";
+import * as t from "@nightcord/discord-types";
 import { filters, find, findCssClassesLazy, mapMangledCssClasses, mapMangledModuleLazy, proxyLazyWebpack, waitFor } from "@webpack";
 
 import { waitForComponent } from "./internal";

@@ -20,10 +20,10 @@ import * as DataStore from "@api/DataStore";
 import { Settings } from "@api/Settings";
 import { Paragraph } from "@components/Paragraph";
 import { openNotificationSettingsModal } from "@components/settings/tabs/nightcord/NotificationSettings";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import { confirmAction } from "@utils/discord";
 import { useAwaiter } from "@utils/react";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { ListScrollerThin, Modal, openModal, React, Timestamp, useEffect, useReducer, useState } from "@webpack/common";
 import type { DispatchWithoutAction } from "react";
 

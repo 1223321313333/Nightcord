@@ -7,10 +7,10 @@
 import "./ChatButton.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Channel } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { classes } from "@utils/misc";
 import { IconComponent } from "@utils/types";
+import { Channel } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { Clickable, Menu, Tooltip } from "@webpack/common";
 import { HTMLProps, JSX, MouseEventHandler, ReactNode } from "react";
@@ -128,6 +128,7 @@ export const removeChatBarButton = (id: string) => ChatBarButtonMap.delete(id);
 export interface ChatBarButtonProps {
     children: ReactNode;
     tooltip: string;
+    tooltipClassName?: string;
     onClick: MouseEventHandler;
     onContextMenu?: MouseEventHandler;
     onAuxClick?: MouseEventHandler;
@@ -136,7 +137,7 @@ export interface ChatBarButtonProps {
 
 export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
     return (
-        <Tooltip text={props.tooltip}>
+        <Tooltip text={props.tooltip} tooltipClassName={props.tooltipClassName}>
             {({ onMouseEnter, onMouseLeave }) => (
                 <div className={`expression-picker-chat-input-button ${ChannelTextAreaClasses?.buttonContainer ?? ""} vc-chatbar-button`}>
                     <Clickable

@@ -22,10 +22,10 @@ import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/Co
 import { plugins } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import { openPluginModal } from "@components/settings";
-import { Channel } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { useForceUpdater } from "@utils/react";
 import definePlugin, { OptionType } from "@utils/types";
+import { Channel } from "@nightcord/discord-types";
 import { ChannelStore, FluxDispatcher, Menu, MessageStore, React, SelectedChannelStore, useEffect, UserStore } from "@webpack/common";
 
 const rerenderListeners = new Set<() => void>();
@@ -147,14 +147,6 @@ const SilentTypingChatToggle: ChatBarButtonFactory = ({ channel, type }) => {
         enabledGlobally,
         chatIcon,
         defaultHidden,
-        enabledLocations,
-        disabledLocations,
-        alwaysEnableInActiveVoiceChat,
-        temporaryEnableThresholdServers,
-        temporaryEnableThresholdDirectMessages,
-        chatIconLeftClickAction,
-        chatIconMiddleClickAction,
-        chatIconRightClickAction,
     } = settings.use([
         "enabledGlobally",
         "chatIcon",
@@ -325,9 +317,7 @@ const ChatBarContextCheckbox: NavContextMenuPatchCallback = children => {
         chatIcon,
         chatContextMenu,
         enabledGlobally,
-        defaultHidden,
-        hideChatBoxTypingIndicators,
-        hideMembersListTypingIndicators
+        defaultHidden
     } = settings.use([
         "chatIcon",
         "chatContextMenu",

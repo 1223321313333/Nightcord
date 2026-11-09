@@ -16,12 +16,12 @@ import { definePluginSettings } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { EyeIcon, HistoryIcon } from "@components/Icons";
-import { Message, MessageAttachment } from "@nightcord/discord-types";
 import { Devs, EQUIBOT_USER_ID, NightcordDevs, SUPPORT_CHANNEL_ID, VC_SUPPORT_CATEGORY_ID, VENBOT_USER_ID } from "@utils/constants";
 import { getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
+import { Message, MessageAttachment } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { AuthenticationStore, ChannelStore, FluxDispatcher, Menu, MessageStore, Parser, SelectedChannelStore, Timestamp, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -66,6 +66,19 @@ function addDeleteStyle() {
     }
 }
 
+const buttonsToRemove = [
+    "edit",
+    "reply",
+    "forward",
+    "thread",
+    "pin",
+    "delete",
+    "mark-unread",
+    "apps",
+    "bookmark",
+    "reminder"
+];
+
 /**
  * Clears a message's history (edit + attachments)
  *
@@ -100,13 +113,19 @@ function doesMessageHaveHistory(message: MLMessage): boolean {
 const REMOVE_HISTORY_ID = "ml-remove-history";
 const TOGGLE_DELETE_STYLE_ID = "ml-toggle-style";
 const TOGGLE_DIFF_VIEW_ID = "ml-toggle-diff";
-const patchMessageContextMenu: NavContextMenuPatchCallback = (
-    children,
-    props,
-) => {
-    const { message } = props;
+const patchMessageContextMenu: NavContextMenuPatchCallback = (children, { message }) => {
     const { deleted, id, channel_id } = message;
     if (!doesMessageHaveHistory(message)) return;
+
+    if (deleted) {
+        for (const id of buttonsToRemove) {
+            const group = findGroupChildrenByChildId(id, children);
+            if (group) {
+                const index = group.findIndex(c => c?.props?.id === id);
+                group.splice(index, 1);
+            }
+        }
+    }
 
     toggle: {
         if (!deleted) break toggle;

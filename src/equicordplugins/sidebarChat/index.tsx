@@ -7,12 +7,12 @@
 import { NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { HeaderBarButton } from "@api/HeaderBar";
 import ErrorBoundary from "@components/ErrorBoundary";
-import { Channel, Guild, User } from "@nightcord/discord-types";
-import { ChannelType } from "@nightcord/discord-types/enums";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin from "@utils/types";
+import { Channel, Guild, User } from "@nightcord/discord-types";
+import { ChannelType } from "@nightcord/discord-types/enums";
 import {
     extractAndLoadChunksLazy,
     findByPropsLazy,
@@ -484,8 +484,6 @@ export default definePlugin({
 });
 
 const Header = ({ guild, channel }: { guild: Guild; channel: Channel; }) => {
-    const recipientId = channel.isPrivate() ? channel.getRecipientId() as string : null;
-
     const name = useStateFromStores([UserStore, RelationshipStore], () => getChannelTitle(channel), [channel.id, channel.name]);
 
     const parentChannel = useStateFromStores(

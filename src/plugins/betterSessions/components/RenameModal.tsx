@@ -19,14 +19,14 @@
 import { TextButton } from "@components/Button";
 import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { SessionInfo } from "@plugins/betterSessions/types";
 import { getDefaultName, savedSessionsCache, saveSessionsToDataStore } from "@plugins/betterSessions/utils";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, React, TextInput, useState } from "@webpack/common";
 import { KeyboardEvent } from "react";
 
 export function RenameModal({ props, session, state }: { props: RenderModalProps, session: SessionInfo["session"], state: [string, React.Dispatch<React.SetStateAction<string>>]; }) {
-    const [title, setTitle] = state;
+    const [, setTitle] = state;
     const [value, setValue] = useState(savedSessionsCache.get(session.id_hash)?.name ?? "");
 
     function onSaveClick() {

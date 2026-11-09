@@ -21,13 +21,13 @@ import "./styles.css";
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
 import { definePluginSettings, migratePluginSettings } from "@api/Settings";
 import { CopyIcon, DeleteIcon, HistoryIcon, PencilIcon, PlusIcon } from "@components/Icons";
-import { CustomEmoji, Guild, GuildSticker, Message, StickerItem } from "@nightcord/discord-types";
-import { EmojiIntention, StickerFormatType, StickerType } from "@nightcord/discord-types/enums";
 import { Devs } from "@utils/constants";
 import { confirmAction } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import { removeFromArray } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
+import { CustomEmoji, Guild, GuildSticker, Message, StickerItem } from "@nightcord/discord-types";
+import { EmojiIntention, StickerFormatType, StickerType } from "@nightcord/discord-types/enums";
 import { Constants, EmojiStore, GuildStore, Menu, PermissionsBits, PermissionStore, React, RestAPI, SelectedGuildStore, showToast, StickersPersistedStore, StickersStore, UserSettingsActionCreators } from "@webpack/common";
 import { ReactElement } from "react";
 
