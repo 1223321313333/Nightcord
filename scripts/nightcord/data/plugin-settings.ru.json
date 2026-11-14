@@ -189,7 +189,7 @@
     "nitroFirst": ["Default color source if both are present","Приоритет цветов","Какие цвета показывать, если есть и те, и другие",{"Nitro colors":"Цвета Nitro","Fake colors":"Поддельные цвета"}]
   },
   "FavoriteAnything": {
-    "localThumbnails": ["Generate file thumbnails locally instead of using an external service (placeholder.nin0.dev). Not compatible with mobile. Toggling this option will not affect existing favourites.","Превью на компьютере","Делать превью файлов у себя, а не через внешний сервис (placeholder.nin0.dev). Не работает на телефоне; уже добавленное не изменится"]
+    "localThumbnails": ["Generate file thumbnails locally instead of using an external service (placeholder.nin0.dev). Not compatible with mobile. Toggling this option will not affect existing favorites.","Превью на компьютере","Делать превью файлов у себя, а не через внешний сервис (placeholder.nin0.dev). Не работает на телефоне; уже добавленное не изменится"]
   },
   "FileUpload": {
     "autoUploadPastedFiles": ["Automatically upload files from clipboard to image host when pasting in chat input.","Загружать вставленное","Файлы из буфера обмена при вставке в поле ввода сразу загружать на файлообменник"]
@@ -356,8 +356,8 @@
     "cacheLimit": ["Maximum number of messages to store in the cache. Older messages are deleted when the limit is reached. This helps reduce memory usage and improve performance. 0 means there is no limit","Лимит кэша","Сколько сообщений держать в кэше; меньше — меньше памяти (0 — без ограничения)"],
     "timeBasedCleanupMinutes": ["Automatically remove messages from servers that are older than this many minutes. Set to 0 to disable time-based cleanup.","Очистка по времени","Удалять сообщения с серверов старше стольких минут (0 — не удалять)"],
     "preserveCurrentChannel": ["When enabled, messages in your currently selected channel are not affected by time-based cleanup.","Не чистить текущий канал","Очистка по времени не трогает открытый канал"],
-    "whitelistedIds": ["Whitelisted server, channel, or user IDs.","Белый список","ID серверов, каналов или людей"],
-    "blacklistedIds": ["Blacklisted server, channel, or user IDs.","Чёрный список","ID серверов, каналов или людей"],
+    "whitelistedIds": ["Server, channel, or user IDs to always show in message log.","Белый список","ID серверов, каналов или людей, которые всегда попадают в журнал"],
+    "blacklistedIds": ["Server, channel, or user IDs to never show in message log.","Чёрный список","ID серверов, каналов или людей, которые никогда не попадают в журнал"],
     "clearLogsOnRestart": ["Clear logs when Discord restarts.","Очищать при перезапуске","Очищать журнал при перезапуске Discord"]
   },
   "MessagePeek": {
@@ -378,7 +378,7 @@
   },
   "MoreQuickReactions": {
     "reactionCount": ["Number of reactions (0-42)","Число реакций","Сколько реакций показывать (0–42)"],
-    "frequentEmojis": ["Use frequently used emojis instead of favourite emojis","Частые эмодзи","Брать часто используемые эмодзи вместо избранных"],
+    "frequentEmojis": ["Use frequently used emojis instead of favorite emojis","Частые эмодзи","Брать часто используемые эмодзи вместо избранных"],
     "rows": ["Rows of quick reactions to display","Строк","Сколько строк быстрых реакций"],
     "columns": ["Columns of quick reactions to display","Столбцов","Сколько столбцов быстрых реакций"],
     "compactMode": ["Scales the buttons to 75% of their original scale, whilst increasing the inner emoji to 125% scale. Emojis will be 93.75% of the original size. Recommended to have a minimum of 5 columns","Компактно","Кнопки 75% размера, эмодзи внутри крупнее. Лучше от 5 столбцов"],
@@ -471,7 +471,7 @@
     "notificationVolume": ["Notification volume","Громкость уведомлений","Громкость уведомлений"]
   },
   "NoTrack": {
-    "disableAnalytics": ["Disable Discord's tracking (analytics/'science')","Без аналитики","Отключить слежку Discord (аналитику)"],
+    "disableAnalytics": ["Block Discord's tracking analytics","Без аналитики","Блокировать сбор аналитики Discord"],
     "disableStackDumping": ["Print a native stack trace to the console when Discord crashes. Requires full restart.","Трассировка при сбое","Печатать трассировку в консоль при падении Discord. Нужен полный перезапуск"]
   },
   "OnePingPerDM": {
@@ -577,8 +577,7 @@
     "sorting": ["Username or if applicable Display Name","Сортировка","Сортировать по имени пользователя или отображаемому имени",{"Username":"Имя пользователя","Display Name":"Отображаемое имя","Dont Sort":"Не сортировать"}]
   },
   "ServerListIndicators": {
-    "mode": ["Mode","Режим","Что показывать",{"Only online friend count":"Только друзей в сети","Only server count":"Только число серверов","Both server and online friend counts":"И то, и другое"}],
-    "useCompact": ["Makes the indicator appear with only text","Компактно","Показывать только текстом"]
+    "mode": ["Mode","Режим","Что показывать",{"Only online friend count":"Только друзей в сети","Only server count":"Только число серверов","Both server and online friend counts":"И то, и другое"}]
   },
   "Settings": {
     "settingsLocation": ["Где показывать раздел настроек Nightcord","Раздел настроек","Где показывать раздел настроек Nightcord"],

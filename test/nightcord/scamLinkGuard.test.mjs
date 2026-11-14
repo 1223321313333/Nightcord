@@ -15,7 +15,6 @@ let scanForScams, hostOf;
 before(async () => ({ scanForScams, hostOf } = await load("src/nightcordplugins/scamLinkGuard/detect.ts")));
 
 const reasons = text => scanForScams(text).map(h => `${h.host}:${h.reason}`);
-const flagged = text => scanForScams(text).length > 0;
 
 describe("ScamLinkGuard", () => {
     it("leaves the real Discord and Steam domains alone", () => {
@@ -79,7 +78,7 @@ describe("ScamLinkGuard", () => {
 
     it("does not flag legitimate third parties that merely contain a brand word", () => {
         for (const url of [
-            "https://discord.js.org/",      // a dev docs site on js.org
+            "https://discord.js.org/", // a dev docs site on js.org
             "https://disboard.org/",
             "https://top.gg/"
         ]) {

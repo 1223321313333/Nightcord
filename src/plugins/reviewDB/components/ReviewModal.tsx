@@ -16,7 +16,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { BaseText } from "@components/BaseText";
+import { Text } from "@components/Text";
 import * as t from "@nightcord/discord-types";
 import { Auth } from "@plugins/reviewDB/auth";
 import { ReviewType } from "@plugins/reviewDB/entities";
@@ -49,10 +49,10 @@ function ReviewsModal({ modalProps, modalKey, discordId, name, type }: { modalPr
             {...modalProps}
             size="lg"
             title={
-                <BaseText size="lg" weight="semibold" className={cl("modal-header")}>
+                <Text size="lg" weight="semibold" className={cl("modal-header")}>
                     {name}'s Reviews
                     {!!reviewCount && <span> ({reviewCount} Reviews)</span>}
-                </BaseText>
+                </Text>
             }
             preview={
                 <div className={cl("modal-footer")}>

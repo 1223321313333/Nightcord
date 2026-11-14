@@ -65,7 +65,7 @@ describe("describeFetchError", () => {
 
 describe("escapeHtml", () => {
     it("escapes the five HTML-significant characters", () => {
-        assert.equal(m.escapeHtml(`<b>&"'`), "&lt;b&gt;&amp;&quot;&#39;");
+        assert.equal(m.escapeHtml("<b>&\"'"), "&lt;b&gt;&amp;&quot;&#39;");
         assert.equal(m.escapeHtml("plain text"), "plain text");
     });
 });

@@ -48,16 +48,16 @@ describe("fixMessage", () => {
 
 describe("looksLikeWrongLayout", () => {
     it("recognises Latin text that is really Russian on the EN layout", () => {
-        assert.equal(looksLikeWrongLayout(["ghbdtn"]), true);            // привет
+        assert.equal(looksLikeWrongLayout(["ghbdtn"]), true); // привет
         assert.equal(looksLikeWrongLayout(["nfr", "b", "cltkfq"]), true); // так и сделай
     });
 
     it("leaves real English, Cyrillic, slang, laughter and consonant words alone", () => {
-        assert.equal(looksLikeWrongLayout(["привет"]), false);                // already Cyrillic
+        assert.equal(looksLikeWrongLayout(["привет"]), false); // already Cyrillic
         assert.equal(looksLikeWrongLayout(["hello", "how", "are", "you"]), false); // normal English
-        assert.equal(looksLikeWrongLayout(["gg", "wp"]), false);              // too short
-        assert.equal(looksLikeWrongLayout(["xDDDDD"]), false);                // long run
-        assert.equal(looksLikeWrongLayout(["hmmmmm"]), false);                // long run
+        assert.equal(looksLikeWrongLayout(["gg", "wp"]), false); // too short
+        assert.equal(looksLikeWrongLayout(["xDDDDD"]), false); // long run
+        assert.equal(looksLikeWrongLayout(["hmmmmm"]), false); // long run
         assert.equal(looksLikeWrongLayout(["rhythm", "crypt", "lynx"]), false); // vowel-less English
     });
 });

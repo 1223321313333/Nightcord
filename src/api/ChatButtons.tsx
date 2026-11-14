@@ -129,6 +129,7 @@ export const removeChatBarButton = (id: string) => ChatBarButtonMap.delete(id);
 export interface ChatBarButtonProps {
     children: ReactNode;
     tooltip: string;
+    tooltipClassName?: string;
     onClick: MouseEventHandler;
     onContextMenu?: MouseEventHandler;
     onAuxClick?: MouseEventHandler;
@@ -137,7 +138,7 @@ export interface ChatBarButtonProps {
 
 export const ChatBarButton = ErrorBoundary.wrap((props: ChatBarButtonProps) => {
     return (
-        <Tooltip text={translateUi(props.tooltip)}>
+        <Tooltip text={translateUi(props.tooltip)} tooltipClassName={props.tooltipClassName}>
             {({ onMouseEnter, onMouseLeave }) => (
                 <div className={`expression-picker-chat-input-button ${ChannelTextAreaClasses?.buttonContainer ?? ""} vc-chatbar-button`}>
                     <Clickable

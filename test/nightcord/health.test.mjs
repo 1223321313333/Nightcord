@@ -30,8 +30,8 @@ describe("reportHealthIssue", () => {
         reportHealthIssue("patch-error", "PluginA", "boom");
         reportHealthIssue("patch-error", "PluginA", "boom"); // same -> ignored
         assert.equal(healthIssues.length, 1);
-        reportHealthIssue("patch-error", "PluginA", "other");   // different detail
-        reportHealthIssue("patch-error", "PluginB", "boom");    // different plugin
+        reportHealthIssue("patch-error", "PluginA", "other"); // different detail
+        reportHealthIssue("patch-error", "PluginB", "boom"); // different plugin
         reportHealthIssue("patch-no-effect", "PluginA", "boom"); // different kind
         assert.equal(healthIssues.length, 4);
     });

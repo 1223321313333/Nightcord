@@ -10,11 +10,15 @@ html.nc-night-ready body::after {
     visibility: hidden;
 
     /* fade in and out; visibility waits for the fade so the hidden overlay costs nothing */
-    transition: opacity 2.5s ease, visibility 0s linear 2.5s;
+    transition:
+        opacity 2.5s ease,
+        visibility 0s linear 2.5s;
 }
 
 html.nc-night body::after {
     opacity: 1;
     visibility: visible;
-    transition: opacity 2.5s ease, visibility 0s;
+    transition:
+        opacity 2.5s ease,
+        visibility 0s;
 }

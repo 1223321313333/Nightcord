@@ -48,7 +48,7 @@ const RENAMED = [
 // a select option naming another client, spread over two lines as in PlatformIndicators
 const OPTION = "            {\n                label: \"Vencord\",\n                value: \"vencord\",\n            },";
 
-let dir, out;
+let dir, out, lintConfig;
 before(() => {
     dir = mkdtempSync(join(tmpdir(), "nightcord-rebrand-"));
     const git = (...args) => execFileSync("git", args, { cwd: dir, stdio: ["ignore", "pipe", "pipe"] });
@@ -56,10 +56,12 @@ before(() => {
     for (const [key, value] of [["user.name", "test"], ["user.email", "test@example.invalid"], ["core.autocrlf", "false"]]) git("config", key, value);
     mkdirSync(join(dir, "src"));
     writeFileSync(join(dir, "src", "sample.ts"), [...KEPT, ...RENAMED.map(([from]) => from), OPTION].join("\n") + "\n");
+    writeFileSync(join(dir, ".oxlintrc.json"), "{ \"ignorePatterns\": [\"dist\", \"packages/vencord-types\"] }\n");
     git("add", "-A");
     git("commit", "-q", "-m", "sample");
     execFileSync(process.execPath, [join(ROOT, "scripts/nightcord/rebrand.cjs"), dir], { stdio: "pipe" });
     out = readFileSync(join(dir, "src", "sample.ts"), "utf8");
+    lintConfig = readFileSync(join(dir, ".oxlintrc.json"), "utf8");
 });
 after(() => rmSync(dir, { recursive: true, force: true }));
 
@@ -71,5 +73,9 @@ describe("rebrand.cjs", () => {
 
     it("renames the client itself", () => {
         for (const [from, to] of RENAMED) assert.ok(out.includes(to + "\n"), `${from}\n  should be\n${to}`);
+    });
+
+    it("renames the folders the lint config ignores, which are renamed too", () => {
+        assert.equal(lintConfig, "{ \"ignorePatterns\": [\"dist\", \"packages/nightcord-types\"] }\n");
     });
 });

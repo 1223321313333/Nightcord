@@ -17,7 +17,8 @@
 */
 
 import { readdirSync, writeFileSync } from "fs";
-import { getEntryPoint, isPluginFile, parseDevs, parseNightcordDevs, parseFile, PluginData } from "./utils";
+
+import { getEntryPoint, isPluginFile, parseDevs, parseFile, parseNightcordDevs, PluginData } from "./utils";
 
 (async () => {
     parseDevs();

@@ -45,7 +45,7 @@ const info = { title: "Тест — #общий", guildId: "g", channelId: "c" }
 let html, txt, json, buildStats;
 before(async () => {
     const mod = await load(
-        { contents: `export * from "./chatExport/render"; export * from "./chatStats/index";`, resolveDir: "src/nightcordplugins" },
+        { contents: "export * from \"./chatExport/render\"; export * from \"./chatStats/index\";", resolveDir: "src/nightcordplugins" },
         { "@webpack/common": stores }
     );
     html = mod.toHtml(info, messages);

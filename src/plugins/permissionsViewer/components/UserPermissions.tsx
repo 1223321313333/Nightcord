@@ -21,13 +21,13 @@ import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
 import type { Guild, GuildMember, RoleOrUserPermission } from "@nightcord/discord-types";
 import { PermissionOverwriteType } from "@nightcord/discord-types/enums";
+import { PermissionsSortOrder, settings } from "@plugins/permissionsViewer";
 import { cl, getGuildPermissionSpecMap, getSortedRolesForMember, sortUserRoles } from "@plugins/permissionsViewer/utils";
 import { getIntlMessage } from "@utils/discord";
 import { classes } from "@utils/misc";
 import { findCssClassesLazy } from "@webpack";
 import { PermissionsBits, Tooltip, useMemo, UserStore } from "@webpack/common";
 
-import { PermissionsSortOrder, settings } from "..";
 import openRolesAndUsersPermissionsModal from "./RolesAndUsersPermissions";
 
 interface UserPermission {

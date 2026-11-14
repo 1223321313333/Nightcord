@@ -87,6 +87,7 @@ export default definePlugin({
         NightcordDevs.Prince527,
         NightcordDevs.creations,
         NightcordDevs.Star123451,
+        NightcordDevs.dev0xz02
     ],
     reporterTestable: ReporterTestable.None,
 

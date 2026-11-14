@@ -21,12 +21,12 @@
 
 import { createPackage } from "@electron/asar";
 import { readdir, writeFile } from "fs/promises";
-import { dirname, join, resolve } from "path";
 import { createRequire } from "module";
+import { dirname, join, resolve } from "path";
 import { fileURLToPath } from "url";
 
 import { getPluginTarget } from "../utils.mjs";
-import { BUILD_TIMESTAMP, commonOpts, exists, globPlugins, IS_DEV, IS_REPORTER, IS_COMPANION_TEST, IS_STANDALONE, IS_UPDATER_DISABLED, resolvePluginName, VERSION, commonRendererPlugins, watch, buildOrWatchAll, stringifyValues, IS_ANTI_CRASH_TEST, getMonacoEditorCdnUrl } from "./common.mjs";
+import { BUILD_TIMESTAMP, buildOrWatchAll, commonOpts, commonRendererPlugins, exists, getMonacoEditorCdnUrl, globPlugins, IS_ANTI_CRASH_TEST, IS_COMPANION_TEST, IS_DEV, IS_REPORTER, IS_STANDALONE, IS_UPDATER_DISABLED, resolvePluginName, stringifyValues, VERSION, watch } from "./common.mjs";
 
 const defines = stringifyValues({
     IS_STANDALONE,

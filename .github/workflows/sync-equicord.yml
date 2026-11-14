@@ -82,15 +82,18 @@ jobs:
 
             - name: Rebrand the new Equicord version
               if: steps.check.outputs.changed == 'true'
-              # rebrand.cjs, imports sorted again, Equicord's workflows kept as at the last sync; a sync by hand runs
-              # the same script, so both build the same commit
-              run: node scripts/nightcord/prepare-upstream.cjs equicord/dev origin/upstream-nightcord nc-upstream
+              # rebrand.cjs, linted and formatted again with Equicord's own tools, Equicord's workflows kept as at the
+              # last sync; a sync by hand runs the same script, so both build the same commit. What it prints is kept:
+              # its warnings (say the linter did not run) explain conflicts, and go into the issue this run opens
+              run: |
+                  set -o pipefail
+                  mkdir -p /tmp/sync
+                  node scripts/nightcord/prepare-upstream.cjs equicord/dev origin/upstream-nightcord nc-upstream | tee /tmp/sync/prepare.txt
 
             - name: Merge into a sync branch
               id: merge
               if: steps.check.outputs.changed == 'true'
               run: |
-                  mkdir -p /tmp/sync
                   : > /tmp/sync/resolve.txt
                   git checkout -b nc-sync
 
@@ -117,7 +120,7 @@ jobs:
                   fi
 
                   set +e
-                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm lint-styles && pnpm generatePluginJson > /dev/null && node --test "test/nightcord/*.test.mjs"; } > /tmp/sync/test.txt 2>&1
+                  { pnpm buildStandalone && pnpm testTsc && pnpm lint && pnpm fmt:check && pnpm generatePluginJson > /dev/null && node --test "test/nightcord/*.test.mjs"; } > /tmp/sync/test.txt 2>&1
                   result=$?
                   set -e
                   tail -n 40 /tmp/sync/test.txt
@@ -272,6 +275,16 @@ jobs:
                   Review and merge: https://github.com/$repo/compare/main...$branch?expand=1
 
                   Automatic merging of safe updates is controlled by the repository variable \`NIGHTCORD_AUTO_MERGE\`."
+                  fi
+
+                  # what prepare-upstream could not do in the prepare job: it explains conflicts and failed checks
+                  note=$(grep '^::warning::' /tmp/sync/prepare.txt 2>/dev/null | sed 's/^::warning:://; s/^/    /' || true)
+                  if [ -n "$note" ]; then
+                      body="$body
+
+                  While building the rebranded upstream:
+
+                  $note"
                   fi
 
                   gh issue create --title "$title" --body "$body"

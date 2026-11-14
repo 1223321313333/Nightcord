@@ -18,11 +18,11 @@ const pluginManager = clearUrls => ({ "@api/PluginManager": `export const plugin
 let ready, notReady, throwing;
 before(async () => {
     ready = (await load("src/nightcordplugins/cleanOpenedLinks/index.ts",
-        pluginManager(`{ rules: [1], replacer: url => url.split("?")[0] }`))).default;
+        pluginManager("{ rules: [1], replacer: url => url.split(\"?\")[0] }"))).default;
     notReady = (await load("src/nightcordplugins/cleanOpenedLinks/index.ts",
-        pluginManager(`{ rules: [], replacer: url => "SHOULD_NOT_RUN" }`))).default;
+        pluginManager("{ rules: [], replacer: url => \"SHOULD_NOT_RUN\" }"))).default;
     throwing = (await load("src/nightcordplugins/cleanOpenedLinks/index.ts",
-        pluginManager(`{ rules: [1], replacer: () => { throw new Error("boom"); } }`))).default;
+        pluginManager("{ rules: [1], replacer: () => { throw new Error(\"boom\"); } }"))).default;
 });
 
 describe("CleanOpenedLinks clean()", () => {

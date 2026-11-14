@@ -1,0 +1,8 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    // Nightcord: what `pnpm fmt` leaves alone. Equicord has no such file and formats everything.
+    //  - desktop: Nightcord Desktop (an Equibop fork) has its own setup
+    //  - docs: the website, written by hand
+    //  - badges.json, scripts/nightcord/data: data kept one entry per line, so that a change reads as one line
+    "ignorePatterns": ["desktop", "docs", "badges.json", "scripts/nightcord/data"]
+}

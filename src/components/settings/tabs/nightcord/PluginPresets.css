@@ -14,7 +14,10 @@
     border-radius: 14px;
     background: var(--background-surface-high, var(--background-secondary));
     border: 1px solid var(--border-subtle, transparent);
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    transition:
+        transform 0.18s ease,
+        box-shadow 0.18s ease,
+        border-color 0.18s ease;
 }
 
 .vc-nc-preset-card:hover {

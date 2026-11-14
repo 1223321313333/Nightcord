@@ -22,7 +22,6 @@ import NoTrack from "@plugins/_core/noTrack";
 import SettingsPlugin from "@plugins/_core/settings";
 import { gitRemote } from "@shared/nightcordUserAgent";
 import { DONOR_ROLE_ID, GUILD_ID, IS_WINDOWS, VC_DONOR_ROLE_ID, VC_GUILD_ID } from "@utils/constants";
-import { classNameFactory } from "@utils/css";
 import { t } from "@utils/i18n";
 import { Margins } from "@utils/margins";
 import { relaunch } from "@utils/native";
@@ -33,14 +32,13 @@ import { CryptoDonate } from "./CryptoDonate";
 import { MacOSVibrancySettings } from "./MacVibrancySettings";
 import { NotificationSection } from "./NotificationSettings";
 import { OutsideConnections } from "./OutsideConnections";
+import { openPlayground } from "./playground";
 import { PluginPresets } from "./PluginPresets";
 import { LocalTraces, PrivacyCheckup } from "./PrivacyCheckup";
 import { openWhatsNew } from "./Welcome";
 import { WindowsMaterialSettings } from "./WindowsMaterialSettings";
 
 const NIGHTCORD_IMAGE = "data:image/svg+xml," + encodeURIComponent("<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path fill='#6d28d9' d='M21.64 13.2a1 1 0 0 0-1.2-.26 7.5 7.5 0 0 1-9.38-9.38 1 1 0 0 0-1.46-1.2A10 10 0 1 0 21.9 14.4a1 1 0 0 0-.26-1.2Z'/></svg>");
-
-const cl = classNameFactory("vc-nightcord-tab-");
 
 type KeysOfType<Object, Type> = {
     [K in keyof Object]: Object[K] extends Type ? K : never;
@@ -232,6 +230,11 @@ function NightcordSettings() {
                         )
                     }
                 />
+                {IS_DEV && <QuickAction
+                    Icon={PaintbrushIcon}
+                    text="Open Component Playground"
+                    action={() => openPlayground()}
+                />}
             </QuickActionCard>
 
             <PluginPresets />

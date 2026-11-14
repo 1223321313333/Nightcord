@@ -12,7 +12,7 @@ import { before, describe, it } from "node:test";
 import { load } from "./helpers.mjs";
 
 const stubs = {
-    "@api/DataStore": `const m = globalThis.__store = new Map(); export const get = async k => m.get(k); export const set = async (k, v) => { m.set(k, v); };`,
+    "@api/DataStore": "const m = globalThis.__store = new Map(); export const get = async k => m.get(k); export const set = async (k, v) => { m.set(k, v); };",
     "@webpack/common": `
         export const React = { createElement: () => null, useReducer: () => [0, () => {}], useEffect: () => {}, useState: v => [v, () => {}] };
         export const Menu = {}; export const ContextMenuApi = {}; export const Parser = { parse: t => t };
@@ -21,7 +21,7 @@ const stubs = {
         export const UserStore = { getCurrentUser: () => ({ id: "me" }) };
         const dm = id => ({ id, isDM: () => true, getRecipientId: () => "friend" });
         export const ChannelStore = { getChannel: id => id === "group" ? { id, isDM: () => false } : dm(id) };`,
-    "@utils/discord": `export const sendMessage = async (c, m) => globalThis.__sent.push(m.content);`,
+    "@utils/discord": "export const sendMessage = async (c, m) => globalThis.__sent.push(m.content);",
     "@utils/translatedToast": "export const showToast = (message, type) => globalThis.__toasts.push(message);"
 };
 

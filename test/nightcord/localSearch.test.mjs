@@ -50,8 +50,8 @@ describe("LocalSearch", () => {
 
     it("ranks an exact phrase above scattered words", () => {
         const c = [
-            msg("a", "pizza at the place", 10),   // newer, but words are scattered
-            msg("b", "pizza place", 5)            // older, but the exact phrase
+            msg("a", "pizza at the place", 10), // newer, but words are scattered
+            msg("b", "pizza place", 5) // older, but the exact phrase
         ];
         assert.deepEqual(ids(searchMessages(c, "pizza place")), ["b", "a"]);
     });

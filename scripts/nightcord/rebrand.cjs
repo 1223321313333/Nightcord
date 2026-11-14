@@ -21,7 +21,7 @@ process.chdir(ROOT);
 
 const git = (...args) => execFileSync("git", args, { encoding: "utf8" });
 
-const files = git("ls-files", "src", "scripts", "browser", "packages", "package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml", "tsconfig.json", "eslint.config.mjs")
+const files = git("ls-files", "src", "scripts", "browser", "packages", "package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml", "tsconfig.json", ".oxlintrc.json")
     .split("\n").filter(Boolean)
     .filter(f => !/header-(new|old)\.txt$/.test(f))
     .filter(f => !/\.(png|jpe?g|gif|webp|ico|woff2?|avif|mp3|ogg|wav)$/i.test(f));

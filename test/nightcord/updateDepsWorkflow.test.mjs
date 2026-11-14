@@ -19,7 +19,7 @@ import { describe, it } from "node:test";
 import { ROOT } from "./helpers.mjs";
 
 const { load: parseYaml } = createRequire(import.meta.url)("yaml-js");
-const publish = parseYaml(readFileSync(join(ROOT, ".github/workflows/update-deps.yml"), "utf8")).jobs.publish;
+const { publish } = parseYaml(readFileSync(join(ROOT, ".github/workflows/update-deps.yml"), "utf8")).jobs;
 const STEPS = publish.steps.filter(step => step.run);
 
 const forwardSlashes = path => path.replace(/\\/g, "/");
