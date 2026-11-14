@@ -10,10 +10,10 @@ import { definePluginSettings } from "@api/Settings";
 import { Heading } from "@components/Heading";
 import { Link } from "@components/Link";
 import { Text } from "@components/Text";
+import { VideoDevice } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { identity } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { VideoDevice } from "@nightcord/discord-types";
 import { FluxDispatcher, MediaEngineStore, Select, Slider, useEffect, useState } from "@webpack/common";
 
 const settings = definePluginSettings({

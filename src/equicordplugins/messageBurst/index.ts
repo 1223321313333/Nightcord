@@ -5,9 +5,9 @@
  */
 
 import { definePluginSettings } from "@api/Settings";
+import { Channel, Message } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@nightcord/discord-types";
 import { ChannelStore, MessageActions, MessageStore, UserStore } from "@webpack/common";
 
 function shouldEdit(channel: Channel, message: Message, timePeriod: number, shouldMergeWithAttachment: boolean) {

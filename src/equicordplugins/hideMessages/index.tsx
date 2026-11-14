@@ -11,12 +11,12 @@ import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { EyeIcon } from "@components/Icons";
+import { Channel, Message } from "@nightcord/discord-types";
 import pinDms from "@plugins/pinDms";
 import { isPinned } from "@plugins/pinDms/data";
 import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, Message } from "@nightcord/discord-types";
 import { ChannelStore, Clickable, FluxDispatcher, Menu, Tooltip } from "@webpack/common";
 
 interface UserContextProps {

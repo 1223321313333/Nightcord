@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { managedStyleRootNode } from "@api/Styles";
+import { Channel } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { createAndAppendStyle } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 
 let style: HTMLStyleElement;
 

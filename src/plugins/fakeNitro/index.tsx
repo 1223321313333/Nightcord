@@ -19,13 +19,13 @@
 import { addMessagePreEditListener, addMessagePreSendListener, removeMessagePreEditListener, removeMessagePreSendListener } from "@api/MessageEvents";
 import { definePluginSettings } from "@api/Settings";
 import { Paragraph } from "@components/Paragraph";
+import type { Emoji, Message, RenderModalProps, Sticker } from "@nightcord/discord-types";
+import { StickerFormatType } from "@nightcord/discord-types/enums";
 import { ApngBlendOp, ApngDisposeOp, parseAPNG } from "@utils/apng";
 import { Devs } from "@utils/constants";
 import { getCurrentGuild } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Emoji, Message, RenderModalProps, Sticker } from "@nightcord/discord-types";
-import { StickerFormatType } from "@nightcord/discord-types/enums";
 import { findByCodeLazy, findByPropsLazy, proxyLazyWebpack } from "@webpack";
 import { ChannelStore, ConfirmModal, DraftType, EmojiStore, FluxDispatcher, GuildMemberStore, IconUtils, openModal, OverridePremiumTypeStore, PermissionsBits, PermissionStore, StickersStore, UploadHandler, UserSettingsActionCreators, UserSettingsProtoStore } from "@webpack/common";
 import { applyPalette, GIFEncoder, quantize } from "gifenc";
@@ -212,28 +212,29 @@ export default definePlugin({
         {
             find: "canUseCustomStickersEverywhere:",
             replacement: [
+                // Rename to _can* and replace with () => true
                 {
-                    match: /(?<=canUseCustomStickersEverywhere:function\(\i\)\{)/,
-                    replace: "return true;",
+                    match: /canUseCustomStickersEverywhere:/,
+                    replace: "$&()=>true,_$&",
                     predicate: () => settings.store.enableStickerBypass
                 },
                 {
-                    match: /(?<=canUseHighVideoUploadQuality:function\(\i\)\{)/,
-                    replace: "return true;",
+                    match: /canUseHighVideoUploadQuality:/,
+                    replace: "$&()=>true,_$&",
                     predicate: () => settings.store.enableStreamQualityBypass
                 },
                 {
-                    match: /(?<=canStreamQuality:function\(\i,\i\)\{)/,
-                    replace: "return true;",
+                    match: /canStreamQuality:/,
+                    replace: "$&()=>true,_$&",
                     predicate: () => settings.store.enableStreamQualityBypass
                 },
                 {
-                    match: /(?<=canUseClientThemes:function\(\i\)\{)/,
-                    replace: "return true;"
+                    match: /canUseClientThemes:/,
+                    replace: "$&()=>true,_$&"
                 },
                 {
-                    match: /(?<=canUsePremiumAppIcons:function\(\i\)\{)/,
-                    replace: "return true;"
+                    match: /canUsePremiumAppIcons:/,
+                    replace: "$&()=>true,_$&"
                 }
             ],
         },

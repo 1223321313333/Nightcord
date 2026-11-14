@@ -6,11 +6,11 @@
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { PassiveUpdateState, VoiceState } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { useFixedTimer } from "@utils/react";
 import { formatDurationMs } from "@utils/text";
 import definePlugin, { OptionType } from "@utils/types";
-import { PassiveUpdateState, VoiceState } from "@nightcord/discord-types";
 import { FluxDispatcher, GuildStore, React, UserStore } from "@webpack/common";
 
 import alignedChatInputFix from "./alignedChatInputFix.css?managed";

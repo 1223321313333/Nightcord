@@ -7,8 +7,8 @@
 import { registerCommands } from "../api/registry";
 import { loadCustomCommands, registerCustomCommands } from "./custom";
 import { discordCommands } from "./discordActions";
-import { nightcordCommands } from "./nightcord";
 import { navigationCommands } from "./navigation";
+import { nightcordCommands } from "./nightcord";
 import { pluginCommands } from "./pluginManagement";
 import { sendDmCommand } from "./sendDm";
 

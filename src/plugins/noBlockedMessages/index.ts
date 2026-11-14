@@ -18,10 +18,10 @@
 
 import { definePluginSettings, migratePluginSetting, Settings } from "@api/Settings";
 import { containsBlockedKeywords } from "@equicordplugins/blockKeywords";
+import { Message, User } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, User } from "@nightcord/discord-types";
 import { MessageStore, ReferencedMessageStore, RelationshipStore } from "@webpack/common";
 
 interface ChannelStreamDividerProps {

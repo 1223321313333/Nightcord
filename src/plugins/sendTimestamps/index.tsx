@@ -25,11 +25,11 @@ import { InlineCode } from "@components/CodeBlock";
 import { Grid } from "@components/Grid";
 import { Heading } from "@components/Heading";
 import { Paragraph } from "@components/Paragraph";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { copyWithToast, getTheme, insertTextIntoChatInputBox, Theme } from "@utils/discord";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { Modal, openModal, Parser, useState } from "@webpack/common";
 
 const settings = definePluginSettings({

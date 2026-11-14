@@ -7,9 +7,9 @@
 import "./style.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import type { ReactionEmoji } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type { ReactionEmoji } from "@nightcord/discord-types";
 
 interface ReactionEvent {
     optimistic?: boolean;

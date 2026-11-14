@@ -17,7 +17,8 @@
 */
 
 import * as t from "@nightcord/discord-types";
-import { _resolveReady, filters, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, waitFor } from "@webpack";
+import { Logger } from "@utils/Logger";
+import { _resolveReady, filters, findByCode, findByCodeLazy, findByPropsLazy, findLazy, mapMangledModuleLazy, proxyLazyWebpack, waitFor } from "@webpack";
 import type * as TSPattern from "ts-pattern";
 
 export let FluxDispatcher: t.FluxDispatcher;
@@ -70,7 +71,14 @@ waitFor("parseTopic", m => Parser = m);
 export let Alerts: t.Alerts;
 waitFor(["show", "close"], m => Alerts = m);
 
-export const showToast: t.showToast = findByCodeLazy(".currentToastMap.has(");
+export const showToast: t.showToast = proxyLazyWebpack(() => {
+    const Toaster = findByCode(".currentToastMap.get(", "setState");
+    if (Toaster) return Toaster;
+
+    const logger = new Logger("Toast");
+    logger.error("Failed to find showToast! Falling back to logging");
+    return logger.log.bind(logger);
+});
 
 export const UserUtils = {
     getUser: findByCodeLazy(".USER(")

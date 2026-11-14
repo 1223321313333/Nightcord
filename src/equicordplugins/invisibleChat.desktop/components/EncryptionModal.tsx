@@ -18,8 +18,8 @@
 
 import { FormSwitch } from "@components/FormSwitch";
 import { Heading } from "@components/Heading";
-import { insertTextIntoChatInputBox } from "@utils/discord";
 import { RenderModalProps } from "@nightcord/discord-types";
+import { insertTextIntoChatInputBox } from "@utils/discord";
 import { Modal, openModal, React, TextInput } from "@webpack/common";
 
 import { encrypt } from "../index";

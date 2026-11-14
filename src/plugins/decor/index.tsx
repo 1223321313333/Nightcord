@@ -7,9 +7,9 @@
 import "./ui/styles.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
+import { User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { User } from "@nightcord/discord-types";
 import { UserStore } from "@webpack/common";
 
 import { CDN_URL, RAW_SKU_ID, setBaseUrl, SKU_ID } from "./lib/constants";

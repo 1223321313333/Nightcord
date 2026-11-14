@@ -20,11 +20,11 @@ import "./style.css";
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import type { Channel, Role } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import type { Channel, Role } from "@nightcord/discord-types";
 import { ChannelStore, PermissionsBits, PermissionStore, Tooltip } from "@webpack/common";
 
 import HiddenChannelLockScreen, { setChannelBeginHeader } from "./components/HiddenChannelLockScreen";
@@ -457,11 +457,11 @@ export default definePlugin({
             },
         },
         {
-            find: 'getConfig({location:"channel_mention"})',
+            find: ",openChatWithoutConnecting:",
             replacement: {
                 // Show inside voice channel instead of trying to join them when clicking on a channel mention
-                match: /(?<=getChannel\(\i\);if\(null!=(\i)).{0,200}?return void (?=\i\.default\.selectVoiceChannel)/,
-                replace: (m, channel) => `${m}!$self.isHiddenChannel(${channel})&&`
+                match: /(?<=getChannel\(\i\);if\(null!=(\i))(?=&&.{0,100}?selectVoiceChannel)/,
+                replace: (_, channel) => `&&!$self.isHiddenChannel(${channel})`
             }
         },
         {

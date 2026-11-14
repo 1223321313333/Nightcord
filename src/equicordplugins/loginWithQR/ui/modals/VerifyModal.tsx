@@ -7,8 +7,8 @@
 import { Button, TextButton } from "@components/Button";
 import { Text } from "@components/Text";
 import { images } from "@equicordplugins/loginWithQR/images";
-import { getIntlMessage } from "@utils/discord";
 import { RenderModalProps } from "@nightcord/discord-types";
+import { getIntlMessage } from "@utils/discord";
 import { findByPropsLazy } from "@webpack";
 import {
     Modal,

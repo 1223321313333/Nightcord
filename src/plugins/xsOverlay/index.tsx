@@ -6,9 +6,9 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
+import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin, { makeRange, OptionType, PluginNative, ReporterTestable } from "@utils/types";
-import type { Channel, Embed, GuildMember, MessageAttachment, User } from "@nightcord/discord-types";
 import { findByCodeLazy, findLazy } from "@webpack";
 import { ChannelStore, GuildRoleStore, GuildStore, UserStore } from "@webpack/common";
 

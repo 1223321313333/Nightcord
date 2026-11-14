@@ -6,10 +6,10 @@
 
 import { definePluginSettings } from "@api/Settings";
 import { FormSwitch } from "@components/FormSwitch";
+import { Message, RenderModalProps } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { getCurrentChannel } from "@utils/discord";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, RenderModalProps } from "@nightcord/discord-types";
 import { IconUtils, Menu, Modal, openModal, TextInput, UploadHandler, useEffect, useState } from "@webpack/common";
 
 import { QuoteIcon } from "./components/QuoteIcon";

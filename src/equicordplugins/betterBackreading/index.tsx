@@ -11,9 +11,9 @@ import { plugins } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import { HistoryIcon } from "@components/Icons";
 import { openPluginModal } from "@components/settings";
+import { ChannelMessages } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { ChannelMessages } from "@nightcord/discord-types";
 import { findStoreLazy } from "@webpack";
 import { ChannelStore, ContextMenuApi, Menu, MessageStore, ReadStateStore, SnowflakeUtils, UserStore, useStateFromStores } from "@webpack/common";
 
@@ -895,7 +895,7 @@ export default definePlugin({
                 },
                 {
                     // Keep ongoing scrolling when correcting for embed height changes.
-                    match: /(?<=fixedScrollTop:)\i\.offsetTop-\((\i)\.offsetFromTop\+\i\)/,
+                    match: /(?<=fixedScrollTop:)\i\(\i,\i\)-\((\i)\.offsetFromTop\+\i\)/,
                     replace: "$self.isActive(this)&&$1===this.automaticAnchor?$self.getAutomaticAnchorScrollTop(this,$1,$&):$&"
                 }
             ]

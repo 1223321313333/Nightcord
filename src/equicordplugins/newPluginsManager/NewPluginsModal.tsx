@@ -13,10 +13,10 @@ import { Notice } from "@components/Notice";
 import { PluginDependencyList } from "@components/settings/tabs/plugins";
 import { PluginCard } from "@components/settings/tabs/plugins/PluginCard";
 import { Text } from "@components/Text";
+import { RenderModalProps } from "@nightcord/discord-types";
 import { ChangeList } from "@utils/ChangeList";
 import { classNameFactory } from "@utils/css";
 import { useForceUpdater } from "@utils/react";
-import { RenderModalProps } from "@nightcord/discord-types";
 import { closeModal, Modal, openModal, Tooltip, useMemo } from "@webpack/common";
 import { ReactNode } from "react";
 

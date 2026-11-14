@@ -1,6 +1,6 @@
 {
     "name": "equicord",
-    "version": "1.15.16.0",
+    "version": "1.15.17.2",
     "private": "true",
     "description": "The other cutest Discord client mod",
     "homepage": "https://github.com/Equicord/Equicord#readme",
@@ -61,13 +61,13 @@
     },
     "devDependencies": {
         "@electron/asar": "catalog:",
+        "@nightcord/discord-types": "link:packages/discord-types",
         "@stylistic/eslint-plugin": "catalog:",
         "@types/chrome": "catalog:",
         "@types/node": "catalog:",
         "@types/react": "catalog:",
         "@types/react-dom": "catalog:",
         "@types/yazl": "catalog:",
-        "@nightcord/discord-types": "link:packages/discord-types",
         "diff": "catalog:",
         "esbuild": "catalog:",
         "eslint-plugin-simple-header": "catalog:",
@@ -94,5 +94,5 @@
     "engines": {
         "node": ">=22"
     },
-    "packageManager": "pnpm@12.16.1"
+    "packageManager": "pnpm@12.18.0"
 }

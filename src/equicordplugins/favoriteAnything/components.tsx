@@ -6,9 +6,9 @@
 
 import { Button } from "@components/Button";
 import { Text } from "@components/Text";
-import { LazyComponentWrapper } from "@utils/lazyReact";
 import { Embed, ListRow, Message, MessageAttachment, ScrollerBaseRef } from "@nightcord/discord-types";
 import { ChannelType } from "@nightcord/discord-types/enums";
+import { LazyComponentWrapper } from "@utils/lazyReact";
 import { findByCodeLazy, findComponentByCode, findComponentByCodeLazy, findCssClassesLazy, proxyLazyWebpack } from "@webpack";
 import { ChannelStore, ExpressionPickerStore, ListScrollerThin, lodash, PermissionsBits, PermissionStore, React, useCallback, useEffect, useMemo, useRef, useState, useStateFromStores } from "@webpack/common";
 import { ComponentProps, ReactNode } from "react";

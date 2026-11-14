@@ -8,10 +8,10 @@ import "./styles.css";
 
 import { definePluginSettings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
+import { User } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import definePlugin, { OptionType } from "@utils/types";
-import { User } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { React, UserProfileStore } from "@webpack/common";
 

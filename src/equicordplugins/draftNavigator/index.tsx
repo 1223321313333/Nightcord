@@ -10,9 +10,9 @@ import { ChatBarButton, ChatBarButtonFactory } from "@api/ChatButtons";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { NotesIcon as DraftIcon } from "@components/Icons";
+import type { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type { Channel, RenderModalProps } from "@nightcord/discord-types";
 import { ChannelRouter, ChannelStore, closeModal, DraftStore, DraftType, GuildStore, lodash, Modal, openModal, TextInput, UserStore, useState, useStateFromStores } from "@webpack/common";
 
 const modalKey = "vc-draftNavigator";

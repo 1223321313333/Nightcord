@@ -11,11 +11,11 @@ import { definePluginSettings } from "@api/Settings";
 import { Button } from "@components/Button";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { DoubleCheckmarkIcon } from "@components/Icons";
+import { Message, ScrollerBaseRef } from "@nightcord/discord-types";
 import { NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { classes } from "@utils/misc";
 import definePlugin, { OptionType } from "@utils/types";
-import { Message, ScrollerBaseRef } from "@nightcord/discord-types";
 import { findByCodeLazy, findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import {
     ChannelStore,

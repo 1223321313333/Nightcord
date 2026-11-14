@@ -24,12 +24,12 @@ import { CodeBlock } from "@components/CodeBlock";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Heading } from "@components/Heading";
 import { Margins } from "@components/margins";
+import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { copyWithToast, getCurrentGuild, getIntlMessage } from "@utils/discord";
 import { isTruthy } from "@utils/guards";
 import { classes } from "@utils/misc";
 import definePlugin, { IconComponent, OptionType } from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { GuildRoleStore, Menu, Modal, openModal, showToast, UserProfileStore } from "@webpack/common";
 import { MouseEventHandler } from "react";
 

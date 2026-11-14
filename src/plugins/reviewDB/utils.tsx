@@ -16,8 +16,8 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-import { classNameFactory } from "@utils/css";
 import * as t from "@nightcord/discord-types";
+import { classNameFactory } from "@utils/css";
 import { showToast as originalShowToast, UserStore } from "@webpack/common";
 
 import { Auth } from "./auth";

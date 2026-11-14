@@ -12,7 +12,13 @@
     "options": {
         "typeAware": true
     },
-    "ignorePatterns": ["dist", "browser", "packages/vencord-types", "misc/bundle", "misc/scripts"],
+    "ignorePatterns": [
+        "dist",
+        "browser",
+        "packages/nightcord-types",
+        "misc/bundle",
+        "misc/scripts"
+    ],
     "settings": {
         "react": {
             "version": "18"
@@ -37,7 +43,7 @@
                 "react/no-string-refs": "error",
                 "react/require-render-return": "error",
 
-                // Since it's only been a month and Vencord has already been stolen
+                // Since it's only been a month and Nightcord has already been stolen
                 // by random skids who rebranded it to "AlphaCord" and erased all license
                 // information
                 "simple-header/header": [

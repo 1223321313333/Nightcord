@@ -20,6 +20,7 @@ import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings, migratePluginToSettings, Settings } from "@api/Settings";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { getCustomColorString } from "@equicordplugins/customUserColors";
+import { Channel, User } from "@nightcord/discord-types";
 import showMeYourName from "@plugins/showMeYourName";
 import { Devs, NightcordDevs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
@@ -27,7 +28,6 @@ import { openUserProfile } from "@utils/discord";
 import { isNonNullish } from "@utils/guards";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel, User } from "@nightcord/discord-types";
 import { AuthenticationStore, Avatar, GuildMemberStore, React, RelationshipStore, TypingStore, UserStore, useStateFromStores } from "@webpack/common";
 import { PropsWithChildren } from "react";
 

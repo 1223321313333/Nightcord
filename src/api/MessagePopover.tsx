@@ -20,10 +20,10 @@ import "./MessagePopover.css";
 
 import ErrorBoundary from "@components/ErrorBoundary";
 import { ChevronSmallLeftIcon, ChevronSmallRightIcon } from "@components/Icons";
+import { Message } from "@nightcord/discord-types";
 import { Logger } from "@utils/Logger";
 import { classes } from "@utils/misc";
 import { IconComponent, IconProps } from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { Clickable, useLayoutEffect, useRef } from "@webpack/common";
 import type { ComponentType, HTMLProps, ReactElement, ReactNode } from "react";

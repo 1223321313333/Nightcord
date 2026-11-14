@@ -5,9 +5,9 @@
  */
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import type { Guild } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import type { Guild } from "@nightcord/discord-types";
 import { EmojiStore, Menu, StickersStore } from "@webpack/common";
 import { zipSync } from "fflate";
 

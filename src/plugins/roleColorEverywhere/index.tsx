@@ -19,11 +19,11 @@
 import { isPluginEnabled } from "@api/PluginManager";
 import { definePluginSettings } from "@api/Settings";
 import customUserColors, { getCustomColorString } from "@equicordplugins/customUserColors";
+import { GuildMember, Role } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { hasGuildFeature } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { makeRange, OptionType } from "@utils/types";
-import { GuildMember, Role } from "@nightcord/discord-types";
 import { findByCodeLazy } from "@webpack";
 import { ChannelStore, GuildMemberStore, GuildRoleStore, GuildStore } from "@webpack/common";
 
@@ -124,7 +124,7 @@ export default definePlugin({
             find: '"text":"locked"',
             replacement: [
                 {
-                    match: /(?<=let\{id:(\i),guildId:\i,channelId:(\i)\}.{0,300}?popoutProps:)\i(?=\})/,
+                    match: /(?<=let\{id:(\i),guildId:\i,channelId:(\i)\}.{0,500}?popoutProps:)\i(?=[},])/,
                     replace: "{...$&,color:$self.getColorInt($1,$2),roleColors:$self.getRoleColors($1,$2)}"
                 }
             ],

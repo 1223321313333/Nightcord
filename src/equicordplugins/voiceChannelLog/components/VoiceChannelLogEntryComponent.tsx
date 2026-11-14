@@ -6,8 +6,8 @@
 
 import "./VoiceChannelLogEntryComponent.css";
 
-import { openUserProfile } from "@utils/discord";
 import { Channel } from "@nightcord/discord-types";
+import { openUserProfile } from "@utils/discord";
 import { ApplicationStore, Clickable, closeAllModals,IconUtils, NavigationRouter, Timestamp, Tooltip, UserStore } from "@webpack/common";
 
 import { getCallStartTime } from "../logs";

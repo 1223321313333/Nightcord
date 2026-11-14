@@ -10,10 +10,10 @@ import { Heading } from "@components/Heading";
 import { XSmallIcon } from "@components/Icons";
 import { Text } from "@components/Text";
 import { HiddenServersStore } from "@equicordplugins/hideServers/HiddenServersStore";
+import { Guild, RenderModalProps } from "@nightcord/discord-types";
 import { classNameFactory } from "@utils/css";
 import { getGuildAcronym } from "@utils/discord";
 import { classes } from "@utils/misc";
-import { Guild, RenderModalProps } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { closeModal, IconUtils, Modal, openModal, SortedGuildStore, useStateFromStores } from "@webpack/common";
 

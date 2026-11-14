@@ -8,9 +8,9 @@ import "./style.css";
 
 import { definePluginSettings } from "@api/Settings";
 import { FFmpeg } from "@ffmpeg/ffmpeg";
+import { Channel } from "@nightcord/discord-types";
 import { Devs, NightcordDevs } from "@utils/constants";
 import definePlugin, { OptionType } from "@utils/types";
-import { Channel } from "@nightcord/discord-types";
 import { React } from "@webpack/common";
 
 import { Packs, PickerContent, PickerHeader, PickerSidebar, Wrapper } from "./components";

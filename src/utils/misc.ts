@@ -20,7 +20,7 @@ import { loadLazyChunks } from "@debug/loadLazyChunks";
 import { User } from "@nightcord/discord-types";
 import { ChannelStore, GuildMemberStore, IconUtils } from "@webpack/common";
 
-import { NIGHTCORD_HELPERS, EquicordDevsById, GUILD_ID, KNOWN_ISSUES_CHANNEL_ID, KNOWN_ISSUES_CHANNEL_IDS, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VencordDevsById } from "./constants";
+import { EquicordDevsById, GUILD_ID, KNOWN_ISSUES_CHANNEL_ID, KNOWN_ISSUES_CHANNEL_IDS, NIGHTCORD_HELPERS, SUPPORT_CHANNEL_ID, SUPPORT_CHANNEL_IDS, VencordDevsById } from "./constants";
 
 /**
  * Calls .join(" ") on the arguments

@@ -19,9 +19,9 @@
 import "./styles.css";
 
 import { findGroupChildrenByChildId, NavContextMenuPatchCallback } from "@api/ContextMenu";
+import { Message } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import definePlugin from "@utils/types";
-import { Message } from "@nightcord/discord-types";
 import { Menu } from "@webpack/common";
 
 import { settings } from "./settings";
@@ -74,7 +74,10 @@ export default definePlugin({
     // not used, just here in case some other plugin wants it or w/e
     translate,
 
-    renderMessageAccessory: props => <TranslationAccessory message={props.message} />,
+    renderMessageAccessory: props =>
+        !props.isMessageSnapshot
+            ? <TranslationAccessory message={props.message} />
+            : null,
 
     chatBarButton: {
         icon: TranslateIcon,

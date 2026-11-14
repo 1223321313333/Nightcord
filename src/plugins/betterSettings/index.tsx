@@ -8,12 +8,12 @@ import { definePluginSettings } from "@api/Settings";
 import { disableStyle, enableStyle } from "@api/Styles";
 import { AchievementsIcon, AppsIcon, CreditCardIcon, EquicordIcon, GameControllerIcon, HammerAndChiselIcon, MainSettingsIcon, PencilSparkleIcon, UserIcon } from "@components/Icons";
 import { buildPluginMenuEntries, buildThemeMenuEntries } from "@equicordplugins/nightcordToolbox/menu";
+import { Icon } from "@nightcord/discord-types";
 import { Devs } from "@utils/constants";
 import { classNameFactory } from "@utils/css";
 import { getIntlMessage } from "@utils/discord";
 import { Logger } from "@utils/Logger";
 import definePlugin, { OptionType } from "@utils/types";
-import { Icon } from "@nightcord/discord-types";
 import { findCssClassesLazy } from "@webpack";
 import { ComponentDispatch, FocusLock, Menu, useEffect, useRef } from "@webpack/common";
 import type { HTMLAttributes, ReactElement, ReactNode } from "react";
@@ -178,7 +178,7 @@ export default definePlugin({
             predicate: () => settings.store.organizeMenu,
             replacement: [
                 {
-                    match: /children:\[(\i),null!=(\i).{0,30}\}\),(\i)\](?<=\1=(?:function|.{0,30}\.openUserSettings).+?)/, // TODO .{0,30}\.openUserSettings is stable compat
+                    match: /children:\[(\i),null!=(\i).{0,30}\}\)(?:,(\i))?\](?<=\1=(?:function|.{0,30}\.openUserSettings).+?)/, // TODO .{0,30}\.openUserSettings is stable compat
                     replace: "children:$self.transformSettingsEntries([$1,$2,$3])",
                 }
             ]

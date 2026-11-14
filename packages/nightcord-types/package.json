@@ -1,6 +1,6 @@
 {
     "name": "@nightcord/types",
-    "version": "1.15.16",
+    "version": "1.15.17",
     "private": false,
     "description": "",
     "keywords": [],
@@ -17,8 +17,8 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "@types/node": "catalog:",
         "@nightcord/discord-types": "workspace:@nightcord/discord-types@^",
+        "@types/node": "catalog:",
         "lodash": "catalog:",
         "moment": "catalog:",
         "ts-pattern": "catalog:",

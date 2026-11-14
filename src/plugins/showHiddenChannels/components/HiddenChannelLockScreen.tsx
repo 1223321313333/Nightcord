@@ -19,13 +19,13 @@
 import { isPluginEnabled } from "@api/PluginManager";
 import ErrorBoundary from "@components/ErrorBoundary";
 import { Text } from "@components/Text";
+import type { Channel, RoleOrUserPermission } from "@nightcord/discord-types";
 import PermissionsViewerPlugin from "@plugins/permissionsViewer";
 import openRolesAndUsersPermissionsModal from "@plugins/permissionsViewer/components/RolesAndUsersPermissions";
 import { sortPermissionOverwrites } from "@plugins/permissionsViewer/utils";
 import { cl, settings } from "@plugins/showHiddenChannels";
 import { classes } from "@utils/misc";
 import { formatDurationVerbose } from "@utils/text";
-import type { Channel, RoleOrUserPermission } from "@nightcord/discord-types";
 import { findByPropsLazy, findComponentByCodeLazy, findCssClassesLazy } from "@webpack";
 import { EmojiStore, FluxDispatcher, GuildMemberStore, GuildStore, Parser, PermissionsBits, PermissionStore, SnowflakeUtils, Timestamp, Tooltip, useEffect, useState } from "@webpack/common";
 import { ComponentType } from "react";
