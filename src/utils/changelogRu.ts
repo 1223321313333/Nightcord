@@ -16,6 +16,18 @@ export interface ChangelogEntry {
 
 export const CHANGELOG_RU: ChangelogEntry[] = [
     {
+        id: "2026-11-15-discord-update",
+        date: "15 ноября 2026",
+        title: "Плагины снова работают после нового обновления Discord",
+        items: [
+            "Discord опять поменял свой код, и часть плагинов перестала работать: FakeNitro (эмодзи, стикеры и качество стрима без Nitro), Questify, AlwaysAnimate, BetterSettings, ShowHiddenChannels и RoleColorEverywhere, а всплывающие подсказки плагинов не показывались. Всё снова работает.",
+            "Nightcord по-прежнему не сообщает Discord, во что вы играете и когда стримите. В Equicord плагин NoTrack стал по умолчанию пропускать такие события ради значков с часами; в Nightcord это выключено. Кому значки нужны, включит «События для значков» в настройках плагина NoTrack.",
+            "Плагин FullUserInChatbox убран: Discord сам сделал то же самое, упоминания в поле ввода теперь и так ведут себя как настоящие.",
+            "Новые плагины: BetterSearch (все фильтры поиска Discord в поиске по каналу), BetterPollDetails (проценты и число голосов в опросе видны до голосования) и DuplicateCategory (копия категории с теми же правами).",
+            "В редакторе QuickCSS Alt+F4 и Ctrl+Q закрывают только окно редактора, а не весь Discord."
+        ]
+    },
+    {
         id: "2026-11-03-discord-update",
         date: "7 ноября 2026",
         title: "Плагины снова работают после обновлений Discord",
