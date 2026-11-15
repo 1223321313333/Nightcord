@@ -471,8 +471,9 @@
     "notificationVolume": ["Notification volume","Громкость уведомлений","Громкость уведомлений"]
   },
   "NoTrack": {
-    "disableAnalytics": ["Block Discord's tracking analytics","Без аналитики","Блокировать сбор аналитики Discord"],
-    "disableStackDumping": ["Print a native stack trace to the console when Discord crashes. Requires full restart.","Трассировка при сбое","Печатать трассировку в консоль при падении Discord. Нужен полный перезапуск"]
+    "disableAnalytics": ["Block Discord's tracking analytics","Без аналитики","Не давать Discord собирать данные о том, что вы делаете в приложении"],
+    "disableStackDumping": ["Print a native stack trace to the console when Discord crashes. Requires full restart.","Трассировка при сбое","Печатать трассировку в консоль при падении Discord. Нужен полный перезапуск"],
+    "allowBadgeTracking": ["Still send the events needed for badges to track your progress (eg: hours played, hours streamed)","События для значков","Всё же сообщать Discord, какие игры запущены и когда вы стримите, чтобы значки считали часы. Без этого Discord не получает ничего"]
   },
   "OnePingPerDM": {
     "channelToAffect": ["Select the type of DM for the plugin to affect","Какие ЛС","На какие личные сообщения действует плагин",{"Both":"Все","User DMs":"Личные","Group DMs":"Групповые"}],

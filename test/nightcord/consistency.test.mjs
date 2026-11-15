@@ -112,3 +112,18 @@ describe("translations", () => {
             : "all Russian descriptions are current");
     });
 });
+
+// Equicord's defaults are Equicord's choices. Where Nightcord chose otherwise, a later sync that touches the same
+// lines must not quietly bring Equicord's back.
+describe("privacy defaults", () => {
+    const setting = (source, name) => source.match(new RegExp(`\\n {4}${name}: \\{[\\s\\S]*?\\n {4}\\}`))?.[0];
+
+    it("NoTrack blocks all of Discord's analytics, also what feeds the progress badges", () => {
+        const source = readFileSync(join(ROOT, "src/plugins/_core/noTrack.ts"), "utf8");
+        assert.match(setting(source, "disableAnalytics") ?? "", /default: true,/);
+
+        const badges = setting(source, "allowBadgeTracking");
+        assert.ok(badges, "the allowBadgeTracking setting is gone: read what NoTrack lets through now");
+        assert.match(badges, /default: false,/, "with this on by default, Discord is told which games run and when people stream");
+    });
+});

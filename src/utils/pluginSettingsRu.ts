@@ -479,8 +479,9 @@ export const PLUGIN_SETTINGS_RU: Record<string, Record<string, [string, string, 
         "notificationVolume": ["16omn2s", "Громкость уведомлений", "Громкость уведомлений"],
     },
     "NoTrack": {
-        "disableAnalytics": ["76uj45", "Без аналитики", "Блокировать сбор аналитики Discord"],
+        "disableAnalytics": ["76uj45", "Без аналитики", "Не давать Discord собирать данные о том, что вы делаете в приложении"],
         "disableStackDumping": ["1qo10nf", "Трассировка при сбое", "Печатать трассировку в консоль при падении Discord. Нужен полный перезапуск"],
+        "allowBadgeTracking": ["jzg00a", "События для значков", "Всё же сообщать Discord, какие игры запущены и когда вы стримите, чтобы значки считали часы. Без этого Discord не получает ничего"],
     },
     "OnePingPerDM": {
         "channelToAffect": ["1cnddyv", "Какие ЛС", "На какие личные сообщения действует плагин", { "Both": "Все", "User DMs": "Личные", "Group DMs": "Групповые" }],
