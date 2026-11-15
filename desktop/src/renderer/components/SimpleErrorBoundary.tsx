@@ -4,9 +4,11 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Card, ErrorBoundary, HeadingTertiary, Paragraph, TextButton } from "@equicord/types/components";
+import { Card, ErrorBoundary, Paragraph, TextButton } from "@equicord/types/components";
 import { FluxDispatcher, InviteActions } from "@equicord/types/webpack/common";
 import type { PropsWithChildren } from "react";
+
+import { HeadingTertiary } from "./Heading";
 
 async function openSupportChannel() {
     const code = "wKgT9j2xfN";

@@ -4,11 +4,12 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  */
 
-import { Button, Heading, Paragraph, TextButton } from "@equicord/types/components";
+import { Button, Paragraph, TextButton } from "@equicord/types/components";
 import { Margins, openModal, useForceUpdater } from "@equicord/types/utils";
-import { Modal, Toasts } from "@equicord/types/webpack/common";
+import { Modal, showToast } from "@equicord/types/webpack/common";
 import { Settings } from "shared/settings";
 
+import { Heading } from "../Heading";
 import { cl, SettingsComponent } from "./Settings";
 
 export const DeveloperOptionsButton: SettingsComponent = ({ settings }) => {
@@ -67,18 +68,15 @@ const EquicordLocationPicker: SettingsComponent = ({ settings }) => {
                             case "cancelled":
                                 break;
                             case "ok":
-                                Toasts.show({
-                                    message: "Equicord install changed. Fully restart Nightcord Desktop to apply.",
-                                    id: Toasts.genId(),
-                                    type: Toasts.Type.SUCCESS
+                                showToast({
+                                    text: "Equicord install changed. Fully restart Nightcord Desktop to apply.",
+                                    variant: "success"
                                 });
                                 break;
                             case "invalid":
-                                Toasts.show({
-                                    message:
-                                        "You did not choose a valid Equicord install. Make sure you're selecting the dist dir!",
-                                    id: Toasts.genId(),
-                                    type: Toasts.Type.FAILURE
+                                showToast({
+                                    text: "You did not choose a valid Equicord install. Make sure you're selecting the dist dir!",
+                                    variant: "critical"
                                 });
                                 break;
                         }

@@ -7,18 +7,7 @@
 import "./screenSharePicker.css";
 
 import { classNameFactory } from "@equicord/types/api/Styles";
-import {
-    Button,
-    Card,
-    CogWheel,
-    FormSwitch,
-    Heading,
-    HeadingTertiary,
-    Margins,
-    Paragraph,
-    RestartIcon,
-    Span
-} from "@equicord/types/components";
+import { Button, Card, CogWheel, FormSwitch, Margins, Paragraph, RestartIcon, Span } from "@equicord/types/components";
 import { closeModal, Logger, openModal, useAwaiter, useForceUpdater } from "@equicord/types/utils";
 import { onceReady } from "@equicord/types/webpack";
 import { FluxDispatcher, MediaEngineStore, Modal, Select, UserStore, useState } from "@equicord/types/webpack/common";
@@ -27,6 +16,7 @@ import type { Dispatch, SetStateAction } from "react";
 import { State, useSettings, useVesktopState } from "renderer/settings";
 import { isLinux, isWindows } from "renderer/utils";
 
+import { Heading, HeadingTertiary } from "./Heading";
 import { SimpleErrorBoundary } from "./SimpleErrorBoundary";
 
 const StreamResolutions = ["480", "720", "1080", "1440", "2160"] as const;
