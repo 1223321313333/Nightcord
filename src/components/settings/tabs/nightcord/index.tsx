@@ -61,8 +61,8 @@ function Switches() {
             },
             reactKey: "NoTrack::disableAnalytics",
             key: null!,
-            title: "Block Discord Analytics",
-            description: NoTrack.settings.def.disableAnalytics.description,
+            title: t("Block Discord Analytics"),
+            description: t(NoTrack.settings.def.disableAnalytics.description),
             restartRequired: NoTrack.settings.def.disableAnalytics.restartNeeded,
         },
         (!IS_WEB && !IS_DISCORD_DESKTOP || !IS_WINDOWS) && {

@@ -46,6 +46,8 @@ const RU: Record<string, string> = {
     "settings of the Settings plugin": "настройках плагина Settings",
     "Enable Custom CSS": "Включить свой CSS",
     "Apply your configured QuickCSS": "Применять ваш QuickCSS",
+    "Block Discord Analytics": "Блокировать аналитику Discord",
+    "Block Discord's tracking analytics": "Не давать Discord собирать данные о том, что вы делаете в приложении",
     "Disable the window frame": "Убрать рамку окна",
     "Use Windows' native title bar instead of Discord's custom one": "Использовать системный заголовок окна Windows вместо заголовка Discord",
     "Enable window transparency": "Включить прозрачность окна",
